@@ -219,8 +219,8 @@ function cumulTarget(model) {
 const SNAP_KEY = "chazki_v8_snaps";
 async function loadSnaps() {
   try {
-    const r = await window.storage.get(SNAP_KEY);
-    return r ? JSON.parse(r.value) : [];
+    const r = localStorage.getItem(SNAP_KEY);
+    return r ? JSON.parse(r) : [];
   } catch {
     return [];
   }
@@ -233,7 +233,7 @@ async function saveSnap(byC, w) {
       byC,
       w
     });
-    await window.storage.set(SNAP_KEY, JSON.stringify(s.slice(-60)));
+    localStorage.setItem(SNAP_KEY, JSON.stringify(s.slice(-60)));
   } catch {}
 }
 async function getWeekAgo() {
@@ -250,79 +250,23 @@ async function getWeekAgo() {
 
 // ── API fetch ──────────────────────────────────────────────────────────────
 async function fetchDeals(setStatus) {
-  setStatus("Conectando con HubSpot...");
-  const ctrl = new AbortController(),
-    tid = setTimeout(() => ctrl.abort(), 120000);
-  const prompt = ["Use HubSpot MCP. Fetch deals from pipelines 137007495 and 95256391. Limit 100, sort by amount DESC.", "Properties: dealname, amount, dealstage, pipeline, closedate, hs_last_activity_date, hubspot_owner_id, deal_country, createdate, hs_deal_stage_probability, hs_is_closed_won.", "CRITICAL: Return hs_deal_stage_probability EXACTLY as stored in HubSpot (could be 0.30 or 30). Also return hs_is_closed_won. For won deals in closedwon stage, set is_won=true regardless.", "is_won = true if dealstage === 'closedwon' OR hs_is_closed_won === true. is_lost = true if dealstage === 'closedlost'.", "Return ONLY compact single-line JSON. No markdown.", '{"deals":[{"id":"","name":"","amount":0,"stage_id":"","stage_label":"","pipeline_id":"","close_date":null,"last_activity":null,"owner":"","country":null,"is_won":false,"is_lost":false,"created":"YYYY-MM-DD","days_in_stage":0,"probability":null}]}', "owner=full name. country=Argentina|Perú|Chile|México|Colombia|null. amounts as numbers."].join("\n");
+  setStatus("Cargando datos del pipeline...");
+  const cacheBust = Math.floor(Date.now() / 60000);
   let res;
   try {
-    res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      signal: ctrl.signal,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 8000,
-        system: "HubSpot CRM agent. Output ONLY compact JSON. No markdown. No prose.",
-        messages: [{
-          role: "user",
-          content: prompt
-        }],
-        mcp_servers: [{
-          type: "url",
-          url: "https://mcp.hubspot.com/anthropic",
-          name: "hubspot"
-        }]
-      })
-    });
+    res = await fetch('./data.json?v=' + cacheBust);
   } catch (e) {
-    clearTimeout(tid);
-    if (e.name === "AbortError") throw new Error("Timeout — reintentá en un momento.");
-    throw new Error("Red: " + e.message);
+    throw new Error("No se pudo conectar. Verificá tu conexión.");
   }
-  clearTimeout(tid);
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error("API " + res.status + ": " + t.slice(0, 200));
-  }
+  if (!res.ok) throw new Error("No se encontró data.json (HTTP " + res.status + "). El updater.gs aún no corrió.");
   setStatus("Procesando...");
-  const raw = await res.json();
-  if (raw.error) throw new Error("Claude: " + raw.error.message);
-  const text = (raw.content || []).filter(b => b.type === "text").map(b => b.text).join("");
-  if (!text.trim()) throw new Error("Sin datos. Verificá HubSpot en Claude.ai → Settings → Integrations.");
-  const clean = text.replace(/```json|```/gi, "").trim();
-  const s = clean.indexOf("{");
-  if (s === -1) throw new Error("Sin JSON.");
-  try {
-    return JSON.parse(clean.slice(s));
-  } catch (_) {}
-  const ai = clean.indexOf("[", clean.indexOf('"deals"'));
-  if (ai === -1) throw new Error("Array no encontrado.");
-  const deals = [];
-  let i = ai + 1;
-  while (i < clean.length) {
-    while (i < clean.length && ",\n ".includes(clean[i])) i++;
-    if (clean[i] !== "{") break;
-    let d = 0,
-      j = i;
-    while (j < clean.length) {
-      if (clean[j] === "{") d++;else if (clean[j] === "}") {
-        d--;
-        if (d === 0) break;
-      }
-      j++;
-    }
-    if (d !== 0) break;
-    try {
-      deals.push(JSON.parse(clean.slice(i, j + 1)));
-    } catch (_) {
-      break;
-    }
-    i = j + 1;
-  }
-  if (!deals.length) throw new Error("No se recuperaron deals.");
+  const data = await res.json();
+  const raw = Array.isArray(data) ? data : data.deals || [];
+  if (!raw.length) throw new Error("data.json está vacío — el updater.gs aún no corrió.");
+  const deals = raw.map(d => ({
+    ...d,
+    probability: d.probability ?? d.prob ?? null
+  }));
   return {
     deals
   };
@@ -4059,6 +4003,11 @@ function Dashboard() {
       setStatus("");
     }
   }
+
+  // Auto-load on mount
+  useEffect(() => {
+    load();
+  }, []);
   const dateStr = new Date().toLocaleDateString("es-AR", {
     weekday: "long",
     day: "numeric",
@@ -4585,4 +4534,5 @@ function Dashboard() {
     _appRoot.render(React.createElement(Dashboard));
   </script>
 </body>
+</html>
 </html>
