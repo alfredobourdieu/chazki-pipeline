@@ -6,7 +6,7 @@
   <title>Chazki · Pipeline Intelligence 2026</title>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; background: #050508; }
+    body { margin: 0; background: #0a0a12; }
     @keyframes bounce {
       0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
       40% { transform: scale(1); opacity: 1; }
@@ -219,8 +219,8 @@ function cumulTarget(model) {
 const SNAP_KEY = "chazki_v8_snaps";
 async function loadSnaps() {
   try {
-    const r = localStorage.getItem(SNAP_KEY);
-    return r ? JSON.parse(r) : [];
+    const r = await window.storage.get(SNAP_KEY);
+    return r ? JSON.parse(r.value) : [];
   } catch {
     return [];
   }
@@ -233,7 +233,7 @@ async function saveSnap(byC, w) {
       byC,
       w
     });
-    localStorage.setItem(SNAP_KEY, JSON.stringify(s.slice(-60)));
+    await window.storage.set(SNAP_KEY, JSON.stringify(s.slice(-60)));
   } catch {}
 }
 async function getWeekAgo() {
@@ -250,23 +250,79 @@ async function getWeekAgo() {
 
 // ── API fetch ──────────────────────────────────────────────────────────────
 async function fetchDeals(setStatus) {
-  setStatus("Cargando datos del pipeline...");
-  const cacheBust = Math.floor(Date.now() / 60000);
+  setStatus("Conectando con HubSpot...");
+  const ctrl = new AbortController(),
+    tid = setTimeout(() => ctrl.abort(), 120000);
+  const prompt = ["Use HubSpot MCP. Fetch deals from pipelines 137007495 and 95256391. Limit 100, sort by amount DESC.", "Properties: dealname, amount, dealstage, pipeline, closedate, hs_last_activity_date, hubspot_owner_id, deal_country, createdate, hs_deal_stage_probability, hs_is_closed_won.", "CRITICAL: Return hs_deal_stage_probability EXACTLY as stored in HubSpot (could be 0.30 or 30). Also return hs_is_closed_won. For won deals in closedwon stage, set is_won=true regardless.", "is_won = true if dealstage === 'closedwon' OR hs_is_closed_won === true. is_lost = true if dealstage === 'closedlost'.", "Return ONLY compact single-line JSON. No markdown.", '{"deals":[{"id":"","name":"","amount":0,"stage_id":"","stage_label":"","pipeline_id":"","close_date":null,"last_activity":null,"owner":"","country":null,"is_won":false,"is_lost":false,"created":"YYYY-MM-DD","days_in_stage":0,"probability":null}]}', "owner=full name. country=Argentina|Perú|Chile|México|Colombia|null. amounts as numbers."].join("\n");
   let res;
   try {
-    res = await fetch('./data.json?v=' + cacheBust);
+    res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      signal: ctrl.signal,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 8000,
+        system: "HubSpot CRM agent. Output ONLY compact JSON. No markdown. No prose.",
+        messages: [{
+          role: "user",
+          content: prompt
+        }],
+        mcp_servers: [{
+          type: "url",
+          url: "https://mcp.hubspot.com/anthropic",
+          name: "hubspot"
+        }]
+      })
+    });
   } catch (e) {
-    throw new Error("No se pudo conectar. Verificá tu conexión.");
+    clearTimeout(tid);
+    if (e.name === "AbortError") throw new Error("Timeout — reintentá en un momento.");
+    throw new Error("Red: " + e.message);
   }
-  if (!res.ok) throw new Error("No se encontró data.json (HTTP " + res.status + "). El updater.gs aún no corrió.");
+  clearTimeout(tid);
+  if (!res.ok) {
+    const t = await res.text();
+    throw new Error("API " + res.status + ": " + t.slice(0, 200));
+  }
   setStatus("Procesando...");
-  const data = await res.json();
-  const raw = Array.isArray(data) ? data : data.deals || [];
-  // Si está vacío, retornamos array vacío — el dashboard muestra estado inicial limpio
-  const deals = raw.map(d => ({
-    ...d,
-    probability: d.probability ?? d.prob ?? null
-  }));
+  const raw = await res.json();
+  if (raw.error) throw new Error("Claude: " + raw.error.message);
+  const text = (raw.content || []).filter(b => b.type === "text").map(b => b.text).join("");
+  if (!text.trim()) throw new Error("Sin datos. Verificá HubSpot en Claude.ai → Settings → Integrations.");
+  const clean = text.replace(/```json|```/gi, "").trim();
+  const s = clean.indexOf("{");
+  if (s === -1) throw new Error("Sin JSON.");
+  try {
+    return JSON.parse(clean.slice(s));
+  } catch (_) {}
+  const ai = clean.indexOf("[", clean.indexOf('"deals"'));
+  if (ai === -1) throw new Error("Array no encontrado.");
+  const deals = [];
+  let i = ai + 1;
+  while (i < clean.length) {
+    while (i < clean.length && ",\n ".includes(clean[i])) i++;
+    if (clean[i] !== "{") break;
+    let d = 0,
+      j = i;
+    while (j < clean.length) {
+      if (clean[j] === "{") d++;else if (clean[j] === "}") {
+        d--;
+        if (d === 0) break;
+      }
+      j++;
+    }
+    if (d !== 0) break;
+    try {
+      deals.push(JSON.parse(clean.slice(i, j + 1)));
+    } catch (_) {
+      break;
+    }
+    i = j + 1;
+  }
+  if (!deals.length) throw new Error("No se recuperaron deals.");
   return {
     deals
   };
@@ -274,14 +330,14 @@ async function fetchDeals(setStatus) {
 
 // ── DESIGN SYSTEM — EY/Deloitte CMO aesthetic ─────────────────────────────
 const DS = {
-  bg: "#050508",
-  bgCard: "rgba(255,255,255,0.035)",
-  bgCardHover: "rgba(255,255,255,0.055)",
-  border: "rgba(255,255,255,0.08)",
-  borderAccent: "rgba(255,255,255,0.15)",
-  text1: "#ffffff",
-  text2: "#a0aec0",
-  text3: "#4a5568",
+  bg: "#0a0a12",
+  bgCard: "rgba(255,255,255,0.055)",
+  bgCardHover: "rgba(255,255,255,0.08)",
+  border: "rgba(255,255,255,0.11)",
+  borderAccent: "rgba(255,255,255,0.2)",
+  text1: "#f0f4f8",
+  text2: "#b8c4d0",
+  text3: "#64748b",
   accent: "#5a67d8",
   accentGlow: "rgba(90,103,216,0.2)",
   emerald: "#00d4aa",
@@ -299,9 +355,10 @@ function Card({
   return /*#__PURE__*/React.createElement("div", {
     className: `rounded-2xl p-5 ${className}`,
     style: {
-      background: highlight ? "linear-gradient(135deg,rgba(0,212,170,0.08),rgba(0,210,255,0.04))" : glow ? `linear-gradient(135deg,${DS.accentGlow},${DS.bgCard})` : DS.bgCard,
-      border: `1px solid ${highlight ? "rgba(0,212,170,0.25)" : accent ? DS.borderAccent : DS.border}`,
+      background: highlight ? "linear-gradient(135deg,rgba(0,212,170,0.09),rgba(0,210,255,0.05))" : glow ? `linear-gradient(135deg,${DS.accentGlow},${DS.bgCard})` : DS.bgCard,
+      border: `1px solid ${highlight ? "rgba(0,212,170,0.3)" : accent ? DS.borderAccent : DS.border}`,
       backdropFilter: "blur(12px)",
+      padding: "20px",
       position: "relative",
       overflow: "hidden"
     }
@@ -322,14 +379,14 @@ function Label({
 }) {
   return /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 9,
-      letterSpacing: "0.15em",
+      fontSize: 10,
+      letterSpacing: "0.12em",
       textTransform: "uppercase",
       color,
       fontFamily: "monospace",
       fontWeight: 700,
       margin: 0,
-      marginBottom: 2
+      marginBottom: 3
     }
   }, children);
 }
@@ -1977,13 +2034,13 @@ function SecModelo({
     }), /*#__PURE__*/React.createElement("path", {
       d: sp(ptsMod),
       fill: "none",
-      stroke: "rgba(99,102,241,0.25)",
+      stroke: "rgba(99,102,241,0.3)",
       strokeWidth: "1.5",
       strokeDasharray: "5 4"
     }), /*#__PURE__*/React.createElement("path", {
       d: sp(ptsFc),
       fill: "none",
-      stroke: "rgba(167,139,250,0.25)",
+      stroke: "rgba(251,146,60,0.3)",
       strokeWidth: "1.5",
       strokeDasharray: "5 4"
     }), /*#__PURE__*/React.createElement("path", {
@@ -1993,13 +2050,13 @@ function SecModelo({
     }), /*#__PURE__*/React.createElement("path", {
       d: sp(ptsMod.slice(0, n)),
       fill: "none",
-      stroke: "rgba(99,102,241,0.9)",
+      stroke: "rgba(99,102,241,0.95)",
       strokeWidth: "2.5",
       strokeLinecap: "round"
     }), /*#__PURE__*/React.createElement("path", {
       d: sp(ptsFc.slice(0, n)),
       fill: "none",
-      stroke: "rgba(167,139,250,0.85)",
+      stroke: "rgba(251,146,60,0.9)",
       strokeWidth: "2",
       strokeLinecap: "round",
       strokeDasharray: "6 3"
@@ -2048,7 +2105,7 @@ function SecModelo({
       paddingTop: 10,
       borderTop: `1px solid ${DS.border}`
     }
-  }, [["rgba(99,102,241,0.9)", "Modelo YTD"], ["rgba(167,139,250,0.85)", "Forecast YTD"], ["rgba(99,102,241,0.3)", "── Proyección anual Modelo"], ["rgba(167,139,250,0.3)", "── Proyección anual Forecast"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
+  }, [["rgba(99,102,241,0.95)", "Modelo YTD"], ["rgba(251,146,60,0.9)", "Forecast YTD"], ["rgba(99,102,241,0.3)", "── Proyección anual Modelo"], ["rgba(251,146,60,0.3)", "── Proyección anual Forecast"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
     key: l,
     style: {
       display: "flex",
@@ -3612,50 +3669,97 @@ function SecRankings({
   const wonKey = isYtd ? "wonYtdVal" : "wonPrevVal";
   const dealsKey = isYtd ? "wonYtdDeals" : "wonPrevDeals";
   const periodLabel = isYtd ? "YTD 2026" : PREV_MONTH_LABEL;
-  const safe = (arr, fn) => arr.length ? arr.reduce(fn) : rows[0];
-  const topBig = isYtd ? safe(rows.filter(r => r.biggestDeal), (a, b) => !a.biggestDeal || (b.biggestDeal?.amount || 0) > (a.biggestDeal?.amount || 0) ? b : a) : safe(rows.filter(r => r.wonPrevVal > 0).sort((a, b) => b.wonPrevVal - a.wonPrevVal).slice(0, 1), a => a) || rows[0];
-  const topDeals = safe(rows, (a, b) => b[dealsKey] > a[dealsKey] ? b : a);
-  // Prop & preventa: YTD=active pipeline count, Prev month=won deals count that month
-  const topProp = isYtd ? safe(rows, (a, b) => b.propuestas > a.propuestas ? b : a) : safe(rows.filter(r => r.wonPm > 0), (a, b) => b.wonPm > a.wonPm ? b : a) || safe(rows, (a, b) => b.wonPm > a.wonPm ? b : a);
-  const topPipe = safe(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
-  const topWon = safe(rows, (a, b) => b[wonKey] > a[wonKey] ? b : a);
-  const topPrev = isYtd ? safe(rows, (a, b) => b.preventa > a.preventa ? b : a) : safe(rows, (a, b) => b.newPm > a.newPm ? b : a);
-  const AWARDS = [{
+  const safeFrom = (arr, fn) => {
+    const a = arr.filter(Boolean);
+    return a.length ? a.reduce(fn) : rows[0];
+  };
+  // -- YTD awards
+  const topBigYtd = safeFrom(rows.filter(r => r.biggestDeal), (a, b) => (b.biggestDeal?.amount || 0) > (a.biggestDeal?.amount || 0) ? b : a);
+  const topDealsYtd = safeFrom(rows, (a, b) => b.wonYtdDeals > a.wonYtdDeals ? b : a);
+  const topPropYtd = safeFrom(rows, (a, b) => b.propuestas > a.propuestas ? b : a);
+  const topPipeYtd = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
+  const topWonYtd = safeFrom(rows, (a, b) => b.wonYtdVal > a.wonYtdVal ? b : a);
+  const topPrevYtd = safeFrom(rows, (a, b) => b.preventa > a.preventa ? b : a);
+  // -- Febrero awards (only among people who actually won in Feb)
+  const febWinners = rows.filter(r => r.wonPrevVal > 0);
+  const topBigFeb = safeFrom(febWinners, (a, b) => b.wonPrevVal > a.wonPrevVal ? b : a);
+  const topDealsFeb = safeFrom(febWinners, (a, b) => b.wonPrevDeals > a.wonPrevDeals ? b : a);
+  const topCierreFeb = safeFrom(rows, (a, b) => b.cierre > a.cierre ? b : a);
+  const topPipeFeb = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
+  const topWonFeb = safeFrom(febWinners, (a, b) => b.wonPrevVal > a.wonPrevVal ? b : a);
+  const topNegocFeb = safeFrom(rows, (a, b) => b.negoc > a.negoc ? b : a);
+  const AWARDS = isYtd ? [{
     icon: "💰",
-    title: `Deal más caro ${periodLabel}`,
-    winner: topBig.owner,
-    stat: isYtd ? topBig.biggestDeal ? fmt(topBig.biggestDeal.amount) : "—" : fmt(topBig.wonPrevVal),
-    sub: isYtd ? topBig.biggestDeal?.name : `${topBig.wonPrevDeals} deals`
+    title: "Deal más caro YTD",
+    winner: topBigYtd.owner,
+    stat: topBigYtd.biggestDeal ? fmt(topBigYtd.biggestDeal.amount) : "—",
+    sub: topBigYtd.biggestDeal?.name || ""
   }, {
     icon: "🎯",
-    title: `Más deals ganados ${periodLabel}`,
-    winner: topDeals.owner,
-    stat: `${topDeals[dealsKey]} won`,
-    sub: fmt(topDeals[wonKey])
+    title: "Más deals ganados YTD",
+    winner: topDealsYtd.owner,
+    stat: `${topDealsYtd.wonYtdDeals} won`,
+    sub: fmt(topDealsYtd.wonYtdVal)
   }, {
     icon: "📋",
     title: "Más propuestas activas",
-    winner: topProp.owner,
-    stat: `${topProp.propuestas} prop.`,
-    sub: `${topProp.pipeDeals} deals activos`
+    winner: topPropYtd.owner,
+    stat: `${topPropYtd.propuestas} prop.`,
+    sub: `${topPropYtd.pipeDeals} deals activos`
   }, {
     icon: "🚀",
     title: "Mayor pipeline ponderado",
-    winner: topPipe.owner,
-    stat: fmt(topPipe.pipeW),
-    sub: `${topPipe.pipeDeals} deals`
+    winner: topPipeYtd.owner,
+    stat: fmt(topPipeYtd.pipeW),
+    sub: `${topPipeYtd.pipeDeals} deals`
   }, {
     icon: "🏆",
-    title: `Mayor won ${periodLabel}`,
-    winner: topWon.owner,
-    stat: fmt(topWon[wonKey]),
-    sub: `${topWon[dealsKey]} deals`
+    title: "Mayor won YTD",
+    winner: topWonYtd.owner,
+    stat: fmt(topWonYtd.wonYtdVal),
+    sub: `${topWonYtd.wonYtdDeals} deals`
   }, {
     icon: "📢",
     title: "Más en preventa",
-    winner: topPrev.owner,
-    stat: `${topPrev.preventa}`,
+    winner: topPrevYtd.owner,
+    stat: `${topPrevYtd.preventa}`,
     sub: "generando pipeline"
+  }] : [{
+    icon: "🏆",
+    title: `Mayor won ${PREV_MONTH_LABEL}`,
+    winner: febWinners.length ? topWonFeb.owner : "Sin datos",
+    stat: febWinners.length ? fmt(topWonFeb.wonPrevVal) : "—",
+    sub: febWinners.length ? `${topWonFeb.wonPrevDeals} deals` : "nadie ganó en Feb"
+  }, {
+    icon: "🎯",
+    title: `Más deals en ${PREV_MONTH_LABEL}`,
+    winner: febWinners.length ? topDealsFeb.owner : "Sin datos",
+    stat: febWinners.length ? `${topDealsFeb.wonPrevDeals} won` : "—",
+    sub: febWinners.length ? fmt(topDealsFeb.wonPrevVal) : ""
+  }, {
+    icon: "💰",
+    title: `Deal más caro ${PREV_MONTH_LABEL}`,
+    winner: febWinners.length ? topBigFeb.owner : "Sin datos",
+    stat: febWinners.length ? fmt(topBigFeb.wonPrevVal) : "—",
+    sub: febWinners.length ? `${topBigFeb.wonPrevDeals} deals` : ""
+  }, {
+    icon: "🚀",
+    title: "Mayor pipeline activo",
+    winner: topPipeFeb.owner,
+    stat: fmt(topPipeFeb.pipeW),
+    sub: `${topPipeFeb.pipeDeals} deals`
+  }, {
+    icon: "📝",
+    title: "Más en cierre/contrato",
+    winner: topCierreFeb.cierre > 0 ? topCierreFeb.owner : "Sin datos",
+    stat: topCierreFeb.cierre > 0 ? `${topCierreFeb.cierre} deals` : "—",
+    sub: "etapa contrato/setup"
+  }, {
+    icon: "🤝",
+    title: "Más en negociación",
+    winner: topNegocFeb.negoc > 0 ? topNegocFeb.owner : "Sin datos",
+    stat: topNegocFeb.negoc > 0 ? `${topNegocFeb.negoc} deals` : "—",
+    sub: "cerrando actualmente"
   }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4476,7 +4580,6 @@ function Dashboard() {
   }, "\uD83C\uDDE6\uD83C\uDDF7\uD83C\uDDE8\uD83C\uDDF1\uD83C\uDDE8\uD83C\uDDF4\uD83C\uDDF2\uD83C\uDDFD\uD83C\uDDF5\uD83C\uDDEA"))));
 }
 
-    // Mount dashboard
     const _rootEl = document.getElementById('root');
     const _appRoot = ReactDOM.createRoot(_rootEl);
     _appRoot.render(React.createElement(Dashboard));
