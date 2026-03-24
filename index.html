@@ -170,8 +170,11 @@ function isLostDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
   return d.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost");
 }
+function isContracted(d) {
+  return (d.stage_label || "").toLowerCase().includes("etapa de contrato");
+}
 function isActiveDeal(d) {
-  return !isWonDeal(d) && !isLostDeal(d);
+  return !isLostDeal(d) && (!isWonDeal(d) || isContracted(d));
 }
 // For won deals, close_date may be null in HubSpot (not set by exec).
 // Fall back to last_activity date so we can still bucket the deal into the right month.
@@ -2491,45 +2494,152 @@ function SecModelo({
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// EVOLUCIÓN WoW
+// EVOLUCIÓN WoW / MoM
 // ══════════════════════════════════════════════════════════════════════════
 function SecEvolucion({
   deals,
   weekAgoSnap
 }) {
+  const [period, setPeriod] = useState("wow"); // "wow" | "mom"
+
   const active = deals.filter(isActiveDeal);
   const byC = {};
   active.forEach(d => {
     if (d.country) byC[d.country] = (byC[d.country] || 0) + (d.amount || 0) * getProb(d);
   });
   const totalNow = wFn(active);
-  const totalBefore = weekAgoSnap?.w ?? null;
+
+  // Pipeline comparison (WoW uses snapshots, MoM uses date ranges on current data)
+  const totalBefore_wow = weekAgoSnap?.w ?? null;
+
+  // For MoM pipeline: deals active at start of current month (approx from data)
+  // We compare current pipeline vs previous month pipeline (using byC data if available)
+  const totalBefore = period === "wow" ? totalBefore_wow : null; // MoM pipeline needs snapshot
+
   const totalDelta = totalBefore != null ? totalNow - totalBefore : null;
   const totalPct = totalBefore != null && totalBefore > 0 ? (totalNow - totalBefore) / totalBefore * 100 : null;
+
+  // ── Date helpers ─────────────────────────────────────────────
+  const today = new Date().toISOString().split("T")[0];
+  const wkS = wk();
+  const lastWkS = new Date(Date.now() - 14 * 86400000).toISOString().split("T")[0];
+  const lastWkE = new Date(Date.now() - 7 * 86400000).toISOString().split("T")[0];
+  const moS = mo();
+  const pS = prevMoStart(),
+    pE = prevMoEnd();
+  const [curS, curE, prevS, prevE, periodLabel, periodLabelPrev] = period === "wow" ? [wkS, today, lastWkS, lastWkE, "Esta semana", "Semana pasada"] : [moS, today, pS, pE, "Este mes (Marzo)", PREV_MONTH_LABEL];
+
+  // ── Exec stats calculator ─────────────────────────────────────
+  function execStats(owner, start, end) {
+    const mine = deals.filter(d => d.owner === owner);
+    const wonD = mine.filter(d => isWonDeal(d) && d.close_date && d.close_date >= start && d.close_date <= end);
+    const genD = mine.filter(d => !isLostDeal(d) && d.created && d.created >= start && d.created <= end);
+    const propD = mine.filter(d => !isLostDeal(d) && d.last_activity && d.last_activity >= start && d.last_activity <= end && (d.stage_label || "").toLowerCase().includes("propuesta"));
+    return {
+      won: wonD.length,
+      wonVal: wonD.reduce((s, d) => s + (d.amount || 0), 0),
+      generated: genD.length,
+      proposals: propD.length
+    };
+  }
+  const owners = [...new Set(deals.map(d => d.owner).filter(Boolean))].sort();
+  const execRows = owners.map(o => ({
+    owner: o,
+    cur: execStats(o, curS, curE),
+    prev: execStats(o, prevS, prevE),
+    pipe: wFn(active.filter(d => d.owner === o)),
+    countries: [...new Set(deals.filter(d => d.owner === o && !isLostDeal(d)).map(d => d.country).filter(Boolean))]
+  })).filter(r => r.cur.generated > 0 || r.cur.won > 0 || r.cur.proposals > 0 || r.prev.generated > 0 || r.prev.won > 0 || r.prev.proposals > 0 || r.pipe > 0).sort((a, b) => b.pipe - a.pipe);
+  function DeltaBadge({
+    cur,
+    prev,
+    isCurrency = false
+  }) {
+    const delta = cur - prev;
+    const pct = prev > 0 ? delta / prev * 100 : null;
+    const color = delta > 0 ? DS.emerald : delta < 0 ? DS.red : DS.text3;
+    const arrow = delta > 0 ? "▲" : delta < 0 ? "▼" : "—";
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 18,
+        fontWeight: 900,
+        color: DS.text1,
+        fontFamily: "monospace",
+        lineHeight: 1
+      }
+    }, isCurrency ? fmt(cur) : cur), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color,
+        fontFamily: "monospace",
+        marginTop: 3,
+        fontWeight: 700
+      }
+    }, delta !== 0 ? `${arrow} ${isCurrency ? fmt(Math.abs(delta)) : Math.abs(delta)}` : delta === 0 && prev > 0 ? "= sin cambio" : "—"), pct != null && delta !== 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color,
+        fontFamily: "monospace"
+      }
+    }, pct >= 0 ? "+" : "", pct.toFixed(0), "%"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: DS.text3,
+        fontFamily: "monospace",
+        marginTop: 2
+      }
+    }, isCurrency ? fmt(prev) : prev, " ant."));
+  }
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: 16
+      gap: 20
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
+      display: "flex",
+      gap: 8
+    }
+  }, [["wow", "📅 Semana (WoW)"], ["mom", `📅 Mes (MoM)`]].map(([v, l]) => /*#__PURE__*/React.createElement("button", {
+    key: v,
+    onClick: () => setPeriod(v),
+    style: {
+      padding: "7px 16px",
+      fontSize: 10,
+      fontFamily: "monospace",
+      borderRadius: 8,
+      cursor: "pointer",
+      background: period === v ? "rgba(0,210,255,0.2)" : "rgba(255,255,255,0.04)",
+      color: period === v ? DS.cyan : DS.text3,
+      border: `1px solid ${period === v ? "rgba(0,210,255,0.4)" : DS.border}`,
+      fontWeight: period === v ? 700 : 400
+    }
+  }, l))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "PIPELINE PONDERADO \u2014 ", period === "wow" ? "WoW (vs hace 7 días)" : "MoM (vs " + PREV_MONTH_LABEL + ")"), /*#__PURE__*/React.createElement("div", {
+    style: {
       display: "grid",
       gridTemplateColumns: "repeat(3,1fr)",
-      gap: 12
+      gap: 12,
+      marginTop: 12
     }
   }, [{
-    label: "Ponderado Hoy",
+    label: "Pipeline Hoy",
     val: fmt(totalNow),
     color: DS.cyan
   }, {
-    label: "Hace 7 días",
+    label: period === "wow" ? "Hace 7 días" : PREV_MONTH_LABEL,
     val: totalBefore != null ? fmt(totalBefore) : "—",
     color: DS.text2
   }, {
-    label: "Δ Semanal",
+    label: "Δ " + periodLabel,
     val: totalDelta != null ? `${totalDelta >= 0 ? "▲" : "▼"} ${fmt(Math.abs(totalDelta))}` : "—",
-    sub: totalPct != null ? `${totalPct >= 0 ? "+" : ""}${totalPct.toFixed(1)}%` : "acumulando historial",
+    sub: totalPct != null ? `${totalPct >= 0 ? "+" : ""}${totalPct.toFixed(1)}%` : period === "mom" ? "acumulando MoM" : "acumulando historial",
     color: totalDelta == null ? DS.text3 : totalDelta >= 0 ? DS.emerald : DS.red
   }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
     key: i,
@@ -2539,7 +2649,7 @@ function SecEvolucion({
   }, k.label), /*#__PURE__*/React.createElement(BigNum, {
     value: k.val,
     color: k.color,
-    size: 22
+    size: 20
   }), k.sub && /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
@@ -2547,7 +2657,12 @@ function SecEvolucion({
       marginTop: 4,
       fontFamily: "monospace"
     }
-  }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("table", {
+  }, k.sub)))), /*#__PURE__*/React.createElement(Card, {
+    className: "",
+    style: {
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("table", {
     style: {
       width: "100%",
       borderCollapse: "collapse"
@@ -2556,7 +2671,7 @@ function SecEvolucion({
     style: {
       borderBottom: `1px solid ${DS.border}`
     }
-  }, ["País", "Ponderado Hoy", "-7 días", "Δ Valor", "Δ %", "Tendencia"].map(h => /*#__PURE__*/React.createElement("th", {
+  }, ["País", "Pipeline Hoy", period === "wow" ? "-7 días" : PREV_MONTH_LABEL, "Δ Valor", "Δ %", "Tendencia"].map(h => /*#__PURE__*/React.createElement("th", {
     key: h,
     style: {
       fontSize: 9,
@@ -2570,8 +2685,8 @@ function SecEvolucion({
       whiteSpace: "nowrap"
     }
   }, h)))), /*#__PURE__*/React.createElement("tbody", null, Object.entries(FM).map(([c, m]) => {
-    const now = byC[c] || 0,
-      prev = weekAgoSnap?.byC?.[c] ?? null;
+    const now = byC[c] || 0;
+    const prev = period === "wow" ? weekAgoSnap?.byC?.[c] ?? null : null;
     const delta = prev != null ? now - prev : null,
       pct = prev != null && prev > 0 ? (now - prev) / prev * 100 : null;
     const maxVal = Math.max(now, prev || 0, 1);
@@ -2583,7 +2698,7 @@ function SecEvolucion({
       }
     }, /*#__PURE__*/React.createElement("td", {
       style: {
-        padding: "14px 12px"
+        padding: "12px 12px"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2605,7 +2720,7 @@ function SecEvolucion({
     }, c))), /*#__PURE__*/React.createElement("td", {
       style: {
         textAlign: "right",
-        padding: "14px 12px",
+        padding: "12px 12px",
         fontFamily: "monospace",
         fontSize: 13,
         fontWeight: 700,
@@ -2614,7 +2729,7 @@ function SecEvolucion({
     }, fmt(now)), /*#__PURE__*/React.createElement("td", {
       style: {
         textAlign: "right",
-        padding: "14px 12px",
+        padding: "12px 12px",
         fontFamily: "monospace",
         fontSize: 13,
         color: DS.text3
@@ -2622,7 +2737,7 @@ function SecEvolucion({
     }, prev != null ? fmt(prev) : "—"), /*#__PURE__*/React.createElement("td", {
       style: {
         textAlign: "right",
-        padding: "14px 12px",
+        padding: "12px 12px",
         fontFamily: "monospace",
         fontSize: 13,
         fontWeight: 700,
@@ -2631,7 +2746,7 @@ function SecEvolucion({
     }, delta != null ? `${delta >= 0 ? "▲" : "▼"} ${fmt(Math.abs(delta))}` : "—"), /*#__PURE__*/React.createElement("td", {
       style: {
         textAlign: "right",
-        padding: "14px 12px",
+        padding: "12px 12px",
         fontFamily: "monospace",
         fontSize: 11,
         fontWeight: 700,
@@ -2639,7 +2754,7 @@ function SecEvolucion({
       }
     }, pct != null ? `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%` : "—"), /*#__PURE__*/React.createElement("td", {
       style: {
-        padding: "14px 12px",
+        padding: "12px 12px",
         width: 120
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -2688,7 +2803,7 @@ function SecEvolucion({
         color: DS.text3,
         width: 20
       }
-    }, "-7d"), /*#__PURE__*/React.createElement("div", {
+    }, "ant."), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         height: 4,
@@ -2705,7 +2820,7 @@ function SecEvolucion({
         width: `${prev / maxVal * 100}%`
       }
     }))))));
-  }))), !weekAgoSnap && /*#__PURE__*/React.createElement("p", {
+  }))), !weekAgoSnap && period === "wow" && /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
       color: DS.text3,
@@ -2713,7 +2828,280 @@ function SecEvolucion({
       marginTop: 16,
       fontFamily: "monospace"
     }
-  }, "Los deltas aparecen luego de 7 d\xEDas de snapshots autom\xE1ticos")));
+  }, "Pipeline WoW aparece luego de 7 d\xEDas de snapshots autom\xE1ticos"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "EVOLUCI\xD3N DE GESTI\xD3N POR EJECUTIVO \u2014 ", periodLabel.toUpperCase(), " vs ", periodLabelPrev.toUpperCase()), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      fontFamily: "monospace",
+      marginTop: 4
+    }
+  }, "Negocios generados \xB7 Propuestas enviadas \xB7 Won \xB7 Valor ganado \u2014 per\xEDodo actual vs anterior")), execRows.length === 0 ? /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: DS.text3,
+      textAlign: "center",
+      padding: 24,
+      fontFamily: "monospace"
+    }
+  }, "Sin actividad en el per\xEDodo seleccionado") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 12
+    }
+  }, execRows.map(r => {
+    const flags = [...r.countries].map(c => FM[c]?.flag || "").join(" ");
+    const totCurAct = r.cur.generated + r.cur.proposals + r.cur.won;
+    const totPrevAct = r.prev.generated + r.prev.proposals + r.prev.won;
+    const actDelta = totCurAct - totPrevAct;
+    const actColor = actDelta > 0 ? DS.emerald : actDelta < 0 ? DS.red : DS.text3;
+    return /*#__PURE__*/React.createElement("div", {
+      key: r.owner,
+      style: {
+        borderRadius: 14,
+        border: `1px solid ${DS.border}`,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "12px 18px",
+        background: "rgba(255,255,255,0.03)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        fontWeight: 700,
+        color: DS.text1,
+        fontFamily: "monospace"
+      }
+    }, r.owner), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14
+      }
+    }, flags), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: DS.text3,
+        fontFamily: "monospace"
+      }
+    }, r.pipe > 0 ? fmt(r.pipe) + " pipeline" : "")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, actDelta !== 0 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: actColor,
+        fontFamily: "monospace"
+      }
+    }, actDelta > 0 ? "▲" : "▼", " ", Math.abs(actDelta), " acciones vs ant."), r.cur.wonVal > 0 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 900,
+        color: DS.emerald,
+        fontFamily: "monospace"
+      }
+    }, fmt(r.cur.wonVal), " won"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "repeat(4,1fr)",
+        gap: 0
+      }
+    }, [{
+      icon: "🆕",
+      label: "Generados",
+      cur: r.cur.generated,
+      prev: r.prev.generated,
+      color: "#60a5fa"
+    }, {
+      icon: "📋",
+      label: "Propuestas",
+      cur: r.cur.proposals,
+      prev: r.prev.proposals,
+      color: "#a78bfa"
+    }, {
+      icon: "🏆",
+      label: "Won",
+      cur: r.cur.won,
+      prev: r.prev.won,
+      color: DS.emerald
+    }, {
+      icon: "💰",
+      label: "Valor Won",
+      cur: r.cur.wonVal,
+      prev: r.prev.wonVal,
+      color: DS.amber,
+      isCurrency: true
+    }].map((m, mi) => {
+      const delta = m.cur - m.prev;
+      const isGood = delta >= 0;
+      const bg = m.cur > 0 && isGood ? "rgba(16,185,129,0.07)" : m.cur > 0 && !isGood ? "rgba(239,68,68,0.06)" : "";
+      return /*#__PURE__*/React.createElement("div", {
+        key: mi,
+        style: {
+          padding: "16px 12px",
+          background: bg,
+          borderTop: `1px solid ${DS.border}`,
+          borderRight: mi < 3 ? `1px solid ${DS.border}` : ""
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          marginBottom: 10
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 14
+        }
+      }, m.icon), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 9,
+          color: m.color,
+          fontFamily: "monospace",
+          fontWeight: 700,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase"
+        }
+      }, m.label)), /*#__PURE__*/React.createElement(DeltaBadge, {
+        cur: m.cur,
+        prev: m.prev,
+        isCurrency: m.isCurrency || false
+      }));
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "flex-end",
+        padding: "6px 18px",
+        borderTop: `1px solid ${DS.border}`,
+        background: "rgba(0,0,0,0.2)"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        color: DS.text3,
+        fontFamily: "monospace"
+      }
+    }, periodLabel, " vs ", periodLabelPrev, " \xB7 valores actuales arriba \xB7 \"ant.\" = per\xEDodo anterior")));
+  }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "RESUMEN CONSOLIDADO \u2014 ", periodLabel.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(4,1fr)",
+      gap: 10,
+      marginTop: 14
+    }
+  }, (() => {
+    const totCur = {
+      gen: 0,
+      prop: 0,
+      won: 0,
+      wonVal: 0
+    };
+    const totPrev = {
+      gen: 0,
+      prop: 0,
+      won: 0,
+      wonVal: 0
+    };
+    execRows.forEach(r => {
+      totCur.gen += r.cur.generated;
+      totCur.prop += r.cur.proposals;
+      totCur.won += r.cur.won;
+      totCur.wonVal += r.cur.wonVal;
+      totPrev.gen += r.prev.generated;
+      totPrev.prop += r.prev.proposals;
+      totPrev.won += r.prev.won;
+      totPrev.wonVal += r.prev.wonVal;
+    });
+    return [{
+      icon: "🆕",
+      label: "Negocios generados",
+      cur: totCur.gen,
+      prev: totPrev.gen,
+      color: "#60a5fa"
+    }, {
+      icon: "📋",
+      label: "Propuestas enviadas",
+      cur: totCur.prop,
+      prev: totPrev.prop,
+      color: "#a78bfa"
+    }, {
+      icon: "🏆",
+      label: "Deals won",
+      cur: totCur.won,
+      prev: totPrev.won,
+      color: DS.emerald
+    }, {
+      icon: "💰",
+      label: "Valor won",
+      cur: totCur.wonVal,
+      prev: totPrev.wonVal,
+      color: DS.amber,
+      isCurrency: true
+    }].map((k, i) => {
+      const delta = k.cur - k.prev;
+      const dc = delta > 0 ? DS.emerald : delta < 0 ? DS.red : DS.text3;
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          textAlign: "center",
+          padding: 14,
+          borderRadius: 12,
+          background: "rgba(255,255,255,0.02)",
+          border: `1px solid ${DS.border}`
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 22,
+          marginBottom: 6
+        }
+      }, k.icon), /*#__PURE__*/React.createElement(Label, {
+        color: k.color
+      }, k.label), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 22,
+          fontWeight: 900,
+          color: DS.text1,
+          fontFamily: "monospace",
+          margin: "6px 0 2px"
+        }
+      }, k.isCurrency ? fmt(k.cur) : k.cur), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: dc,
+          fontFamily: "monospace",
+          fontWeight: 700
+        }
+      }, delta !== 0 ? `${delta > 0 ? "▲" : "▼"} ${k.isCurrency ? fmt(Math.abs(delta)) : Math.abs(delta)}` : "-"), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 9,
+          color: DS.text3,
+          fontFamily: "monospace",
+          marginTop: 2
+        }
+      }, k.isCurrency ? fmt(k.prev) : k.prev, " en ", periodLabelPrev.toLowerCase()));
+    });
+  })())));
 }
 
 // ══════════════════════════════════════════════════════════════════════════
