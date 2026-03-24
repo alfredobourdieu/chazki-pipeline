@@ -28,12 +28,11 @@
 // Source: CS_Growth Proyección 2025-2026 → "Resumen 2026 36M" pivot → Growth 26 rows
 // Confirmed by user image: Jan+Feb total = $66,991 | Annual total = $3,607,620
 const FM = {
-  Argentina :{ annual:1086824.24, months:[2565,5608.87,6708.96,36504.93,66203.07,123336.01,142836.01,138144.01,131317.86,131317.86,142182.78,160098.86], flag:"🇦🇷", color:"#f97316" },
-  Chile     :{ annual:754706.68,  months:[19033,9551,26533,41249,45221.06,55761.64,58552.23,77407.45,84360.13,134203.96,85681.72,117152.81],             flag:"🇨🇱", color:"#3b82f6" },
-  Colombia  :{ annual:683041.25,  months:[0,0,3000,28650,48462.50,61100,73175,84337.50,84837.50,96226.25,101626.25,101626.25],                           flag:"🇨🇴", color:"#22c55e" },
-  México    :{ annual:592382.03,  months:[8134,13581,24800,35900,52941.41,63441.41,60510.68,58710.68,54035.68,61407.08,75446.58,83473.53],               flag:"🇲🇽", color:"#a855f7" },
-  Perú      :{ annual:490666.11,  months:[2613,5904.96,10399.40,22484.76,40604.76,47429.76,49906.51,58033.36,55800.79,55964.70,65222.01,76302.07],       flag:"🇵🇪", color:"#ef4444" },
-};
+ Argentina :{ annual:1086824.24, ..., flag:"\uD83C\uDDE6\uD83C\uDDF7", color:"#f97316" },
+Chile     :{ annual:754706.68,  ..., flag:"\uD83C\uDDE8\uD83C\uDDF1", color:"#3b82f6" },
+Colombia  :{ annual:683041.25,  ..., flag:"\uD83C\uDDE8\uD83C\uDDF4", color:"#22c55e" },
+México    :{ annual:592382.03,  ..., flag:"\uD83C\uDDF2\uD83C\uDDFD", color:"#a855f7" },
+Perú      :{ annual:490666.11,  ..., flag:"\uD83C\uDDF5\uD83C\uDDEA", color:"#ef4444" },
 const TOTAL_TARGET = Object.values(FM).reduce((s,c)=>s+c.annual,0); // $3,607,620
 
 // ── FORECAST OKR (modelo original) — OFICIAL MODELO 2026 R37-R49 ──────────
