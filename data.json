@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-24T22:59:23.190Z",
+  "updated_at": "2026-03-24T23:11:37.027Z",
   "updated_at_art": "24/3/2026 05:54 p. m.",
   "deals": [
     {
@@ -1021,7 +1021,7 @@
       "last_activity": "2026-03-20",
       "owner": "Alessandra Araneta",
       "country": "Perú",
-      "is_won": false,
+      "is_won": true,
       "is_lost": false,
       "created": "2025-07-17",
       "probability": 1,
@@ -1038,7 +1038,7 @@
       "last_activity": "2026-03-24",
       "owner": "Alessandra Araneta",
       "country": "Chile",
-      "is_won": false,
+      "is_won": true,
       "is_lost": false,
       "created": "2025-06-18",
       "probability": 1,
@@ -1071,7 +1071,7 @@
       "last_activity": "2026-03-23",
       "owner": "Alessandra Araneta",
       "country": "Perú",
-      "is_won": false,
+      "is_won": true,
       "is_lost": false,
       "created": "2026-02-24",
       "probability": 1,
