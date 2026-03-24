@@ -251,16 +251,18 @@ async function getWeekAgo() {
 // ── API fetch ──────────────────────────────────────────────────────────────
 async function fetchDeals(setStatus) {
   setStatus("Cargando datos del pipeline...");
-  // Lee data.json del mismo directorio (actualizado a las 23:59 ART por Apps Script)
-  const cacheBust = Math.floor(Date.now() / 60000); // nuevo cada minuto
-  const res = await fetch('./data.json?v=' + cacheBust);
-  if (!res.ok) throw new Error("No se encontró data.json — verificá que el Apps Script haya corrido.");
+  const cacheBust = Math.floor(Date.now() / 60000);
+  let res;
+  try {
+    res = await fetch('./data.json?v=' + cacheBust);
+  } catch (e) {
+    throw new Error("No se pudo conectar. Verificá tu conexión.");
+  }
+  if (!res.ok) throw new Error("No se encontró data.json (HTTP " + res.status + "). El updater.gs aún no corrió.");
   setStatus("Procesando...");
   const data = await res.json();
-  // Normalizar: si viene como {deals:[...]} o como [...] directamente
   const raw = Array.isArray(data) ? data : data.deals || [];
-  if (!raw.length) throw new Error("data.json está vacío.");
-  // Añadir campo probability si viene como prob
+  // Si está vacío, retornamos array vacío — el dashboard muestra estado inicial limpio
   const deals = raw.map(d => ({
     ...d,
     probability: d.probability ?? d.prob ?? null
@@ -4474,9 +4476,10 @@ function Dashboard() {
   }, "\uD83C\uDDE6\uD83C\uDDF7\uD83C\uDDE8\uD83C\uDDF1\uD83C\uDDE8\uD83C\uDDF4\uD83C\uDDF2\uD83C\uDDFD\uD83C\uDDF5\uD83C\uDDEA"))));
 }
 
-    // Mount
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(Dashboard));
+    // Mount dashboard
+    const _rootEl = document.getElementById('root');
+    const _appRoot = ReactDOM.createRoot(_rootEl);
+    _appRoot.render(React.createElement(Dashboard));
   </script>
 </body>
 </html>
