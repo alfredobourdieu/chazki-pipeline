@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-24T20:58:39.175Z",
+  "updated_at": "2026-03-24T22:59:23.190Z",
   "updated_at_art": "24/3/2026 05:54 p. m.",
   "deals": [
     {
@@ -16,7 +16,8 @@
       "is_lost": false,
       "created": "2025-09-22",
       "probability": 0.9,
-      "weighted": 225000
+      "weighted": 225000,
+      "days_in_stage": 35
     },
     {
       "id": "19756392834",
@@ -32,7 +33,8 @@
       "is_lost": false,
       "created": "2024-05-31",
       "probability": 0.8,
-      "weighted": 96000
+      "weighted": 96000,
+      "days_in_stage": 8
     },
     {
       "id": "33028821565",
@@ -48,7 +50,8 @@
       "is_lost": false,
       "created": "2024-09-24",
       "probability": 0.8,
-      "weighted": 200000
+      "weighted": 200000,
+      "days_in_stage": 8
     },
     {
       "id": "48474156095",
@@ -64,7 +67,8 @@
       "is_lost": false,
       "created": "2025-11-07",
       "probability": 0.9,
-      "weighted": 90000
+      "weighted": 90000,
+      "days_in_stage": 28
     },
     {
       "id": "55819233625",
@@ -80,7 +84,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.9,
-      "weighted": 135000
+      "weighted": 135000,
+      "days_in_stage": 8
     },
     {
       "id": "47416093322",
@@ -96,7 +101,8 @@
       "is_lost": false,
       "created": "2025-10-28",
       "probability": 0.5,
-      "weighted": 75000
+      "weighted": 75000,
+      "days_in_stage": 28
     },
     {
       "id": "51515362912",
@@ -112,7 +118,8 @@
       "is_lost": false,
       "created": "2025-12-11",
       "probability": 0.5,
-      "weighted": 60000
+      "weighted": 60000,
+      "days_in_stage": 35
     },
     {
       "id": "53362218070",
@@ -128,7 +135,8 @@
       "is_lost": false,
       "created": "2026-01-07",
       "probability": 0.5,
-      "weighted": 60000
+      "weighted": 60000,
+      "days_in_stage": 34
     },
     {
       "id": "40250847511",
@@ -192,7 +200,8 @@
       "is_lost": false,
       "created": "2024-07-05",
       "probability": 0.9,
-      "weighted": 270000
+      "weighted": 270000,
+      "days_in_stage": 38
     },
     {
       "id": "40670339333",
@@ -208,7 +217,8 @@
       "is_lost": false,
       "created": "2025-07-22",
       "probability": 0.4,
-      "weighted": 120000
+      "weighted": 120000,
+      "days_in_stage": 1
     },
     {
       "id": "55827522720",
@@ -224,7 +234,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.3,
-      "weighted": 25500
+      "weighted": 25500,
+      "days_in_stage": 33
     },
     {
       "id": "21628708656",
@@ -240,7 +251,8 @@
       "is_lost": false,
       "created": "2026-02-19",
       "probability": 0.5,
-      "weighted": 17500
+      "weighted": 17500,
+      "days_in_stage": 7
     },
     {
       "id": "57856123468",
@@ -256,7 +268,8 @@
       "is_lost": false,
       "created": "2026-03-11",
       "probability": 0.3,
-      "weighted": 4650
+      "weighted": 4650,
+      "days_in_stage": 13
     },
     {
       "id": "43407945895",
@@ -288,7 +301,8 @@
       "is_lost": false,
       "created": "2025-10-16",
       "probability": 0.3,
-      "weighted": 405000
+      "weighted": 405000,
+      "days_in_stage": 55
     },
     {
       "id": "58208939081",
@@ -304,7 +318,8 @@
       "is_lost": false,
       "created": "2026-03-20",
       "probability": 0.2,
-      "weighted": 24000
+      "weighted": 24000,
+      "days_in_stage": 4
     },
     {
       "id": "58208815662",
@@ -320,7 +335,8 @@
       "is_lost": false,
       "created": "2026-03-20",
       "probability": 0.2,
-      "weighted": 20000
+      "weighted": 20000,
+      "days_in_stage": 4
     },
     {
       "id": "56549342488",
@@ -336,7 +352,8 @@
       "is_lost": false,
       "created": "2026-02-17",
       "probability": 0.2,
-      "weighted": 3300
+      "weighted": 3300,
+      "days_in_stage": 35
     },
     {
       "id": "57855961602",
@@ -352,7 +369,8 @@
       "is_lost": false,
       "created": "2026-03-10",
       "probability": 0.4,
-      "weighted": 86400
+      "weighted": 86400,
+      "days_in_stage": 1
     },
     {
       "id": "57030415484",
@@ -368,7 +386,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.5,
-      "weighted": 70000
+      "weighted": 70000,
+      "days_in_stage": 17
     },
     {
       "id": "46709596493",
@@ -384,7 +403,8 @@
       "is_lost": false,
       "created": "2025-10-23",
       "probability": 0.3,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 117
     },
     {
       "id": "57856096824",
@@ -400,7 +420,8 @@
       "is_lost": false,
       "created": "2026-03-10",
       "probability": 0.3,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 1
     },
     {
       "id": "53886992276",
@@ -416,7 +437,8 @@
       "is_lost": false,
       "created": "2026-01-15",
       "probability": 0.3,
-      "weighted": 15000
+      "weighted": 15000,
+      "days_in_stage": 57
     },
     {
       "id": "56116141417",
@@ -432,7 +454,8 @@
       "is_lost": false,
       "created": "2026-02-11",
       "probability": 0.3,
-      "weighted": 9600
+      "weighted": 9600,
+      "days_in_stage": 41
     },
     {
       "id": "57021683886",
@@ -448,7 +471,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.4,
-      "weighted": 8000
+      "weighted": 8000,
+      "days_in_stage": 17
     },
     {
       "id": "38995572020",
@@ -464,7 +488,8 @@
       "is_lost": false,
       "created": "2025-06-18",
       "probability": 0.9,
-      "weighted": 22500
+      "weighted": 22500,
+      "days_in_stage": 33
     },
     {
       "id": "44585917856",
@@ -480,7 +505,8 @@
       "is_lost": false,
       "created": "2025-09-29",
       "probability": 0.3,
-      "weighted": 6000
+      "weighted": 6000,
+      "days_in_stage": 152
     },
     {
       "id": "56200208670",
@@ -496,7 +522,8 @@
       "is_lost": false,
       "created": "2026-02-13",
       "probability": 0.1,
-      "weighted": 60000
+      "weighted": 60000,
+      "days_in_stage": 38
     },
     {
       "id": "55976570127",
@@ -512,7 +539,8 @@
       "is_lost": false,
       "created": "2026-02-10",
       "probability": 0.2,
-      "weighted": 72000
+      "weighted": 72000,
+      "days_in_stage": 1
     },
     {
       "id": "56136066055",
@@ -528,7 +556,8 @@
       "is_lost": false,
       "created": "2026-02-13",
       "probability": 0.2,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 39
     },
     {
       "id": "53282472517",
@@ -544,7 +573,8 @@
       "is_lost": false,
       "created": "2026-01-06",
       "probability": 0.2,
-      "weighted": 12000
+      "weighted": 12000,
+      "days_in_stage": 42
     },
     {
       "id": "32986162608",
@@ -576,7 +606,8 @@
       "is_lost": false,
       "created": "2025-03-25",
       "probability": 0.5,
-      "weighted": 900000
+      "weighted": 900000,
+      "days_in_stage": 15
     },
     {
       "id": "35361839211",
@@ -592,7 +623,8 @@
       "is_lost": false,
       "created": "2025-04-01",
       "probability": 0.5,
-      "weighted": 250000
+      "weighted": 250000,
+      "days_in_stage": 12
     },
     {
       "id": "56127322803",
@@ -608,7 +640,8 @@
       "is_lost": false,
       "created": "2026-02-11",
       "probability": 0.4,
-      "weighted": 120000
+      "weighted": 120000,
+      "days_in_stage": 26
     },
     {
       "id": "34088367248",
@@ -624,7 +657,8 @@
       "is_lost": false,
       "created": "2025-02-28",
       "probability": 0.4,
-      "weighted": 100000
+      "weighted": 100000,
+      "days_in_stage": 50
     },
     {
       "id": "56136036005",
@@ -640,7 +674,8 @@
       "is_lost": false,
       "created": "2026-02-12",
       "probability": 0.1,
-      "weighted": 50000
+      "weighted": 50000,
+      "days_in_stage": 40
     },
     {
       "id": "55475169032",
@@ -656,7 +691,8 @@
       "is_lost": false,
       "created": "2026-02-04",
       "probability": 0.3,
-      "weighted": 19500
+      "weighted": 19500,
+      "days_in_stage": 15
     },
     {
       "id": "57980199687",
@@ -672,7 +708,8 @@
       "is_lost": false,
       "created": "2026-03-16",
       "probability": 0.3,
-      "weighted": 18000
+      "weighted": 18000,
+      "days_in_stage": 8
     },
     {
       "id": "51514729100",
@@ -784,7 +821,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.2,
-      "weighted": 280000
+      "weighted": 280000,
+      "days_in_stage": 7
     },
     {
       "id": "46412683653",
@@ -800,7 +838,8 @@
       "is_lost": false,
       "created": "2025-10-19",
       "probability": 0.5,
-      "weighted": 250000
+      "weighted": 250000,
+      "days_in_stage": 38
     },
     {
       "id": "57086236970",
@@ -816,7 +855,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.3,
-      "weighted": 150000
+      "weighted": 150000,
+      "days_in_stage": 12
     },
     {
       "id": "54403816065",
@@ -832,7 +872,8 @@
       "is_lost": false,
       "created": "2026-01-23",
       "probability": 0.2,
-      "weighted": 100000
+      "weighted": 100000,
+      "days_in_stage": 38
     },
     {
       "id": "58134730937",
@@ -848,7 +889,8 @@
       "is_lost": false,
       "created": "2026-03-19",
       "probability": 0.2,
-      "weighted": 100000
+      "weighted": 100000,
+      "days_in_stage": 5
     },
     {
       "id": "57093681716",
@@ -864,7 +906,8 @@
       "is_lost": false,
       "created": "2026-03-01",
       "probability": 0.4,
-      "weighted": 108000
+      "weighted": 108000,
+      "days_in_stage": 3
     },
     {
       "id": "57619602857",
@@ -880,7 +923,8 @@
       "is_lost": false,
       "created": "2026-03-06",
       "probability": 0.4,
-      "weighted": 80000
+      "weighted": 80000,
+      "days_in_stage": 3
     },
     {
       "id": "57030515784",
@@ -896,7 +940,8 @@
       "is_lost": false,
       "created": "2026-02-25",
       "probability": 0.2,
-      "weighted": 54000
+      "weighted": 54000,
+      "days_in_stage": 27
     },
     {
       "id": "57938912001",
@@ -912,7 +957,8 @@
       "is_lost": false,
       "created": "2026-03-12",
       "probability": 0.8,
-      "weighted": 80000
+      "weighted": 80000,
+      "days_in_stage": 12
     },
     {
       "id": "56127393816",
@@ -928,7 +974,8 @@
       "is_lost": false,
       "created": "2026-02-11",
       "probability": 0.9,
-      "weighted": 72000
+      "weighted": 72000,
+      "days_in_stage": 31
     },
     {
       "id": "36810863478",
@@ -944,7 +991,8 @@
       "is_lost": false,
       "created": "2025-05-06",
       "probability": 0.3,
-      "weighted": 36000
+      "weighted": 36000,
+      "days_in_stage": 304
     },
     {
       "id": "55688192519",
@@ -960,7 +1008,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.3,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 40
     },
     {
       "id": "40397291323",
@@ -976,7 +1025,8 @@
       "is_lost": false,
       "created": "2025-07-17",
       "probability": 1,
-      "weighted": 500000
+      "weighted": 500000,
+      "days_in_stage": 4
     },
     {
       "id": "38995567143",
@@ -992,7 +1042,8 @@
       "is_lost": false,
       "created": "2025-06-18",
       "probability": 1,
-      "weighted": 500000
+      "weighted": 500000,
+      "days_in_stage": 5
     },
     {
       "id": "55581030708",
@@ -1024,7 +1075,8 @@
       "is_lost": false,
       "created": "2026-02-24",
       "probability": 1,
-      "weighted": 23000
+      "weighted": 23000,
+      "days_in_stage": 28
     },
     {
       "id": "57018838040",
@@ -1040,7 +1092,8 @@
       "is_lost": false,
       "created": "2026-02-25",
       "probability": 0.2,
-      "weighted": 20000
+      "weighted": 20000,
+      "days_in_stage": 27
     },
     {
       "id": "56709458018",
@@ -1056,7 +1109,8 @@
       "is_lost": false,
       "created": "2026-02-21",
       "probability": 0.3,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 12
     },
     {
       "id": "57307664184",
@@ -1072,7 +1126,8 @@
       "is_lost": false,
       "created": "2026-03-01",
       "probability": 0.3,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 12
     },
     {
       "id": "55815007273",
@@ -1088,7 +1143,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.4,
-      "weighted": 40000
+      "weighted": 40000,
+      "days_in_stage": 27
     },
     {
       "id": "56779169289",
@@ -1104,7 +1160,8 @@
       "is_lost": false,
       "created": "2026-02-21",
       "probability": 0.3,
-      "weighted": 24000
+      "weighted": 24000,
+      "days_in_stage": 13
     },
     {
       "id": "56443274106",
@@ -1120,7 +1177,8 @@
       "is_lost": false,
       "created": "2026-02-17",
       "probability": 0.2,
-      "weighted": 12000
+      "weighted": 12000,
+      "days_in_stage": 28
     },
     {
       "id": "55475202879",
@@ -1136,7 +1194,8 @@
       "is_lost": false,
       "created": "2026-02-04",
       "probability": 0.3,
-      "weighted": 18000
+      "weighted": 18000,
+      "days_in_stage": 48
     },
     {
       "id": "52036286898",
@@ -1152,7 +1211,8 @@
       "is_lost": false,
       "created": "2025-12-18",
       "probability": 0.5,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 26
     },
     {
       "id": "58208758200",
@@ -1168,7 +1228,8 @@
       "is_lost": false,
       "created": "2026-03-21",
       "probability": 0.5,
-      "weighted": 30000
+      "weighted": 30000,
+      "days_in_stage": 3
     },
     {
       "id": "50570588327",
@@ -1184,7 +1245,8 @@
       "is_lost": false,
       "created": "2025-11-29",
       "probability": 0.9,
-      "weighted": 36000
+      "weighted": 36000,
+      "days_in_stage": 38
     },
     {
       "id": "48987699068",
@@ -1200,7 +1262,8 @@
       "is_lost": false,
       "created": "2025-11-13",
       "probability": 0.4,
-      "weighted": 14400
+      "weighted": 14400,
+      "days_in_stage": 31
     },
     {
       "id": "57980039308",
@@ -1216,7 +1279,8 @@
       "is_lost": false,
       "created": "2026-03-13",
       "probability": 0.4,
-      "weighted": 14000
+      "weighted": 14000,
+      "days_in_stage": 1
     },
     {
       "id": "55035054858",
@@ -1232,7 +1296,8 @@
       "is_lost": false,
       "created": "2026-01-30",
       "probability": 0.5,
-      "weighted": 15000
+      "weighted": 15000,
+      "days_in_stage": 38
     },
     {
       "id": "55759055692",
@@ -1248,7 +1313,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.4,
-      "weighted": 12000
+      "weighted": 12000,
+      "days_in_stage": 3
     },
     {
       "id": "53696141436",
@@ -1264,7 +1330,8 @@
       "is_lost": false,
       "created": "2026-01-13",
       "probability": 0.4,
-      "weighted": 12000
+      "weighted": 12000,
+      "days_in_stage": 3
     },
     {
       "id": "41659534658",
@@ -1280,7 +1347,8 @@
       "is_lost": false,
       "created": "2025-08-11",
       "probability": 0.3,
-      "weighted": 6000
+      "weighted": 6000,
+      "days_in_stage": 217
     },
     {
       "id": "36892997717",
@@ -1296,7 +1364,8 @@
       "is_lost": false,
       "created": "2025-05-07",
       "probability": 0.4,
-      "weighted": 4000
+      "weighted": 4000,
+      "days_in_stage": 156
     },
     {
       "id": "58136146944",
@@ -1312,7 +1381,8 @@
       "is_lost": false,
       "created": "2026-03-20",
       "probability": 0.5,
-      "weighted": 5000
+      "weighted": 5000,
+      "days_in_stage": 4
     },
     {
       "id": "36810648424",
@@ -1328,7 +1398,8 @@
       "is_lost": false,
       "created": "2025-05-06",
       "probability": 0.2,
-      "weighted": 2000
+      "weighted": 2000,
+      "days_in_stage": 286
     },
     {
       "id": "51015849837",
@@ -1344,7 +1415,8 @@
       "is_lost": false,
       "created": "2025-12-02",
       "probability": 0.5,
-      "weighted": 5000
+      "weighted": 5000,
+      "days_in_stage": 35
     },
     {
       "id": "57939091292",
@@ -1360,7 +1432,8 @@
       "is_lost": false,
       "created": "2026-03-11",
       "probability": 0.4,
-      "weighted": 4000
+      "weighted": 4000,
+      "days_in_stage": 1
     },
     {
       "id": "57856088459",
@@ -1376,7 +1449,8 @@
       "is_lost": false,
       "created": "2026-03-10",
       "probability": 0.4,
-      "weighted": 4000
+      "weighted": 4000,
+      "days_in_stage": 1
     },
     {
       "id": "53368982872",
@@ -1392,7 +1466,8 @@
       "is_lost": false,
       "created": "2026-01-07",
       "probability": 0.5,
-      "weighted": 4000
+      "weighted": 4000,
+      "days_in_stage": 35
     },
     {
       "id": "57030460597",
@@ -1408,7 +1483,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.5,
-      "weighted": 4000
+      "weighted": 4000,
+      "days_in_stage": 26
     },
     {
       "id": "57668934925",
@@ -1424,7 +1500,8 @@
       "is_lost": false,
       "created": "2026-03-06",
       "probability": 0.5,
-      "weighted": 6000
+      "weighted": 6000,
+      "days_in_stage": 18
     },
     {
       "id": "41559860239",
@@ -1440,7 +1517,8 @@
       "is_lost": false,
       "created": "2025-08-07",
       "probability": 0.3,
-      "weighted": 4500
+      "weighted": 4500,
+      "days_in_stage": 56
     },
     {
       "id": "57200931423",
@@ -1456,7 +1534,8 @@
       "is_lost": false,
       "created": "2026-03-01",
       "probability": 0.1,
-      "weighted": 900
+      "weighted": 900,
+      "days_in_stage": 23
     },
     {
       "id": "42368524416",
@@ -1472,7 +1551,8 @@
       "is_lost": false,
       "created": "2025-08-18",
       "probability": 0.3,
-      "weighted": 2700
+      "weighted": 2700,
+      "days_in_stage": 218
     },
     {
       "id": "57093691294",
@@ -1488,7 +1568,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.3,
-      "weighted": 1800
+      "weighted": 1800,
+      "days_in_stage": 17
     },
     {
       "id": "37269955351",
@@ -1504,7 +1585,8 @@
       "is_lost": false,
       "created": "2025-05-15",
       "probability": 0.2,
-      "weighted": 1000
+      "weighted": 1000,
+      "days_in_stage": 55
     },
     {
       "id": "46761119621",
@@ -1520,7 +1602,8 @@
       "is_lost": false,
       "created": "2025-10-23",
       "probability": 0.3,
-      "weighted": 1500
+      "weighted": 1500,
+      "days_in_stage": 152
     },
     {
       "id": "57747001760",
@@ -1536,7 +1619,8 @@
       "is_lost": false,
       "created": "2026-03-07",
       "probability": 0.3,
-      "weighted": 1500
+      "weighted": 1500,
+      "days_in_stage": 13
     },
     {
       "id": "57941134495",
@@ -1552,7 +1636,8 @@
       "is_lost": false,
       "created": "2026-03-11",
       "probability": 0.4,
-      "weighted": 2000
+      "weighted": 2000,
+      "days_in_stage": 1
     },
     {
       "id": "52994235018",
@@ -1568,7 +1653,8 @@
       "is_lost": false,
       "created": "2026-01-02",
       "probability": 0.3,
-      "weighted": 1500
+      "weighted": 1500,
+      "days_in_stage": 81
     },
     {
       "id": "57539500982",
@@ -1584,7 +1670,8 @@
       "is_lost": false,
       "created": "2026-03-05",
       "probability": 0.3,
-      "weighted": 1500
+      "weighted": 1500,
+      "days_in_stage": 19
     },
     {
       "id": "57610388048",
@@ -1600,7 +1687,8 @@
       "is_lost": false,
       "created": "2026-03-05",
       "probability": 0.2,
-      "weighted": 1000
+      "weighted": 1000,
+      "days_in_stage": 19
     },
     {
       "id": "49531030832",
@@ -1616,7 +1704,8 @@
       "is_lost": false,
       "created": "2025-11-18",
       "probability": 0.2,
-      "weighted": 800
+      "weighted": 800,
+      "days_in_stage": 117
     },
     {
       "id": "57177906715",
@@ -1632,7 +1721,8 @@
       "is_lost": false,
       "created": "2026-02-27",
       "probability": 0.5,
-      "weighted": 2000
+      "weighted": 2000,
+      "days_in_stage": 25
     },
     {
       "id": "40683201026",
@@ -1648,7 +1738,8 @@
       "is_lost": false,
       "created": "2025-07-23",
       "probability": 0.5,
-      "weighted": 2150
+      "weighted": 2150,
+      "days_in_stage": 35
     },
     {
       "id": "42911744548",
@@ -1664,7 +1755,8 @@
       "is_lost": false,
       "created": "2025-08-26",
       "probability": 0.3,
-      "weighted": 1224
+      "weighted": 1224,
+      "days_in_stage": 156
     },
     {
       "id": "54956567734",
@@ -1680,7 +1772,8 @@
       "is_lost": false,
       "created": "2026-01-29",
       "probability": 0.5,
-      "weighted": 2250
+      "weighted": 2250,
+      "days_in_stage": 54
     },
     {
       "id": "55688254517",
@@ -1696,7 +1789,8 @@
       "is_lost": false,
       "created": "2026-02-09",
       "probability": 0.2,
-      "weighted": 900
+      "weighted": 900,
+      "days_in_stage": 43
     },
     {
       "id": "56896809544",
@@ -1712,7 +1806,8 @@
       "is_lost": false,
       "created": "2026-02-23",
       "probability": 0.3,
-      "weighted": 1161
+      "weighted": 1161,
+      "days_in_stage": 1
     },
     {
       "id": "47416028811",
@@ -1728,7 +1823,8 @@
       "is_lost": false,
       "created": "2025-10-28",
       "probability": 0.3,
-      "weighted": 864
+      "weighted": 864,
+      "days_in_stage": 147
     },
     {
       "id": "57093756931",
@@ -1744,7 +1840,8 @@
       "is_lost": false,
       "created": "2026-02-26",
       "probability": 0.5,
-      "weighted": 1000
+      "weighted": 1000,
+      "days_in_stage": 12
     },
     {
       "id": "47814374518",
@@ -1760,7 +1857,8 @@
       "is_lost": false,
       "created": "2025-10-30",
       "probability": 0.3,
-      "weighted": 540
+      "weighted": 540,
+      "days_in_stage": 144
     }
   ]
 }
