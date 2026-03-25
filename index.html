@@ -2500,7 +2500,7 @@ function SecEvolucion({
   deals,
   weekAgoSnap
 }) {
-  const [period, setPeriod] = useState("wow"); // "wow" | "mom"
+  const [period, setPeriod] = useState("wow"); // "wow" | "mom" | "mtd"
 
   const active = deals.filter(isActiveDeal);
   const byC = {};
@@ -2527,7 +2527,7 @@ function SecEvolucion({
   const moS = mo();
   const pS = prevMoStart(),
     pE = prevMoEnd();
-  const [curS, curE, prevS, prevE, periodLabel, periodLabelPrev] = period === "wow" ? [wkS, today, lastWkS, lastWkE, "Esta semana", "Semana pasada"] : [moS, today, pS, pE, "Este mes (Marzo)", PREV_MONTH_LABEL];
+  const [curS, curE, prevS, prevE, periodLabel, periodLabelPrev] = period === "wow" ? [wkS, today, lastWkS, lastWkE, "Esta semana", "Semana pasada"] : period === "mtd" ? [moS, today, pS, pE, "MTD (Marzo)", "Febrero completo"] : [moS, today, pS, pE, "Este mes (Marzo)", PREV_MONTH_LABEL];
 
   // ── Exec stats calculator ─────────────────────────────────────
   function execStats(owner, start, end) {
@@ -2605,7 +2605,7 @@ function SecEvolucion({
       display: "flex",
       gap: 8
     }
-  }, [["wow", "📅 Semana (WoW)"], ["mom", `📅 Mes (MoM)`]].map(([v, l]) => /*#__PURE__*/React.createElement("button", {
+  }, [["wow", "📅 Semana (WoW)"], ["mtd", "📅 MTD vs Mes Ant."], ["mom", `📅 Mes completo (MoM)`]].map(([v, l]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setPeriod(v),
     style: {
@@ -2828,7 +2828,7 @@ function SecEvolucion({
       marginTop: 16,
       fontFamily: "monospace"
     }
-  }, "Pipeline WoW aparece luego de 7 d\xEDas de snapshots autom\xE1ticos"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+  }, "Pipeline WoW aparece luego de 7 d\xEDas de snapshots autom\xE1ticos"))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
   }, "RESUMEN CONSOLIDADO \u2014 ", periodLabel.toUpperCase()), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2928,12 +2928,7 @@ function SecEvolucion({
         }
       }, k.isCurrency ? fmt(k.prev) : k.prev, " en ", periodLabelPrev.toLowerCase()));
     });
-  })())));
-}
-
-// ══════════════════════════════════════════════════════════════════════════
-// FUNNEL
-// ══════════════════════════════════════════════════════════════════════════React.createElement("div", {
+  })())), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 16
     }
@@ -3106,7 +3101,12 @@ function SecEvolucion({
         fontFamily: "monospace"
       }
     }, periodLabel, " vs ", periodLabelPrev, " \xB7 valores actuales arriba \xB7 \"ant.\" = per\xEDodo anterior")));
-  }))), /*#__PURE__*/
+  }))));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FUNNEL
+// ══════════════════════════════════════════════════════════════════════════
 function SecFunnel({
   deals
 }) {
@@ -4155,9 +4155,11 @@ function SecRankings({
   const active = deals.filter(isActiveDeal);
   const wkS = wk(),
     pS = prevMoStart(),
-    pE = prevMoEnd();
+    pE = prevMoEnd(),
+    moS = mo();
   const wonYtd = deals.filter(d => isWonDeal(d) && d.close_date >= YEAR_START);
   const wonPrevMo = deals.filter(d => isWonDeal(d) && wonDate(d) >= pS && wonDate(d) <= pE);
+  const wonMtd = deals.filter(d => isWonDeal(d) && wonDate(d) >= moS);
   const allOwners = [...new Set(deals.map(d => d.owner).filter(Boolean))];
   const map = {};
   allOwners.forEach(o => {
@@ -4169,6 +4171,8 @@ function SecRankings({
       wonYtdDeals: 0,
       wonPrevVal: 0,
       wonPrevDeals: 0,
+      wonMtdVal: 0,
+      wonMtdDeals: 0,
       propuestas: 0,
       preventa: 0,
       negoc: 0,
@@ -4206,7 +4210,15 @@ function SecRankings({
     m.wonPrevDeals++;
     if (d.country) m.countries.add(d.country);
   });
-  const tableVal = r => period === "ytd" ? r.wonYtdVal : r.wonPrevVal;
+  wonMtd.forEach(d => {
+    const m = map[d.owner || "?"];
+    if (!m) return;
+    m.wonMtdVal += d.amount || 0;
+    m.wonMtdDeals++;
+    if (d.country) m.countries.add(d.country);
+  });
+  const tableVal = r => period === "ytd" ? r.wonYtdVal : period === "mtd" ? r.wonMtdVal : r.wonPrevVal;
+  const tableDeals = r => period === "ytd" ? r.wonYtdDeals : period === "mtd" ? r.wonMtdDeals : r.wonPrevDeals;
   const rows = Object.values(map).sort((a, b) => tableVal(b) - tableVal(a));
   if (!rows.length) return /*#__PURE__*/React.createElement("p", {
     style: {
@@ -4220,10 +4232,11 @@ function SecRankings({
   const maxTV = Math.max(...rows.map(r => tableVal(r)), 1);
 
   // Awards — switch based on period
+  const isMtd = period === "mtd";
   const isYtd = period === "ytd";
-  const wonKey = isYtd ? "wonYtdVal" : "wonPrevVal";
-  const dealsKey = isYtd ? "wonYtdDeals" : "wonPrevDeals";
-  const periodLabel = isYtd ? "YTD 2026" : PREV_MONTH_LABEL;
+  const wonKey = isYtd ? "wonYtdVal" : isMtd ? "wonMtdVal" : "wonPrevVal";
+  const dealsKey = isYtd ? "wonYtdDeals" : isMtd ? "wonMtdDeals" : "wonPrevDeals";
+  const periodLabel = isYtd ? "YTD 2026" : isMtd ? "MTD Marzo" : PREV_MONTH_LABEL;
   const safeFrom = (arr, fn) => {
     const a = arr.filter(Boolean);
     return a.length ? a.reduce(fn) : rows[0];
@@ -4235,14 +4248,18 @@ function SecRankings({
   const topPipeYtd = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
   const topWonYtd = safeFrom(rows, (a, b) => b.wonYtdVal > a.wonYtdVal ? b : a);
   const topPrevYtd = safeFrom(rows, (a, b) => b.preventa > a.preventa ? b : a);
-  // -- Febrero awards (only among people who actually won in Feb)
-  const febWinners = rows.filter(r => r.wonPrevVal > 0);
-  const topBigFeb = safeFrom(febWinners, (a, b) => b.wonPrevVal > a.wonPrevVal ? b : a);
-  const topDealsFeb = safeFrom(febWinners, (a, b) => b.wonPrevDeals > a.wonPrevDeals ? b : a);
-  const topCierreFeb = safeFrom(rows, (a, b) => b.cierre > a.cierre ? b : a);
-  const topPipeFeb = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
-  const topWonFeb = safeFrom(febWinners, (a, b) => b.wonPrevVal > a.wonPrevVal ? b : a);
-  const topNegocFeb = safeFrom(rows, (a, b) => b.negoc > a.negoc ? b : a);
+  // -- Febrero / MTD awards
+  const curWonKey = isMtd ? "wonMtdVal" : "wonPrevVal";
+  const curWonDealsKey = isMtd ? "wonMtdDeals" : "wonPrevDeals";
+  const curWinners = rows.filter(r => r[curWonKey] > 0);
+  const topBigCur = safeFrom(curWinners, (a, b) => b[curWonKey] > a[curWonKey] ? b : a);
+  const topDealsCur = safeFrom(curWinners, (a, b) => b[curWonDealsKey] > a[curWonDealsKey] ? b : a);
+  const topCierreCur = safeFrom(rows, (a, b) => b.cierre > a.cierre ? b : a);
+  const topPipeCur = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
+  const topWonCur = safeFrom(curWinners, (a, b) => b[curWonKey] > a[curWonKey] ? b : a);
+  const topNegocCur = safeFrom(rows, (a, b) => b.negoc > a.negoc ? b : a);
+  const febWinners = curWinners; // alias for detail section
+
   const AWARDS = isYtd ? [{
     icon: "💰",
     title: "Deal más caro YTD",
@@ -4281,39 +4298,39 @@ function SecRankings({
     sub: "generando pipeline"
   }] : [{
     icon: "🏆",
-    title: `Mayor won ${PREV_MONTH_LABEL}`,
-    winner: febWinners.length ? topWonFeb.owner : "Sin datos",
-    stat: febWinners.length ? fmt(topWonFeb.wonPrevVal) : "—",
-    sub: febWinners.length ? `${topWonFeb.wonPrevDeals} deals` : "nadie ganó en Feb"
+    title: `Mayor won ${periodLabel}`,
+    winner: curWinners.length ? topWonCur.owner : "Sin datos",
+    stat: curWinners.length ? fmt(topWonCur[curWonKey]) : "—",
+    sub: curWinners.length ? `${topWonCur[curWonDealsKey]} deals` : ""
   }, {
     icon: "🎯",
-    title: `Más deals en ${PREV_MONTH_LABEL}`,
-    winner: febWinners.length ? topDealsFeb.owner : "Sin datos",
-    stat: febWinners.length ? `${topDealsFeb.wonPrevDeals} won` : "—",
-    sub: febWinners.length ? fmt(topDealsFeb.wonPrevVal) : ""
+    title: `Más deals ${periodLabel}`,
+    winner: curWinners.length ? topDealsCur.owner : "Sin datos",
+    stat: curWinners.length ? `${topDealsCur[curWonDealsKey]} won` : "—",
+    sub: curWinners.length ? fmt(topDealsCur[curWonKey]) : ""
   }, {
     icon: "💰",
-    title: `Deal más caro ${PREV_MONTH_LABEL}`,
-    winner: febWinners.length ? topBigFeb.owner : "Sin datos",
-    stat: febWinners.length ? fmt(topBigFeb.wonPrevVal) : "—",
-    sub: febWinners.length ? `${topBigFeb.wonPrevDeals} deals` : ""
+    title: `Deal más caro ${periodLabel}`,
+    winner: curWinners.length ? topBigCur.owner : "Sin datos",
+    stat: curWinners.length ? fmt(topBigCur[curWonKey]) : "—",
+    sub: ""
   }, {
     icon: "🚀",
     title: "Mayor pipeline activo",
-    winner: topPipeFeb.owner,
-    stat: fmt(topPipeFeb.pipeW),
-    sub: `${topPipeFeb.pipeDeals} deals`
+    winner: topPipeCur.owner,
+    stat: fmt(topPipeCur.pipeW),
+    sub: `${topPipeCur.pipeDeals} deals`
   }, {
     icon: "📝",
     title: "Más en cierre/contrato",
-    winner: topCierreFeb.cierre > 0 ? topCierreFeb.owner : "Sin datos",
-    stat: topCierreFeb.cierre > 0 ? `${topCierreFeb.cierre} deals` : "—",
+    winner: topCierreCur.cierre > 0 ? topCierreCur.owner : "Sin datos",
+    stat: topCierreCur.cierre > 0 ? `${topCierreCur.cierre} deals` : "—",
     sub: "etapa contrato/setup"
   }, {
     icon: "🤝",
     title: "Más en negociación",
-    winner: topNegocFeb.negoc > 0 ? topNegocFeb.owner : "Sin datos",
-    stat: topNegocFeb.negoc > 0 ? `${topNegocFeb.negoc} deals` : "—",
+    winner: topNegocCur.negoc > 0 ? topNegocCur.owner : "Sin datos",
+    stat: topNegocCur.negoc > 0 ? `${topNegocCur.negoc} deals` : "—",
     sub: "cerrando actualmente"
   }];
   return /*#__PURE__*/React.createElement("div", {
@@ -4327,7 +4344,7 @@ function SecRankings({
       display: "flex",
       gap: 8
     }
-  }, [["ytd", "📆 2026 YTD"], ["febrero", "📅 " + PREV_MONTH_LABEL]].map(([p, l]) => /*#__PURE__*/React.createElement("button", {
+  }, [["ytd", "📆 2026 YTD"], ["mtd", "📅 MTD (Marzo)"], ["febrero", "📅 " + PREV_MONTH_LABEL]].map(([p, l]) => /*#__PURE__*/React.createElement("button", {
     key: p,
     onClick: () => setPeriod(p),
     style: {
@@ -4381,7 +4398,7 @@ function SecRankings({
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
     }
-  }, a.sub)))), period === "febrero" && wonPrevMo.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, a.sub)))), (period === "febrero" || period === "mtd") && febWinners.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       borderRadius: 16,
       padding: 20,
@@ -4396,14 +4413,14 @@ function SecRankings({
     }
   }, /*#__PURE__*/React.createElement(Label, {
     color: "#818cf8"
-  }, "Won ", PREV_MONTH_LABEL, " \u2014 detalle completo"), /*#__PURE__*/React.createElement("span", {
+  }, "Won ", periodLabel, " \u2014 detalle completo"), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 16,
       fontWeight: 900,
       color: "#818cf8",
       fontFamily: "monospace"
     }
-  }, fmt(wonPrevMo.reduce((s, d) => s + (d.amount || 0), 0)))), wonPrevMo.sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
+  }, fmt((period === "mtd" ? wonMtd : wonPrevMo).reduce((s, d) => s + (d.amount || 0), 0)))), (period === "mtd" ? wonMtd : wonPrevMo).sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       display: "flex",
