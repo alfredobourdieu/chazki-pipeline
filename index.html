@@ -102,8 +102,9 @@ function normProb(raw) {
 }
 function getProb(deal) {
   const sl = (deal.stage_label || "").toLowerCase();
-  const won = deal.is_won || sl.includes("closedwon") || sl.includes("ganado") || sl.includes("piloto") || sl.includes("operando");
-  const lost = deal.is_lost || sl.includes("closedlost") || sl.includes("perdido");
+  // Business rule: Contrato (any variant) + Piloto + Operando = 100%
+  const won = deal.is_won || sl.includes("closedwon") || sl.includes("ganado") || sl.includes("won") || sl.includes("piloto") || sl.includes("operando") || sl.includes("contrato") || sl.includes("setup"); // catches "Contrato/Setup M&P" + "Etapa de Contrato"
+  const lost = deal.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost");
   if (won) return 1.0;
   if (lost) return 0.0;
 
@@ -159,7 +160,7 @@ function getProb(deal) {
 }
 function isWonDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
-  return d.is_won || sl.includes("closedwon") || sl.includes("ganado") || sl.includes("won") || sl.includes("piloto") || sl.includes("operando");
+  return d.is_won || sl.includes("closedwon") || sl.includes("ganado") || sl.includes("won") || sl.includes("piloto") || sl.includes("operando") || sl.includes("contrato") || sl.includes("setup"); // "Contrato/Setup M&P" + "Etapa de Contrato"
 }
 function isPilotoDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
@@ -170,7 +171,9 @@ function isLostDeal(d) {
   return d.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost");
 }
 function isContracted(d) {
-  return (d.stage_label || "").toLowerCase().includes("etapa de contrato");
+  const sl = (d.stage_label || "").toLowerCase();
+  // Catches: "Etapa de Contrato", "Contrato/Setup M&P", any contrato variant
+  return sl.includes("contrato") || sl.includes("setup");
 }
 function isActiveDeal(d) {
   return !isLostDeal(d) && (!isWonDeal(d) || isContracted(d) || isPilotoDeal(d));
@@ -1507,17 +1510,38 @@ function SecPulso({
 function SecProductividad({
   deals
 }) {
-  const [view, setView] = useState("semana");
+  const [view, setView] = useState("semana"); // semana | mtd | mes | ytd
   const active = deals.filter(isActiveDeal);
   const wkS = wk(),
     moS = mo();
   const pmS = prevMoStart(),
     pmE = prevMoEnd();
 
+  // ── Rango según período ───────────────────────────────────────────────
+  const periodRange = view === "semana" ? {
+    start: wkS,
+    end: new Date().toISOString().split("T")[0],
+    label: "Semana"
+  } : view === "mtd" ? {
+    start: moS,
+    end: new Date().toISOString().split("T")[0],
+    label: "MTD"
+  } : view === "mes" ? {
+    start: pmS,
+    end: pmE,
+    label: PREV_MONTH_LABEL
+  } : {
+    start: YEAR_START,
+    end: new Date().toISOString().split("T")[0],
+    label: "YTD"
+  };
+  const {
+    start: pStart,
+    end: pEnd
+  } = periodRange;
+
   // ── Sin owners fantasma ───────────────────────────────────────────────
   const allOwners = [...new Set(deals.map(d => d.owner).filter(o => o && !o.startsWith("Owner-")))].sort();
-
-  // ── Semanas transcurridas en 2026 para promedios ──────────────────────
   const weeksYtd = Math.max(1, Math.ceil((Date.now() - new Date(YEAR_START).getTime()) / (7 * 86400000)));
   const rows = allOwners.map(o => {
     const my = active.filter(d => d.owner === o);
@@ -1525,44 +1549,43 @@ function SecProductividad({
     const daysArr = my.filter(d => d.days_in_stage > 0).map(d => d.days_in_stage);
     const avgDays = daysArr.length ? Math.round(daysArr.reduce((a, b) => a + b, 0) / daysArr.length) : null;
 
-    // YTD acumulado
+    // Métricas del período seleccionado
+    const newP = deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= pStart && d.created <= pEnd).length;
+    const wonPDeals = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= pStart && wonDate(d) <= pEnd && wonDate(d) >= YEAR_START);
+    const wonPVal = wonPDeals.reduce((s, d) => s + (d.amount || 0), 0);
+    const propsP = deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.last_activity && d.last_activity >= pStart && d.last_activity <= pEnd).length;
+    const movP = my.filter(d => d.last_activity && d.last_activity >= pStart && d.last_activity <= pEnd).length;
+
+    // YTD para promedios
     const newYtd = deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= YEAR_START).length;
-    const wonYtdDeals = deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date >= YEAR_START).length;
-    const wonYtdVal = deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
-    // propuestas YTD: deals que entraron a propuesta en 2026
+    const wonYtdDeals = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).length;
+    const wonYtdVal = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
     const propsYtd = deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.created && d.created >= YEAR_START).length;
     return {
       owner: o,
       pipe: wFn(my),
       total: my.length,
-      preventa: bk(["prosp", "calific", "demo", "reuni"]),
+      preventa: bk(["prosp", "calific", "demo", "reuni", "preventa"]),
       propuesta: bk(["propuesta"]),
       negoc: bk(["negoc"]),
-      cierre: bk(["contrato", "setup", "firma", "cierre"]),
+      cierre: bk(["contrato", "setup", "piloto", "operando"]),
       avgDays,
-      // Weekly
-      newWk: deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= wkS).length,
-      movWk: my.filter(d => d.last_activity && d.last_activity >= wkS).length,
-      wonWk: deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date && d.close_date >= wkS && d.close_date >= YEAR_START).length,
-      wonWkVal: deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date && d.close_date >= wkS && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0),
-      propsWk: deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.last_activity && d.last_activity >= wkS).length,
-      // Prev month
-      newPm: deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= pmS && d.created <= pmE).length,
-      movPm: my.filter(d => d.last_activity && d.last_activity >= pmS && d.last_activity <= pmE).length,
-      wonPm: deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) >= pmS && wonDate(d) <= pmE).length,
-      wonPmVal: deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) >= pmS && wonDate(d) <= pmE).reduce((s, d) => s + (d.amount || 0), 0),
-      propsPm: deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.last_activity && d.last_activity >= pmS && d.last_activity <= pmE).length,
+      // Período
+      newP,
+      wonPDeals: wonPDeals.length,
+      wonPVal,
+      propsP,
+      movP,
       // YTD
       newYtd,
       wonYtdDeals,
       wonYtdVal,
       propsYtd,
-      // Promedios por semana (YTD)
       avgNewWk: (newYtd / weeksYtd).toFixed(1),
       avgPropsWk: (propsYtd / weeksYtd).toFixed(1),
       countries: [...new Set(my.map(d => d.country).filter(Boolean))]
     };
-  }).filter(r => !r.owner.startsWith("Owner-")).sort((a, b) => b.pipe - a.pipe);
+  }).filter(r => r.owner && !r.owner.startsWith("Owner-")).sort((a, b) => b.pipe - a.pipe);
   if (!rows.length) return /*#__PURE__*/React.createElement("p", {
     style: {
       color: DS.text3,
@@ -1572,12 +1595,44 @@ function SecProductividad({
   }, "Sin datos");
   const maxPipe = Math.max(...rows.map(r => r.pipe), 1);
   const maxDays = Math.max(...rows.map(r => r.avgDays || 0), 1);
-  const WCOLS = [{
+
+  // Columnas dinámicas según período
+  const periodCols = [{
     k: "pipe",
     h: "Pipeline",
     r: r => fmt(r.pipe),
     p: r => r.pipe / maxPipe,
     good: true
+  }, {
+    k: "newP",
+    h: `Nuevos`,
+    r: r => r.newP,
+    p: r => r.newP / Math.max(...rows.map(x => x.newP), 1),
+    good: true
+  }, {
+    k: "prP",
+    h: `Propuestas`,
+    r: r => r.propsP,
+    p: r => r.propsP / Math.max(...rows.map(x => x.propsP), 1),
+    good: true
+  }, {
+    k: "movP",
+    h: `Movidos`,
+    r: r => r.movP,
+    p: r => r.movP / Math.max(...rows.map(x => x.movP), 1),
+    good: true
+  }, {
+    k: "wonP",
+    h: `Won`,
+    r: r => r.wonPVal > 0 ? fmt(r.wonPVal) : r.wonPDeals || "—",
+    p: r => r.wonPDeals / Math.max(...rows.map(x => x.wonPDeals), 1),
+    good: true
+  }, {
+    k: "days",
+    h: "Días/etapa",
+    r: r => r.avgDays != null ? r.avgDays + "d" : "—",
+    p: r => r.avgDays != null ? r.avgDays / maxDays : null,
+    good: false
   }, {
     k: "prop",
     h: "Propuesta",
@@ -1585,86 +1640,19 @@ function SecProductividad({
     p: r => r.propuesta / Math.max(...rows.map(x => x.propuesta), 1),
     good: true
   }, {
-    k: "negoc",
+    k: "neg",
     h: "Negoc.",
     r: r => r.negoc,
     p: r => r.negoc / Math.max(...rows.map(x => x.negoc), 1),
     good: true
   }, {
     k: "cier",
-    h: "Cierre",
-    r: r => r.cierre,
-    p: r => r.cierre / Math.max(...rows.map(x => x.cierre), 1),
-    good: true
-  }, {
-    k: "nwk",
-    h: "Nuevos sem.",
-    r: r => r.newWk,
-    p: r => r.newWk / Math.max(...rows.map(x => x.newWk), 1),
-    good: true
-  }, {
-    k: "pwk",
-    h: "Props. sem.",
-    r: r => r.propsWk,
-    p: r => r.propsWk / Math.max(...rows.map(x => x.propsWk), 1),
-    good: true
-  }, {
-    k: "wwk",
-    h: "Won sem.",
-    r: r => r.wonWkVal > 0 ? fmt(r.wonWkVal) : r.wonWk || "—",
-    p: r => r.wonWk / Math.max(...rows.map(x => x.wonWk), 1),
-    good: true
-  }, {
-    k: "days",
-    h: "Días/etapa",
-    r: r => r.avgDays != null ? r.avgDays + "d" : "—",
-    p: r => r.avgDays != null ? r.avgDays / maxDays : null,
-    good: false
-  }];
-  const PMCOLS = [{
-    k: "pipe",
-    h: "Pipeline",
-    r: r => fmt(r.pipe),
-    p: r => r.pipe / maxPipe,
-    good: true
-  }, {
-    k: "npm",
-    h: "Nuevos " + PREV_MONTH_LABEL,
-    r: r => r.newPm,
-    p: r => r.newPm / Math.max(...rows.map(x => x.newPm), 1),
-    good: true
-  }, {
-    k: "ppm",
-    h: "Props. " + PREV_MONTH_LABEL,
-    r: r => r.propsPm,
-    p: r => r.propsPm / Math.max(...rows.map(x => x.propsPm), 1),
-    good: true
-  }, {
-    k: "mpm",
-    h: "Movidos " + PREV_MONTH_LABEL,
-    r: r => r.movPm,
-    p: r => r.movPm / Math.max(...rows.map(x => x.movPm), 1),
-    good: true
-  }, {
-    k: "wpm",
-    h: "Won " + PREV_MONTH_LABEL,
-    r: r => r.wonPmVal > 0 ? fmt(r.wonPmVal) : r.wonPm || "—",
-    p: r => r.wonPm / Math.max(...rows.map(x => x.wonPm), 1),
-    good: true
-  }, {
-    k: "days",
-    h: "Días/etapa",
-    r: r => r.avgDays != null ? r.avgDays + "d" : "—",
-    p: r => r.avgDays != null ? r.avgDays / maxDays : null,
-    good: false
-  }, {
-    k: "cier",
-    h: "En cierre",
+    h: "Cierre/Op.",
     r: r => r.cierre,
     p: r => r.cierre / Math.max(...rows.map(x => x.cierre), 1),
     good: true
   }];
-  const YTDCOLS = [{
+  const ytdCols = [{
     k: "pipe",
     h: "Pipeline",
     r: r => fmt(r.pipe),
@@ -1695,7 +1683,7 @@ function SecProductividad({
     p: r => parseFloat(r.avgNewWk) / Math.max(...rows.map(x => parseFloat(x.avgNewWk)), 1),
     good: true
   }, {
-    k: "avgProps",
+    k: "avgProp",
     h: "Prom. props/sem",
     r: r => r.avgPropsWk,
     p: r => parseFloat(r.avgPropsWk) / Math.max(...rows.map(x => parseFloat(x.avgPropsWk)), 1),
@@ -1707,18 +1695,17 @@ function SecProductividad({
     p: r => r.avgDays != null ? r.avgDays / maxDays : null,
     good: false
   }];
-  const cols = view === "semana" ? WCOLS : view === "mes" ? PMCOLS : YTDCOLS;
+  const cols = view === "ytd" ? ytdCols : periodCols;
   function cellBg(pct, good) {
     if (pct == null || pct === undefined) return DS.bgSection;
-    const g = good;
-    if (g) {
-      if (pct > 0.66) return `rgba(0,184,107,${0.1 + pct * 0.25})`;
-      if (pct > 0.33) return `rgba(217,119,6,${0.1 + pct * 0.2})`;
-      return `rgba(220,38,38,${0.06 + pct * 0.12})`;
+    if (good) {
+      if (pct > 0.66) return `rgba(16,185,129,${0.1 + pct * 0.22})`;
+      if (pct > 0.33) return `rgba(245,158,11,${0.1 + pct * 0.18})`;
+      return `rgba(244,63,94,${0.06 + pct * 0.1})`;
     } else {
-      if (pct < 0.33) return "rgba(0,184,107,0.25)";
-      if (pct < 0.66) return "rgba(217,119,6,0.2)";
-      return `rgba(220,38,38,${0.12 + pct * 0.2})`;
+      if (pct < 0.33) return "rgba(16,185,129,0.25)";
+      if (pct < 0.66) return "rgba(245,158,11,0.2)";
+      return `rgba(244,63,94,${0.1 + pct * 0.18})`;
     }
   }
   return /*#__PURE__*/React.createElement("div", {
@@ -1739,12 +1726,12 @@ function SecProductividad({
       color: DS.text3,
       fontWeight: 600
     }
-  }, "Vista:"), [["semana", "📅 Semana"], ["mes", `📅 ${PREV_MONTH_LABEL}`], ["ytd", "🏆 YTD 2026"]].map(([v, l]) => /*#__PURE__*/React.createElement("button", {
+  }, "Vista:"), [["semana", "📅 Semana"], ["mtd", "📊 MTD"], ["mes", `📅 ${PREV_MONTH_LABEL}`], ["ytd", "🏆 YTD"]].map(([v, l]) => /*#__PURE__*/React.createElement("button", {
     key: v,
     onClick: () => setView(v),
     style: {
       padding: "5px 12px",
-      fontSize: 12,
+      fontSize: 11,
       borderRadius: 20,
       cursor: "pointer",
       background: view === v ? DS.accent : "transparent",
@@ -1758,7 +1745,7 @@ function SecProductividad({
       color: DS.text4,
       marginLeft: 4
     }
-  }, "\xB7 Prom. calculado sobre ", weeksYtd, " semanas YTD")), /*#__PURE__*/React.createElement("div", {
+  }, "\xB7 ", weeksYtd, " sem. YTD")), /*#__PURE__*/React.createElement("div", {
     style: {
       overflowX: "auto"
     }
@@ -1855,7 +1842,7 @@ function SecProductividad({
       paddingTop: 10,
       borderTop: `1px solid ${DS.border}`
     }
-  }, [["rgba(0,184,107,0.35)", "Alto"], ["rgba(217,119,6,0.3)", "Medio"], ["rgba(220,38,38,0.25)", "Bajo"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
+  }, [["rgba(16,185,129,0.35)", "Alto"], ["rgba(245,158,11,0.3)", "Medio"], ["rgba(244,63,94,0.25)", "Bajo"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
     key: l,
     style: {
       display: "flex",
