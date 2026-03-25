@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-25T23:26:44.888Z",
-  "updated_at_art": "25/03/2026, 08:26 p. m.",
+  "updated_at": "2026-03-25T23:41:37.128Z",
+  "updated_at_art": "25/03/2026, 08:41 p. m.",
   "snapshot": {
-    "ts": 1774481204888,
+    "ts": 1774482097128,
     "w": 6721242,
     "byC": {
       "Argentina": 1567600,
@@ -13,14 +13,14 @@
     }
   },
   "prev_week": {
-    "ts": 1774411283593,
-    "w": 6589242,
+    "ts": 1774481204888,
+    "w": 6721242,
     "byC": {
       "Argentina": 1567600,
-      "México": 1372413,
-      "Chile": 997461,
-      "Perú": 1682648,
-      "Colombia": 969120
+      "México": 1379913,
+      "Chile": 1004961,
+      "Perú": 1710648,
+      "Colombia": 1058120
     }
   },
   "deals": [
@@ -260,7 +260,7 @@
       "created": "2025-06-18",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 70
+      "days_in_stage": 71
     },
     {
       "id": "40397291323",
@@ -651,7 +651,7 @@
       "created": "2025-10-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 98
+      "days_in_stage": 99
     },
     {
       "id": "50563622674",
@@ -991,7 +991,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 70
+      "days_in_stage": 71
     },
     {
       "id": "51515362912",
@@ -1535,7 +1535,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 70
+      "days_in_stage": 71
     },
     {
       "id": "34355418939",
@@ -3371,7 +3371,7 @@
       "created": "2024-05-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 115
+      "days_in_stage": 116
     },
     {
       "id": "28939936580",
@@ -4170,7 +4170,7 @@
       "created": "2025-07-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 217
+      "days_in_stage": 218
     },
     {
       "id": "42656865625",
@@ -5955,7 +5955,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 70
+      "days_in_stage": 71
     },
     {
       "id": "35367266390",
@@ -6499,7 +6499,7 @@
       "created": "2024-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 115
+      "days_in_stage": 116
     },
     {
       "id": "21784385893",
@@ -9236,7 +9236,7 @@
       "created": "2025-12-16",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 98
+      "days_in_stage": 99
     },
     {
       "id": "52918547012",
@@ -10698,7 +10698,7 @@
       "created": "2026-02-23",
       "probability": 0.2,
       "weighted": 30,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "57820032904",
