@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chazki · Pipeline Intelligence 2026</title>
-  <style>* { box-sizing: border-box; } body { margin: 0; background: #f0f4f8; }</style>
+  <style>* { box-sizing: border-box; } body{margin:0;background:#0d1117;}</style>
 </head>
 <body>
   <div id="root"></div>
@@ -155,11 +155,8 @@ function getProb(deal) {
   if (sl.includes("calific")) return 0.1;
   return 0.1;
 }
-function isWonDeal(d) {
-  const sl = (d.stage_label || "").toLowerCase();
-  return d.is_won || sl.includes("closedwon") || sl.includes("ganado") || sl.includes("won");
-}
-function isLostDeal(d) {
+function isWonDeal(d){const sl=(d.stage_label||"").toLowerCase();return d.is_won||sl.includes("closedwon")||sl.includes("ganado")||sl.includes("won")||sl.includes("piloto")||sl.includes("operando");}
+function isPilotoDeal(d){const sl=(d.stage_label||"").toLowerCase();return sl.includes("piloto")||sl.includes("operando");}function isLostDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
   return d.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost");
 }
@@ -289,8 +286,8 @@ const DS = {
   // Backgrounds
   bg: "#f0f4f8",
   bgCard: "#ffffff",
-  bgCardHover: "#f8fafc",
-  bgSection: "#f8fafc",
+  bgCardHover: "rgba(255,255,255,0.04)",
+  bgSection: "rgba(255,255,255,0.04)",
   // Borders
   border: "#e2e8f0",
   borderAccent: "#cbd5e1",
@@ -753,7 +750,7 @@ function SecPulso({
     style: {
       borderRadius: 12,
       padding: 16,
-      background: a.count ? a.bg : "#f8fafc",
+      background: a.count ? a.bg : "rgba(255,255,255,0.04)",
       border: `1px solid ${a.count ? a.color + "40" : DS.border}`,
       display: "flex",
       gap: 16,
@@ -4965,7 +4962,7 @@ function Dashboard() {
       position: "relative",
       transition: "background 0.15s"
     },
-    onMouseEnter: e => e.currentTarget.style.background = "#f8fafc",
+    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,0.04)",
     onMouseLeave: e => e.currentTarget.style.background = "transparent"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
