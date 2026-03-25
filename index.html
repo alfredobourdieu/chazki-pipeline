@@ -6,7 +6,7 @@
   <title>Chazki · Pipeline Intelligence 2026</title>
   <style>* { box-sizing: border-box; } body { margin: 0; background: #ecf5ef; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="root"></div>
@@ -293,52 +293,52 @@ async function fetchDeals(setStatus) {
 // ── DESIGN SYSTEM — Midnight Intelligence (Dark Slate, Punchy) ─────────────
 const DS = {
   // Backgrounds — dark slate, NOT pure black
-  bg: "#ecf5ef",
+  bg: "#0d1117",
   // GitHub dark — deep but not black
-  bgCard: "#ffffff",
+  bgCard: "#161b22",
   // elevated card surface
-  bgCardHover: "#f4fbf7",
-  bgSection: "#f4fbf7",
+  bgCardHover: "#1c2230",
+  bgSection: "#0f1419",
   // slightly off bg for sections
-  bgInput: "#e8f4ed",
+  bgInput: "#21262d",
   // inputs / filters
   // Borders
-  border: "#c8e3d0",
-  borderAccent: "#9ecfad",
-  borderGlow: "rgba(0,184,107,0.35)",
+  border: "rgba(48,54,61,0.9)",
+  borderAccent: "rgba(99,110,123,0.6)",
+  borderGlow: "rgba(59,130,246,0.35)",
   // Text
-  text1: "#0d2218",
+  text1: "#e6edf3",
   // primary — warm white
-  text2: "#2a5c3a",
+  text2: "#8b949e",
   // secondary
-  text3: "#4d8a60",
+  text3: "#6e7681",
   // tertiary
-  text4: "#7ab88a",
+  text4: "#484f58",
   // muted
   // Brand palette — vivid, punchy
-  accent: "#008a50",
+  accent: "#3b82f6",
   // blue-500
-  accentLight: "rgba(0,138,80,0.1)",
-  emerald: "#00b86b",
+  accentLight: "rgba(59,130,246,0.12)",
+  emerald: "#10b981",
   // emerald-500
-  emeraldLight: "rgba(0,184,107,0.1)",
-  red: "#dc2626",
+  emeraldLight: "rgba(16,185,129,0.12)",
+  red: "#f43f5e",
   // rose-500
-  redLight: "rgba(220,38,38,0.08)",
-  amber: "#d97706",
+  redLight: "rgba(244,63,94,0.12)",
+  amber: "#f59e0b",
   // amber-500
-  amberLight: "rgba(217,119,6,0.1)",
-  cyan: "#0891b2",
+  amberLight: "rgba(245,158,11,0.12)",
+  cyan: "#22d3ee",
   // cyan-400
-  cyanLight: "rgba(8,145,178,0.1)",
-  purple: "#7c3aed",
+  cyanLight: "rgba(34,211,238,0.12)",
+  purple: "#a78bfa",
   // violet-400
-  purpleLight: "rgba(124,58,237,0.08)",
+  purpleLight: "rgba(167,139,250,0.12)",
   indigo: "#6366f1",
   // Shadows
   shadow: "0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3)",
-  shadowMd: "0 4px 12px rgba(0,80,40,0.1)",
-  shadowLg: "0 8px 24px rgba(0,80,40,0.12)",
+  shadowMd: "0 4px 12px rgba(0,0,0,0.5)",
+  shadowLg: "0 8px 24px rgba(0,0,0,0.6)",
   shadowGlow: c => `0 0 20px ${c}30`
 };
 function Card({
@@ -583,7 +583,7 @@ const TABS = [{
 }];
 
 // ══════════════════════════════════════════════════════════════════════════
-// PULSO
+// PULSO — Tablero de Comando Ejecutivo
 // ══════════════════════════════════════════════════════════════════════════
 function SecPulso({
   deals
@@ -592,239 +592,223 @@ function SecPulso({
     moS = mo(),
     pS = prevMoStart(),
     pE = prevMoEnd();
-  const active = deals.filter(isActiveDeal);
-  const pipeW = wFn(active);
-  const wonWk = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
-  const wonMo = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= moS);
-  const wonPrev = deals.filter(d => isWonDeal(d) && wonDate(d) >= pS && wonDate(d) <= pE);
-  const newWk = deals.filter(d => !isLostDeal(d) && d.created && d.created >= wkS);
-  const movedWk = active.filter(d => d.last_activity && d.last_activity >= wkS);
   const today = new Date().toISOString().split("T")[0];
-  const overdue = active.filter(d => d.close_date && d.close_date < today);
   const zombieCut = new Date(Date.now() - ZOMBIE_DAYS * 86400000).toISOString().split("T")[0];
+  const STALE_DAYS = 14; // sin actividad → amarillo
+  const staleCut = new Date(Date.now() - STALE_DAYS * 86400000).toISOString().split("T")[0];
+  const BIG_DEAL = 50000; // threshold estratégico
+
+  // ── Segmentación de deals ──────────────────────────────────────────────
+  // En Operación = Contrato + Piloto + Operando (facturando)
+  const enOp = deals.filter(d => isContracted(d) || isPilotoDeal(d));
+  // Pipeline activo = active excluyendo en-operación
+  const active = deals.filter(d => isActiveDeal(d) && !isContracted(d) && !isPilotoDeal(d));
+  const pipeW = wFn(active);
+  // Won "real" = CW + Piloto + Contrato + Operando
+  const wonYtd = deals.filter(d => isWonDeal(d) && d.close_date >= YEAR_START);
+  const wonYtdVal = wonYtd.reduce((s, d) => s + (d.amount || 0), 0) + enOp.reduce((s, d) => s + (d.amount || 0), 0);
+  // Cobertura
+  const covPct = Math.round(pipeW / TOTAL_TARGET * 100);
+  // Alertas
+  const overdue = active.filter(d => d.close_date && d.close_date < today);
   const zombies = active.filter(d => !d.last_activity || d.last_activity < zombieCut);
-  const owners = [...new Set(deals.map(d => d.owner).filter(Boolean))].sort();
-  function DealLine({
+  const stale = active.filter(d => d.last_activity && d.last_activity < staleCut && d.last_activity >= zombieCut);
+  const bigRisk = active.filter(d => (d.amount || 0) >= BIG_DEAL && (!d.last_activity || d.last_activity < staleCut));
+  // Esta semana
+  const newWk = deals.filter(d => !isLostDeal(d) && d.created && d.created >= wkS);
+  const wonWk = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
+  const wonWkVal = wonWk.reduce((s, d) => s + (d.amount || 0), 0);
+  // Owners (sin nombres fantasma)
+  const owners = [...new Set(deals.map(d => d.owner).filter(o => o && !o.startsWith("Owner-")))].sort();
+  const avatarColors = ["#008a50", "#7c3aed", "#0891b2", "#d97706", "#dc2626", "#059669", "#8b5cf6"];
+
+  // ── Sub-componentes ────────────────────────────────────────────────────
+  function DealRow({
     d,
-    accent,
-    label
+    accent
   }) {
-    const stageColor = (d.stage_label || "").toLowerCase().includes("contrato") ? DS.emerald : (d.stage_label || "").toLowerCase().includes("negoc") ? DS.amber : (d.stage_label || "").toLowerCase().includes("propuesta") ? DS.accent : DS.text3;
+    const sl = (d.stage_label || "").toLowerCase();
+    const sc = sl.includes("contrato") || sl.includes("piloto") || sl.includes("operando") ? DS.emerald : sl.includes("negoc") ? DS.amber : sl.includes("propuesta") ? DS.accent : DS.text3;
+    const daysAgo = d.last_activity ? ago(d.last_activity) : null;
+    const isStale = daysAgo != null && daysAgo >= STALE_DAYS && daysAgo < ZOMBIE_DAYS;
+    const isZombie = !d.last_activity || ago(d.last_activity) >= ZOMBIE_DAYS;
+    const statusDot = isZombie ? "🔴" : isStale ? "🟡" : "🟢";
     return /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        gap: 10,
         padding: "8px 12px",
         borderRadius: 8,
         background: DS.bgSection,
-        marginBottom: 4
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        minWidth: 0,
-        flex: 1
+        marginBottom: 3
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 16
+        fontSize: 14
       }
     }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("div", {
       style: {
+        flex: 1,
         minWidth: 0
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 13,
-        color: DS.text1,
-        fontFamily: "'DM Sans',sans-serif",
         fontWeight: 500,
+        color: DS.text1,
         overflow: "hidden",
         textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        maxWidth: 220
+        whiteSpace: "nowrap"
       }
     }, d.name), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
-        alignItems: "center",
         gap: 6,
+        alignItems: "center",
         marginTop: 2
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 11,
-        color: stageColor,
-        fontWeight: 600,
-        fontFamily: "'DM Sans',sans-serif"
+        color: sc,
+        fontWeight: 600
       }
-    }, d.stage_label), label && /*#__PURE__*/React.createElement("span", {
+    }, d.stage_label), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 11,
-        color: DS.text4,
-        fontFamily: "'DM Sans',sans-serif"
+        fontSize: 10,
+        color: DS.text4
       }
-    }, "\xB7 ", label)))), /*#__PURE__*/React.createElement("div", {
+    }, statusDot, " ", daysAgo != null ? `${daysAgo}d sin act.` : "sin registro"))), /*#__PURE__*/React.createElement("div", {
       style: {
-        flexShrink: 0,
-        marginLeft: 12,
-        textAlign: "right"
+        textAlign: "right",
+        flexShrink: 0
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 13,
+        fontWeight: 700,
         color: accent || DS.accent,
-        fontFamily: "'DM Sans',sans-serif",
-        fontWeight: 700
+        fontFamily: "'DM Mono',monospace"
       }
     }, fmt((d.amount || 0) * getProb(d))), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 11,
+        fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Sans',sans-serif"
+        fontFamily: "'DM Mono',monospace"
       }
-    }, fmt(d.amount), " bruto")));
+    }, fmt(d.amount))));
   }
-
-  // Top-5 collapsible list
-  function DealList({
-    deals: list,
+  function ExpandList({
+    list,
     accent,
-    labelFn,
+    limit = 5,
     emptyMsg = "Sin deals"
   }) {
-    const [expanded, setExpanded] = useState(false);
-    const shown = expanded ? list : list.slice(0, 5);
+    const [open, setOpen] = useState(false);
+    const shown = open ? list : list.slice(0, limit);
     if (!list.length) return /*#__PURE__*/React.createElement("p", {
       style: {
         fontSize: 12,
         color: DS.text4,
-        fontFamily: "'DM Sans',sans-serif",
         padding: "8px 0"
       }
     }, emptyMsg);
-    return /*#__PURE__*/React.createElement("div", null, shown.map((d, i) => /*#__PURE__*/React.createElement(DealLine, {
+    return /*#__PURE__*/React.createElement("div", null, shown.map((d, i) => /*#__PURE__*/React.createElement(DealRow, {
       key: i,
       d: d,
-      accent: accent,
-      label: labelFn?.(d)
-    })), list.length > 5 && /*#__PURE__*/React.createElement("button", {
-      onClick: () => setExpanded(!expanded),
+      accent: accent
+    })), list.length > limit && /*#__PURE__*/React.createElement("button", {
+      onClick: () => setOpen(!open),
       style: {
+        width: "100%",
         marginTop: 4,
-        padding: "6px 14px",
-        fontSize: 12,
-        fontFamily: "'DM Sans',sans-serif",
+        padding: "5px",
+        fontSize: 11,
         fontWeight: 600,
-        borderRadius: 8,
-        cursor: "pointer",
         border: `1px solid ${DS.border}`,
+        borderRadius: 7,
         background: DS.bgSection,
         color: DS.text3,
-        width: "100%"
+        cursor: "pointer"
       }
-    }, expanded ? `▲ Ver menos` : `▼ Ver ${list.length - 5} más (${list.length} total)`));
+    }, open ? `▲ Menos` : `▼ Ver ${list.length - limit} más`));
   }
+
+  // ── RENDER ─────────────────────────────────────────────────────────────
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: 24
+      gap: 20
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
-      gridTemplateColumns: "repeat(4,1fr)",
-      gap: 12
+      gridTemplateColumns: "repeat(5,1fr)",
+      gap: 10
     }
   }, [{
-    label: "Pipeline Ponderado",
+    icon: "💼",
+    label: "Pipeline Activo",
     val: fmt(pipeW),
-    sub: `${active.length} deals activos`,
-    color: DS.cyan
+    sub: `${active.length} deals`,
+    color: DS.accent,
+    glow: true
   }, {
-    label: "Won esta semana",
-    val: fmt(wonWk.reduce((s, d) => s + (d.amount || 0), 0)),
-    sub: `${wonWk.length} deals cerrados`,
+    icon: "🏆",
+    label: "Won YTD Real",
+    val: fmt(wonYtdVal),
+    sub: `incl. Piloto & Operando`,
+    color: DS.emerald,
+    glow: true
+  }, {
+    icon: "🎯",
+    label: "Cobertura Modelo",
+    val: `${covPct}%`,
+    sub: `vs ${fmt(TOTAL_TARGET)} target`,
+    color: covPct >= 100 ? DS.emerald : covPct >= 70 ? DS.amber : DS.red
+  }, {
+    icon: "⚡",
+    label: "En Operación",
+    val: enOp.length,
+    sub: fmt(enOp.reduce((s, d) => s + (d.amount || 0), 0)) + " facturando",
     color: DS.emerald
   }, {
-    label: "Movimientos semana",
-    val: movedWk.length,
-    sub: "deals con actividad",
-    color: "#a78bfa"
-  }, {
-    label: "Nuevos esta semana",
-    val: newWk.length,
-    sub: "deals ingresados",
-    color: "#60a5fa"
+    icon: "🚨",
+    label: "Alertas Críticas",
+    val: overdue.length + zombies.length,
+    sub: `${overdue.length} vencidos · ${zombies.length} zombies`,
+    color: overdue.length + zombies.length > 0 ? DS.red : DS.emerald
   }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
     key: i,
-    color: k.color
-  }, /*#__PURE__*/React.createElement(Label, {
-    color: k.color
-  }, k.label), /*#__PURE__*/React.createElement(BigNum, {
-    value: k.val,
     color: k.color,
-    size: 26
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      color: DS.text3,
-      marginTop: 5,
-      fontFamily: "'DM Sans',sans-serif"
-    }
-  }, k.sub)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 12
-    }
-  }, [{
-    count: overdue.length,
-    label: "Fechas vencidas",
-    color: DS.red,
-    bg: DS.redLight,
-    items: overdue.slice(0, 3).map(d => `${d.name} (+${ago(d.close_date)}d)`)
-  }, {
-    count: zombies.length,
-    label: `Zombie +${ZOMBIE_DAYS}d`,
-    color: DS.amber,
-    bg: DS.amberLight,
-    items: zombies.slice(0, 3).map(d => d.name)
-  }].map((a, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      borderRadius: 12,
-      padding: 16,
-      background: a.count ? a.bg : "#f8fafc",
-      border: `1px solid ${a.count ? a.color + "40" : DS.border}`,
-      display: "flex",
-      gap: 16,
-      alignItems: "flex-start",
-      boxShadow: DS.shadow
-    }
+    glow: k.glow
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 32,
-      fontWeight: 800,
-      color: a.count ? a.color : DS.text4,
-      fontFamily: "'DM Mono',monospace",
-      lineHeight: 1,
-      minWidth: 36
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      marginBottom: 6
     }
-  }, a.count), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
-    color: a.count ? a.color : DS.text3
-  }, a.label), a.count > 0 && /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: k.color
+  }, k.label), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 12,
-      color: a.color,
-      marginTop: 4,
-      lineHeight: 1.6
+      fontSize: 18,
+      lineHeight: 1
     }
-  }, a.items.join(" · "), a.count > 3 && ` · +${a.count - 3} más`))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, k.icon)), /*#__PURE__*/React.createElement(BigNum, {
+    value: k.val,
+    color: k.color,
+    size: 22
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      marginTop: 5
+    }
+  }, k.sub)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -838,100 +822,140 @@ function SecPulso({
       color: DS.text1,
       margin: 0
     }
-  }, "Avance semanal por ejecutivo"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: DS.text3
-    }
-  }, owners.length, " ejecutivos \xB7 semana en curso")), /*#__PURE__*/React.createElement("div", {
+  }, "Estado del equipo esta semana"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      flexDirection: "column",
-      gap: 12
+      gap: 12,
+      fontSize: 11,
+      color: DS.text3
     }
-  }, owners.map(o => {
-    const myA = active.filter(d => d.owner === o);
-    const myMov = movedWk.filter(d => d.owner === o);
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDFE2 activo <7d"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDFE1 sin mov. 7-30d"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD34 zombie +30d"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(2,1fr)",
+      gap: 10
+    }
+  }, owners.map((o, idx) => {
+    const myActive = active.filter(d => d.owner === o);
+    const myOp = enOp.filter(d => d.owner === o);
+    const myWonW = wonWk.filter(d => d.owner === o);
     const myNew = newWk.filter(d => d.owner === o);
-    const myWon = wonWk.filter(d => d.owner === o);
     const myOver = overdue.filter(d => d.owner === o);
-    const myZombs = zombies.filter(d => d.owner === o);
-    const myClosing = myA.filter(d => ["contrato", "setup", "firma", "cierre", "negoc"].some(k => (d.stage_label || "").toLowerCase().includes(k)));
-    const myPW = wFn(myA);
-    const flags = [...new Set(myA.map(d => FM[d.country]?.flag).filter(Boolean))].join(" ");
+    const myZomb = zombies.filter(d => d.owner === o);
+    const myPW = wFn(myActive);
+    const myWonYtd = wonYtd.filter(d => d.owner === o).reduce((s, d) => s + (d.amount || 0), 0) + myOp.reduce((s, d) => s + (d.amount || 0), 0);
+    const flags = [...new Set([...myActive, ...myOp].map(d => FM[d.country]?.flag).filter(Boolean))].join(" ");
     const initials = o.split(" ").map(p => p[0]).join("").slice(0, 2).toUpperCase();
-    const avatarColors = ["#3b82f6", "#8b5cf6", "#059669", "#d97706", "#dc2626", "#0891b2", "#7c3aed"];
-    const avatarColor = avatarColors[owners.indexOf(o) % avatarColors.length];
+    const avc = avatarColors[idx % avatarColors.length];
+    // Semáforo: rojo si tiene >2 vencidos o >3 zombies, amarillo si tiene algo, verde si ok
+    const semaforo = myOver.length > 2 || myZomb.length > 3 ? "🔴" : myOver.length > 0 || myZomb.length > 0 ? "🟡" : "🟢";
+    // Top 5 deals estratégicos
+    const topDeals = [...myActive].filter(d => (d.amount || 0) >= 5000).sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a)).slice(0, 5);
+    const [expanded, setExpanded] = useState(false);
     return /*#__PURE__*/React.createElement("div", {
       key: o,
       style: {
         borderRadius: 12,
         border: `1px solid ${DS.border}`,
         overflow: "hidden",
-        background: "white",
+        background: DS.bgCard,
         boxShadow: DS.shadow
       }
     }, /*#__PURE__*/React.createElement("div", {
+      onClick: () => setExpanded(!expanded),
       style: {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "14px 16px",
-        background: "white",
-        borderBottom: `1px solid ${DS.border}`
+        padding: "12px 16px",
+        cursor: "pointer",
+        background: expanded ? DS.accentLight : DS.bgCard,
+        borderBottom: expanded ? `1px solid ${DS.border}` : "none",
+        transition: "background 0.15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: 12
+        gap: 10
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: 36,
-        height: 36,
+        width: 34,
+        height: 34,
         borderRadius: "50%",
-        background: avatarColor,
+        background: avc,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         color: "white",
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 700,
         flexShrink: 0
       }
     }, initials), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 700,
         color: DS.text1
       }
-    }, o), /*#__PURE__*/React.createElement("div", {
+    }, o, " ", /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 12,
+        fontSize: 14
+      }
+    }, semaforo)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
         color: DS.text3
       }
-    }, flags, " ", myA.length, " deals activos"))), /*#__PURE__*/React.createElement("div", {
+    }, flags, " \xB7 ", myActive.length, " activos", myOp.length > 0 ? ` · ${myOp.length} en op.` : ""))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 16,
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
         textAlign: "right"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 700,
         color: DS.accent,
         fontFamily: "'DM Mono',monospace"
       }
     }, fmt(myPW)), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 11,
+        fontSize: 10,
         color: DS.text4
       }
-    }, "pipeline ponderado"))), /*#__PURE__*/React.createElement("div", {
+    }, "pipeline")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 700,
+        color: DS.emerald,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(myWonYtd) || "—"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text4
+      }
+    }, "won YTD")), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 16,
+        color: DS.text3
+      }
+    }, expanded ? "▲" : "▼"))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
-        gridTemplateColumns: "repeat(6,1fr)",
-        borderBottom: `1px solid ${DS.border}`,
+        gridTemplateColumns: "repeat(4,1fr)",
+        borderTop: `1px solid ${DS.border}`,
         background: DS.bgSection
       }
     }, [{
@@ -939,411 +963,64 @@ function SecPulso({
       val: myNew.length,
       color: DS.accent
     }, {
-      label: "Movidos",
-      val: myMov.length,
-      color: DS.purple
-    }, {
-      label: "En cierre",
-      val: myClosing.length,
-      color: DS.amber
-    }, {
       label: "Won sem.",
-      val: myWon.length,
+      val: myWonW.length,
       color: DS.emerald
     }, {
       label: "Vencidos",
       val: myOver.length,
-      color: DS.red
+      color: myOver.length > 0 ? DS.red : DS.text4
     }, {
       label: "Zombies",
-      val: myZombs.length,
-      color: DS.text4
+      val: myZomb.length,
+      color: myZomb.length > 0 ? DS.amber : DS.text4
     }].map((c, ci) => /*#__PURE__*/React.createElement("div", {
       key: ci,
       style: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "10px 4px",
-        borderRight: ci < 5 ? `1px solid ${DS.border}` : ""
+        textAlign: "center",
+        padding: "8px 4px",
+        borderRight: ci < 3 ? `1px solid ${DS.border}` : ""
       }
-    }, /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 800,
         color: c.val > 0 ? c.color : DS.text4,
         fontFamily: "'DM Mono',monospace",
         lineHeight: 1
       }
-    }, c.val), /*#__PURE__*/React.createElement("span", {
+    }, c.val), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 11,
+        fontSize: 10,
         color: DS.text3,
-        marginTop: 3,
-        textAlign: "center"
+        marginTop: 2
       }
-    }, c.label)))), myMov.length > 0 && /*#__PURE__*/React.createElement("div", {
+    }, c.label)))), expanded && /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "12px 16px",
-        borderTop: `1px solid ${DS.border}`,
-        background: DS.purpleLight
+        padding: "14px 16px",
+        borderTop: `1px solid ${DS.border}`
       }
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: DS.purple
-    }, "Deals movidos esta semana (", myMov.length, ")"), /*#__PURE__*/React.createElement("div", {
+    }, myOp.length > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
-        marginTop: 8
-      }
-    }, /*#__PURE__*/React.createElement(DealList, {
-      deals: myMov,
-      accent: DS.purple
-    }))), myNew.length > 0 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: "12px 16px",
-        borderTop: `1px solid ${DS.border}`,
-        background: DS.accentLight
-      }
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: DS.accent
-    }, "Nuevos esta semana (", myNew.length, ")"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginTop: 8
-      }
-    }, /*#__PURE__*/React.createElement(DealList, {
-      deals: myNew,
-      accent: DS.accent,
-      labelFn: d => `creado ${fmtD(d.created)}`
-    }))), myWon.length > 0 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: "12px 16px",
-        borderTop: `1px solid ${DS.border}`,
-        background: DS.emeraldLight
+        marginBottom: 12
       }
     }, /*#__PURE__*/React.createElement(Label, {
       color: DS.emerald
-    }, "Ganados esta semana"), /*#__PURE__*/React.createElement("div", {
+    }, "\u26A1 En Operaci\xF3n / Facturando (", myOp.length, ")"), /*#__PURE__*/React.createElement("div", {
       style: {
-        marginTop: 8
+        marginTop: 6
       }
-    }, myWon.map((d, i) => /*#__PURE__*/React.createElement("div", {
+    }, myOp.map((d, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "8px 12px",
-        borderRadius: 8,
-        background: "rgba(255,255,255,0.04)",
-        marginBottom: 4,
-        border: `1px solid ${DS.border}`
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 16
-      }
-    }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        color: DS.text1,
-        fontWeight: 500
-      }
-    }, d.name)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        color: DS.emerald,
-        fontWeight: 700,
-        fontFamily: "'DM Mono',monospace"
-      }
-    }, fmt(d.amount)))))), myA.length > 0 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: "12px 16px",
-        borderTop: `1px solid ${DS.border}`
-      }
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: DS.text3
-    }, "Todos los deals activos (", myA.length, ")"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginTop: 8
-      }
-    }, /*#__PURE__*/React.createElement(DealList, {
-      deals: [...myA].sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a))
-    }))));
-  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "PULSO MENSUAL \u2014 ", PREV_MONTH_LABEL, " (mes cerrado)"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 12,
-      display: "flex",
-      flexDirection: "column",
-      gap: 14
-    }
-  }, (() => {
-    const febActive = deals.filter(d => isActiveDeal(d));
-    const febNew = deals.filter(d => !isLostDeal(d) && d.created && d.created >= pS && d.created <= pE);
-    const febMoved = febActive.filter(d => d.last_activity && d.last_activity >= pS && d.last_activity <= pE);
-    const febProps = deals.filter(d => !isLostDeal(d) && d.last_activity && d.last_activity >= pS && d.last_activity <= pE && ["propuesta enviada", "propuesta"].some(k => (d.stage_label || "").toLowerCase().includes(k)));
-    const febNegoc = deals.filter(d => !isLostDeal(d) && d.last_activity && d.last_activity >= pS && d.last_activity <= pE && (d.stage_label || "").toLowerCase().includes("negoc"));
-    const febWonVal = wonPrev.reduce((s, d) => s + (d.amount || 0), 0);
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "repeat(3,1fr)",
-        gap: 10
-      }
-    }, [{
-      label: "Won " + PREV_MONTH_LABEL,
-      val: fmt(febWonVal),
-      sub: wonPrev.length + " deals",
-      color: "#818cf8"
-    }, {
-      label: "Nuevos ingresados",
-      val: febNew.length,
-      sub: "deals creados en feb",
-      color: "#60a5fa"
-    }, {
-      label: "Propuestas enviadas",
-      val: febProps.length,
-      sub: "con act. en feb",
-      color: "#a78bfa"
-    }, {
-      label: "En negociación",
-      val: febNegoc.length,
-      sub: "con act. en feb",
-      color: DS.amber
-    }, {
-      label: "Deals movidos",
-      val: febMoved.length,
-      sub: "cualquier actividad en feb",
-      color: "#f97316"
-    }, {
-      label: "Pipeline ponderado",
-      val: fmt(wFn(febActive)),
-      sub: "pipeline actual activo",
-      color: DS.cyan
-    }].map((k, i) => /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        borderRadius: 12,
-        padding: 12,
-        background: "rgba(255,255,255,0.02)",
-        border: `1px solid ${DS.border}`
-      }
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: k.color
-    }, k.label), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 20,
-        fontWeight: 900,
-        color: k.color,
-        fontFamily: "monospace",
-        margin: "4px 0 2px"
-      }
-    }, k.val), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: DS.text3,
-        fontFamily: "monospace"
-      }
-    }, k.sub))));
-  })(), /*#__PURE__*/React.createElement("div", {
-    style: {
-      borderRadius: 16,
-      padding: 18,
-      background: "linear-gradient(135deg,rgba(99,102,241,0.1),rgba(99,102,241,0.03))",
-      border: "1px solid rgba(99,102,241,0.2)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "flex-start",
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
-    color: "#818cf8"
-  }, "Won ", PREV_MONTH_LABEL, " \u2014 detalle completo"), /*#__PURE__*/React.createElement(BigNum, {
-    value: fmt(wonPrev.reduce((s, d) => s + (d.amount || 0), 0)),
-    color: "#818cf8",
-    size: 26
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 10,
-      color: DS.text3,
-      marginTop: 4,
-      fontFamily: "monospace"
-    }
-  }, wonPrev.length, " deals cerrados \xB7 ", [...new Set(wonPrev.map(d => d.country).filter(Boolean))].map(c => FM[c]?.flag).join(" ")))), wonPrev.length > 0 ? wonPrev.sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10,
-      padding: "8px 0",
-      borderTop: "1px solid rgba(99,102,241,0.12)"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 16
-    }
-  }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 0
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: DS.text1,
-      fontFamily: "monospace",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap"
-    }
-  }, d.name), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: DS.text3,
-      fontFamily: "monospace"
-    }
-  }, d.owner, " \xB7 ", d.country, " \xB7 ", fmtD(wonDate(d)))), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "#818cf8",
-      fontFamily: "monospace",
-      fontWeight: 900,
-      flexShrink: 0
-    }
-  }, fmt(d.amount)))) : /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      fontFamily: "monospace"
-    }
-  }, "Sin won en ", PREV_MONTH_LABEL)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "4px 0"
-    }
-  }, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Detalle ", PREV_MONTH_LABEL, " por ejecutivo")), [...new Set(deals.map(d => d.owner).filter(Boolean))].sort().map(o => {
-    const myWonFeb = wonPrev.filter(d => d.owner === o).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const myWonVal = myWonFeb.reduce((s, d) => s + (d.amount || 0), 0);
-    const myNew = deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= pS && d.created <= pE).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const myProp = deals.filter(d => !isLostDeal(d) && d.owner === o && d.last_activity && d.last_activity >= pS && d.last_activity <= pE && (d.stage_label || "").toLowerCase().includes("propuesta")).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const myNegoc = deals.filter(d => !isLostDeal(d) && d.owner === o && d.last_activity && d.last_activity >= pS && d.last_activity <= pE && (d.stage_label || "").toLowerCase().includes("negoc")).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const myContrato = deals.filter(d => !isLostDeal(d) && d.owner === o && d.last_activity && d.last_activity >= pS && d.last_activity <= pE && ["contrato", "setup", "firma"].some(k => (d.stage_label || "").toLowerCase().includes(k))).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const myLost = deals.filter(d => isLostDeal(d) && d.owner === o && d.last_activity && d.last_activity >= pS && d.last_activity <= pE);
-    const myMoved = deals.filter(d => isActiveDeal(d) && d.owner === o && d.last_activity && d.last_activity >= pS && d.last_activity <= pE).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-    const flags = [...new Set([...myWonFeb, ...myNew, ...myMoved].map(d => FM[d.country]?.flag).filter(Boolean))].join(" ");
-    const hasAny = myWonVal > 0 || myNew.length > 0 || myProp.length > 0 || myNegoc.length > 0 || myMoved.length > 0 || myContrato.length > 0;
-    if (!hasAny) return null;
-    function DealRow({
-      d,
-      color
-    }) {
-      return /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 6,
-          padding: "3px 0"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 5,
-          minWidth: 0,
-          flex: 1
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 11,
-          flexShrink: 0
-        }
-      }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 10,
-          color: DS.text1,
-          fontFamily: "monospace",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap"
-        }
-      }, d.name)), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 10,
-          color,
-          fontFamily: "monospace",
-          fontWeight: 700,
-          flexShrink: 0
-        }
-      }, fmt(d.amount)));
-    }
-    function DealBlock({
-      items,
-      icon,
-      label,
-      color,
-      cols
-    }) {
-      if (!items.length) return null;
-      return /*#__PURE__*/React.createElement("div", {
-        style: {
-          padding: "10px 14px",
-          borderTop: "1px solid rgba(99,102,241,0.1)",
-          gridColumn: cols ? "span 2" : undefined
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          color,
-          fontFamily: "monospace",
-          fontWeight: 600,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          marginBottom: 6
-        }
-      }, icon, " ", label, " (", items.length, ")"), items.slice(0, 4).map((d, i) => /*#__PURE__*/React.createElement(DealRow, {
-        key: i,
-        d: d,
-        color: color
-      })), items.length > 4 && /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          fontFamily: "monospace"
-        }
-      }, "+", items.length - 4, " m\xE1s"));
-    }
-    return /*#__PURE__*/React.createElement("div", {
-      key: o,
-      style: {
-        borderRadius: 14,
-        border: "1px solid rgba(99,102,241,0.25)",
-        overflow: "hidden",
-        background: "rgba(99,102,241,0.03)"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "10px 16px",
-        background: "rgba(99,102,241,0.08)"
+        padding: "6px 10px",
+        borderRadius: 7,
+        background: DS.emeraldLight,
+        marginBottom: 3,
+        border: `1px solid ${DS.emerald}25`
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1353,120 +1030,404 @@ function SecPulso({
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
+        fontSize: 14
+      }
+    }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        fontWeight: 500,
+        color: DS.text1
+      }
+    }, d.name), /*#__PURE__*/React.createElement(PillBadge, {
+      label: d.stage_label,
+      color: DS.emerald
+    })), /*#__PURE__*/React.createElement("span", {
+      style: {
         fontSize: 13,
         fontWeight: 700,
-        color: DS.text1,
-        fontFamily: "monospace"
+        color: DS.emerald,
+        fontFamily: "'DM Mono',monospace"
       }
-    }, o), /*#__PURE__*/React.createElement("span", null, flags)), /*#__PURE__*/React.createElement("span", {
+    }, fmt(d.amount)))))), /*#__PURE__*/React.createElement(Label, {
+      color: DS.text3
+    }, "Top deals activos (por valor ponderado)"), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 14,
-        fontWeight: 900,
-        color: myWonVal > 0 ? "#818cf8" : DS.text3,
-        fontFamily: "monospace"
+        marginTop: 6
       }
-    }, myWonVal > 0 ? "Won " + fmt(myWonVal) : "Sin won")), /*#__PURE__*/React.createElement("div", {
+    }, topDeals.length > 0 ? topDeals.map((d, i) => /*#__PURE__*/React.createElement(DealRow, {
+      key: i,
+      d: d
+    })) : /*#__PURE__*/React.createElement("p", {
       style: {
-        display: "flex",
-        gap: 6,
-        padding: "8px 16px",
-        flexWrap: "wrap",
-        borderBottom: "1px solid rgba(99,102,241,0.1)"
+        fontSize: 12,
+        color: DS.text4,
+        padding: "6px 0"
       }
-    }, [{
-      icon: "🏆",
-      label: "Won",
-      val: myWonFeb.length,
-      color: "#818cf8"
-    }, {
-      icon: "🆕",
-      label: "Nuevos",
-      val: myNew.length,
-      color: "#60a5fa"
-    }, {
-      icon: "📋",
-      label: "Propuestas",
-      val: myProp.length,
-      color: "#a78bfa"
-    }, {
-      icon: "🤝",
-      label: "Negociación",
-      val: myNegoc.length,
-      color: DS.amber
-    }, {
-      icon: "📝",
-      label: "Contrato",
-      val: myContrato.length,
-      color: "#34d399"
-    }, {
-      icon: "🔄",
-      label: "Movidos",
-      val: myMoved.length,
-      color: DS.text2
-    }, {
-      icon: "❌",
-      label: "Perdidos",
-      val: myLost.length,
+    }, "Sin deals >$5K"), myActive.filter(d => (d.amount || 0) >= 5000).length > 5 && /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 11,
+        color: DS.text3,
+        marginTop: 4
+      }
+    }, "+ ", myActive.filter(d => (d.amount || 0) >= 5000).length - 5, " deals m\xE1s")), myOver.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 10,
+        padding: "8px 10px",
+        borderRadius: 8,
+        background: DS.redLight,
+        border: `1px solid ${DS.red}30`
+      }
+    }, /*#__PURE__*/React.createElement(Label, {
       color: DS.red
-    }].map(({
-      icon,
-      label,
-      val,
-      color
-    }) => /*#__PURE__*/React.createElement("div", {
-      key: label,
+    }, "\u23F0 Fechas vencidas"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 4
+      }
+    }, myOver.slice(0, 3).map((d, i) => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        fontSize: 12,
+        color: DS.red,
+        padding: "2px 0"
+      }
+    }, FM[d.country]?.flag, " ", d.name, " ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: DS.text3
+      }
+    }, "\u2014 vencido hace ", ago(d.close_date), "d"))), myOver.length > 3 && /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: 11,
+        color: DS.red
+      }
+    }, "+", myOver.length - 3, " m\xE1s")))));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement(Card, {
+    color: DS.accent
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, "\uD83D\uDCC5"), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      margin: 0,
+      fontSize: 14,
+      fontWeight: 700,
+      color: DS.text1
+    }
+  }, "Esta semana")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 10,
+      marginBottom: 14
+    }
+  }, [{
+    label: "Won esta semana",
+    val: fmt(wonWkVal) || "—",
+    sub: `${wonWk.length} deals`,
+    color: DS.emerald
+  }, {
+    label: "Nuevos ingresados",
+    val: newWk.length,
+    sub: "deals creados",
+    color: DS.accent
+  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      padding: "10px 12px",
+      borderRadius: 9,
+      background: DS.bgSection,
+      border: `1px solid ${DS.border}`
+    }
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: k.color
+  }, k.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 20,
+      fontWeight: 800,
+      color: k.color,
+      fontFamily: "'DM Mono',monospace",
+      margin: "3px 0"
+    }
+  }, k.val), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: DS.text3
+    }
+  }, k.sub)))), wonWk.length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.emerald
+  }, "Won esta semana"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6
+    }
+  }, wonWk.sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "5px 8px",
+      borderRadius: 7,
+      background: DS.emeraldLight,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 7,
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13
+    }
+  }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 500,
+      color: DS.text1
+    }
+  }, d.name)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: DS.emerald,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, fmt(d.amount)))))), newWk.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: DS.accent
+  }, "Nuevos esta semana"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6
+    }
+  }, /*#__PURE__*/React.createElement(ExpandList, {
+    list: [...newWk].sort((a, b) => (b.amount || 0) - (a.amount || 0)),
+    accent: DS.accent,
+    limit: 3
+  })))), /*#__PURE__*/React.createElement(Card, {
+    color: DS.red
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, "\uD83D\uDEA8"), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      margin: 0,
+      fontSize: 14,
+      fontWeight: 700,
+      color: DS.text1
+    }
+  }, "Alertas del pipeline")), [{
+    icon: "⏰",
+    label: "Fechas vencidas",
+    count: overdue.length,
+    color: DS.red,
+    items: overdue,
+    desc: "close_date pasada, no cerrado"
+  }, {
+    icon: "💀",
+    label: `Zombie +${ZOMBIE_DAYS}d`,
+    count: zombies.length,
+    color: DS.amber,
+    items: zombies,
+    desc: `sin actividad +${ZOMBIE_DAYS} días`
+  }, {
+    icon: "⚠️",
+    label: `Deals >$50K sin mov. ${STALE_DAYS}d`,
+    count: bigRisk.length,
+    color: DS.purple,
+    items: bigRisk,
+    desc: "riesgo de pérdida silenciosa"
+  }].map((a, ai) => {
+    const [open, setOpen] = useState(false);
+    return /*#__PURE__*/React.createElement("div", {
+      key: ai,
+      style: {
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      onClick: () => a.count > 0 && setOpen(!open),
       style: {
         display: "flex",
         alignItems: "center",
-        gap: 4,
-        padding: "3px 10px",
-        borderRadius: 20,
-        background: val > 0 ? color + "18" : "rgba(0,120,60,0.04)",
-        border: "1px solid " + (val > 0 ? color + "35" : "rgba(255,255,255,0.07)")
+        justifyContent: "space-between",
+        padding: "10px 12px",
+        borderRadius: 9,
+        cursor: a.count > 0 ? "pointer" : "default",
+        background: a.count > 0 ? a.color + "15" : DS.bgSection,
+        border: `1px solid ${a.count > 0 ? a.color + "35" : DS.border}`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 10
+        fontSize: 16
       }
-    }, icon), /*#__PURE__*/React.createElement("span", {
+    }, a.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 600,
+        color: a.count > 0 ? a.color : DS.text3
+      }
+    }, a.label), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
-        fontFamily: "monospace",
-        color: val > 0 ? color : DS.text3
+        color: DS.text4
       }
-    }, label, ": ", /*#__PURE__*/React.createElement("b", null, val))))), /*#__PURE__*/React.createElement("div", {
+    }, a.desc))), /*#__PURE__*/React.createElement("div", {
       style: {
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr"
+        display: "flex",
+        alignItems: "center",
+        gap: 8
       }
-    }, /*#__PURE__*/React.createElement(DealBlock, {
-      items: myWonFeb,
-      icon: "\uD83C\uDFC6",
-      label: "Won Febrero",
-      color: "#818cf8"
-    }), /*#__PURE__*/React.createElement(DealBlock, {
-      items: myNew,
-      icon: "\uD83C\uDD95",
-      label: "Deals generados",
-      color: "#60a5fa"
-    }), /*#__PURE__*/React.createElement(DealBlock, {
-      items: myProp,
-      icon: "\uD83D\uDCCB",
-      label: "Propuestas enviadas",
-      color: "#a78bfa"
-    }), /*#__PURE__*/React.createElement(DealBlock, {
-      items: myNegoc,
-      icon: "\uD83E\uDD1D",
-      label: "En negociaci\xF3n",
-      color: DS.amber
-    }), /*#__PURE__*/React.createElement(DealBlock, {
-      items: myContrato,
-      icon: "\uD83D\uDCDD",
-      label: "Contrato / Setup",
-      color: "#34d399",
-      cols: true
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 20,
+        fontWeight: 800,
+        color: a.count > 0 ? a.color : DS.text4,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, a.count), a.count > 0 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        color: DS.text4
+      }
+    }, open ? "▲" : "▼"))), open && a.count > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 4px"
+      }
+    }, /*#__PURE__*/React.createElement(ExpandList, {
+      list: [...a.items].sort((a, b) => (b.amount || 0) - (a.amount || 0)),
+      accent: a.color,
+      limit: 4
     })));
-  })))));
+  }))), enOp.length > 0 && /*#__PURE__*/React.createElement(Card, {
+    color: DS.emerald,
+    highlight: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 20
+    }
+  }, "\u26A1"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", {
+    style: {
+      margin: 0,
+      fontSize: 14,
+      fontWeight: 700,
+      color: DS.text1
+    }
+  }, "En Operaci\xF3n \u2014 Facturando"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      fontSize: 12,
+      color: DS.text3
+    }
+  }, "Contratos activos + Pilotos + Operando \xB7 No son pipeline, son revenue"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: DS.emerald,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, fmt(enOp.reduce((s, d) => s + (d.amount || 0), 0))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.text3
+    }
+  }, enOp.length, " contratos"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))",
+      gap: 8
+    }
+  }, [...enOp].sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      padding: "10px 12px",
+      borderRadius: 9,
+      background: DS.bgCard,
+      border: `1px solid ${DS.emerald}25`,
+      boxShadow: DS.shadow
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: DS.text1,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, d.name), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      marginTop: 1
+    }
+  }, d.owner, " \xB7 ", d.stage_label)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: DS.emerald,
+      fontFamily: "'DM Mono',monospace",
+      flexShrink: 0
+    }
+  }, fmt(d.amount)))))));
 }
 function SecProductividad({
   deals
@@ -1831,6 +1792,32 @@ function SecModelo({
   const pipeVsForecast = pipeW - forecastAnnual;
   const modelVsForecast = modelAnnual - forecastAnnual;
   const wonVsModel = totalWonYtd - totalModelYtd;
+
+  // ── Pipeline de Alta Calidad: prob>=50% Y actividad <30d ─────────────
+  const staleCut30 = new Date(Date.now() - 30 * 86400000).toISOString().split("T")[0];
+  const highQ = active.filter(d => getProb(d) >= 0.5 && d.last_activity && d.last_activity >= staleCut30);
+  const highQW = wFn(highQ);
+  const highQRatio = pipeW > 0 ? Math.round(highQW / pipeW * 100) : 0;
+
+  // ── Gap mensual: cuánto falta para cerrar cada mes ────────────────────
+  const wonByMAll = Array(12).fill(0);
+  deals.filter(d => isWonDeal(d)).forEach(d => {
+    if (!d.close_date || d.close_date < YEAR_START) return;
+    const m = new Date(d.close_date + 'T12:00:00Z').getMonth();
+    if (m > curM) return;
+    wonByMAll[m] += d.amount || 0;
+  });
+  // Also add en-operación deals to won
+  const enOpDeals = deals.filter(d => isContracted(d) || isPilotoDeal(d));
+  enOpDeals.forEach(d => {
+    if (!d.close_date) return;
+    const m = new Date(d.close_date + 'T12:00:00Z').getMonth();
+    if (m < 0 || m > 11 || m > curM) return;
+    wonByMAll[m] += d.amount || 0;
+  });
+  const nextMonths = Array.from({
+    length: Math.min(3, 11 - curM)
+  }, (_, i) => curM + 1 + i).filter(m => m < 12);
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -1840,41 +1827,286 @@ function SecModelo({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
-      gridTemplateColumns: "repeat(3,1fr)",
-      gap: 12
+      gridTemplateColumns: "repeat(5,1fr)",
+      gap: 10
     }
   }, [{
-    label: "Pipeline Ponderado",
+    icon: "💼",
+    label: "Pipeline Total",
     val: fmt(pipeW),
-    color: DS.cyan,
+    color: DS.accent,
     sub: `${active.length} deals activos`
   }, {
-    label: "Modelo",
-    val: fmt(FORECAST_TOTAL),
-    color: "#6366f1",
-    sub: "target anual Growth 26"
+    icon: "⭐",
+    label: "Alta Calidad",
+    val: fmt(highQW),
+    color: DS.emerald,
+    sub: `${highQ.length} deals · prob≥50% + activos`,
+    glow: true
   }, {
-    label: "Forecast",
-    val: fmt(TOTAL_TARGET),
-    color: "#a78bfa",
-    sub: "proyección Resumen 36M"
+    icon: "📊",
+    label: "% Alta Calidad",
+    val: `${highQRatio}%`,
+    color: highQRatio >= 60 ? DS.emerald : highQRatio >= 40 ? DS.amber : DS.red,
+    sub: "del pipeline es creíble"
+  }, {
+    icon: "🎯",
+    label: "Modelo Anual",
+    val: fmt(FORECAST_TOTAL),
+    color: DS.purple,
+    sub: "Growth 26 target"
+  }, {
+    icon: "📈",
+    label: "Won YTD Real",
+    val: fmt(totalWonYtd),
+    color: DS.emerald,
+    sub: `${wonVsModel >= 0 ? "▲" : "▼"} ${fmt(Math.abs(wonVsModel))} vs ritmo`
   }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
     key: i,
-    accent: true
+    color: k.color,
+    glow: k.glow
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      marginBottom: 5
+    }
   }, /*#__PURE__*/React.createElement(Label, {
     color: k.color
-  }, k.label), /*#__PURE__*/React.createElement(BigNum, {
+  }, k.label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 16
+    }
+  }, k.icon)), /*#__PURE__*/React.createElement(BigNum, {
     value: k.val,
     color: k.color,
-    size: 20
+    size: 19
   }), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
       color: DS.text3,
-      marginTop: 4,
-      fontFamily: "monospace"
+      marginTop: 4
     }
   }, k.sub)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement(Card, {
+    color: covColor
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Cobertura pipeline vs modelo anual"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 20,
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "110",
+    height: "70",
+    viewBox: "0 0 220 120"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M 15 110 A 95 95 0 0 1 205 110",
+    fill: "none",
+    stroke: "rgba(0,0,0,0.06)",
+    strokeWidth: "18",
+    strokeLinecap: "round"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M 15 110 A 95 95 0 0 1 205 110",
+    fill: "none",
+    stroke: covColor,
+    strokeWidth: "18",
+    strokeLinecap: "round",
+    strokeDasharray: `${Math.min(covPct, 100) * 2.98} 298`,
+    opacity: "0.85"
+  }), /*#__PURE__*/React.createElement("text", {
+    x: "110",
+    y: "98",
+    textAnchor: "middle",
+    fill: DS.text1,
+    fontSize: "28",
+    fontWeight: "800",
+    fontFamily: "monospace"
+  }, Math.min(covPct, 999), "%")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, [{
+    label: "Pipeline ponderado",
+    val: fmt(pipeW),
+    color: DS.accent
+  }, {
+    label: "Pipeline alta calidad",
+    val: fmt(highQW),
+    color: DS.emerald
+  }, {
+    label: "Modelo target",
+    val: fmt(FORECAST_TOTAL),
+    color: DS.purple
+  }, {
+    label: "Falta/excede",
+    val: `${pipeVsModel >= 0 ? "▲ +" : "▼ "}${fmt(Math.abs(pipeVsModel))}`,
+    color: covColor
+  }].map((r, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "4px 0",
+      borderBottom: `1px solid ${DS.border}`
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: DS.text3
+    }
+  }, r.label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      color: r.color,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, r.val)))))), /*#__PURE__*/React.createElement(Card, {
+    color: DS.amber
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Gap mensual \u2014 cu\xE1nto falta para el target"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      marginTop: 2,
+      marginBottom: 12
+    }
+  }, "Ritmo requerido vs won acumulado"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, (() => {
+    const mod = modelByM[curM],
+      won = wonByMAll[curM];
+    const gap = mod - won;
+    const pct = mod > 0 ? Math.round(won / mod * 100) : 0;
+    const col = pct >= 100 ? DS.emerald : pct >= 70 ? DS.amber : DS.red;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "10px 12px",
+        borderRadius: 9,
+        background: col + "12",
+        border: `1px solid ${col}25`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: DS.text1
+      }
+    }, "Marzo (mes actual)"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 800,
+        color: col,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, pct, "%")), /*#__PURE__*/React.createElement(MiniBar, {
+      pct: pct,
+      color: col,
+      height: 6
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: 6,
+        fontSize: 11
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: DS.text3
+      }
+    }, "Won: ", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: DS.emerald
+      }
+    }, fmt(won))), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: DS.text3
+      }
+    }, "Target: ", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: DS.text2
+      }
+    }, fmt(mod))), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: gap > 0 ? DS.red : DS.emerald
+      }
+    }, gap > 0 ? `▼ ${fmt(gap)} falta` : `▲ ${fmt(Math.abs(gap))} excede`)));
+  })(), nextMonths.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text3
+  }, "Pr\xF3ximos meses \u2014 target a alcanzar"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3,1fr)",
+      gap: 6,
+      marginTop: 6
+    }
+  }, nextMonths.slice(0, 3).map(m => {
+    const MLABELS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    const mod = modelByM[m];
+    const cumTarget = modelByM.slice(0, m + 1).reduce((s, v) => s + v, 0);
+    const cumWon = wonByMAll.slice(0, curM + 1).reduce((s, v) => s + v, 0);
+    const gapToDate = cumTarget - cumWon;
+    return /*#__PURE__*/React.createElement("div", {
+      key: m,
+      style: {
+        padding: "8px 10px",
+        borderRadius: 8,
+        background: DS.bgSection,
+        border: `1px solid ${DS.border}`,
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: DS.text2,
+        marginBottom: 3
+      }
+    }, MLABELS[m]), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 800,
+        color: DS.amber,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(mod)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text4,
+        marginTop: 2
+      }
+    }, "target mes"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text3,
+        marginTop: 4,
+        padding: "3px 0",
+        borderTop: `1px solid ${DS.border}`
+      }
+    }, "Cum. acum: ", fmt(cumTarget)));
+  })))))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(3,1fr)",
@@ -1885,17 +2117,17 @@ function SecModelo({
     val: `${covPct}%`,
     sub: `${pipeVsModel >= 0 ? "▲ excede" : "▼ falta"} ${fmt(Math.abs(pipeVsModel))}`,
     color: covColor,
-    bg: `${covColor}12`,
-    border: `${covColor}30`
+    bg: `${covColor}10`,
+    border: `${covColor}25`
   }, {
-    label: "Pipeline vs Forecast",
-    val: fmt(pipeW),
-    sub: `${pipeVsForecast >= 0 ? "▲ +" : "▼ "}${fmt(Math.abs(pipeVsForecast))} vs OKR`,
-    color: pipeVsForecast >= 0 ? DS.emerald : DS.red,
+    label: "Alta Calidad vs Modelo",
+    val: `${pipeW > 0 ? Math.round(highQW / FORECAST_TOTAL * 100) : 0}%`,
+    sub: `Pipeline creíble: ${fmt(highQW)}`,
+    color: highQW >= FORECAST_TOTAL ? DS.emerald : DS.amber,
     bg: "transparent",
     border: DS.border
   }, {
-    label: "Won YTD vs Ritmo Modelo",
+    label: "Won YTD vs Ritmo",
     val: `${wonVsModel >= 0 ? "▲" : "▼"} ${fmt(Math.abs(wonVsModel))}`,
     sub: `Real cerrado: ${fmt(totalWonYtd)}`,
     color: wonVsModel >= 0 ? DS.emerald : DS.red,
@@ -1904,10 +2136,11 @@ function SecModelo({
   }].map((k, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      borderRadius: 16,
+      borderRadius: 12,
       padding: 14,
-      background: k.bg || "rgba(255,255,255,0.02)",
-      border: `1px solid ${k.border || DS.border}`
+      background: k.bg || DS.bgSection,
+      border: `1px solid ${k.border || DS.border}`,
+      boxShadow: DS.shadow
     }
   }, /*#__PURE__*/React.createElement(Label, {
     color: k.color
@@ -1917,10 +2150,9 @@ function SecModelo({
     size: 18
   }), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 10,
+      fontSize: 11,
       color: DS.text3,
-      marginTop: 4,
-      fontFamily: "monospace"
+      marginTop: 4
     }
   }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
@@ -3166,7 +3398,7 @@ function SecEvolucion({
         alignItems: "center",
         justifyContent: "space-between",
         padding: "12px 18px",
-        background: "rgba(0,120,60,0.04)"
+        background: "rgba(255,255,255,0.03)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3851,29 +4083,55 @@ function SecDeals({
   const [sub, setSub] = useState("top");
   const [fOwner, setFOwner] = useState("");
   const [fCountry, setFCountry] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const [filterStrategic, setFilterStrategic] = useState(false);
   const today = new Date().toISOString().split("T")[0];
   const wkS = wk(),
     moS = mo(),
     pS = prevMoStart(),
     pE = prevMoEnd();
   const zombieCut = new Date(Date.now() - ZOMBIE_DAYS * 86400000).toISOString().split("T")[0];
-
-  // Normalize for robust comparison
+  const staleCut14 = new Date(Date.now() - 14 * 86400000).toISOString().split("T")[0];
+  const BIG = 50000;
   const norm = s => (s || "").toLowerCase().trim();
   const matchF = d => {
     const om = !fOwner || norm(d.owner) === norm(fOwner);
     const cm = !fCountry || norm(d.country) === norm(fCountry);
-    return om && cm;
+    const sm = !filterStrategic || (d.amount || 0) >= BIG;
+    return om && cm && sm;
   };
-
-  // Filter options from ALL deals
-  const allOwners = [...new Set(deals.map(d => d.owner).filter(Boolean))].sort();
+  const allOwners = [...new Set(deals.map(d => d.owner).filter(o => o && !o.startsWith("Owner-")))].sort();
   const allCountries = [...new Set([...deals.map(d => d.country).filter(Boolean), ...Object.keys(FM).filter(c => deals.some(d => norm(d.country) === norm(c)))])].filter(Boolean).sort();
   const active = deals.filter(isActiveDeal);
-  // All filtered sets — apply fOwner + fCountry
   const dealsF = deals.filter(matchF);
   const activeF = active.filter(matchF);
-  const top10 = [...activeF].sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a)).slice(0, 15);
+
+  // Semáforo por deal
+  function dealStatus(d) {
+    if (d.close_date && d.close_date < today) return {
+      dot: "🔴",
+      label: "Vencido",
+      color: "#dc2626"
+    };
+    if (!d.last_activity || d.last_activity < zombieCut) return {
+      dot: "💀",
+      label: "Zombie",
+      color: "#d97706"
+    };
+    if (d.last_activity < staleCut14) return {
+      dot: "🟡",
+      label: "Sin mov. 14d",
+      color: "#d97706"
+    };
+    return {
+      dot: "🟢",
+      label: "Activo",
+      color: "#00b86b"
+    };
+  }
+  const sorted = [...activeF].sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a));
+  const top20 = sorted.slice(0, 20);
+  const shown = showAll ? sorted : top20;
   const newWk = dealsF.filter(d => !isLostDeal(d) && d.created && d.created >= wkS).sort((a, b) => (b.amount || 0) - (a.amount || 0));
   const movedWk = activeF.filter(d => d.last_activity && d.last_activity >= wkS).sort((a, b) => (b.amount || 0) - (a.amount || 0));
   const wonWk = dealsF.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
@@ -3883,7 +4141,7 @@ function SecDeals({
   const zombies = activeF.filter(d => !d.last_activity || d.last_activity < zombieCut);
   const SUBS = [{
     id: "top",
-    label: "⭐ Top"
+    label: "⭐ Top Deals"
   }, {
     id: "paises",
     label: "🌎 Por País"
@@ -3900,6 +4158,116 @@ function SecDeals({
     id: "alerts",
     label: `🚨 Alertas (${overdue.length + zombies.length})`
   }];
+  function DealCard({
+    d,
+    rank
+  }) {
+    const prob = getProb(d);
+    const weighted = (d.amount || 0) * prob;
+    const status = dealStatus(d);
+    const sl = (d.stage_label || "").toLowerCase();
+    const stageCol = sl.includes("contrato") || sl.includes("piloto") || sl.includes("operando") ? DS.emerald : sl.includes("negoc") ? DS.amber : sl.includes("propuesta") ? DS.accent : DS.text3;
+    const daysAgo = d.last_activity ? ago(d.last_activity) : null;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 14px",
+        borderRadius: 10,
+        background: DS.bgCard,
+        border: `1px solid ${DS.border}`,
+        boxShadow: DS.shadow,
+        borderLeft: `3px solid ${status.color}`
+      }
+    }, rank && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 800,
+        color: DS.text4,
+        fontFamily: "'DM Mono',monospace",
+        width: 22,
+        flexShrink: 0,
+        textAlign: "right"
+      }
+    }, rank), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 18,
+        flexShrink: 0
+      }
+    }, FM[d.country]?.flag || "🌐"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: DS.text1,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+      }
+    }, d.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+        marginTop: 2,
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: stageCol,
+        fontWeight: 600
+      }
+    }, d.stage_label), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: DS.text4
+      }
+    }, "\xB7"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: DS.text3
+      }
+    }, d.owner), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: DS.text4
+      }
+    }, "\xB7"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: status.color
+      }
+    }, status.dot, " ", daysAgo != null ? `${daysAgo}d sin act.` : "sin registro"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 800,
+        color: DS.accent,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(weighted)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text4,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(d.amount), " \xB7 ", Math.round(prob * 100), "%"), d.close_date && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: d.close_date < today ? DS.red : DS.text4
+      }
+    }, fmtD(d.close_date))));
+  }
   function DealItem({
     d,
     badge,
@@ -3990,7 +4358,7 @@ function SecDeals({
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: 16
+      gap: 14
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4003,23 +4371,19 @@ function SecDeals({
     onClick: () => setSub(s.id),
     style: {
       padding: "6px 14px",
-      fontSize: 10,
-      fontFamily: "monospace",
+      fontSize: 11,
       borderRadius: 8,
       cursor: "pointer",
-      background: sub === s.id ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)",
-      color: sub === s.id ? "#a5b4fc" : DS.text3,
-      border: `1px solid ${sub === s.id ? "rgba(99,102,241,0.4)" : DS.border}`,
-      fontWeight: sub === s.id ? 700 : 400
+      background: sub === s.id ? DS.accent : "transparent",
+      color: sub === s.id ? "white" : DS.text3,
+      border: `1px solid ${sub === s.id ? DS.accent : DS.border}`,
+      fontWeight: sub === s.id ? 600 : 400
     }
   }, s.label))), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 8,
-      padding: 12,
-      borderRadius: 12,
-      background: "rgba(255,255,255,0.02)",
+      padding: "10px 14px",
+      borderRadius: 10,
+      background: DS.bgSection,
       border: `1px solid ${DS.border}`
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -4027,31 +4391,28 @@ function SecDeals({
       display: "flex",
       alignItems: "center",
       gap: 8,
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 11,
       color: DS.text3,
-      fontFamily: "monospace",
-      fontWeight: 700,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      width: 60,
+      fontWeight: 600,
+      width: 72,
       flexShrink: 0
     }
-  }, "Ejecutivo"), [""].concat(allOwners).map(o => /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDC64 Ejecutivo"), [""].concat(allOwners).map(o => /*#__PURE__*/React.createElement("button", {
     key: o || "__all",
     onClick: () => setFOwner(o),
     style: {
       padding: "3px 10px",
-      fontSize: 10,
-      fontFamily: "monospace",
+      fontSize: 11,
       borderRadius: 20,
       cursor: "pointer",
-      border: `1px solid ${fOwner === o ? "rgba(99,102,241,0.5)" : DS.border}`,
-      background: fOwner === o ? "rgba(99,102,241,0.25)" : "transparent",
-      color: fOwner === o ? "#a5b4fc" : DS.text3,
+      border: `1px solid ${fOwner === o ? DS.accent : DS.border}`,
+      background: fOwner === o ? DS.accentLight : "transparent",
+      color: fOwner === o ? DS.accent : DS.text3,
       whiteSpace: "nowrap"
     }
   }, o || "Todos"))), /*#__PURE__*/React.createElement("div", {
@@ -4059,152 +4420,114 @@ function SecDeals({
       display: "flex",
       alignItems: "center",
       gap: 8,
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 11,
       color: DS.text3,
-      fontFamily: "monospace",
-      fontWeight: 700,
-      letterSpacing: "0.1em",
-      textTransform: "uppercase",
-      width: 60,
+      fontWeight: 600,
+      width: 72,
       flexShrink: 0
     }
-  }, "Pa\xEDs"), [""].concat(allCountries).map(c => /*#__PURE__*/React.createElement("button", {
+  }, "\uD83C\uDF0E Pa\xEDs"), [""].concat(allCountries).map(c => /*#__PURE__*/React.createElement("button", {
     key: c || "__all",
     onClick: () => setFCountry(c),
     style: {
       padding: "3px 10px",
-      fontSize: 10,
-      fontFamily: "monospace",
+      fontSize: 11,
       borderRadius: 20,
       cursor: "pointer",
-      border: `1px solid ${fCountry === c ? "rgba(0,212,170,0.5)" : DS.border}`,
-      background: fCountry === c ? "rgba(0,212,170,0.2)" : "transparent",
+      border: `1px solid ${fCountry === c ? DS.emerald : DS.border}`,
+      background: fCountry === c ? DS.emeraldLight : "transparent",
       color: fCountry === c ? DS.emerald : DS.text3,
       whiteSpace: "nowrap"
     }
-  }, c ? (FM[c]?.flag || "🌐") + " " + c : "Todos"))), (fOwner || fCountry) && /*#__PURE__*/React.createElement("div", {
+  }, c ? (FM[c]?.flag || "🌐") + " " + c : "Todos"))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 8
+      gap: 10
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => setFilterStrategic(!filterStrategic),
     style: {
-      fontSize: 9,
-      color: DS.text3,
-      fontFamily: "monospace"
+      padding: "4px 12px",
+      fontSize: 11,
+      borderRadius: 20,
+      cursor: "pointer",
+      border: `1px solid ${filterStrategic ? DS.amber : DS.border}`,
+      background: filterStrategic ? DS.amberLight : "transparent",
+      color: filterStrategic ? DS.amber : DS.text3,
+      fontWeight: filterStrategic ? 600 : 400
     }
-  }, "Mostrando: ", fOwner && /*#__PURE__*/React.createElement("b", {
-    style: {
-      color: "#a5b4fc"
-    }
-  }, fOwner), fOwner && fCountry && " · ", fCountry && /*#__PURE__*/React.createElement("b", {
-    style: {
-      color: DS.emerald
-    }
-  }, FM[fCountry]?.flag, " ", fCountry)), /*#__PURE__*/React.createElement("button", {
+  }, "\u2B50 Solo estrat\xE9gicos >$50K"), (fOwner || fCountry || filterStrategic) && /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       setFOwner("");
       setFCountry("");
+      setFilterStrategic(false);
     },
     style: {
-      fontSize: 9,
+      fontSize: 11,
       color: DS.text3,
       background: "none",
       border: `1px solid ${DS.border}`,
       borderRadius: 6,
-      padding: "2px 8px",
-      cursor: "pointer",
-      fontFamily: "monospace"
+      padding: "3px 10px",
+      cursor: "pointer"
     }
-  }, "\u2715 Limpiar"))), sub === "top" && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Top 10 por valor ponderado \u2014 2026"), /*#__PURE__*/React.createElement("div", {
+  }, "\u2715 Limpiar filtros"), /*#__PURE__*/React.createElement("span", {
     style: {
-      marginTop: 12
+      fontSize: 11,
+      color: DS.text4,
+      marginLeft: "auto"
     }
-  }, top10.map((d, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
+  }, activeF.length, " deals \xB7 ", fmt(wFn(activeF)), " ponderado"))), sub === "top" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 12,
-      padding: "10px 0",
-      borderBottom: `1px solid ${DS.border}`
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 13,
-      fontWeight: 900,
-      color: DS.text3,
-      fontFamily: "monospace",
-      width: 20,
-      flexShrink: 0
-    }
-  }, i + 1), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      minWidth: 0
+      justifyContent: "space-between",
+      marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: DS.text1,
-      fontFamily: "monospace",
-      fontWeight: 600,
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap"
-    }
-  }, d.name), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 8,
-      marginTop: 4,
-      flexWrap: "wrap"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 10,
+      gap: 10,
+      fontSize: 11,
       color: DS.text3,
-      fontFamily: "monospace"
+      alignItems: "center"
     }
-  }, d.owner), d.country && /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDFE2 activo"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDFE1 sin mov. 14d"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDC80 zombie +30d"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDD34 vencido")), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 11
+      fontSize: 11,
+      color: DS.text4
     }
-  }, FM[d.country]?.flag, " ", d.country), /*#__PURE__*/React.createElement(PillBadge, {
-    label: d.stage_label,
-    color: "#64748b"
-  }))), /*#__PURE__*/React.createElement("div", {
+  }, "Mostrando ", Math.min(shown.length, sorted.length), " de ", sorted.length)), /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "right",
-      flexShrink: 0
+      display: "flex",
+      flexDirection: "column",
+      gap: 6
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, shown.map((d, i) => /*#__PURE__*/React.createElement(DealCard, {
+    key: i,
+    d: d,
+    rank: i + 1
+  }))), sorted.length > 20 && /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowAll(!showAll),
     style: {
-      fontSize: 13,
-      fontWeight: 900,
-      color: DS.text1,
-      fontFamily: "monospace"
-    }
-  }, fmt(d.amount)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: DS.cyan,
-      fontFamily: "monospace"
-    }
-  }, fmt((d.amount || 0) * getProb(d)), " pond."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
+      width: "100%",
+      marginTop: 10,
+      padding: "8px",
+      fontSize: 12,
+      fontWeight: 600,
+      border: `1px solid ${DS.border}`,
+      borderRadius: 8,
+      background: DS.bgSection,
       color: DS.text3,
-      fontFamily: "monospace"
+      cursor: "pointer"
     }
-  }, fmtD(d.close_date))))))), sub === "paises" && /*#__PURE__*/React.createElement(FunnelByCountry, {
+  }, showAll ? `▲ Ver menos (top 20)` : `▼ Ver todos los ${sorted.length} deals`)), sub === "paises" && /*#__PURE__*/React.createElement(FunnelByCountry, {
     deals: deals
   }), sub === "new" && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
@@ -4963,7 +5286,7 @@ function Dashboard() {
       borderRadius: 8,
       cursor: loading ? "not-allowed" : "pointer",
       border: "none",
-      background: loading ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg,#008a50,#00b86b)",
+      background: loading ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg,#3b82f6,#6366f1)",
       color: loading ? DS.text4 : "white",
       display: "flex",
       alignItems: "center",
@@ -5024,7 +5347,7 @@ function Dashboard() {
       transition: "background 0.15s",
       position: "relative"
     },
-    onMouseEnter: e => e.currentTarget.style.background = "rgba(0,120,60,0.04)",
+    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,0.03)",
     onMouseLeave: e => e.currentTarget.style.background = "transparent"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5178,7 +5501,7 @@ function Dashboard() {
       borderRadius: 9,
       cursor: "pointer",
       border: "none",
-      background: "linear-gradient(135deg,#008a50,#00b86b)",
+      background: "linear-gradient(135deg,#3b82f6,#6366f1)",
       color: "white",
       boxShadow: "0 4px 20px rgba(99,102,241,0.5)",
       letterSpacing: "0.02em"
@@ -5197,7 +5520,7 @@ function Dashboard() {
       width: 52,
       height: 52,
       borderRadius: 14,
-      background: "linear-gradient(135deg,#008a50,#00b86b)",
+      background: "linear-gradient(135deg,#3b82f6,#6366f1)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
