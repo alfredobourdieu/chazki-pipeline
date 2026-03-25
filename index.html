@@ -2828,7 +2828,112 @@ function SecEvolucion({
       marginTop: 16,
       fontFamily: "monospace"
     }
-  }, "Pipeline WoW aparece luego de 7 d\xEDas de snapshots autom\xE1ticos"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Pipeline WoW aparece luego de 7 d\xEDas de snapshots autom\xE1ticos"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "RESUMEN CONSOLIDADO \u2014 ", periodLabel.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(4,1fr)",
+      gap: 10,
+      marginTop: 14
+    }
+  }, (() => {
+    const totCur = {
+      gen: 0,
+      prop: 0,
+      won: 0,
+      wonVal: 0
+    };
+    const totPrev = {
+      gen: 0,
+      prop: 0,
+      won: 0,
+      wonVal: 0
+    };
+    execRows.forEach(r => {
+      totCur.gen += r.cur.generated;
+      totCur.prop += r.cur.proposals;
+      totCur.won += r.cur.won;
+      totCur.wonVal += r.cur.wonVal;
+      totPrev.gen += r.prev.generated;
+      totPrev.prop += r.prev.proposals;
+      totPrev.won += r.prev.won;
+      totPrev.wonVal += r.prev.wonVal;
+    });
+    return [{
+      icon: "🆕",
+      label: "Negocios generados",
+      cur: totCur.gen,
+      prev: totPrev.gen,
+      color: "#60a5fa"
+    }, {
+      icon: "📋",
+      label: "Propuestas enviadas",
+      cur: totCur.prop,
+      prev: totPrev.prop,
+      color: "#a78bfa"
+    }, {
+      icon: "🏆",
+      label: "Deals won",
+      cur: totCur.won,
+      prev: totPrev.won,
+      color: DS.emerald
+    }, {
+      icon: "💰",
+      label: "Valor won",
+      cur: totCur.wonVal,
+      prev: totPrev.wonVal,
+      color: DS.amber,
+      isCurrency: true
+    }].map((k, i) => {
+      const delta = k.cur - k.prev;
+      const dc = delta > 0 ? DS.emerald : delta < 0 ? DS.red : DS.text3;
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          textAlign: "center",
+          padding: 14,
+          borderRadius: 12,
+          background: "rgba(255,255,255,0.02)",
+          border: `1px solid ${DS.border}`
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 22,
+          marginBottom: 6
+        }
+      }, k.icon), /*#__PURE__*/React.createElement(Label, {
+        color: k.color
+      }, k.label), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 22,
+          fontWeight: 900,
+          color: DS.text1,
+          fontFamily: "monospace",
+          margin: "6px 0 2px"
+        }
+      }, k.isCurrency ? fmt(k.cur) : k.cur), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: dc,
+          fontFamily: "monospace",
+          fontWeight: 700
+        }
+      }, delta !== 0 ? `${delta > 0 ? "▲" : "▼"} ${k.isCurrency ? fmt(Math.abs(delta)) : Math.abs(delta)}` : "-"), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 9,
+          color: DS.text3,
+          fontFamily: "monospace",
+          marginTop: 2
+        }
+      }, k.isCurrency ? fmt(k.prev) : k.prev, " en ", periodLabelPrev.toLowerCase()));
+    });
+  })())));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FUNNEL
+// ══════════════════════════════════════════════════════════════════════════React.createElement("div", {
     style: {
       marginBottom: 16
     }
@@ -3001,112 +3106,7 @@ function SecEvolucion({
         fontFamily: "monospace"
       }
     }, periodLabel, " vs ", periodLabelPrev, " \xB7 valores actuales arriba \xB7 \"ant.\" = per\xEDodo anterior")));
-  }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "RESUMEN CONSOLIDADO \u2014 ", periodLabel.toUpperCase()), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(4,1fr)",
-      gap: 10,
-      marginTop: 14
-    }
-  }, (() => {
-    const totCur = {
-      gen: 0,
-      prop: 0,
-      won: 0,
-      wonVal: 0
-    };
-    const totPrev = {
-      gen: 0,
-      prop: 0,
-      won: 0,
-      wonVal: 0
-    };
-    execRows.forEach(r => {
-      totCur.gen += r.cur.generated;
-      totCur.prop += r.cur.proposals;
-      totCur.won += r.cur.won;
-      totCur.wonVal += r.cur.wonVal;
-      totPrev.gen += r.prev.generated;
-      totPrev.prop += r.prev.proposals;
-      totPrev.won += r.prev.won;
-      totPrev.wonVal += r.prev.wonVal;
-    });
-    return [{
-      icon: "🆕",
-      label: "Negocios generados",
-      cur: totCur.gen,
-      prev: totPrev.gen,
-      color: "#60a5fa"
-    }, {
-      icon: "📋",
-      label: "Propuestas enviadas",
-      cur: totCur.prop,
-      prev: totPrev.prop,
-      color: "#a78bfa"
-    }, {
-      icon: "🏆",
-      label: "Deals won",
-      cur: totCur.won,
-      prev: totPrev.won,
-      color: DS.emerald
-    }, {
-      icon: "💰",
-      label: "Valor won",
-      cur: totCur.wonVal,
-      prev: totPrev.wonVal,
-      color: DS.amber,
-      isCurrency: true
-    }].map((k, i) => {
-      const delta = k.cur - k.prev;
-      const dc = delta > 0 ? DS.emerald : delta < 0 ? DS.red : DS.text3;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: {
-          textAlign: "center",
-          padding: 14,
-          borderRadius: 12,
-          background: "rgba(255,255,255,0.02)",
-          border: `1px solid ${DS.border}`
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 22,
-          marginBottom: 6
-        }
-      }, k.icon), /*#__PURE__*/React.createElement(Label, {
-        color: k.color
-      }, k.label), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 22,
-          fontWeight: 900,
-          color: DS.text1,
-          fontFamily: "monospace",
-          margin: "6px 0 2px"
-        }
-      }, k.isCurrency ? fmt(k.cur) : k.cur), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 11,
-          color: dc,
-          fontFamily: "monospace",
-          fontWeight: 700
-        }
-      }, delta !== 0 ? `${delta > 0 ? "▲" : "▼"} ${k.isCurrency ? fmt(Math.abs(delta)) : Math.abs(delta)}` : "-"), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          fontFamily: "monospace",
-          marginTop: 2
-        }
-      }, k.isCurrency ? fmt(k.prev) : k.prev, " en ", periodLabelPrev.toLowerCase()));
-    });
-  })())));
-}
-
-// ══════════════════════════════════════════════════════════════════════════
-// FUNNEL
-// ══════════════════════════════════════════════════════════════════════════
+  }))), /*#__PURE__*/
 function SecFunnel({
   deals
 }) {
