@@ -1201,7 +1201,7 @@ function SecPulso({
       fontWeight: 700,
       color: DS.text1
     }
-  }, "Esta semana")), /*#__PURE__*/React.createElement("div", {
+  }, pLabel)), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -1209,13 +1209,13 @@ function SecPulso({
       marginBottom: 14
     }
   }, [{
-    label: "Won esta semana",
-    val: fmt(wonWkVal) || "—",
-    sub: `${wonWk.length} deals`,
+    label: `Won ${pLabel}`,
+    val: fmt(wonPeriod.reduce((s, d) => s + (d.amount || 0), 0)) || "—",
+    sub: `${wonPeriod.length} deals`,
     color: DS.emerald
   }, {
     label: "Nuevos ingresados",
-    val: newWk.length,
+    val: newPeriod.length,
     sub: "deals creados",
     color: DS.accent
   }].map((k, i) => /*#__PURE__*/React.createElement("div", {
@@ -1241,13 +1241,13 @@ function SecPulso({
       fontSize: 10,
       color: DS.text3
     }
-  }, k.sub)))), wonWk.length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Label, {
+  }, k.sub)))), wonPeriod.length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.emerald
-  }, "Won esta semana"), /*#__PURE__*/React.createElement("div", {
+  }, "Won ", pLabel), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 6
     }
-  }, wonWk.sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
+  }, [...wonPeriod].sort((a, b) => (b.amount || 0) - (a.amount || 0)).map((d, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       display: "flex",
@@ -1281,18 +1281,18 @@ function SecPulso({
       color: DS.emerald,
       fontFamily: "'DM Mono',monospace"
     }
-  }, fmt(d.amount)))))), newWk.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, fmt(d.amount)))))), newPeriod.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12
     }
   }, /*#__PURE__*/React.createElement(Label, {
     color: DS.accent
-  }, "Nuevos esta semana"), /*#__PURE__*/React.createElement("div", {
+  }, "Nuevos ", pLabel), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 6
     }
   }, /*#__PURE__*/React.createElement(ExpandList, {
-    list: [...newWk].sort((a, b) => (b.amount || 0) - (a.amount || 0)),
+    list: [...newPeriod].sort((a, b) => (b.amount || 0) - (a.amount || 0)),
     accent: DS.accent,
     limit: 3
   })))), /*#__PURE__*/React.createElement(Card, {
