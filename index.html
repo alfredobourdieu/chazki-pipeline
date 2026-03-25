@@ -156,7 +156,8 @@ function getProb(deal) {
   return 0.1;
 }
 function isWonDeal(d){const sl=(d.stage_label||"").toLowerCase();return d.is_won||sl.includes("closedwon")||sl.includes("ganado")||sl.includes("won")||sl.includes("piloto")||sl.includes("operando");}
-function isPilotoDeal(d){const sl=(d.stage_label||"").toLowerCase();return sl.includes("piloto")||sl.includes("operando");}function isLostDeal(d) {
+function isPilotoDeal(d){const sl=(d.stage_label||"").toLowerCase();return sl.includes("piloto")||sl.includes("operando");}function isPilotoDeal(d){var sl=(d.stage_label||"").toLowerCase();return sl.includes("piloto")||sl.includes("operando");}
+function isLostDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
   return d.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost");
 }
@@ -284,35 +285,35 @@ async function fetchDeals(setStatus) {
 // ── DESIGN SYSTEM — Executive Intelligence Platform (Light Theme) ──────────
 const DS = {
   // Backgrounds
-  bg: "#f0f4f8",
+  bg: "#ecf5ef",
   bgCard: "#ffffff",
   bgCardHover: "rgba(255,255,255,0.04)",
   bgSection: "rgba(255,255,255,0.04)",
   // Borders
-  border: "#e2e8f0",
-  borderAccent: "#cbd5e1",
+  border: "#c8e3d0",
+  borderAccent: "#9ecfad",
   // Text
-  text1: "#0f172a",
-  text2: "#334155",
-  text3: "#64748b",
-  text4: "#94a3b8",
+  text1: "#0d2218",
+  text2: "#2a5c3a",
+  text3: "#4d8a60",
+  text4: "#7ab88a",
   // Brand colors
-  accent: "#3b82f6",
-  accentLight: "rgba(59,130,246,0.12)",
-  emerald: "#059669",
-  emeraldLight: "#ecfdf5",
+  accent: "#008a50",
+  accentLight: "rgba(0,138,80,0.1)",
+  emerald: "#00b86b",
+  emeraldLight: "rgba(0,184,107,0.1)",
   red: "#dc2626",
-  redLight: "#fef2f2",
+  redLight: "rgba(220,38,38,0.08)",
   amber: "#d97706",
-  amberLight: "#fffbeb",
+  amberLight: "rgba(217,119,6,0.09)",
   cyan: "#0891b2",
-  cyanLight: "#ecfeff",
-  purple: "#a78bfa",
-  purpleLight: "#f5f3ff",
+  cyanLight: "rgba(8,145,178,0.09)",
+  purple: "#7c3aed",
+  purpleLight: "rgba(124,58,237,0.08)",
   // Shadows
-  shadow: "0 1px 3px rgba(0,0,0,0.4)",
-  shadowMd: "0 4px 12px rgba(0,0,0,0.5)",
-  shadowLg: "0 8px 24px rgba(0,0,0,0.6)"
+  shadow: "0 1px 3px rgba(0,60,30,0.08)",
+  shadowMd: "0 4px 12px rgba(0,60,30,0.1)",
+  shadowLg: "0 8px 24px rgba(0,60,30,0.12)"
 };
 function Card({
   children,
@@ -1372,7 +1373,7 @@ function SecPulso({
         gap: 4,
         padding: "3px 10px",
         borderRadius: 20,
-        background: val > 0 ? color + "18" : "rgba(255,255,255,0.03)",
+        background: val > 0 ? color + "18" : "rgba(0,120,60,0.04)",
         border: "1px solid " + (val > 0 ? color + "35" : "rgba(255,255,255,0.07)")
       }
     }, /*#__PURE__*/React.createElement("span", {
@@ -3117,7 +3118,7 @@ function SecEvolucion({
         alignItems: "center",
         justifyContent: "space-between",
         padding: "12px 18px",
-        background: "rgba(255,255,255,0.03)"
+        background: "rgba(0,120,60,0.04)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
