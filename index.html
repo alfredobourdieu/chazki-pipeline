@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chazki · Pipeline Intelligence 2026</title>
-  <style>* { box-sizing: border-box; } body { margin: 0; background: #ecf5ef; }</style>
+  <style>* { box-sizing: border-box; } body { margin: 0; background: #0d1117; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -102,14 +102,12 @@ function normProb(raw) {
 }
 function getProb(deal) {
   const sl = (deal.stage_label || "").toLowerCase();
-  // Business rule: todos los stages de Contrato/Onboarding/Operando/Piloto = 100% activo
-  const isActivePipeline = sl.includes("contrato") || sl.includes("setup") || sl.includes("piloto") || sl.includes("operando") || sl.includes("onboarding") || sl.includes("integración") || sl.includes("integracion") || sl.includes("alta/");
-  // Won = solo Ganado M&P o hs_is_closed_won (sin stages activos)
-  const won = deal.is_won && !isActivePipeline || sl.includes("closedwon") || sl.includes("ganado");
-  const lost = deal.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost") || sl.includes("detenido");
-  if (won) return 1.0;
-  if (lost) return 0.0;
-  if (isActivePipeline) return 1.0; // Contrato/Operando/Piloto = 100%
+  // Active pipeline stages → 100% (regardless of is_won flag)
+  const isActivePipeline = sl.includes("contrato") || sl.includes("setup") || sl.includes("piloto") || sl.includes("operando") || sl.includes("onboarding") || sl.includes("integración") || sl.includes("integracion") || sl.includes("estabiliz");
+  if (isActivePipeline) return 1.0;
+  // Won or lost
+  if (deal.is_won) return 1.0;
+  if (deal.is_lost) return 0.0;
 
   // Try hs_deal_stage_probability first (0-1 or 0-100 float)
   const p1 = normProb(deal.probability);
@@ -161,30 +159,35 @@ function getProb(deal) {
   if (sl.includes("calific")) return 0.1;
   return 0.1;
 }
-function isActivePipelineStage(sl) {
-  // Stages que están en pipeline activo al 100%: Contrato, Onboarding, Operando, Piloto
-  return sl.includes("contrato") || sl.includes("setup") || sl.includes("piloto") || sl.includes("operando") || sl.includes("onboarding") || sl.includes("integración") || sl.includes("integracion") || sl.includes("alta/") || sl.includes("ganado") == false && sl.includes("estabilización - operando") || sl.includes("estabilización - alta") || sl.includes("etapa de integración");
+
+// ── Deal classification — single source of truth ──────────────────────────
+// Rules:
+//   is_lost = true  → always lost
+//   is_won  = true  → won (historical contracts from updater also get is_won=true)
+//   else            → active pipeline
+//
+// getProb() returns 1.0 for active contrato/piloto/operando stage labels
+// updater.gs ensures historical deals (closeDate < 2025) have is_won=true
+
+function isLostDeal(d) {
+  return d.is_lost || ["closedlost", "perdido", "lost", "detenido", "frío", "frio"].some(k => (d.stage_label || "").toLowerCase().includes(k));
 }
 function isWonDeal(d) {
-  const sl = (d.stage_label || "").toLowerCase();
-  // Won = solo deals explícitamente cerrados (no stages activos)
-  const activeStage = isActivePipelineStage(sl);
-  return d.is_won && !activeStage || sl.includes("closedwon") || sl.includes("closed won") || sl.includes("ganado") && !activeStage;
-}
-function isPilotoDeal(d) {
-  const sl = (d.stage_label || "").toLowerCase();
-  return isActivePipelineStage(sl);
-}
-function isLostDeal(d) {
-  const sl = (d.stage_label || "").toLowerCase();
-  return d.is_lost || sl.includes("closedlost") || sl.includes("perdido") || sl.includes("lost") || sl.includes("detenido");
-}
-function isContracted(d) {
-  const sl = (d.stage_label || "").toLowerCase();
-  return isActivePipelineStage(sl);
+  return !!d.is_won;
 }
 function isActiveDeal(d) {
-  return !isLostDeal(d) && (!isWonDeal(d) || isContracted(d) || isPilotoDeal(d));
+  return !isLostDeal(d) && !isWonDeal(d);
+}
+// En Operación = active deals with contrato/piloto/operando stage (for display purposes)
+function isContracted(d) {
+  if (!isActiveDeal(d)) return false;
+  const sl = (d.stage_label || "").toLowerCase();
+  return sl.includes("contrato") || sl.includes("setup") || sl.includes("integración") || sl.includes("integracion");
+}
+function isPilotoDeal(d) {
+  if (!isActiveDeal(d)) return false;
+  const sl = (d.stage_label || "").toLowerCase();
+  return sl.includes("piloto") || sl.includes("operando") || sl.includes("estabiliz");
 }
 // For won deals, close_date may be null in HubSpot (not set by exec).
 // Fall back to last_activity date so we can still bucket the deal into the right month.
@@ -591,6 +594,14 @@ const TABS = [{
   id: "rankings",
   icon: "🏆",
   label: "Rankings"
+}, {
+  id: "metricas",
+  icon: "📣",
+  label: "Métricas Growth"
+}, {
+  id: "fillrate",
+  icon: "🚛",
+  label: "Fleet & Fill Rate"
 }];
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -3761,12 +3772,10 @@ function SecFunnel({
     };
   }).filter(b => b.count > 0);
 
-  // En Operación = Contrato + Piloto + Operando al 100%
-  const enOpFiltered = deals.filter(d => (isContracted(d) || isPilotoDeal(d)) && (!oF || norm(d.owner) === norm(oF)) && (!cF || norm(d.country) === norm(cF)));
-  const enOpW = enOpFiltered.reduce((s, d) => s + (d.amount || 0), 0);
-  const maxW = Math.max(...bData.map(b => b.weighted), enOpW, 1);
-  const totalW = wFn(filtered) + enOpW;
-  const totalB = filtered.reduce((s, d) => s + (d.amount || 0), 0) + enOpW;
+  // totalW includes contracted/piloto at 100% (already in filtered via data.json prob=1.0)
+  const totalW = wFn(filtered);
+  const totalB = filtered.reduce((s, d) => s + (d.amount || 0), 0);
+  const maxW = Math.max(...bData.map(b => b.weighted), 1);
   const byOwner = {},
     byCountry = {};
   filtered.forEach(d => {
@@ -5768,7 +5777,19 @@ function Dashboard() {
     accent: DS.red
   }), /*#__PURE__*/React.createElement(SecRankings, {
     deals: deals
-  })))), /*#__PURE__*/React.createElement("footer", {
+  })), tab === "metricas" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
+    icon: "\uD83D\uDCE3",
+    title: "M\xE9tricas de Growth",
+    subtitle: "Pipeline Adq + Leads Obj + CS Retenci\xF3n \xB7 Proyecci\xF3n Cierre vs Modelo",
+    accent: "#8b5cf6"
+  }), /*#__PURE__*/React.createElement(SecMetricasGrowth, {
+    deals: deals
+  })), tab === "fillrate" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
+    icon: "\uD83D\uDE9B",
+    title: "Fleet & Fill Rate",
+    subtitle: "Capacidad de colocaci\xF3n \xB7 venta perdida por falta de flota",
+    accent: "#f97316"
+  }), /*#__PURE__*/React.createElement(SecFillRate, null)))), /*#__PURE__*/React.createElement("footer", {
     style: {
       borderTop: `1px solid ${DS.border}`,
       marginTop: 8
@@ -5809,6 +5830,1240 @@ function Dashboard() {
       fontFamily: "'DM Mono',monospace"
     }
   }, "FM 36M \xB7 ", fmt(TOTAL_TARGET))))));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÉTRICAS DE GROWTH — Pipeline Adq + Leads Obj + CS Retención + Modelo vs Cierre
+// ══════════════════════════════════════════════════════════════════════════
+
+// ── Hardcoded data from Excel "Métricas Growth" ──────────────────────────
+const MG = {
+  // Week labels Sem 1..53
+  semLabels: Array.from({
+    length: 53
+  }, (_, i) => `S${i + 1}`),
+  // Modelo Adquisición por país (filas 28-33), 53 semanas
+  modeloAdq: {
+    Argentina: [4579, 4579, 4579, 4579, 4579, 7631, 7631, 7631, 7631, 27000, 27000, 27000, 27000, 37000, 37000, 37000, 37000, 57000, 57000, 57000, 57000, 92000, 92000, 92000, 92000, 92000, 116800, 116800, 116800, 116800, 134400, 134400, 134400, 134400, 134400, 135960, 135960, 135960, 135960, 141258, 141258, 141258, 141258, 163510, 163510, 163510, 163510, 163510, 156834, 156834, 156834, 156834, null],
+    Mexico: [0, 0, 0, 0, 0, 0, 0, 0, 0, 74707, 74707, 74707, 74707, 109707, 109707, 109707, 109707, 174707, 174707, 174707, 174707, 209707, 209707, 209707, 209707, 209707, 203628, 203628, 203628, 203628, 203628, 203628, 203628, 203628, 203628, 187138, 187138, 187138, 187138, 206441, 206441, 206441, 206441, 231836, 231836, 231836, 231836, 231836, 241631, 241631, 241631, 241631, null],
+    Chile: [0, 0, 0, 0, 0, 4952, 4952, 4952, 4952, 26500, 26500, 26500, 26500, 58000, 58000, 58000, 58000, 72500, 72500, 72500, 72500, 97500, 97500, 97500, 97500, 97500, 83748, 83748, 83748, 83748, 98623, 98623, 98623, 98623, 98623, 105302, 105302, 105302, 105302, 163677, 163677, 163677, 163677, 104086, 104086, 104086, 104086, 104086, 145375, 145375, 145375, 145375, null],
+    Colombia: [5527, 5527, 5527, 5527, 5527, 13265, 13265, 13265, 13265, 40251, 40251, 40251, 40251, 47126, 47126, 47126, 47126, 59501, 59501, 59501, 59501, 64501, 64501, 64501, 64501, 64501, 71501, 71501, 71501, 71501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, 76501, null],
+    Peru: [2000, 2000, 2000, 2000, 2000, 5000, 5000, 5000, 5000, 10000, 10000, 10000, 10000, 21800, 21800, 21800, 21800, 34800, 34800, 34800, 34800, 53300, 53300, 53300, 53300, 53300, 74660, 74660, 74660, 74660, 93517, 93517, 93517, 93517, 93517, 89265, 89265, 89265, 89265, 89429, 89429, 89429, 89429, 106358, 106358, 106358, 106358, 106358, 126644, 126644, 126644, 126644, null]
+  },
+  // Modelo Retención por país (filas 34-39)
+  modeloRet: {
+    Argentina: [830651, 830651, 830651, 830651, 830651, 810083, 810083, 810083, 810083, 861714, 861714, 861714, 861714, 861714, 861714, 861714, 861714, 1095589, 1095589, 1095589, 1095589, 947245, 947245, 947245, 947245, 947245, 1059914, 1059914, 1059914, 1059914, 1078218, 1078218, 1078218, 1078218, 1078218, 987199, 987199, 987199, 987199, 1054554, 1054554, 1054554, 1054554, 1287492, 1287492, 1287492, 1287492, 1287492, 1244461, 1244461, 1244461, 1244461, null],
+    Mexico: [773323, 773323, 773323, 773323, 773323, 605088, 605088, 605088, 605088, 543863, 543863, 543863, 543863, 628444, 628444, 628444, 628444, 951682, 951682, 951682, 951682, 1099597, 1099597, 1099597, 1099597, 1099597, 916266, 916266, 916266, 916266, 921328, 921328, 921328, 921328, 921328, 704384, 704384, 704384, 704384, 795453, 795453, 795453, 795453, 1134744, 1134744, 1134744, 1134744, 1134744, 1154976, 1154976, 1154976, 1154976, null],
+    Chile: [231530, 231530, 231530, 231530, 210718, 210718, 210718, 210718, 210718, 219764, 219764, 219764, 219764, 252668, 252668, 252668, 252668, 222664, 222664, 222664, 222664, 323375, 323375, 323375, 323375, 323375, 210999, 210999, 210999, 210999, 231963, 231963, 231963, 231963, 231963, 235834, 235834, 235834, 235834, 431005, 431005, 431005, 431005, 269677, 269677, 269677, 269677, 269677, 387513, 387513, 387513, 387513, null],
+    Colombia: [232311, 232311, 232311, 232311, 232311, 230615, 230615, 230615, 230615, 253694, 253694, 253694, 253694, 286307, 286307, 286307, 286307, 323502, 323502, 323502, 323502, 312645, 312645, 312645, 312645, 312645, 409933, 409933, 409933, 409933, 384601, 384601, 384601, 384601, 384601, 420227, 420227, 420227, 420227, 437891, 437891, 437891, 437891, 400138, 400138, 400138, 400138, 400138, 429467, 429467, 429467, 429467, null],
+    Peru: [98854, 98854, 98854, 98854, 98854, 95599, 95599, 95599, 95599, 88304, 88304, 88304, 88304, 102154, 102154, 102154, 102154, 120751, 120751, 120751, 120751, 107278, 107278, 107278, 107278, 107278, 117277, 117277, 117277, 117277, 128083, 128083, 128083, 128083, 128083, 119623, 119623, 119623, 119623, 125235, 125235, 125235, 125235, 153281, 153281, 153281, 153281, 153281, 165265, 165265, 165265, 165265, null]
+  },
+  // Modelo Total = Adq + Ret (filas 40-45)
+  modeloTotal: {
+    Argentina: [835230, 835230, 835230, 835230, 835230, 817715, 817715, 817715, 817715, 888714, 888714, 888714, 888714, 898714, 898714, 898714, 898714, 1152589, 1152589, 1152589, 1152589, 1039245, 1039245, 1039245, 1039245, 1039245, 1176714, 1176714, 1176714, 1176714, 1212618, 1212618, 1212618, 1212618, 1212618, 1123159, 1123159, 1123159, 1123159, 1195812, 1195812, 1195812, 1195812, 1451001, 1451001, 1451001, 1451001, 1451001, 1401295, 1401295, 1401295, 1401295, null],
+    Mexico: [773323, 773323, 773323, 773323, 773323, 605088, 605088, 605088, 605088, 618570, 618570, 618570, 618570, 738151, 738151, 738151, 738151, 1126389, 1126389, 1126389, 1126389, 1309304, 1309304, 1309304, 1309304, 1309304, 1119894, 1119894, 1119894, 1119894, 1124957, 1124957, 1124957, 1124957, 1124957, 891522, 891522, 891522, 891522, 1001894, 1001894, 1001894, 1001894, 1366580, 1366580, 1366580, 1366580, 1366580, 1396607, 1396607, 1396607, 1396607, null],
+    Chile: [231530, 231530, 231530, 231530, 210718, 215669, 215669, 215669, 215669, 246264, 246264, 246264, 246264, 310668, 310668, 310668, 310668, 295164, 295164, 295164, 295164, 420875, 420875, 420875, 420875, 420875, 294747, 294747, 294747, 294747, 330586, 330586, 330586, 330586, 330586, 341136, 341136, 341136, 341136, 594682, 594682, 594682, 594682, 373763, 373763, 373763, 373763, 373763, 532888, 532888, 532888, 532888, null],
+    Colombia: [237838, 237838, 237838, 237838, 237838, 243880, 243880, 243880, 243880, 293944, 293944, 293944, 293944, 333432, 333432, 333432, 333432, 383003, 383003, 383003, 383003, 377146, 377146, 377146, 377146, 377146, 481434, 481434, 481434, 481434, 461102, 461102, 461102, 461102, 461102, 496727, 496727, 496727, 496727, 514392, 514392, 514392, 514392, 476638, 476638, 476638, 476638, 476638, 505968, 505968, 505968, 505968, null],
+    Peru: [100854, 100854, 100854, 100854, 100854, 100599, 100599, 100599, 100599, 98304, 98304, 98304, 98304, 136954, 136954, 136954, 136954, 174051, 174051, 174051, 174051, 178478, 178478, 178478, 178478, 178478, 191937, 191937, 191937, 191937, 221599, 221599, 221599, 221599, 221599, 208888, 208888, 208888, 208888, 214664, 214664, 214664, 214664, 259639, 259639, 259639, 259639, 259639, 291910, 291910, 291910, 291910, null]
+  },
+  // Proyección Cierre Mensual — MANUAL de Operaciones (filas 46-51), sem 1-8 con datos
+  proyCierre: {
+    Argentina: [890000, 890000, 890000, 970000, 970947, 950000, 950000, 950000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Mexico: [784000, 784000, 784000, 800000, 832947, 500000, 594000, 594000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Chile: [210000, 210000, 210000, 224000, 224000, 210000, 210000, 210000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Colombia: [220000, 220000, 220000, 230000, 238148, 220000, 248000, 260000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Peru: [80000, 80000, 80000, 80000, 88049, 75000, 75000, 90000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    TOTAL: [2184000, 2184000, 2184000, 2304000, 2354092, 1955000, 2077000, 2104000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+  },
+  // Reuniones por país — MANUAL (filas 60-65), sem 1-8 con datos
+  reuniones: {
+    Argentina: [10, 10, 10, 10, 3, 3, 9, 10, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Mexico: [10, 10, 10, 10, 1, 1, 4, 10, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Chile: [3, 3, 3, 3, 1, 1, 2, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Colombia: [5, 5, 5, 5, 4, 4, 8, 12, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Peru: [10, 10, 10, 10, 4, 4, 8, 12, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    TOTAL: [38, 38, 38, 38, 13, 13, 31, 44, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+  }
+};
+
+// ── Fill Rate data from Excel REG_Forecast ─────────────────────────────
+const FR = {
+  // 13 semanas con datos reales (Ene-Mar 2026)
+  weekDates: ['01/01', '05/01', '12/01', '19/01', '26/01', '02/02', '09/02', '16/02', '23/02', '02/03', '09/03', '16/03', '23/03'],
+  weekNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+  // Fill Rate Nuevas Colocaciones — cumplimiento acumulado semanal
+  fillRate: {
+    REG: {
+      plan: [311, 247, 404],
+      real: [254, 190, 184],
+      cumW: [0.039, 0.260, 0.447, 0.614, 0.817, 0.239, 0.466, 0.607, 0.769, 0.141, 0.304, 0.455, 0.547]
+    },
+    AR: {
+      plan: [65, 34, 63],
+      real: [61, 32, 32],
+      cumW: [0.046, 0.523, 0.738, 0.877, 0.938, 0.265, 0.735, 0.941, 0.941, 0.175, 0.333, 0.508, null]
+    },
+    CL: {
+      plan: [119, 82, 140],
+      real: [70, 49, 82],
+      cumW: [0.008, 0.084, 0.176, 0.328, 0.588, 0.159, 0.402, 0.537, 0.598, 0.143, 0.279, 0.443, 0.586]
+    },
+    CO: {
+      plan: [43, 60, 87],
+      real: [39, 42, 35],
+      cumW: [0.023, 0.395, 0.535, 0.744, 0.907, 0.167, 0.300, 0.467, 0.700, 0.138, 0.287, 0.402, 0.402]
+    },
+    MX: {
+      plan: [42, 54, 45],
+      real: [42, 51, 15],
+      cumW: [0.000, 0.119, 0.381, 0.667, 1.000, 0.426, 0.593, 0.648, 0.944, 0.067, 0.178, 0.333, null]
+    },
+    PE: {
+      plan: [42, 17, 69],
+      real: [42, 16, 45],
+      cumW: [0.167, 0.357, 0.738, 0.833, 1.000, 0.235, 0.412, 0.647, 0.941, 0.159, 0.435, 0.580, 0.652]
+    }
+  },
+  // Venta Perdida — unidades y USD
+  ventaPerdida: {
+    REG: {
+      unitsM: [null, 100, 165],
+      usdM: [null, 66419, 298442]
+    },
+    AR: {
+      unitsM: [null, 2, 53],
+      usdM: [null, 1761, 122591],
+      usdW: [null, null, null, null, null, null, null, null, 1761, 45835, 40251, 36505, null]
+    },
+    CL: {
+      unitsM: [null, 35, 0],
+      usdM: [null, 30787, 0],
+      usdW: [null, null, null, null, null, null, null, null, 30787, null, null, null, null]
+    },
+    CO: {
+      unitsM: [null, 27, 44],
+      usdM: [null, 15091, 56640],
+      usdW: [null, null, null, null, null, null, null, null, 15091, 25105, 18912, 12624, null]
+    },
+    MX: {
+      unitsM: [null, 3, 31],
+      usdM: [null, 3864, 79722],
+      usdW: [null, null, null, null, null, null, null, null, 3864, 24219, 20104, 13402, 21997]
+    },
+    PE: {
+      unitsM: [null, 33, 51],
+      usdM: [null, 14915, 39489],
+      usdW: [null, null, null, null, null, null, null, null, 14915, 13642, 13836, 12010, null]
+    }
+  }
+};
+
+// ── SecMetricasGrowth component ────────────────────────────────────────────
+function SecMetricasGrowth({
+  deals
+}) {
+  const [paisF, setPaisF] = useState('TOTAL');
+  const [vistaW, setVistaW] = useState('ultimas8'); // ultimas8 | todas
+
+  const PAISES = ['TOTAL', 'Argentina', 'Mexico', 'Chile', 'Colombia', 'Peru'];
+  const PAIS_FLAGS = {
+    Argentina: '🇦🇷',
+    Mexico: '🇲🇽',
+    Chile: '🇨🇱',
+    Colombia: '🇨🇴',
+    Peru: '🇵🇪',
+    TOTAL: '🌎'
+  };
+  const PAIS_COLORS = {
+    Argentina: '#f97316',
+    Mexico: '#a855f7',
+    Chile: '#3b82f6',
+    Colombia: '#22c55e',
+    Peru: '#ef4444',
+    TOTAL: DS.cyan
+  };
+
+  // Live pipeline values from HubSpot deals
+  const activeDeals = deals.filter(isActiveDeal);
+  const pipeAdq = wFn(activeDeals); // Total weighted pipeline adquisición
+
+  // Por país
+  const pipeByPais = {};
+  ['Argentina', 'Chile', 'Colombia', 'México', 'Perú'].forEach(p => {
+    const alias = p === 'México' ? 'Mexico' : p === 'Perú' ? 'Peru' : p;
+    const d = activeDeals.filter(x => x.country === p || x.country === alias);
+    pipeByPais[alias] = wFn(d);
+  });
+
+  // Last week with modelo data (sem 8 actual)
+  const lastSem = 7; // index 7 = sem 8
+
+  // Modelo total last sem
+  const modeloLastSem = paisF === 'TOTAL' ? Object.values(MG.modeloTotal).reduce((s, arr) => s + (arr[lastSem] || 0), 0) : (MG.modeloTotal[paisF] || [])[lastSem] || 0;
+
+  // Proyección last sem
+  const proyLastSem = paisF === 'TOTAL' ? MG.proyCierre.TOTAL[lastSem] || 0 : (MG.proyCierre[paisF] || [])[lastSem] || 0;
+  const pctCump = proyLastSem > 0 && modeloLastSem > 0 ? Math.round(proyLastSem / modeloLastSem * 100) : null;
+  const cumpColor = pctCump == null ? DS.text3 : pctCump >= 100 ? DS.emerald : pctCump >= 85 ? DS.amber : DS.red;
+
+  // Reuniones last sem
+  const reunLastSem = paisF === 'TOTAL' ? MG.reuniones.TOTAL[lastSem] || 0 : (MG.reuniones[paisF] || [])[lastSem] || 0;
+
+  // Semanas a mostrar en gráfico
+  const semsToShow = vistaW === 'todas' ? 53 : 8;
+  const semIdxs = Array.from({
+    length: semsToShow
+  }, (_, i) => i).filter(i => i < 53);
+
+  // Compute modelo total per week
+  const modeloTotalArr = semIdxs.map(i => Object.values(MG.modeloTotal).reduce((s, arr) => s + (arr[i] || 0), 0));
+  const proyCierreArr = semIdxs.map(i => MG.proyCierre.TOTAL[i]);
+  const pctArr = semIdxs.map(i => {
+    const m = modeloTotalArr[i],
+      p = MG.proyCierre.TOTAL[i];
+    return m && p ? Math.round(p / m * 100) : null;
+  });
+
+  // For filtered país
+  const modeloPaisArr = semIdxs.map(i => paisF === 'TOTAL' ? modeloTotalArr[i] : (MG.modeloTotal[paisF] || [])[i] || null);
+  const proyPaisArr = semIdxs.map(i => paisF === 'TOTAL' ? MG.proyCierre.TOTAL[i] : (MG.proyCierre[paisF] || [])[i] || null);
+  const maxChart = Math.max(...modeloPaisArr.filter(Boolean), ...proyPaisArr.filter(Boolean), 1);
+  const chartH = 110,
+    chartW2 = 520;
+  const barW = Math.max(Math.floor(chartW2 / semsToShow) - 2, 3);
+  const step = chartW2 / semsToShow;
+
+  // Semáforo cumplimiento tabla
+  function semaforo(pct) {
+    if (pct == null) return '—';
+    if (pct >= 100) return '🟢';
+    if (pct >= 85) return '🟡';
+    return '🔴';
+  }
+
+  // Last data index for proyección
+  const lastProy = MG.proyCierre.TOTAL.reduce((last, v, i) => v != null && v > 0 ? i : last, -1);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap'
+    }
+  }, PAISES.map(p => {
+    const act = paisF === p;
+    return /*#__PURE__*/React.createElement("button", {
+      key: p,
+      onClick: () => setPaisF(p),
+      style: {
+        padding: '5px 13px',
+        fontSize: 11,
+        fontWeight: act ? 700 : 400,
+        borderRadius: 20,
+        cursor: 'pointer',
+        border: `1px solid ${act ? PAIS_COLORS[p] : DS.border}`,
+        background: act ? `${PAIS_COLORS[p]}20` : 'transparent',
+        color: act ? PAIS_COLORS[p] : DS.text3,
+        transition: 'all 0.15s'
+      }
+    }, PAIS_FLAGS[p], " ", p);
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setVistaW('ultimas8'),
+    style: {
+      padding: '5px 12px',
+      fontSize: 10,
+      borderRadius: 6,
+      cursor: 'pointer',
+      border: `1px solid ${vistaW === 'ultimas8' ? DS.accent : DS.border}`,
+      background: vistaW === 'ultimas8' ? DS.accentLight : 'transparent',
+      color: vistaW === 'ultimas8' ? DS.accent : DS.text3
+    }
+  }, "\xDAlt. 8 sem"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setVistaW('todas'),
+    style: {
+      padding: '5px 12px',
+      fontSize: 10,
+      borderRadius: 6,
+      cursor: 'pointer',
+      border: `1px solid ${vistaW === 'todas' ? DS.accent : DS.border}`,
+      background: vistaW === 'todas' ? DS.accentLight : 'transparent',
+      color: vistaW === 'todas' ? DS.accent : DS.text3
+    }
+  }, "52 sem")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4,1fr)',
+      gap: 10
+    }
+  }, [{
+    label: 'Pipeline Adquisición',
+    val: fmt(paisF === 'TOTAL' ? pipeAdq : pipeByPais[paisF] || 0),
+    color: DS.cyan,
+    sub: 'HubSpot live · ponderado',
+    icon: '📦'
+  }, {
+    label: 'Modelo Total (sem act.)',
+    val: fmt(modeloLastSem),
+    color: '#818cf8',
+    sub: 'Budget Adq + Budget Ret',
+    icon: '🎯'
+  }, {
+    label: 'Proyección Cierre Ops',
+    val: proyLastSem ? fmt(proyLastSem) : '—',
+    color: cumpColor,
+    sub: `Sem 8 · manual operaciones`,
+    icon: '📋'
+  }, {
+    label: '% vs Modelo',
+    val: pctCump != null ? `${pctCump}%` : '—',
+    color: cumpColor,
+    sub: pctCump >= 100 ? '⬆ sobre modelo' : pctCump >= 85 ? '⚠ cerca del modelo' : '⬇ bajo modelo',
+    icon: '📊'
+  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      borderRadius: 14,
+      padding: '14px 16px',
+      background: 'rgba(255,255,255,0.02)',
+      border: `1px solid ${DS.border}`,
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 2,
+      background: `linear-gradient(90deg,${k.color},transparent)`
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      marginBottom: 6
+    }
+  }, k.icon), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace",
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      marginBottom: 4
+    }
+  }, k.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: k.color,
+      letterSpacing: '-0.02em',
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, k.val), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      marginTop: 3
+    }
+  }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Proyecci\xF3n Cierre vs Modelo 2026"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace",
+      margin: '3px 0 0'
+    }
+  }, "Barras = Proyecci\xF3n Cierre Ops (manual) \xB7 L\xEDnea = Modelo Budget Total \xB7 % encima = cumplimiento")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 12,
+      alignItems: 'center'
+    }
+  }, [['#818cf8', 'Modelo'], ['rgba(16,185,129,0.7)', 'Proyección'], [DS.amber, '% Cumplimiento']].map(([c, l]) => /*#__PURE__*/React.createElement("div", {
+    key: l,
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 10,
+      height: l === 'Proyección' ? 10 : 2,
+      borderRadius: 3,
+      background: c
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, l))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: Math.max(chartW2, semsToShow * 20),
+    height: chartH + 70,
+    style: {
+      display: 'block'
+    }
+  }, [0, 0.25, 0.5, 0.75, 1].map(r => /*#__PURE__*/React.createElement("line", {
+    key: r,
+    x1: 0,
+    x2: Math.max(chartW2, semsToShow * 20),
+    y1: chartH - r * chartH,
+    y2: chartH - r * chartH,
+    stroke: "rgba(255,255,255,0.05)",
+    strokeWidth: 1
+  })), proyPaisArr.map((v, i) => {
+    if (!v) return null;
+    const h = Math.max(v / maxChart * chartH, 2);
+    const x = i * step + step * 0.2;
+    return /*#__PURE__*/React.createElement("rect", {
+      key: i,
+      x: x,
+      y: chartH - h,
+      width: step * 0.35,
+      height: h,
+      rx: 2,
+      fill: `rgba(16,185,129,0.65)`,
+      opacity: 0.9
+    });
+  }), (() => {
+    const pts = modeloPaisArr.map((v, i) => v != null ? `${i * step + step / 2},${chartH - v / maxChart * chartH}` : null).filter(Boolean);
+    if (pts.length < 2) return null;
+    return /*#__PURE__*/React.createElement("polyline", {
+      points: pts.join(' '),
+      fill: "none",
+      stroke: "#818cf8",
+      strokeWidth: 2,
+      strokeOpacity: 0.8
+    });
+  })(), proyPaisArr.map((v, i) => {
+    const m = modeloPaisArr[i];
+    if (!v || !m) return null;
+    const pct = Math.round(v / m * 100);
+    const h = v / maxChart * chartH;
+    const x = i * step + step * 0.2 + step * 0.35 / 2;
+    const color = pct >= 100 ? '#10b981' : pct >= 85 ? '#f59e0b' : '#ef4444';
+    return /*#__PURE__*/React.createElement("text", {
+      key: i,
+      x: x,
+      y: chartH - h - 4,
+      textAnchor: "middle",
+      fill: color,
+      fontSize: "7",
+      fontWeight: "700",
+      fontFamily: "monospace"
+    }, pct, "%");
+  }), semIdxs.map((si, i) => /*#__PURE__*/React.createElement("text", {
+    key: i,
+    x: i * step + step / 2,
+    y: chartH + 14,
+    textAnchor: "middle",
+    fill: DS.text4,
+    fontSize: "7",
+    fontFamily: "monospace"
+  }, "S", si + 1))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Cumplimiento por Pa\xEDs \u2014 Sem ", lastSem + 1, " (\xFAltima con datos)"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 11
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: `1px solid ${DS.border}`
+    }
+  }, ['País', 'Modelo Budget', 'Proyección Cierre', '% Cumplimiento', 'Estado', 'Reuniones'].map(h => /*#__PURE__*/React.createElement("th", {
+    key: h,
+    style: {
+      padding: '7px 10px',
+      textAlign: 'left',
+      color: DS.text4,
+      fontSize: 9,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 500,
+      textTransform: 'uppercase',
+      letterSpacing: '0.06em'
+    }
+  }, h)))), /*#__PURE__*/React.createElement("tbody", null, ['Argentina', 'Mexico', 'Chile', 'Colombia', 'Peru'].map(p => {
+    const modelo = (MG.modeloTotal[p] || [])[lastSem] || 0;
+    const proy = (MG.proyCierre[p] || [])[lastSem] || 0;
+    const reun = (MG.reuniones[p] || [])[lastSem] || 0;
+    const pct = modelo > 0 && proy > 0 ? Math.round(proy / modelo * 100) : null;
+    const col = pct == null ? DS.text3 : pct >= 100 ? DS.emerald : pct >= 85 ? DS.amber : DS.red;
+    const flag = {
+      Argentina: '🇦🇷',
+      Mexico: '🇲🇽',
+      Chile: '🇨🇱',
+      Colombia: '🇨🇴',
+      Peru: '🇵🇪'
+    }[p];
+    return /*#__PURE__*/React.createElement("tr", {
+      key: p,
+      style: {
+        borderBottom: `1px solid ${DS.border}30`
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text1,
+        fontWeight: 600
+      }
+    }, flag, " ", p), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text2,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(modelo)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: proy ? DS.emerald : DS.text4,
+        fontFamily: "'DM Mono',monospace",
+        fontWeight: 600
+      }
+    }, proy ? fmt(proy) : '—'), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: col,
+        fontFamily: "'DM Mono',monospace",
+        fontWeight: 700
+      }
+    }, pct != null ? `${pct}%` : '—'), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        fontSize: 14
+      }
+    }, semaforo(pct)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text2,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, reun || '—'));
+  }), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderTop: `1px solid ${DS.borderAccent}`,
+      background: 'rgba(255,255,255,0.02)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: DS.text1,
+      fontWeight: 800
+    }
+  }, "\uD83C\uDF0E TOTAL"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: '#818cf8',
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 700
+    }
+  }, fmt(modeloLastSem)), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: DS.emerald,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 700
+    }
+  }, proyLastSem ? fmt(proyLastSem) : '—'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: cumpColor,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 900
+    }
+  }, pctCump != null ? `${pctCump}%` : '—'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      fontSize: 14
+    }
+  }, semaforo(pctCump)), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: DS.text2,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 700
+    }
+  }, MG.reuniones.TOTAL[lastSem] || 0 || '—')))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Pipelines Activos \u2014 HubSpot Live"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(5,1fr)',
+      gap: 8,
+      marginTop: 10
+    }
+  }, [{
+    key: 'Argentina',
+    flag: '🇦🇷',
+    color: '#f97316'
+  }, {
+    key: 'Mexico',
+    flag: '🇲🇽',
+    color: '#a855f7'
+  }, {
+    key: 'Chile',
+    flag: '🇨🇱',
+    color: '#3b82f6'
+  }, {
+    key: 'Colombia',
+    flag: '🇨🇴',
+    color: '#22c55e'
+  }, {
+    key: 'Peru',
+    flag: '🇵🇪',
+    color: '#ef4444'
+  }].map(({
+    key,
+    flag,
+    color
+  }) => {
+    const alias = key === 'Mexico' ? 'México' : key === 'Peru' ? 'Perú' : key;
+    const v = pipeByPais[key] || 0;
+    const modelo = (MG.modeloTotal[key] || [])[lastSem] || 0;
+    const pct = modelo > 0 ? Math.round(v / modelo * 100) : null;
+    const col = pct == null ? DS.text4 : pct >= 100 ? DS.emerald : pct >= 75 ? DS.amber : DS.red;
+    return /*#__PURE__*/React.createElement("div", {
+      key: key,
+      style: {
+        borderRadius: 12,
+        padding: '12px 14px',
+        background: `${color}08`,
+        border: `1px solid ${color}25`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 16,
+        marginBottom: 4
+      }
+    }, flag), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text4,
+        fontFamily: "'DM Mono',monospace",
+        textTransform: 'uppercase',
+        marginBottom: 2
+      }
+    }, key, " \xB7 Adq Live"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 16,
+        fontWeight: 800,
+        color,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(v)), pct != null && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: col,
+        marginTop: 2,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, pct, "% vs modelo"));
+  }))));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FLEET & FILL RATE — Capacidad de Colocación + Venta Perdida
+// ══════════════════════════════════════════════════════════════════════════
+function SecFillRate() {
+  const [semSel, setSemSel] = useState(12); // index 0-12 (sem 1-13)
+  const [vista, setVista] = useState('fr'); // fr | vp
+
+  const CTRY_FLAGS = {
+    REG: '🌎',
+    AR: '🇦🇷',
+    CL: '🇨🇱',
+    CO: '🇨🇴',
+    MX: '🇲🇽',
+    PE: '🇵🇪'
+  };
+  const CTRY_COLORS = {
+    REG: DS.cyan,
+    AR: '#f97316',
+    CL: '#3b82f6',
+    CO: '#22c55e',
+    MX: '#a855f7',
+    PE: '#ef4444'
+  };
+  const CTRY_NAMES = {
+    REG: 'Regional',
+    AR: 'Argentina',
+    CL: 'Chile',
+    CO: 'Colombia',
+    MX: 'México',
+    PE: 'Perú'
+  };
+  const semLabel = `Sem ${FR.weekNums[semSel]} · ${FR.weekDates[semSel]}`;
+
+  // Compute fill rate % for selected week
+  function getFR(ctry) {
+    const v = FR.fillRate[ctry]?.cumW[semSel];
+    return v != null ? Math.round(v * 100) : null;
+  }
+
+  // Last monthly index with data (0=ene,1=feb,2=mar)
+  const lastMonthIdx = 2; // Marzo es el último con datos
+
+  // Total venta perdida YTD USD
+  const totalVpYTD = Object.entries(FR.ventaPerdida).filter(([k]) => k !== 'REG').reduce((s, [, d]) => s + (d.usdM[lastMonthIdx] || 0), 0);
+
+  // Fill rate actual REG
+  const frREG = getFR('REG');
+  const frColor = frREG == null ? DS.text3 : frREG >= 85 ? DS.emerald : frREG >= 65 ? DS.amber : DS.red;
+
+  // Colocaciones pendientes REG = plan - real (marzo)
+  const planM = FR.fillRate.REG.plan[lastMonthIdx] || 0;
+  const realM = FR.fillRate.REG.real[lastMonthIdx] || 0;
+  const colPdt = Math.max(planM - realM, 0);
+
+  // Chart — fill rate weekly evolution
+  const chartH = 110,
+    chartW3 = 540;
+  const nSems = 13;
+  const stepW = chartW3 / nSems;
+  const CTRIES_SHOW = ['REG', 'AR', 'CL', 'CO', 'MX', 'PE'];
+  const DASH_COLORS_LINE = {
+    REG: DS.cyan,
+    AR: '#f97316',
+    CL: '#3b82f6',
+    CO: '#22c55e',
+    MX: '#a855f7',
+    PE: '#ef4444'
+  };
+
+  // FR semáforo
+  function frSema(pct) {
+    if (pct == null) return '—';
+    if (pct >= 85) return '🟢';
+    if (pct >= 65) return '🟡';
+    return '🔴';
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4,1fr)',
+      gap: 10
+    }
+  }, [{
+    label: 'Fill Rate REG',
+    val: frREG != null ? `${frREG}%` : '—',
+    color: frColor,
+    sub: semLabel,
+    icon: '🚛'
+  }, {
+    label: 'Venta Perdida YTD',
+    val: totalVpYTD ? fmt(totalVpYTD) : '—',
+    color: DS.red,
+    sub: 'USD acumulado Mar 2026',
+    icon: '💸'
+  }, {
+    label: 'Colocaciones pdt.',
+    val: `${colPdt}`,
+    color: DS.amber,
+    sub: 'Plan − Real · Marzo',
+    icon: '📦'
+  }, {
+    label: 'Semana analizada',
+    val: `Sem ${FR.weekNums[semSel]}`,
+    color: DS.text2,
+    sub: FR.weekDates[semSel],
+    icon: '📅'
+  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      borderRadius: 14,
+      padding: '14px 16px',
+      background: 'rgba(255,255,255,0.02)',
+      border: `1px solid ${DS.border}`,
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 2,
+      background: `linear-gradient(90deg,${k.color},transparent)`
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      marginBottom: 6
+    }
+  }, k.icon), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace",
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      marginBottom: 4
+    }
+  }, k.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: k.color,
+      letterSpacing: '-0.02em',
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, k.val), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      marginTop: 3
+    }
+  }, k.sub)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, "SEMANA:"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 4,
+      flexWrap: 'wrap'
+    }
+  }, FR.weekNums.map((n, i) => {
+    const act = semSel === i;
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: () => setSemSel(i),
+      style: {
+        padding: '3px 9px',
+        fontSize: 10,
+        fontWeight: act ? 700 : 400,
+        borderRadius: 6,
+        cursor: 'pointer',
+        border: `1px solid ${act ? DS.accent : DS.border}`,
+        background: act ? DS.accentLight : 'transparent',
+        color: act ? DS.accent : DS.text4,
+        transition: 'all 0.15s',
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, "S", n);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setVista('fr'),
+    style: {
+      padding: '5px 12px',
+      fontSize: 10,
+      borderRadius: 6,
+      cursor: 'pointer',
+      border: `1px solid ${vista === 'fr' ? DS.accent : DS.border}`,
+      background: vista === 'fr' ? DS.accentLight : 'transparent',
+      color: vista === 'fr' ? DS.accent : DS.text3
+    }
+  }, "Fill Rate"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setVista('vp'),
+    style: {
+      padding: '5px 12px',
+      fontSize: 10,
+      borderRadius: 6,
+      cursor: 'pointer',
+      border: `1px solid ${vista === 'vp' ? DS.red : DS.border}`,
+      background: vista === 'vp' ? 'rgba(239,68,68,0.1)' : 'transparent',
+      color: vista === 'vp' ? DS.red : DS.text3
+    }
+  }, "Venta Perdida")), vista === 'fr' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Fill Rate \u2014 Evoluci\xF3n semanal (Sem 1\u219213)"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace",
+      margin: '3px 0 0'
+    }
+  }, "Cumplimiento acumulado % por semana \xB7 l\xEDnea punteada = target 100%")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      flexWrap: 'wrap'
+    }
+  }, CTRIES_SHOW.map(c => /*#__PURE__*/React.createElement("div", {
+    key: c,
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 16,
+      height: 2,
+      borderRadius: 2,
+      background: DASH_COLORS_LINE[c]
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 8,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, CTRY_FLAGS[c], " ", c))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: Math.max(chartW3, 400),
+    height: chartH + 50,
+    style: {
+      display: 'block'
+    }
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: 0,
+    x2: chartW3,
+    y1: 0,
+    y2: 0,
+    stroke: "rgba(255,255,255,0.15)",
+    strokeWidth: 1,
+    strokeDasharray: "4,3"
+  }), [0.25, 0.5, 0.75].map(r => /*#__PURE__*/React.createElement("line", {
+    key: r,
+    x1: 0,
+    x2: chartW3,
+    y1: chartH * (1 - r),
+    y2: chartH * (1 - r),
+    stroke: "rgba(255,255,255,0.04)",
+    strokeWidth: 1
+  })), [25, 50, 75, 100].map(r => /*#__PURE__*/React.createElement("text", {
+    key: r,
+    x: 2,
+    y: chartH * (1 - r / 100) + 4,
+    fill: DS.text4,
+    fontSize: "7",
+    fontFamily: "monospace"
+  }, r, "%")), CTRIES_SHOW.map(ctry => {
+    const data = FR.fillRate[ctry]?.cumW || [];
+    const pts = data.map((v, i) => v != null ? `${i * stepW + stepW / 2},${chartH * (1 - v)}` : null).filter(Boolean);
+    if (pts.length < 2) return null;
+    return /*#__PURE__*/React.createElement("polyline", {
+      key: ctry,
+      points: pts.join(' '),
+      fill: "none",
+      stroke: DASH_COLORS_LINE[ctry],
+      strokeWidth: ctry === 'REG' ? 2.5 : 1.5,
+      strokeOpacity: 0.85
+    });
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: semSel * stepW + stepW / 2,
+    x2: semSel * stepW + stepW / 2,
+    y1: 0,
+    y2: chartH,
+    stroke: DS.accent,
+    strokeWidth: 1,
+    strokeDasharray: "3,3",
+    strokeOpacity: 0.6
+  }), FR.weekNums.map((n, i) => /*#__PURE__*/React.createElement("text", {
+    key: n,
+    x: i * stepW + stepW / 2,
+    y: chartH + 14,
+    textAnchor: "middle",
+    fill: semSel === i ? DS.accent : DS.text4,
+    fontSize: "7",
+    fontWeight: semSel === i ? 700 : 400,
+    fontFamily: "monospace"
+  }, "S", n))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Fill Rate por Pa\xEDs \u2014 ", semLabel), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 11
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: `1px solid ${DS.border}`
+    }
+  }, ['País', 'Plan Mes', 'Real Mes', 'Fill Rate %', 'Estado'].map(h => /*#__PURE__*/React.createElement("th", {
+    key: h,
+    style: {
+      padding: '7px 10px',
+      textAlign: 'left',
+      color: DS.text4,
+      fontSize: 9,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 500,
+      textTransform: 'uppercase',
+      letterSpacing: '0.06em'
+    }
+  }, h)))), /*#__PURE__*/React.createElement("tbody", null, ['REG', 'AR', 'CL', 'CO', 'MX', 'PE'].map(ctry => {
+    const isReg = ctry === 'REG';
+    const mi = lastMonthIdx;
+    const plan = FR.fillRate[ctry]?.plan[mi];
+    const real = FR.fillRate[ctry]?.real[mi];
+    const fr = getFR(ctry);
+    const col = fr == null ? DS.text3 : fr >= 85 ? DS.emerald : fr >= 65 ? DS.amber : DS.red;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: ctry,
+      style: {
+        borderBottom: `1px solid ${DS.border}30`,
+        background: isReg ? 'rgba(255,255,255,0.02)' : 'transparent'
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text1,
+        fontWeight: isReg ? 800 : 600
+      }
+    }, CTRY_FLAGS[ctry], " ", CTRY_NAMES[ctry]), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text2,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, plan ?? '—'), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text2,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, real ?? '—'), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: col,
+        fontFamily: "'DM Mono',monospace",
+        fontWeight: 700
+      }
+    }, fr != null ? `${fr}%` : '—'), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        fontSize: 14
+      }
+    }, frSema(fr)));
+  })))))), vista === 'vp' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Venta Perdida por Pa\xEDs \u2014 YTD USD"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text4,
+      fontFamily: "'DM Mono',monospace",
+      margin: '4px 0 12px'
+    }
+  }, "Revenue no capturado por falta de flota \xB7 acumulado 2026"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 10
+    }
+  }, ['AR', 'CL', 'CO', 'MX', 'PE'].map(c => {
+    const usdYTD = (FR.ventaPerdida[c]?.usdM || []).reduce((s, v) => s + (v || 0), 0);
+    const unitsYTD = (FR.ventaPerdida[c]?.unitsM || []).reduce((s, v) => s + (v || 0), 0);
+    const col = CTRY_COLORS[c];
+    return /*#__PURE__*/React.createElement("div", {
+      key: c,
+      style: {
+        borderRadius: 12,
+        padding: '12px 14px',
+        background: `${col}08`,
+        border: `1px solid ${col}25`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        marginBottom: 4
+      }
+    }, CTRY_FLAGS[c], " ", CTRY_NAMES[c]), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 18,
+        fontWeight: 800,
+        color: DS.red,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, fmt(usdYTD)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text4,
+        marginTop: 2
+      }
+    }, unitsYTD, " unidades pdt."), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 8,
+        height: 4,
+        borderRadius: 2,
+        background: `${DS.red}20`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: '100%',
+        borderRadius: 2,
+        background: DS.red,
+        width: `${Math.min(usdYTD / 80000 * 100, 100)}%`
+      }
+    })));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: 12,
+      padding: '12px 14px',
+      background: 'rgba(239,68,68,0.08)',
+      border: '1px solid rgba(239,68,68,0.25)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      marginBottom: 4
+    }
+  }, "\uD83C\uDF0E TOTAL REG"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 800,
+      color: DS.red,
+      fontFamily: "'DM Mono',monospace"
+    }
+  }, fmt(totalVpYTD)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text4,
+      marginTop: 2
+    }
+  }, Object.entries(FR.ventaPerdida).filter(([k]) => k !== 'REG').reduce((s, [, d]) => s + (d.unitsM || []).reduce((a, v) => a + (v || 0), 0), 0), " unidades totales")))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+    color: DS.text2
+  }, "Detalle Mensual \u2014 Venta Perdida USD"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 11
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: `1px solid ${DS.border}`
+    }
+  }, ['País', 'Enero', 'Febrero', 'Marzo', 'YTD'].map(h => /*#__PURE__*/React.createElement("th", {
+    key: h,
+    style: {
+      padding: '7px 10px',
+      textAlign: 'left',
+      color: DS.text4,
+      fontSize: 9,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 500,
+      textTransform: 'uppercase',
+      letterSpacing: '0.06em'
+    }
+  }, h)))), /*#__PURE__*/React.createElement("tbody", null, ['AR', 'CL', 'CO', 'MX', 'PE'].map(c => {
+    const d = FR.ventaPerdida[c]?.usdM || [];
+    const ytd = d.reduce((s, v) => s + (v || 0), 0);
+    return /*#__PURE__*/React.createElement("tr", {
+      key: c,
+      style: {
+        borderBottom: `1px solid ${DS.border}30`
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.text1,
+        fontWeight: 600
+      }
+    }, CTRY_FLAGS[c], " ", CTRY_NAMES[c]), d.map((v, i) => /*#__PURE__*/React.createElement("td", {
+      key: i,
+      style: {
+        padding: '8px 10px',
+        color: v ? DS.red : DS.text4,
+        fontFamily: "'DM Mono',monospace"
+      }
+    }, v ? fmt(v) : '—')), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '8px 10px',
+        color: DS.red,
+        fontFamily: "'DM Mono',monospace",
+        fontWeight: 700
+      }
+    }, ytd ? fmt(ytd) : '—'));
+  }), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderTop: `1px solid ${DS.borderAccent}`,
+      background: 'rgba(255,255,255,0.02)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      fontWeight: 800,
+      color: DS.text1
+    }
+  }, "\uD83C\uDF0E TOTAL"), [0, 1, 2].map(mi => {
+    const total = Object.entries(FR.ventaPerdida).filter(([k]) => k !== 'REG').reduce((s, [, d]) => s + (d.usdM[mi] || 0), 0);
+    return /*#__PURE__*/React.createElement("td", {
+      key: mi,
+      style: {
+        padding: '9px 10px',
+        color: total ? DS.red : DS.text4,
+        fontFamily: "'DM Mono',monospace",
+        fontWeight: 700
+      }
+    }, total ? fmt(total) : '—');
+  }), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: DS.red,
+      fontFamily: "'DM Mono',monospace",
+      fontWeight: 900
+    }
+  }, fmt(totalVpYTD)))))))));
 }
     ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Dashboard));
   </script>
