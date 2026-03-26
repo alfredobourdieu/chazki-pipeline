@@ -650,7 +650,7 @@ function SecPulso({
     label: pLabel
   } = periodRange;
 
-  // ── Pipeline TOTAL: incluye activos + contrato + piloto + operando ────
+  // ── Pipeline TOTAL: Adquisición UM + PM únicamente ──────────────────────────
   const enOp = deals.filter(d => isContracted(d) || isPilotoDeal(d));
   const active = deals.filter(isActiveDeal); // ya incluye contrato+piloto via isActiveDeal
   const pipeW = wFn(active);
@@ -1899,7 +1899,7 @@ function SecModelo({
   // Pipeline TOTAL incluye activos + contrato + piloto + operando
   const active = deals.filter(isActiveDeal);
   const enOp = deals.filter(d => isContracted(d) || isPilotoDeal(d));
-  const pipeW = wFn(active); // isActiveDeal ya incluye piloto/contrato via getProb=1
+  const pipeW = wFn(active); // Solo Adquisición UM + PM via isActiveDeal
   const pipeByC = {};
   active.forEach(d => {
     if (d.country) pipeByC[d.country] = (pipeByC[d.country] || 0) + (d.amount || 0) * getProb(d);
@@ -5330,7 +5330,7 @@ function Dashboard() {
   // Board KPIs — computed for header strip
   const boardKPIs = deals && !loading ? (() => {
     const active = deals.filter(isActiveDeal);
-    const pipeW = wFn(active);
+    const pipeW = wFn(active); // Solo Adquisición UM + PM
     const wonYtd = deals.filter(d => isWonOrDelivering(d) && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
     const covPct = Math.round(pipeW / TOTAL_TARGET * 100);
     const covCol = covPct >= 100 ? DS.emerald : covPct >= 70 ? DS.amber : DS.red;
@@ -5475,7 +5475,7 @@ function Dashboard() {
     label: "Pipeline Ponderado",
     value: fmt(boardKPIs.pipeW),
     color: DS.cyan,
-    sub: `${boardKPIs.activeDeals} deals activos`,
+    sub: `${boardKPIs.activeDeals} deals activos · UM + PM`,
     tab: "funnel"
   }, {
     label: "Cobertura Modelo",
