@@ -12,7 +12,6 @@
   <div id="root"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.js"></script>
   <script>
     const { useState, useMemo, useEffect } = React;
 // ── FINANCIAL MODEL — Source: CS+Growth [Proyección 2025-2026] → Growth 26 ─
@@ -5874,12 +5873,12 @@ const MG = {
   },
   // Proyección Cierre Mensual — MANUAL de Operaciones (filas 46-51), sem 1-8 con datos
   proyCierre: {
-    Argentina: [890000, 890000, 890000, 970000, 970947, 950000, 950000, 950000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    Mexico: [784000, 784000, 784000, 800000, 832947, 500000, 594000, 594000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    Chile: [210000, 210000, 210000, 224000, 224000, 210000, 210000, 210000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    Colombia: [220000, 220000, 220000, 230000, 238148, 220000, 248000, 260000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    Peru: [80000, 80000, 80000, 80000, 88049, 75000, 75000, 90000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    TOTAL: [2184000, 2184000, 2184000, 2304000, 2354092, 1955000, 2077000, 2104000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    Argentina: [890000, 890000, 890000, 970000, 970947, 950000, 950000, 950000, 950000, 1100000, 1050000, 1050000, 1050000, 1050000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Mexico: [784000, 784000, 784000, 800000, 832947, 500000, 594000, 605000, 621000, 620000, 600000, 611000, 611000, 640000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Chile: [210000, 210000, 210000, 224000, 224000, 210000, 210000, 210000, 233000, 250000, 250000, 220000, 260000, 260000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Colombia: [220000, 220000, 220000, 230000, 238148, 220000, 248000, 250000, 250000, 272777, 272777, 272777, 272777, 272000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    Peru: [80000, 80000, 80000, 80000, 88049, 75000, 75000, 90000, 90000, 110000, 130000, 130000, 130000, 130000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    TOTAL: [2184000, 2184000, 2184000, 2304000, 2354092, 1955000, 2077000, 2105000, 2144000, 2352777, 2302777, 2283777, 2323777, 2352000, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   // Reuniones por país — MANUAL (filas 60-65), sem 1-8 con datos
   reuniones: {
@@ -5966,12 +5965,12 @@ const FR = {
 
 // ── SecMetricasGrowth — CEO View ────────────────────────────────────────────
 function SecMetricasGrowth({deals}) {
-  var RC = window.Recharts;
   var useState = React.useState;
+  var e = React.createElement;
 
-  var _state1 = useState('TOTAL'); var paisF = _state1[0]; var setPaisF = _state1[1];
-  var _state2 = useState('modelo'); var tabActivo = _state2[0]; var setTabActivo = _state2[1];
-  var _state3 = useState('ytd'); var vistaW = _state3[0]; var setVistaW = _state3[1];
+  var _s1 = useState('TOTAL'); var paisF = _s1[0]; var setPaisF = _s1[1];
+  var _s2 = useState('modelo'); var tabActivo = _s2[0]; var setTabActivo = _s2[1];
+  var _s3 = useState('ytd'); var vistaW = _s3[0]; var setVistaW = _s3[1];
 
   var PAISES = ['TOTAL','Argentina','Mexico','Chile','Colombia','Peru'];
   var PFLAG = {Argentina:'🇦🇷',Mexico:'🇲🇽',Chile:'🇨🇱',Colombia:'🇨🇴',Peru:'🇵🇪',TOTAL:'🌎'};
@@ -5992,7 +5991,7 @@ function SecMetricasGrowth({deals}) {
 
   // Dynamic last week
   var lastProy = MG.proyCierre.TOTAL.reduce(function(last,v,i){return (v!=null&&v>0)?i:last;}, -1);
-  var lastSem = lastProy >= 0 ? lastProy : 7;
+  var lastSem = lastProy >= 0 ? lastProy : 12;
   var WEEK_LABEL = 'Sem '+(lastSem+1);
 
   var semsYtd = Array.from({length:lastSem+1},function(_,i){return i;});
@@ -6019,276 +6018,322 @@ function SecMetricasGrowth({deals}) {
   var proySem   = getProy(lastSem,paisF)||0;
   var pctSem    = modeloSem>0&&proySem>0 ? Math.round(proySem/modeloSem*100) : null;
   var pctCol    = pctSem==null?DS.text3:pctSem>=100?DS.emerald:pctSem>=85?DS.amber:DS.red;
-
   var modeloYTD = semsYtd.reduce(function(s,i){return s+getModelo(i,paisF);},0);
   var proyYTD   = semsYtd.reduce(function(s,i){return s+(getProy(i,paisF)||0);},0);
   var pctYTD    = modeloYTD>0&&proyYTD>0 ? Math.round(proyYTD/modeloYTD*100) : null;
   var pctYTDCol = pctYTD==null?DS.text3:pctYTD>=100?DS.emerald:pctYTD>=85?DS.amber:DS.red;
   var reuYTD    = semsYtd.reduce(function(s,i){return s+getReu(i,paisF);},0);
 
-  function semaforo(p){return p==null?'—':p>=100?'🟢':p>=85?'🟡':'🔴';}
+  function sem(p){return p==null?'—':p>=100?'🟢':p>=85?'🟡':'🔴';}
+  function fmtK(v){if(!v)return '$0';if(v>=1e6)return '$'+(v/1e6).toFixed(2)+'M';if(v>=1e3)return '$'+(v/1e3).toFixed(0)+'K';return '$'+v;}
 
-  // Chart data for recharts
-  var chartData = semsShow.map(function(si) {
-    var m = getModelo(si, paisF);
-    var p = getProy(si, paisF);
-    var pct = m>0&&p!=null ? Math.round(p/m*100) : null;
-    return {
-      sem: 'S'+(si+1),
-      modelo: m,
-      proy: p||undefined,
-      pct: pct,
-      adq: getModAdq(si, paisF),
-      reu: getReu(si, paisF)
-    };
-  });
-
-  // Reuniones chart data - all countries
-  var reuData = semsYtd.map(function(si) {
-    var row = {sem:'S'+(si+1)};
-    PAISES.filter(function(p){return p!=='TOTAL';}).forEach(function(p){
-      row[p] = (MG.reuniones[p]||[])[si]||0;
+  // ── SVG Bar+Line chart ────────────────────────────────────────────────
+  function ModeloChart() {
+    var data = semsShow.map(function(si) {
+      var m = getModelo(si,paisF), p = getProy(si,paisF);
+      return {si:si, m:m, p:p||0, pct:m>0&&p?Math.round(p/m*100):null};
     });
-    row.TOTAL = getReu(si,'TOTAL');
-    return row;
-  });
+    var maxV = Math.max.apply(null, data.map(function(d){return Math.max(d.m,d.p);})) || 1;
+    var W = 600, H = 160, PAD = {t:10,r:50,b:30,l:60};
+    var cW = W - PAD.l - PAD.r;
+    var cH = H - PAD.t - PAD.b;
+    var bW = Math.max(Math.floor(cW/data.length)-3, 2);
+    var step = cW/data.length;
 
-  // Country rows for table
-  var countryRows = ['Argentina','Mexico','Chile','Colombia','Peru'].map(function(c) {
-    var mod = getModelo(lastSem,c);
-    var proy = getProy(lastSem,c)||0;
-    var pct = mod>0&&proy>0?Math.round(proy/mod*100):null;
-    var modYtd = semsYtd.reduce(function(s,i){return s+getModelo(i,c);},0);
-    var proyYtd = semsYtd.reduce(function(s,i){return s+(getProy(i,c)||0);},0);
-    var pctYtd = modYtd>0&&proyYtd>0?Math.round(proyYtd/modYtd*100):null;
-    var adqP = pipeAdqByC[c]||0;
-    var reuC = getReu(lastSem,c);
-    return {c:c,mod:mod,proy:proy,pct:pct,modYtd:modYtd,proyYtd:proyYtd,pctYtd:pctYtd,adqP:adqP,reuC:reuC};
-  });
+    // Y axis ticks
+    var yTicks = [0,0.25,0.5,0.75,1.0].map(function(f){return {v:Math.round(maxV*f), y:cH-(f*cH)};});
+    // PCT y axis (right, 0-130%)
+    var pctTicks = [0,50,100].map(function(v){return {v:v, y:cH-(v/130*cH)};});
 
-  var e = React.createElement;
+    // Line points for % cumplimiento
+    var linePoints = data.filter(function(d){return d.pct!=null;}).map(function(d,i){
+      var xi = semsShow.indexOf(d.si);
+      return (PAD.l + xi*step + bW/2)+','+(PAD.t + cH - Math.min(d.pct/130,1)*cH);
+    }).join(' ');
 
-  function KpiCard(props) {
-    return e('div',{style:{flex:1,minWidth:140,background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'16px 18px'}},
-      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:4}},props.icon,' ',props.label),
-      e('div',{style:{fontSize:20,fontWeight:800,color:props.color||DS.text1,fontFamily:'DM Mono'}},props.value),
-      props.sub&&e('div',{style:{fontSize:10,color:DS.text3,marginTop:3}},props.sub)
+    return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
+      // Y gridlines + labels
+      yTicks.map(function(t,i){return e('g',{key:i},
+        e('line',{x1:PAD.l,y1:PAD.t+t.y,x2:PAD.l+cW,y2:PAD.t+t.y,stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
+        e('text',{x:PAD.l-4,y:PAD.t+t.y+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtK(t.v))
+      );}),
+      // Right pct axis
+      pctTicks.map(function(t,i){return e('g',{key:i},
+        e('text',{x:PAD.l+cW+4,y:PAD.t+t.y+3,fontSize:8,fill:DS.amber,fontFamily:'DM Mono'},t.v+'%')
+      );}),
+      // 100% reference line
+      e('line',{x1:PAD.l,y1:PAD.t+cH-(100/130*cH),x2:PAD.l+cW,y2:PAD.t+cH-(100/130*cH),stroke:DS.emerald,strokeDasharray:'4,3',strokeWidth:1}),
+      // Bars
+      data.map(function(d,xi) {
+        var x = PAD.l + xi*step;
+        var mH = d.m>0 ? Math.max(d.m/maxV*cH,1) : 0;
+        var pH = d.p>0 ? Math.max(d.p/maxV*cH,1) : 0;
+        var isLast = d.si===lastSem;
+        return e('g',{key:xi},
+          e('rect',{x:x+1,y:PAD.t+cH-mH,width:bW*0.48,height:mH,fill:isLast?DS.accent:'#1e3a8a',opacity:0.75,rx:1}),
+          d.p>0&&e('rect',{x:x+bW*0.52,y:PAD.t+cH-pH,width:bW*0.48,height:pH,fill:isLast?DS.emerald:'#064e3b',opacity:0.85,rx:1}),
+          (xi%(data.length>20?4:2)===0)&&e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1))
+        );
+      }),
+      // Line
+      linePoints&&e('polyline',{points:linePoints,fill:'none',stroke:DS.amber,strokeWidth:2}),
+      // Dots on line
+      data.filter(function(d){return d.pct!=null;}).map(function(d,i){
+        var xi = semsShow.indexOf(d.si);
+        var cx = PAD.l + xi*step + bW/2;
+        var cy = PAD.t + cH - Math.min(d.pct/130,1)*cH;
+        return e('circle',{key:i,cx:cx,cy:cy,r:3,fill:DS.amber,stroke:DS.card,strokeWidth:1});
+      })
     );
   }
 
-  function Tab(props) {
-    var act = tabActivo===props.id;
+  // ── SVG Area chart for pipeline adq ──────────────────────────────────
+  function AdqChart() {
+    var data = semsShow.map(function(si){return {si:si, v:getModAdq(si,paisF)};});
+    var maxV = Math.max.apply(null, data.map(function(d){return d.v;})) || 1;
+    var livePipe = paisF==='TOTAL' ? pipeAdq : (pipeAdqByC[paisF]||0);
+    var W = 600, H = 140, PAD = {t:10,r:80,b:28,l:60};
+    var cW = W-PAD.l-PAD.r, cH = H-PAD.t-PAD.b;
+    var step = cW/Math.max(data.length-1,1);
+
+    var pts = data.map(function(d,i){return (PAD.l+i*step)+','+(PAD.t+cH-(d.v/maxV*cH));}).join(' ');
+    var areaPath = 'M'+PAD.l+','+(PAD.t+cH)+' L'+pts.replace(/(\d+\.?\d*),(\d+\.?\d*)/g,'$1,$2 L').replace(/ L$/,'')+' L'+(PAD.l+cW)+','+(PAD.t+cH)+' Z';
+
+    return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
+      // Gridlines
+      [0.25,0.5,0.75,1].map(function(f,i){return e('g',{key:i},
+        e('line',{x1:PAD.l,y1:PAD.t+cH-(f*cH),x2:PAD.l+cW,y2:PAD.t+cH-(f*cH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
+        e('text',{x:PAD.l-4,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtK(maxV*f))
+      );}),
+      e('path',{d:areaPath,fill:DS.accent+'25',stroke:'none'}),
+      e('polyline',{points:pts,fill:'none',stroke:DS.accent,strokeWidth:2}),
+      // Live pipeline reference line
+      livePipe>0&&e('g',null,
+        e('line',{x1:PAD.l,y1:PAD.t+cH-(livePipe/maxV*cH),x2:PAD.l+cW,y2:PAD.t+cH-(livePipe/maxV*cH),stroke:DS.cyan,strokeWidth:1.5,strokeDasharray:'5,3'}),
+        e('text',{x:PAD.l+cW+4,y:PAD.t+cH-(livePipe/maxV*cH)+3,fontSize:8,fill:DS.cyan,fontFamily:'DM Mono'},'Live: '+fmtK(livePipe))
+      ),
+      // X labels
+      data.map(function(d,i){
+        return (i%4===0)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1));
+      })
+    );
+  }
+
+  // ── SVG Stacked bar chart for reuniones ───────────────────────────────
+  function ReuChart() {
+    var CTRIES = ['Argentina','Mexico','Chile','Colombia','Peru'];
+    var data = semsYtd.map(function(si) {
+      var row = {si:si, total:0};
+      CTRIES.forEach(function(c){row[c]=(MG.reuniones[c]||[])[si]||0; row.total+=row[c];});
+      return row;
+    });
+    var maxV = Math.max.apply(null, data.map(function(d){return d.total;})) || 1;
+    var W = 600, H = 130, PAD = {t:10,r:20,b:28,l:35};
+    var cW = W-PAD.l-PAD.r, cH = H-PAD.t-PAD.b;
+    var bW = Math.max(Math.floor(cW/data.length)-3, 4);
+    var step = cW/data.length;
+
+    return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
+      // Gridlines
+      [0.5,1].map(function(f,i){return e('line',{key:i,x1:PAD.l,y1:PAD.t+cH-(f*cH),x2:PAD.l+cW,y2:PAD.t+cH-(f*cH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5});}),
+      data.map(function(d,xi){
+        var x = PAD.l + xi*step;
+        var yOff = 0;
+        var bars = CTRIES.map(function(c){
+          var v = d[c];
+          var h = v>0 ? Math.max(v/maxV*cH,2) : 0;
+          yOff += h;
+          return e('rect',{key:c,x:x+1,y:PAD.t+cH-yOff,width:bW,height:h,fill:PCOL[c],opacity:0.85});
+        });
+        return e('g',{key:xi}, bars,
+          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'DM Mono'},d.total),
+          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1))
+        );
+      })
+    );
+  }
+
+  // Country table
+  var countryRows = ['Argentina','Mexico','Chile','Colombia','Peru'].map(function(c) {
+    var mod=getModelo(lastSem,c), proy=getProy(lastSem,c)||0;
+    var pct=mod>0&&proy>0?Math.round(proy/mod*100):null;
+    var modYtd=semsYtd.reduce(function(s,i){return s+getModelo(i,c);},0);
+    var proyYtd=semsYtd.reduce(function(s,i){return s+(getProy(i,c)||0);},0);
+    var pctYtd=modYtd>0&&proyYtd>0?Math.round(proyYtd/modYtd*100):null;
+    return {c:c,mod:mod,proy:proy,pct:pct,modYtd:modYtd,proyYtd:proyYtd,pctYtd:pctYtd,adqP:pipeAdqByC[c]||0,reuC:getReu(lastSem,c)};
+  });
+
+  function Pill(props){
+    return e('button',{onClick:props.onClick,style:{
+      padding:'5px 13px',fontSize:11,fontWeight:props.active?700:400,borderRadius:20,cursor:'pointer',
+      border:'1px solid '+(props.active?props.col:DS.border),
+      background:props.active?(props.col+'20'):'transparent',
+      color:props.active?props.col:DS.text3
+    }},props.children);
+  }
+  function TabBtn(props){
+    var act=tabActivo===props.id;
     return e('button',{onClick:function(){setTabActivo(props.id);},style:{
       padding:'7px 16px',fontSize:11,fontWeight:act?700:400,borderRadius:8,cursor:'pointer',
       border:'1px solid '+(act?DS.accent:DS.border),
       background:act?DS.accentLight:'transparent',color:act?DS.accent:DS.text3
     }},props.label);
   }
-
-  var tooltipStyle = {background:DS.card,border:'1px solid '+DS.border,borderRadius:8,fontSize:11,fontFamily:'DM Mono'};
-
-  function fmtTick(v) {
-    if(v>=1e6) return '$'+(v/1e6).toFixed(1)+'M';
-    if(v>=1e3) return '$'+(v/1e3).toFixed(0)+'K';
-    return '$'+v;
+  function KpiCard(props){
+    return e('div',{style:{flex:1,minWidth:140,background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'16px 18px'}},
+      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:4}},props.icon+' '+props.label),
+      e('div',{style:{fontSize:20,fontWeight:800,color:props.color||DS.text1,fontFamily:'DM Mono'}},props.value),
+      props.sub&&e('div',{style:{fontSize:10,color:DS.text3,marginTop:3}},props.sub)
+    );
   }
 
   return e('div',{style:{display:'flex',flexDirection:'column',gap:16}},
 
-    // ── TOP KPI STRIP ───────────────────────────────────────────────────
+    // ── TOP KPI STRIP ────────────────────────────────────────────────────
     e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:10}},
       e(KpiCard,{icon:'📥',label:'Pipeline Adquisición',value:fmt(pipeAdq),sub:activeDeals.length+' deals activos · live HubSpot',color:DS.cyan}),
-      e(KpiCard,{icon:'🔭',label:'Leads Exploratorios',value:fmt(PIPE_EXPLO),sub:'Pipeline 779 · clientes won operacionales',color:'#818cf8'}),
+      e(KpiCard,{icon:'🔭',label:'Leads Exploratorios',value:fmt(PIPE_EXPLO),sub:'Pipeline 779 · won operacionales',color:'#818cf8'}),
       e(KpiCard,{icon:'🔄',label:'CS Retención Activo',value:fmt(PIPE_RET_ACTIVE),sub:'Won YTD CS: '+fmt(PIPE_RET_WON),color:'#34d399'}),
       e(KpiCard,{icon:'🎯',label:'Cumplimiento YTD',value:pctYTD!=null?(pctYTD+'%'):'—',sub:'Proy '+fmt(proyYTD)+' vs Modelo '+fmt(modeloYTD),color:pctYTDCol})
     ),
 
-    // ── SEMANA HEADER ───────────────────────────────────────────────────
+    // ── CONTROLES ────────────────────────────────────────────────────────
     e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'14px 18px'}},
       e('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:12,flexWrap:'wrap'}},
         e('span',{style:{fontSize:12,fontWeight:700,color:DS.text1}},'📅 '+WEEK_LABEL+' · Última semana con datos'),
         e('div',{style:{flex:1}}),
         ['ytd','anual'].map(function(v){
-          var act = vistaW===v;
+          var act=vistaW===v;
           return e('button',{key:v,onClick:function(){setVistaW(v);},style:{
             padding:'4px 10px',fontSize:10,borderRadius:6,cursor:'pointer',
             border:'1px solid '+(act?DS.accent:DS.border),
             background:act?DS.accentLight:'transparent',color:act?DS.accent:DS.text3
-          }},v==='ytd'?'YTD (Sem 1-'+(lastSem+1)+')':'Anual 52 sem');
+          }},v==='ytd'?'YTD Sem 1-'+(lastSem+1):'Anual 52 sem');
         })
       ),
       e('div',{style:{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}},
-        PAISES.map(function(p){
-          var act = paisF===p;
-          return e('button',{key:p,onClick:function(){setPaisF(p);},style:{
-            padding:'5px 13px',fontSize:11,fontWeight:act?700:400,borderRadius:20,cursor:'pointer',
-            border:'1px solid '+(act?PCOL[p]:DS.border),
-            background:act?(PCOL[p]+'20'):'transparent',color:act?PCOL[p]:DS.text3
-          }},PFLAG[p],' ',p);
-        })
+        PAISES.map(function(p){return e(Pill,{key:p,active:paisF===p,col:PCOL[p],onClick:function(){setPaisF(p);}},PFLAG[p]+' '+p);})
       ),
-      e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))',gap:8}},
-        [{label:'Modelo Sem',val:fmt(modeloSem),color:DS.text1,sub:'Adq+Ret objetivo'},
-         {label:'Proyección Ops',val:proySem>0?fmt(proySem):'Pendiente',color:proySem>0?DS.text1:DS.text3,sub:'Dato de Operaciones'},
-         {label:'Cumplimiento Sem',val:pctSem!=null?(pctSem+'% '+semaforo(pctSem)):'—',color:pctCol,sub:'Proy / Modelo'},
-         {label:'Acum. Modelo',val:fmt(modeloYTD),color:DS.text2,sub:'YTD total esperado'},
-         {label:'Acum. Proyección',val:fmt(proyYTD),color:pctYTDCol,sub:pctYTD!=null?(pctYTD+'% '+semaforo(pctYTD)):'YTD'},
-         {label:'Reuniones Expl.',val:reuYTD||'—',color:DS.accent,sub:WEEK_LABEL+': '+getReu(lastSem,paisF)},
+      e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(115px,1fr))',gap:8}},
+        [{l:'Modelo Sem',v:fmt(modeloSem),c:DS.text1,s:'Adq+Ret objetivo'},
+         {l:'Proyección Ops',v:proySem>0?fmt(proySem):'Pendiente',c:proySem>0?DS.text1:DS.text3,s:'Dato de Operaciones'},
+         {l:'Cumpl. Sem',v:pctSem!=null?(pctSem+'% '+sem(pctSem)):'—',c:pctCol,s:'Proy / Modelo'},
+         {l:'Acum. Modelo',v:fmt(modeloYTD),c:DS.text2,s:'YTD esperado'},
+         {l:'Acum. Proyección',v:fmt(proyYTD),c:pctYTDCol,s:pctYTD!=null?(pctYTD+'% '+sem(pctYTD)):'YTD'},
+         {l:'Reuniones Expl.',v:reuYTD||'—',c:DS.accent,s:WEEK_LABEL+': '+getReu(lastSem,paisF)},
         ].map(function(k,i){
           return e('div',{key:i,style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:'1px solid '+DS.border}},
-            e('div',{style:{fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},k.label),
-            e('div',{style:{fontSize:16,fontWeight:700,color:k.color,marginTop:4}},k.val),
-            e('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},k.sub)
+            e('div',{style:{fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},k.l),
+            e('div',{style:{fontSize:15,fontWeight:700,color:k.c,marginTop:4}},k.v),
+            e('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},k.s)
           );
         })
       )
     ),
 
-    // ── TABS ────────────────────────────────────────────────────────────
+    // ── TABS ─────────────────────────────────────────────────────────────
     e('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},
-      e(Tab,{id:'modelo',label:'📊 Modelo vs Proyección'}),
-      e(Tab,{id:'pipelines',label:'📥 Pipeline Adquisición'}),
-      e(Tab,{id:'reuniones',label:'🤝 Reuniones Exploratorias'})
+      e(TabBtn,{id:'modelo',label:'📊 Modelo vs Proyección'}),
+      e(TabBtn,{id:'pipelines',label:'📥 Pipeline Adquisición'}),
+      e(TabBtn,{id:'reuniones',label:'🤝 Reuniones Exploratorias'})
     ),
 
-    // ── TAB MODELO vs PROYECCION ────────────────────────────────────────
-    tabActivo==='modelo'&&RC&&e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
+    // ── TAB: MODELO vs PROYECCIÓN ─────────────────────────────────────────
+    tabActivo==='modelo'&&e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
       e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},
-        'Modelo Total vs Proyección Cierre · '+paisF+' · '+(vistaW==='ytd'?'YTD Sem 1-'+(lastSem+1):'52 semanas')
+        'Modelo Total vs Proyección Cierre · '+paisF+' · '+(vistaW==='ytd'?'Sem 1-'+(lastSem+1):'52 semanas')),
+      e('div',{style:{display:'flex',gap:16,marginBottom:12,flexWrap:'wrap'}},
+        [{c:'#1e3a8a',l:'Modelo'},{'c':'#064e3b',l:'Proyección Ops'},{c:DS.amber,l:'% Cumplimiento'},{c:DS.emerald,l:'100%'}].map(function(x,i){
+          return e('div',{key:i,style:{display:'flex',alignItems:'center',gap:5}},
+            e('div',{style:{width:10,height:8,background:x.c,borderRadius:2}}),
+            e('span',{style:{fontSize:10,color:DS.text3}},x.l)
+          );
+        })
       ),
-      e('div',{style:{fontSize:10,color:DS.text3,marginBottom:16}},
-        'Barras azules = Modelo objetivo · Barras verdes = Proyección Operaciones · Línea naranja = % Cumplimiento'
-      ),
-      e(RC.ResponsiveContainer,{width:'100%',height:220},
-        e(RC.ComposedChart,{data:chartData,margin:{top:10,right:40,left:10,bottom:5}},
-          e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,vertical:false}),
-          e(RC.XAxis,{dataKey:'sem',tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:{stroke:DS.border},tickLine:false}),
-          e(RC.YAxis,{yAxisId:'usd',tickFormatter:fmtTick,tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:55}),
-          e(RC.YAxis,{yAxisId:'pct',orientation:'right',domain:[0,150],tickFormatter:function(v){return v+'%';},tick:{fill:DS.amber,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:40}),
-          e(RC.Tooltip,{contentStyle:tooltipStyle,formatter:function(v,name){
-            if(name==='% Cumpl') return [v+'%',name];
-            return [fmt(v),name];
-          }}),
-          e(RC.Legend,{wrapperStyle:{fontSize:10,color:DS.text3}}),
-          e(RC.Bar,{yAxisId:'usd',dataKey:'modelo',name:'Modelo',fill:'#1e40af',opacity:0.75,radius:[2,2,0,0]}),
-          e(RC.Bar,{yAxisId:'usd',dataKey:'proy',name:'Proyección Ops',fill:'#065f46',opacity:0.85,radius:[2,2,0,0]}),
-          e(RC.Line,{yAxisId:'pct',dataKey:'pct',name:'% Cumpl',stroke:DS.amber,strokeWidth:2,dot:{fill:DS.amber,r:3},connectNulls:false}),
-          e(RC.ReferenceLine,{yAxisId:'pct',y:100,stroke:DS.emerald,strokeDasharray:'4 4',strokeWidth:1.5})
-        )
-      ),
-      // Country table
+      e('div',{style:{overflowX:'auto'}},e(ModeloChart,null)),
       e('div',{style:{marginTop:16,overflowX:'auto'}},
         e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
-          e('thead',null,
-            e('tr',null,
-              ['País','Pipeline Live','Modelo Sem','Proy Cierre','% Sem','Modelo YTD','Proy YTD','% YTD','Reun.'].map(function(h){
-                return e('th',{key:h,style:{padding:'6px 8px',textAlign:'left',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase',whiteSpace:'nowrap'}},h);
-              })
-            )
-          ),
-          e('tbody',null,
-            countryRows.map(function(r){
-              return e('tr',{key:r.c,style:{borderBottom:'1px solid '+DS.border+'20'}},
-                e('td',{style:{padding:'7px 8px',fontWeight:600,color:PCOL[r.c]}},''+PFLAG[r.c]+' '+r.c),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.cyan,fontSize:10}},fmt(r.adqP)),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},fmt(r.mod)),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10,color:r.proy>0?DS.text1:DS.text3}},r.proy>0?fmt(r.proy):'—'),
-                e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pct==null?DS.text3:r.pct>=100?DS.emerald:r.pct>=85?DS.amber:DS.red}},r.pct!=null?(r.pct+'% '+semaforo(r.pct)):'—'),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10,color:DS.text2}},fmt(r.modYtd)),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},r.proyYtd>0?fmt(r.proyYtd):'—'),
-                e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pctYtd==null?DS.text3:r.pctYtd>=100?DS.emerald:r.pctYtd>=85?DS.amber:DS.red}},r.pctYtd!=null?(r.pctYtd+'% '+semaforo(r.pctYtd)):'—'),
-                e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.accent}},r.reuC||'—')
-              );
+          e('thead',null,e('tr',null,
+            ['País','Pipeline Live','Modelo Sem','Proy Cierre','% Sem','Modelo YTD','Proy YTD','% YTD','Reun.'].map(function(h){
+              return e('th',{key:h,style:{padding:'6px 8px',textAlign:'left',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase',whiteSpace:'nowrap'}},h);
             })
-          )
+          )),
+          e('tbody',null,countryRows.map(function(r){
+            return e('tr',{key:r.c,style:{borderBottom:'1px solid '+DS.border+'20'}},
+              e('td',{style:{padding:'7px 8px',fontWeight:600,color:PCOL[r.c]}},PFLAG[r.c]+' '+r.c),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.cyan,fontSize:10}},fmt(r.adqP)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},fmt(r.mod)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10,color:r.proy>0?DS.text1:DS.text3}},r.proy>0?fmt(r.proy):'—'),
+              e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pct==null?DS.text3:r.pct>=100?DS.emerald:r.pct>=85?DS.amber:DS.red}},r.pct!=null?(r.pct+'% '+sem(r.pct)):'—'),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},fmt(r.modYtd)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},r.proyYtd>0?fmt(r.proyYtd):'—'),
+              e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pctYtd==null?DS.text3:r.pctYtd>=100?DS.emerald:r.pctYtd>=85?DS.amber:DS.red}},r.pctYtd!=null?(r.pctYtd+'% '+sem(r.pctYtd)):'—'),
+              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.accent}},r.reuC||'—')
+            );
+          }))
         )
       )
     ),
 
-    // ── TAB PIPELINE ────────────────────────────────────────────────────
-    tabActivo==='pipelines'&&RC&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
+    // ── TAB: PIPELINE ─────────────────────────────────────────────────────
+    tabActivo==='pipelines'&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
-        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},
-          'Evolución Pipeline Adquisición · Modelo Acumulado Semanal · '+paisF
-        ),
-        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:16}},
-          'Área = Modelo Adq semanal acumulado · Punto cyan = Pipeline actual ponderado (HubSpot live)'
-        ),
-        e(RC.ResponsiveContainer,{width:'100%',height:200},
-          e(RC.AreaChart,{data:chartData,margin:{top:10,right:90,left:10,bottom:5}},
-            e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,vertical:false}),
-            e(RC.XAxis,{dataKey:'sem',tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:{stroke:DS.border},tickLine:false}),
-            e(RC.YAxis,{tickFormatter:fmtTick,tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:55}),
-            e(RC.Tooltip,{contentStyle:tooltipStyle,formatter:function(v){return [fmt(v),'Modelo Adq'];}}),
-            e(RC.Area,{dataKey:'adq',name:'Modelo Adq',stroke:DS.accent,fill:DS.accent+'30',strokeWidth:2,type:'monotone'}),
-            e(RC.ReferenceLine,{y:paisF==='TOTAL'?pipeAdq:(pipeAdqByC[paisF]||0),stroke:DS.cyan,strokeWidth:2,strokeDasharray:'6 3',
-              label:{value:'Pipeline live',position:'insideRight',fill:DS.cyan,fontSize:9,fontFamily:'DM Mono'}})
-          )
-        )
+        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Pipeline Adquisición · Modelo Acumulado · '+paisF),
+        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:12}},'Área = Modelo Adq semanal · Línea cyan punteada = Pipeline HubSpot live'),
+        e('div',{style:{overflowX:'auto'}},e(AdqChart,null))
       ),
-      // Pipeline breakdown por país
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
         e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Pipeline Adquisición por País · Live HubSpot'),
-        e(RC.ResponsiveContainer,{width:'100%',height:150},
-          e(RC.BarChart,{
-            data:Object.entries(pipeAdqByC).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[1]-a[1];}).map(function(x){return {pais:x[0],value:x[1]};}).slice(0,6),
-            layout:'vertical',margin:{top:0,right:60,left:10,bottom:0}
-          },
-            e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,horizontal:false}),
-            e(RC.XAxis,{type:'number',tickFormatter:fmtTick,tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false}),
-            e(RC.YAxis,{type:'category',dataKey:'pais',tick:{fill:DS.text2,fontSize:11,fontFamily:'DM Sans'},width:70}),
-            e(RC.Tooltip,{contentStyle:tooltipStyle,formatter:function(v){return [fmt(v),'Pipeline'];}}),
-            e(RC.Bar,{dataKey:'value',radius:[0,4,4,0],fill:DS.accent})
-          )
+        e('div',{style:{display:'flex',flexDirection:'column',gap:6}},
+          Object.entries(pipeAdqByC).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[1]-a[1];}).map(function(x){
+            var pct=Math.round(x[1]/(pipeAdq||1)*100);
+            return e('div',{key:x[0],style:{display:'flex',alignItems:'center',gap:10}},
+              e('div',{style:{width:80,fontSize:11,color:PCOL[x[0]],fontWeight:600}},PFLAG[x[0]]+' '+x[0]),
+              e('div',{style:{flex:1,height:10,background:DS.border,borderRadius:5,overflow:'hidden'}},
+                e('div',{style:{width:Math.min(pct,100)+'%',height:'100%',background:PCOL[x[0]],borderRadius:5}})
+              ),
+              e('div',{style:{width:60,textAlign:'right',fontSize:11,fontFamily:'DM Mono'}},fmt(x[1])),
+              e('div',{style:{width:35,textAlign:'right',fontSize:10,color:DS.text3}},pct+'%')
+            );
+          })
         )
       )
     ),
 
-    // ── TAB REUNIONES ────────────────────────────────────────────────────
-    tabActivo==='reuniones'&&RC&&e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
-      e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Reuniones Exploratorias · Evolución Semanal'),
-      e('div',{style:{fontSize:10,color:DS.text3,marginBottom:16}},'YTD Total: '+reuYTD+' reuniones · '+WEEK_LABEL+': '+getReu(lastSem,paisF)+(paisF!=='TOTAL'?' ('+paisF+')':'')),
-      // Grouped bar chart
-      e(RC.ResponsiveContainer,{width:'100%',height:220},
-        e(RC.BarChart,{data:reuData,margin:{top:10,right:20,left:0,bottom:5}},
-          e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,vertical:false}),
-          e(RC.XAxis,{dataKey:'sem',tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:{stroke:DS.border},tickLine:false}),
-          e(RC.YAxis,{tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:25}),
-          e(RC.Tooltip,{contentStyle:tooltipStyle}),
-          e(RC.Legend,{wrapperStyle:{fontSize:10,color:DS.text3}}),
-          e(RC.Bar,{dataKey:'Argentina',name:'🇦🇷 Argentina',fill:'#f97316',stackId:'a',radius:[0,0,0,0]}),
-          e(RC.Bar,{dataKey:'Mexico',name:'🇲🇽 México',fill:'#a855f7',stackId:'a'}),
-          e(RC.Bar,{dataKey:'Chile',name:'🇨🇱 Chile',fill:'#3b82f6',stackId:'a'}),
-          e(RC.Bar,{dataKey:'Colombia',name:'🇨🇴 Colombia',fill:'#22c55e',stackId:'a'}),
-          e(RC.Bar,{dataKey:'Peru',name:'🇵🇪 Perú',fill:'#ef4444',stackId:'a',radius:[2,2,0,0]})
-        )
+    // ── TAB: REUNIONES ─────────────────────────────────────────────────────
+    tabActivo==='reuniones'&&e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
+      e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Reuniones Exploratorias · Evolución Semanal YTD'),
+      e('div',{style:{fontSize:10,color:DS.text3,marginBottom:12}},'YTD Total: '+reuYTD+' reuniones · '+WEEK_LABEL+': '+getReu(lastSem,'TOTAL')),
+      e('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
+        ['Argentina','Mexico','Chile','Colombia','Peru'].map(function(c){
+          return e('div',{key:c,style:{display:'flex',alignItems:'center',gap:4}},
+            e('div',{style:{width:10,height:10,background:PCOL[c],borderRadius:2}}),
+            e('span',{style:{fontSize:10,color:DS.text3}},PFLAG[c]+' '+c)
+          );
+        })
       ),
-      // Tabla resumen
-      e('div',{style:{marginTop:16,overflowX:'auto'}},
+      e('div',{style:{overflowX:'auto',marginBottom:16}},e(ReuChart,null)),
+      e('div',{style:{overflowX:'auto'}},
         e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
-          e('thead',null,
-            e('tr',null,
-              ['País'].concat(semsYtd.map(function(i){return 'S'+(i+1);})).concat(['Total']).map(function(h){
-                return e('th',{key:h,style:{padding:'5px 6px',textAlign:'center',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',whiteSpace:'nowrap'}},h);
-              })
-            )
-          ),
+          e('thead',null,e('tr',null,
+            ['País'].concat(semsYtd.map(function(i){return 'S'+(i+1);})).concat(['Total']).map(function(h){
+              return e('th',{key:h,style:{padding:'5px 6px',textAlign:'center',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',whiteSpace:'nowrap'}},h);
+            })
+          )),
           e('tbody',null,
             ['Argentina','Mexico','Chile','Colombia','Peru'].map(function(c){
-              var arr = MG.reuniones[c]||[];
-              var total = semsYtd.reduce(function(s,i){return s+(arr[i]||0);},0);
+              var arr=MG.reuniones[c]||[];
+              var total=semsYtd.reduce(function(s,i){return s+(arr[i]||0);},0);
               return e('tr',{key:c,style:{borderBottom:'1px solid '+DS.border+'20'}},
                 e('td',{style:{padding:'6px 8px',fontWeight:600,color:PCOL[c],whiteSpace:'nowrap'}},PFLAG[c]+' '+c),
                 semsYtd.map(function(i){return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontFamily:'DM Mono',color:arr[i]>0?DS.text1:DS.text3}},arr[i]>0?arr[i]:'—');}),
                 e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:700,fontFamily:'DM Mono',color:DS.accent}},total||'—')
               );
-            }).concat([
-              e('tr',{key:'TOT',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
-                e('td',{style:{padding:'6px 8px',fontWeight:700,color:DS.text1}},'🌎 TOTAL'),
-                semsYtd.map(function(i){var v=(MG.reuniones.TOTAL||[])[i]||0;return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontWeight:600,fontFamily:'DM Mono',color:v>0?DS.accent:DS.text3}},v>0?v:'—');}),
-                e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:800,fontFamily:'DM Mono',color:DS.accent}},reuYTD)
-              )
-            ])
+            }).concat([e('tr',{key:'TOT',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
+              e('td',{style:{padding:'6px 8px',fontWeight:700}},'🌎 TOTAL'),
+              semsYtd.map(function(i){var v=(MG.reuniones.TOTAL||[])[i]||0;return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontWeight:600,fontFamily:'DM Mono',color:v>0?DS.accent:DS.text3}},v>0?v:'—');}),
+              e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:800,fontFamily:'DM Mono',color:DS.accent}},reuYTD)
+            )])
           )
         )
       )
@@ -6297,59 +6342,125 @@ function SecMetricasGrowth({deals}) {
 }
 
 function SecFillRate() {
-  var RC = window.Recharts;
   var useState = React.useState;
+  var e = React.createElement;
 
   var _s1 = useState(12); var semSel = _s1[0]; var setSemSel = _s1[1];
   var _s2 = useState('fr'); var vista = _s2[0]; var setVista = _s2[1];
-  var _s3 = useState('REG'); var ctryF = _s3[0]; var setCtryF = _s3[1];
 
   var CTRIES = ['REG','AR','CL','CO','MX','PE'];
-  var FLAGS = {REG:'🌎',AR:'🇦🇷',CL:'🇨🇱',CO:'🇨🇴',MX:'🇲🇽',PE:'🇵🇪'};
-  var NAMES = {REG:'Regional',AR:'Argentina',CL:'Chile',CO:'Colombia',MX:'México',PE:'Perú'};
+  var FLAGS  = {REG:'🌎',AR:'🇦🇷',CL:'🇨🇱',CO:'🇨🇴',MX:'🇲🇽',PE:'🇵🇪'};
+  var NAMES  = {REG:'Regional',AR:'Argentina',CL:'Chile',CO:'Colombia',MX:'México',PE:'Perú'};
   var COLORS = {REG:DS.cyan,AR:'#f97316',CL:'#3b82f6',CO:'#22c55e',MX:'#a855f7',PE:'#ef4444'};
 
-  var semLabel = 'Sem '+FR.weekNums[semSel]+' · '+FR.weekDates[semSel];
-  var lastMonthIdx = 2; // Marzo
-
-  function getFR(ctry,idx) {
-    var v = (FR.fillRate[ctry]||{}).cumW; if(!v) return null;
+  function getFR(ctry,idx){
+    var v=(FR.fillRate[ctry]||{}).cumW; if(!v) return null;
     return v[idx]!=null ? Math.round(v[idx]*100) : null;
   }
+  function frSema(p){return p==null?'—':p>=85?'🟢':p>=65?'🟡':'🔴';}
+  function fmtUSD(v){if(!v)return '$0';if(v>=1e6)return '$'+(v/1e6).toFixed(2)+'M';if(v>=1e3)return '$'+(v/1e3).toFixed(0)+'K';return '$'+v;}
 
   var frREG = getFR('REG',semSel);
   var frColor = frREG==null?DS.text3:frREG>=85?DS.emerald:frREG>=65?DS.amber:DS.red;
+  var lastMonthIdx = 2;
   var totalVpYTD = ['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR.ventaPerdida[c]||{}).usdM||[])[lastMonthIdx]||0;},0);
-  var planM = (FR.fillRate.REG.plan||[])[lastMonthIdx]||0;
-  var realM = (FR.fillRate.REG.real||[])[lastMonthIdx]||0;
+  var planM=(FR.fillRate.REG.plan||[])[lastMonthIdx]||0;
+  var realM=(FR.fillRate.REG.real||[])[lastMonthIdx]||0;
 
-  function frSema(p){return p==null?'—':p>=85?'🟢':p>=65?'🟡':'🔴';}
+  // ── SVG Fill Rate smooth line chart ──────────────────────────────────
+  function FRLineChart() {
+    var W=620, H=170, PAD={t:15,r:20,b:28,l:35};
+    var cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
+    var n=FR.weekDates.length;
+    var step=cW/(n-1);
 
-  // Fill Rate line chart data (all 13 weeks)
-  var frChartData = FR.weekDates.map(function(d,i) {
-    var row = {sem:'S'+FR.weekNums[i],date:d};
-    CTRIES.forEach(function(c){
-      var v = (FR.fillRate[c]||{}).cumW;
-      row[c] = v&&v[i]!=null ? Math.round(v[i]*100) : null;
-    });
-    return row;
-  });
+    function lineFor(ctry) {
+      var pts = FR.weekDates.map(function(_,i){
+        var v=(FR.fillRate[ctry]||{}).cumW;
+        if(!v||v[i]==null) return null;
+        return {x:PAD.l+i*step, y:PAD.t+cH-(Math.min(v[i],1.1)*cH/1.1)};
+      });
+      // Build polyline skipping nulls
+      var segments = [], cur = [];
+      pts.forEach(function(p){
+        if(p) cur.push(p.x+','+p.y);
+        else if(cur.length){segments.push(cur.join(' ')); cur=[];}
+      });
+      if(cur.length) segments.push(cur.join(' '));
+      return segments.map(function(s,i){
+        return e('polyline',{key:ctry+i,points:s,fill:'none',stroke:COLORS[ctry],strokeWidth:ctry==='REG'?2.5:1.5,opacity:ctry==='REG'?1:0.7});
+      }).concat(
+        pts.map(function(p,i){
+          return p&&e('circle',{key:ctry+'d'+i,cx:p.x,cy:p.y,r:ctry==='REG'?3.5:2.5,fill:COLORS[ctry],stroke:DS.card,strokeWidth:1});
+        })
+      );
+    }
 
-  // Venta Perdida weekly bar data
-  var vpWeeks = FR.weekDates.map(function(d,i) {
-    var row = {sem:'S'+FR.weekNums[i],date:d};
-    ['AR','CL','CO','MX','PE'].forEach(function(c){
-      var wData = (FR.ventaPerdida[c]||{}).usdW||[];
-      row[c] = wData[i]||0;
-    });
-    row.total = ['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+(row[c]||0);},0);
-    return row;
-  });
+    return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
+      // Grid + Y labels
+      [0,25,50,65,75,85,100].map(function(v,i){
+        var y=PAD.t+cH-(v/110*cH);
+        var isDash = v===85||v===65;
+        return e('g',{key:i},
+          e('line',{x1:PAD.l,y1:y,x2:PAD.l+cW,y2:y,stroke:isDash?COLORS[v===85?'CO':'MX']:DS.border,strokeDasharray:isDash?'5,3':'3,3',strokeWidth:isDash?1:0.5,opacity:isDash?0.8:1}),
+          e('text',{x:PAD.l-3,y:y+3,fontSize:8,fill:isDash?(v===85?DS.emerald:DS.amber):DS.text3,textAnchor:'end',fontFamily:'DM Mono'},v+'%')
+        );
+      }),
+      // Selected week vertical line
+      e('line',{x1:PAD.l+semSel*step,y1:PAD.t,x2:PAD.l+semSel*step,y2:PAD.t+cH,stroke:DS.text2,strokeWidth:1,strokeDasharray:'3,3',opacity:0.5}),
+      // Lines for each country
+      CTRIES.map(function(c){return lineFor(c);}),
+      // X labels
+      FR.weekDates.map(function(d,i){
+        return (i%2===0||i===n-1)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:i===semSel?DS.text1:DS.text3,textAnchor:'middle',fontFamily:'DM Mono',fontWeight:i===semSel?700:400},'S'+FR.weekNums[i]);
+      }),
+      // Reference labels
+      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(85/110*cH)+3,fontSize:8,fill:DS.emerald,fontFamily:'DM Mono'},'85%'),
+      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(65/110*cH)+3,fontSize:8,fill:DS.amber,fontFamily:'DM Mono'},'65%')
+    );
+  }
 
-  var tooltipStyle = {background:DS.card,border:'1px solid '+DS.border,borderRadius:8,fontSize:11,fontFamily:'DM Mono'};
-  var e = React.createElement;
+  // ── SVG Venta Perdida stacked bar chart ───────────────────────────────
+  function VPBarChart() {
+    var CTRS = ['AR','CL','CO','MX','PE'];
+    var data = FR.weekDates.map(function(_,i){
+      var row={si:i,total:0};
+      CTRS.forEach(function(c){
+        var v=((FR.ventaPerdida[c]||{}).usdW||[])[i]||0;
+        row[c]=v; row.total+=v;
+      });
+      return row;
+    }).filter(function(d){return d.total>0;});
 
-  function fmtUSD(v){if(!v)return '$0';if(v>=1e6)return '$'+(v/1e6).toFixed(2)+'M';if(v>=1e3)return '$'+(v/1e3).toFixed(0)+'K';return '$'+v;}
+    if(!data.length) return e('div',{style:{color:DS.text3,fontSize:11,padding:'20px',textAlign:'center'}},'Sin datos de venta perdida semanal disponibles');
+
+    var maxV=Math.max.apply(null,data.map(function(d){return d.total;}))||1;
+    var W=600, H=140, PAD={t:10,r:20,b:28,l:60};
+    var cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
+    var bW=Math.max(Math.floor(cW/data.length)-4, 6);
+    var step=cW/data.length;
+
+    return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
+      [0.25,0.5,0.75,1].map(function(f,i){return e('g',{key:i},
+        e('line',{x1:PAD.l,y1:PAD.t+cH-(f*cH),x2:PAD.l+cW,y2:PAD.t+cH-(f*cH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
+        e('text',{x:PAD.l-3,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtUSD(maxV*f))
+      );}),
+      data.map(function(d,xi){
+        var x=PAD.l+xi*step+1;
+        var yOff=0;
+        var bars=CTRS.map(function(c){
+          var v=d[c]; if(!v) return null;
+          var h=Math.max(v/maxV*cH,2);
+          yOff+=h;
+          return e('rect',{key:c,x:x,y:PAD.t+cH-yOff,width:bW,height:h,fill:COLORS[c],opacity:0.85});
+        });
+        return e('g',{key:xi}, bars,
+          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'DM Mono'},fmtUSD(d.total)),
+          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+FR.weekNums[d.si])
+        );
+      })
+    );
+  }
 
   function KpiCard(props){
     return e('div',{style:{flex:1,minWidth:130,background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'14px 16px'}},
@@ -6361,18 +6472,18 @@ function SecFillRate() {
 
   return e('div',{style:{display:'flex',flexDirection:'column',gap:16}},
 
-    // ── KPI STRIP ───────────────────────────────────────────────────────
+    // ── KPI STRIP ─────────────────────────────────────────────────────────
     e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:10}},
-      e(KpiCard,{icon:'🚛',label:'Fill Rate REG',value:frREG!=null?(frREG+'%'):'—',color:frColor,sub:semLabel+' '+frSema(frREG)}),
+      e(KpiCard,{icon:'🚛',label:'Fill Rate REG',value:frREG!=null?(frREG+'%'):'—',color:frColor,sub:'Sem '+FR.weekNums[semSel]+' · '+FR.weekDates[semSel]+' '+frSema(frREG)}),
       e(KpiCard,{icon:'💸',label:'Venta Perdida YTD',value:fmtUSD(totalVpYTD),color:DS.red,sub:'USD acumulado Mar 2026'}),
       e(KpiCard,{icon:'📦',label:'Colocaciones pdt.',value:''+(Math.max(planM-realM,0)),color:DS.amber,sub:'Plan − Real · Marzo'}),
-      e(KpiCard,{icon:'📅',label:'Semana analizada',value:'Sem '+FR.weekNums[semSel],color:DS.text2,sub:FR.weekDates[semSel]})
+      e(KpiCard,{icon:'📅',label:'Semana',value:'Sem '+FR.weekNums[semSel],color:DS.text2,sub:FR.weekDates[semSel]})
     ),
 
-    // ── VISTA TOGGLE ────────────────────────────────────────────────────
+    // ── VISTA TOGGLE + SLIDER ─────────────────────────────────────────────
     e('div',{style:{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}},
       [['fr','📊 Fill Rate %'],['vp','💸 Venta Perdida USD']].map(function(v){
-        var act = vista===v[0];
+        var act=vista===v[0];
         return e('button',{key:v[0],onClick:function(){setVista(v[0]);},style:{
           padding:'7px 16px',fontSize:11,fontWeight:act?700:400,borderRadius:8,cursor:'pointer',
           border:'1px solid '+(act?DS.accent:DS.border),
@@ -6380,134 +6491,88 @@ function SecFillRate() {
         }},v[1]);
       }),
       e('div',{style:{flex:1}}),
-      // Semana slider
       e('div',{style:{display:'flex',alignItems:'center',gap:8}},
-        e('span',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono'}},'Detalle:'),
-        e('input',{type:'range',min:0,max:12,value:semSel,
-          onChange:function(ev){setSemSel(parseInt(ev.target.value));},
-          style:{width:120}}),
-        e('span',{style:{fontSize:10,color:DS.text2,fontFamily:'DM Mono',minWidth:60}},'S'+FR.weekNums[semSel]+' ('+FR.weekDates[semSel]+')')
+        e('span',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono'}},'Semana:'),
+        e('input',{type:'range',min:0,max:12,value:semSel,onChange:function(ev){setSemSel(parseInt(ev.target.value));},style:{width:100}}),
+        e('span',{style:{fontSize:10,color:DS.text2,fontFamily:'DM Mono',minWidth:55}},'S'+FR.weekNums[semSel]+' ('+FR.weekDates[semSel]+')')
       )
     ),
 
-    // ── TAB: FILL RATE ─────────────────────────────────────────────────
-    vista==='fr'&&RC&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
-
-      // Smooth line chart for fill rate evolution
+    // ── FILL RATE ──────────────────────────────────────────────────────────
+    vista==='fr'&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
         e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Fill Rate Nuevas Colocaciones · Cumplimiento Acumulado %'),
-        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:16}},'Líneas suavizadas · Línea punteada = umbral 85%'),
-        e(RC.ResponsiveContainer,{width:'100%',height:240},
-          e(RC.LineChart,{data:frChartData,margin:{top:10,right:30,left:0,bottom:5}},
-            e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,vertical:false}),
-            e(RC.XAxis,{dataKey:'sem',tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:{stroke:DS.border},tickLine:false}),
-            e(RC.YAxis,{domain:[0,110],tickFormatter:function(v){return v+'%';},tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:35}),
-            e(RC.Tooltip,{contentStyle:tooltipStyle,formatter:function(v){return v!=null?[v+'%']:['—'];}}),
-            e(RC.Legend,{wrapperStyle:{fontSize:10}}),
-            e(RC.ReferenceLine,{y:85,stroke:DS.emerald,strokeDasharray:'5 3',strokeWidth:1.5,
-              label:{value:'85%',position:'right',fill:DS.emerald,fontSize:9}}),
-            e(RC.ReferenceLine,{y:65,stroke:DS.amber,strokeDasharray:'5 3',strokeWidth:1,
-              label:{value:'65%',position:'right',fill:DS.amber,fontSize:9}}),
-            // Selected week marker
-            CTRIES.map(function(c){
-              return e(RC.Line,{key:c,dataKey:c,name:FLAGS[c]+' '+NAMES[c],stroke:COLORS[c],
-                strokeWidth:c==='REG'?2.5:1.5,dot:{r:3,fill:COLORS[c]},
-                connectNulls:false,type:'monotone',activeDot:{r:5}});
-            })
-          )
-        )
+        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:8}},'Líneas suavizadas · 🟢 85% umbral óptimo · 🟡 65% umbral mínimo · Barra = semana seleccionada'),
+        e('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:10}},
+          CTRIES.map(function(c){return e('div',{key:c,style:{display:'flex',alignItems:'center',gap:4}},
+            e('div',{style:{width:c==='REG'?14:10,height:c==='REG'?3:2,background:COLORS[c],borderRadius:2}}),
+            e('span',{style:{fontSize:10,color:DS.text3}},FLAGS[c]+' '+NAMES[c])
+          );})
+        ),
+        e('div',{style:{overflowX:'auto'}},e(FRLineChart,null))
       ),
-
-      // Table: semáforo por país en semana seleccionada
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
-        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Detalle por País · '+semLabel),
+        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Detalle por País · Sem '+FR.weekNums[semSel]+' · '+FR.weekDates[semSel]),
         e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:8}},
           CTRIES.map(function(c){
-            var pct = getFR(c,semSel);
-            var col = pct==null?DS.text3:pct>=85?DS.emerald:pct>=65?DS.amber:DS.red;
-            var plan = (FR.fillRate[c]||{}).plan||[];
-            var real = (FR.fillRate[c]||{}).real||[];
-            // Which month does this week correspond to?
-            var mIdx = semSel<=4?0:semSel<=8?1:2;
-            return e('div',{key:c,style:{background:DS.bg,borderRadius:10,padding:'12px 14px',border:'1px solid '+(col||DS.border)}},
+            var pct=getFR(c,semSel);
+            var col=pct==null?DS.text3:pct>=85?DS.emerald:pct>=65?DS.amber:DS.red;
+            var mIdx=semSel<=4?0:semSel<=8?1:2;
+            var plan=(FR.fillRate[c]||{}).plan||[];
+            var real=(FR.fillRate[c]||{}).real||[];
+            return e('div',{key:c,style:{background:DS.bg,borderRadius:10,padding:'12px 14px',border:'2px solid '+(col===DS.text3?DS.border:col+'50')}},
               e('div',{style:{fontSize:11,fontWeight:600,color:COLORS[c]}},''+FLAGS[c]+' '+NAMES[c]),
               e('div',{style:{fontSize:22,fontWeight:800,color:col,fontFamily:'DM Mono',margin:'6px 0'}},pct!=null?(pct+'%'):'N/D'),
-              e('div',{style:{fontSize:9,color:DS.text3}},frSema(pct)+' · Plan: '+(plan[mIdx]||'—')+' · Real: '+(real[mIdx]||'—'))
-            );
-          })
-        ),
-        // Progress bars
-        e('div',{style:{marginTop:14,display:'flex',flexDirection:'column',gap:6}},
-          CTRIES.filter(function(c){return c!=='REG';}).map(function(c){
-            var pct = getFR(c,semSel);
-            var col = pct==null?DS.border:pct>=85?DS.emerald:pct>=65?DS.amber:DS.red;
-            return e('div',{key:c,style:{display:'flex',alignItems:'center',gap:10}},
-              e('div',{style:{width:80,fontSize:11,color:COLORS[c],fontWeight:600}},FLAGS[c]+' '+c),
-              e('div',{style:{flex:1,height:10,background:DS.border,borderRadius:5,overflow:'hidden'}},
-                pct!=null&&e('div',{style:{width:Math.min(pct,100)+'%',height:'100%',background:col,borderRadius:5,transition:'width 0.4s ease'}})
+              e('div',{style:{height:6,background:DS.border,borderRadius:3,overflow:'hidden',marginBottom:4}},
+                pct!=null&&e('div',{style:{width:Math.min(pct,100)+'%',height:'100%',background:col,borderRadius:3}})
               ),
-              e('div',{style:{width:40,textAlign:'right',fontSize:11,fontFamily:'DM Mono',fontWeight:700,color:col}},pct!=null?(pct+'%'):'—')
+              e('div',{style:{fontSize:9,color:DS.text3}},frSema(pct)+' Plan: '+(plan[mIdx]||'—')+' · Real: '+(real[mIdx]||'—'))
             );
           })
         )
       )
     ),
 
-    // ── TAB: VENTA PERDIDA ─────────────────────────────────────────────
-    vista==='vp'&&RC&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
-
-      // Stacked bar by week
+    // ── VENTA PERDIDA ──────────────────────────────────────────────────────
+    vista==='vp'&&e('div',{style:{display:'flex',flexDirection:'column',gap:12}},
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
-        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Venta Perdida · USD por Semana · Evolución'),
-        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:16}},'Barras apiladas por país · Datos semanales · Ene–Mar 2026'),
-        e(RC.ResponsiveContainer,{width:'100%',height:240},
-          e(RC.BarChart,{data:vpWeeks.filter(function(r){return r.total>0;}),margin:{top:10,right:20,left:10,bottom:5}},
-            e(RC.CartesianGrid,{strokeDasharray:'3 3',stroke:DS.border,vertical:false}),
-            e(RC.XAxis,{dataKey:'sem',tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:{stroke:DS.border},tickLine:false}),
-            e(RC.YAxis,{tickFormatter:fmtUSD,tick:{fill:DS.text3,fontSize:9,fontFamily:'DM Mono'},axisLine:false,tickLine:false,width:55}),
-            e(RC.Tooltip,{contentStyle:tooltipStyle,formatter:function(v,name){return [fmtUSD(v),name];}}),
-            e(RC.Legend,{wrapperStyle:{fontSize:10}}),
-            e(RC.Bar,{dataKey:'AR',name:'🇦🇷 Argentina',fill:'#f97316',stackId:'s',radius:[0,0,0,0]}),
-            e(RC.Bar,{dataKey:'CL',name:'🇨🇱 Chile',fill:'#3b82f6',stackId:'s'}),
-            e(RC.Bar,{dataKey:'CO',name:'🇨🇴 Colombia',fill:'#22c55e',stackId:'s'}),
-            e(RC.Bar,{dataKey:'MX',name:'🇲🇽 México',fill:'#a855f7',stackId:'s'}),
-            e(RC.Bar,{dataKey:'PE',name:'🇵🇪 Perú',fill:'#ef4444',stackId:'s',radius:[3,3,0,0]})
-          )
-        )
+        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Venta Perdida · USD por Semana · Evolución (Ene–Mar 2026)'),
+        e('div',{style:{fontSize:10,color:DS.text3,marginBottom:8}},'Barras apiladas por país · Solo semanas con datos disponibles'),
+        e('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:10}},
+          ['AR','CL','CO','MX','PE'].map(function(c){return e('div',{key:c,style:{display:'flex',alignItems:'center',gap:4}},
+            e('div',{style:{width:10,height:10,background:COLORS[c],borderRadius:2}}),
+            e('span',{style:{fontSize:10,color:DS.text3}},FLAGS[c]+' '+NAMES[c])
+          );})
+        ),
+        e('div',{style:{overflowX:'auto'}},e(VPBarChart,null))
       ),
-
-      // Resumen mensual
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
         e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Venta Perdida · Resumen Mensual por País (USD)'),
         e('div',{style:{overflowX:'auto'}},
           e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
-            e('thead',null,
-              e('tr',null,
-                ['País','Enero','Febrero','Marzo','Total YTD'].map(function(h){
-                  return e('th',{key:h,style:{padding:'6px 10px',textAlign:h==='País'?'left':'right',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},h);
-                })
-              )
-            ),
+            e('thead',null,e('tr',null,
+              ['País','Enero','Febrero','Marzo','Total YTD'].map(function(h){
+                return e('th',{key:h,style:{padding:'6px 10px',textAlign:h==='País'?'left':'right',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},h);
+              })
+            )),
             e('tbody',null,
               ['AR','CL','CO','MX','PE'].map(function(c){
-                var d = FR.ventaPerdida[c]||{};
-                var usd = d.usdM||[];
-                var ytd = (usd[0]||0)+(usd[1]||0)+(usd[2]||0);
+                var d=FR.ventaPerdida[c]||{};
+                var usd=d.usdM||[];
+                var ytd=(usd[0]||0)+(usd[1]||0)+(usd[2]||0);
                 return e('tr',{key:c,style:{borderBottom:'1px solid '+DS.border+'20'}},
                   e('td',{style:{padding:'8px 10px',fontWeight:600,color:COLORS[c]}},FLAGS[c]+' '+NAMES[c]),
                   [0,1,2].map(function(m){return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontFamily:'DM Mono',color:usd[m]?DS.red:DS.text3}},usd[m]?fmtUSD(usd[m]):'—');}),
                   e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'DM Mono',color:ytd?DS.red:DS.text3}},ytd?fmtUSD(ytd):'—')
                 );
-              }).concat([
-                e('tr',{key:'tot',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
-                  e('td',{style:{padding:'8px 10px',fontWeight:700,color:DS.text1}},'🌎 TOTAL'),
-                  [0,1,2].map(function(m){
-                    var t = ['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR.ventaPerdida[c]||{}).usdM||[])[m]||0;},0);
-                    return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'DM Mono',color:DS.red}},t?fmtUSD(t):'—');
-                  }),
-                  e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:900,fontFamily:'DM Mono',color:DS.red}},fmtUSD(totalVpYTD))
-                )
-              ])
+              }).concat([e('tr',{key:'tot',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
+                e('td',{style:{padding:'8px 10px',fontWeight:700}},'🌎 TOTAL'),
+                [0,1,2].map(function(m){
+                  var t=['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR.ventaPerdida[c]||{}).usdM||[])[m]||0;},0);
+                  return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'DM Mono',color:DS.red}},t?fmtUSD(t):'—');
+                }),
+                e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:900,fontFamily:'DM Mono',color:DS.red}},fmtUSD(totalVpYTD))
+              )])
             )
           )
         )
