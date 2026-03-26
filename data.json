@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-26T00:00:36.566Z",
-  "updated_at_art": "25/03/2026, 09:00 p. m.",
+  "updated_at": "2026-03-26T00:06:45.233Z",
+  "updated_at_art": "25/03/2026, 09:06 p. m.",
   "snapshot": {
-    "ts": 1774483236566,
+    "ts": 1774483605233,
     "w": 10181972,
     "byC": {
       "Argentina": 2655550,
@@ -13,7 +13,7 @@
     }
   },
   "prev_week": {
-    "ts": 1774483218456,
+    "ts": 1774483236566,
     "w": 10181972,
     "byC": {
       "Argentina": 2655550,
@@ -2283,7 +2283,7 @@
       "created": "2026-01-13",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 4
+      "days_in_stage": 5
     },
     {
       "id": "53943756361",
@@ -7519,7 +7519,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 71
+      "days_in_stage": 72
     },
     {
       "id": "48798993497",
