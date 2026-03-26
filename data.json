@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-03-26T00:06:45.233Z",
-  "updated_at_art": "25/03/2026, 09:06 p. m.",
+  "updated_at": "2026-03-26T00:09:59.386Z",
+  "updated_at_art": "25/03/2026, 09:09 p. m.",
   "snapshot": {
-    "ts": 1774483605233,
-    "w": 10181972,
+    "ts": 1774483799386,
+    "w": 8957972,
     "byC": {
-      "Argentina": 2655550,
-      "México": 2765083,
+      "Argentina": 2631550,
+      "México": 1565083,
       "Chile": 1515101,
       "Perú": 1801218,
       "Colombia": 1444720
     }
   },
   "prev_week": {
-    "ts": 1774483236566,
+    "ts": 1774483605233,
     "w": 10181972,
     "byC": {
       "Argentina": 2655550,
@@ -85,7 +85,7 @@
       "last_activity": "2026-03-25",
       "owner": "Owner-510835617",
       "country": "México",
-      "is_won": false,
+      "is_won": true,
       "is_lost": false,
       "created": "2025-06-27",
       "probability": 1,
@@ -515,7 +515,7 @@
       "created": "2026-03-01",
       "probability": 0.4,
       "weighted": 108000,
-      "days_in_stage": 4
+      "days_in_stage": 5
     },
     {
       "id": "33028821565",
@@ -719,7 +719,7 @@
       "created": "2026-03-06",
       "probability": 0.4,
       "weighted": 80000,
-      "days_in_stage": 4
+      "days_in_stage": 5
     },
     {
       "id": "18574426137",
@@ -1343,7 +1343,7 @@
       "last_activity": "2026-03-25",
       "owner": "Alessandra Araneta",
       "country": "Perú",
-      "is_won": false,
+      "is_won": null,
       "is_lost": false,
       "created": "2026-03-12",
       "probability": 1,
@@ -2351,7 +2351,7 @@
       "created": "2026-02-09",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 4
+      "days_in_stage": 5
     },
     {
       "id": "17675033187",
@@ -2448,7 +2448,7 @@
       "last_activity": "2026-02-25",
       "owner": "Nahuel Alves",
       "country": "Argentina",
-      "is_won": false,
+      "is_won": true,
       "is_lost": false,
       "created": "2024-12-13",
       "probability": 1,
