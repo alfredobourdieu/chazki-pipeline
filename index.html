@@ -189,6 +189,11 @@ function isPilotoDeal(d) {
   const sl = (d.stage_label || "").toLowerCase();
   return sl.includes("piloto") || sl.includes("operando") || sl.includes("estabiliz");
 }
+// Won OR delivering = Ganado + Etapa Contrato + Piloto + Operando
+// Used for Won YTD display (all "committed revenue" in 2026)
+function isWonOrDelivering(d) {
+  return isWonDeal(d) || isContracted(d) || isPilotoDeal(d);
+}
 // For won deals, close_date may be null in HubSpot (not set by exec).
 // Fall back to last_activity date so we can still bucket the deal into the right month.
 function wonDate(d) {
@@ -651,8 +656,8 @@ function SecPulso({
   const pipeW = wFn(active);
 
   // ── Won del período ───────────────────────────────────────────────────
-  const wonPeriod = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= pStart && wonDate(d) <= pEnd && wonDate(d) >= YEAR_START);
-  const wonYtd = deals.filter(d => isWonDeal(d) && d.close_date >= YEAR_START);
+  const wonPeriod = deals.filter(d => isWonOrDelivering(d) && wonDate(d) && wonDate(d) >= pStart && wonDate(d) <= pEnd && wonDate(d) >= YEAR_START);
+  const wonYtd = deals.filter(d => (isWonOrDelivering(d) || isContracted(d) || isPilotoDeal(d)) && d.close_date >= YEAR_START);
   const wonYtdVal = wonYtd.reduce((s, d) => s + (d.amount || 0), 0);
 
   // ── Actividad del período ─────────────────────────────────────────────
@@ -1570,15 +1575,15 @@ function SecProductividad({
 
     // Métricas del período seleccionado
     const newP = deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= pStart && d.created <= pEnd).length;
-    const wonPDeals = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= pStart && wonDate(d) <= pEnd && wonDate(d) >= YEAR_START);
+    const wonPDeals = deals.filter(d => isWonOrDelivering(d) && d.owner === o && wonDate(d) && wonDate(d) >= pStart && wonDate(d) <= pEnd && wonDate(d) >= YEAR_START);
     const wonPVal = wonPDeals.reduce((s, d) => s + (d.amount || 0), 0);
     const propsP = deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.last_activity && d.last_activity >= pStart && d.last_activity <= pEnd).length;
     const movP = my.filter(d => d.last_activity && d.last_activity >= pStart && d.last_activity <= pEnd).length;
 
     // YTD para promedios
     const newYtd = deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= YEAR_START).length;
-    const wonYtdDeals = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).length;
-    const wonYtdVal = deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
+    const wonYtdDeals = deals.filter(d => isWonOrDelivering(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).length;
+    const wonYtdVal = deals.filter(d => isWonOrDelivering(d) && d.owner === o && wonDate(d) && wonDate(d) >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
     const propsYtd = deals.filter(d => !isLostDeal(d) && d.owner === o && (d.stage_label || "").toLowerCase().includes("propuesta") && d.created && d.created >= YEAR_START).length;
     return {
       owner: o,
@@ -1917,7 +1922,7 @@ function SecModelo({
   // Won real by month — only past/current months, using wonDate() fallback
   const wonByM = Array(12).fill(0);
   const todayM = new Date().getMonth();
-  deals.filter(d => isWonDeal(d)).forEach(d => {
+  deals.filter(d => isWonOrDelivering(d)).forEach(d => {
     if (!d.close_date || d.close_date < YEAR_START) return;
     const m = new Date(d.close_date + 'T12:00:00Z').getMonth();
     if (m > todayM) return; // skip future-dated won deals
@@ -4301,7 +4306,7 @@ function SecDeals({
   const shown = showAll ? sorted : top20;
   const newWk = dealsF.filter(d => !isLostDeal(d) && d.created && d.created >= wkS).sort((a, b) => (b.amount || 0) - (a.amount || 0));
   const movedWk = activeF.filter(d => d.last_activity && d.last_activity >= wkS).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-  const wonWk = dealsF.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
+  const wonWk = dealsF.filter(d => isWonOrDelivering(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
   const wonMo = dealsF.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= moS);
   const wonPrev = dealsF.filter(d => isWonDeal(d) && wonDate(d) >= pS && wonDate(d) <= pE);
   const overdue = activeF.filter(d => d.close_date && d.close_date < today).sort((a, b) => ago(a.close_date) - ago(b.close_date));
@@ -4843,10 +4848,10 @@ function SecRankings({
   const today = new Date().toISOString().split("T")[0];
 
   // Won real: CW + Contrato + Piloto
-  const wonYtdAll = deals.filter(d => isWonDeal(d) && d.close_date && d.close_date >= YEAR_START);
+  const wonYtdAll = deals.filter(d => isWonOrDelivering(d) && d.close_date && d.close_date >= YEAR_START);
   const wonPrevMo = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= pS && wonDate(d) <= pE);
-  const wonMtd = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= moS && wonDate(d) >= YEAR_START);
-  const wonWk = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
+  const wonMtd = deals.filter(d => isWonOrDelivering(d) && wonDate(d) && wonDate(d) >= moS && wonDate(d) >= YEAR_START);
+  const wonWk = deals.filter(d => isWonOrDelivering(d) && wonDate(d) && wonDate(d) >= wkS && wonDate(d) >= YEAR_START);
   const allOwners = [...new Set(deals.map(d => d.owner).filter(o => o && !o.startsWith("Owner-")))];
   const map = {};
   allOwners.forEach(o => {
@@ -5326,7 +5331,7 @@ function Dashboard() {
   const boardKPIs = deals && !loading ? (() => {
     const active = deals.filter(isActiveDeal);
     const pipeW = wFn(active);
-    const wonYtd = deals.filter(d => isWonDeal(d) && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
+    const wonYtd = deals.filter(d => isWonOrDelivering(d) && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
     const covPct = Math.round(pipeW / TOTAL_TARGET * 100);
     const covCol = covPct >= 100 ? DS.emerald : covPct >= 70 ? DS.amber : DS.red;
     const wonCol = wonYtd > 0 ? DS.emerald : DS.text3;
@@ -5958,542 +5963,422 @@ const FR = {
   }
 };
 
-// ── SecMetricasGrowth component ────────────────────────────────────────────
-function SecMetricasGrowth({
-  deals
-}) {
-  const [paisF, setPaisF] = useState('TOTAL');
-  const [vistaW, setVistaW] = useState('ultimas8'); // ultimas8 | todas
+// ── SecMetricasGrowth — CEO View ────────────────────────────────────────────
+function SecMetricasGrowth({deals}) {
+  const [paisF, setPaisF] = React.useState('TOTAL');
+  const [vistaW, setVistaW] = React.useState('ytd'); // ytd | anual
+  const [tabActivo, setTabActivo] = React.useState('modelo'); // modelo | pipelines | reuniones
 
-  const PAISES = ['TOTAL', 'Argentina', 'Mexico', 'Chile', 'Colombia', 'Peru'];
-  const PAIS_FLAGS = {
-    Argentina: '🇦🇷',
-    Mexico: '🇲🇽',
-    Chile: '🇨🇱',
-    Colombia: '🇨🇴',
-    Peru: '🇵🇪',
-    TOTAL: '🌎'
-  };
-  const PAIS_COLORS = {
-    Argentina: '#f97316',
-    Mexico: '#a855f7',
-    Chile: '#3b82f6',
-    Colombia: '#22c55e',
-    Peru: '#ef4444',
-    TOTAL: DS.cyan
-  };
+  const PAISES = ['TOTAL','Argentina','Mexico','Chile','Colombia','Peru'];
+  const PFLAG = {Argentina:'🇦🇷',Mexico:'🇲🇽',Chile:'🇨🇱',Colombia:'🇨🇴',Peru:'🇵🇪',TOTAL:'🌎'};
+  const PCOL  = {Argentina:'#f97316',Mexico:'#a855f7',Chile:'#3b82f6',Colombia:'#22c55e',Peru:'#ef4444',TOTAL:DS.cyan};
 
-  // Live pipeline values from HubSpot deals
-  const activeDeals = deals.filter(isActiveDeal);
-  const pipeAdq = wFn(activeDeals); // Total weighted pipeline adquisición
-
-  // Por país
-  const pipeByPais = {};
-  ['Argentina', 'Chile', 'Colombia', 'México', 'Perú'].forEach(p => {
-    const alias = p === 'México' ? 'Mexico' : p === 'Perú' ? 'Peru' : p;
-    const d = activeDeals.filter(x => x.country === p || x.country === alias);
-    pipeByPais[alias] = wFn(d);
+  // ── Live pipeline Adquisición ──────────────────────────────────────────
+  const activeDeals = deals ? deals.filter(isActiveDeal) : [];
+  const pipeAdq = wFn(activeDeals);
+  const pipeAdqByC = {};
+  ['Argentina','Chile','Colombia','México','Perú'].forEach(p => {
+    const alias = p==='México'?'Mexico':p==='Perú'?'Peru':p;
+    pipeAdqByC[alias] = wFn(activeDeals.filter(d=>d.country===p||d.country===alias));
   });
 
-  // Last week with modelo data (sem 8 actual)
-  const lastSem = 7; // index 7 = sem 8
+  // ── Hardcoded: Leads Exploratorios (pipeline 779116628) ───────────────
+  // Total won operational deals as of 2026-03-26 from HubSpot
+  const PIPE_EXPLO = 10312300; // Won/operational deals
+  const PIPE_EXPLO_ACTIVE = 0; // Active exploratory (mostly won)
+  const PIPE_EXPLO_TOTAL = PIPE_EXPLO + PIPE_EXPLO_ACTIVE;
 
-  // Modelo total last sem
-  const modeloLastSem = paisF === 'TOTAL' ? Object.values(MG.modeloTotal).reduce((s, arr) => s + (arr[lastSem] || 0), 0) : (MG.modeloTotal[paisF] || [])[lastSem] || 0;
+  // ── Hardcoded: CS Retención (pipeline 98976889) ────────────────────────
+  const PIPE_RET_ACTIVE = 1127622; // Weighted active pipeline
+  const PIPE_RET_WON = 1439532;    // Won YTD 2026 from CS Retención
 
-  // Proyección last sem
-  const proyLastSem = paisF === 'TOTAL' ? MG.proyCierre.TOTAL[lastSem] || 0 : (MG.proyCierre[paisF] || [])[lastSem] || 0;
-  const pctCump = proyLastSem > 0 && modeloLastSem > 0 ? Math.round(proyLastSem / modeloLastSem * 100) : null;
-  const cumpColor = pctCump == null ? DS.text3 : pctCump >= 100 ? DS.emerald : pctCump >= 85 ? DS.amber : DS.red;
+  // ── Dynamic last week with proyección data ────────────────────────────
+  const lastProy = MG.proyCierre.TOTAL.reduce((last,v,i) => (v!=null&&v>0)?i:last, -1);
+  const lastSem = lastProy >= 0 ? lastProy : 7;
+  const WEEK_LABEL = `Sem ${lastSem+1}`;
 
-  // Reuniones last sem
-  const reunLastSem = paisF === 'TOTAL' ? MG.reuniones.TOTAL[lastSem] || 0 : (MG.reuniones[paisF] || [])[lastSem] || 0;
+  // ── Semanas a mostrar ─────────────────────────────────────────────────
+  const semsToShow = vistaW==='ytd' ? lastSem+1 : 52;
+  const semIdxs = Array.from({length:semsToShow},(_,i)=>i).filter(i=>i<52);
+  // Acumulado para YTD (suma desde sem 1 hasta lastSem)
+  const semsYtd = Array.from({length:lastSem+1},(_,i)=>i);
 
-  // Semanas a mostrar en gráfico
-  const semsToShow = vistaW === 'todas' ? 53 : 8;
-  const semIdxs = Array.from({
-    length: semsToShow
-  }, (_, i) => i).filter(i => i < 53);
+  // ── Modelo y Proyección total por semana ──────────────────────────────
+  const getModelo = (idx, pais) => {
+    if(pais==='TOTAL') return Object.values(MG.modeloTotal).reduce((s,arr)=>s+(arr[idx]||0),0);
+    return (MG.modeloTotal[pais]||[])[idx]||0;
+  };
+  const getProy = (idx, pais) => {
+    if(pais==='TOTAL') return MG.proyCierre.TOTAL[idx]||null;
+    return (MG.proyCierre[pais]||[])[idx]||null;
+  };
+  const getModAdq = (idx, pais) => {
+    if(pais==='TOTAL') return Object.values(MG.modeloAdq).reduce((s,arr)=>s+(arr[idx]||0),0);
+    return (MG.modeloAdq[pais]||[])[idx]||0;
+  };
 
-  // Compute modelo total per week
-  const modeloTotalArr = semIdxs.map(i => Object.values(MG.modeloTotal).reduce((s, arr) => s + (arr[i] || 0), 0));
-  const proyCierreArr = semIdxs.map(i => MG.proyCierre.TOTAL[i]);
-  const pctArr = semIdxs.map(i => {
-    const m = modeloTotalArr[i],
-      p = MG.proyCierre.TOTAL[i];
-    return m && p ? Math.round(p / m * 100) : null;
+  // KPI semana actual
+  const modeloSem  = getModelo(lastSem, paisF);
+  const proySem    = getProy(lastSem, paisF)||0;
+  const pctSem     = modeloSem>0 && proySem>0 ? Math.round(proySem/modeloSem*100) : null;
+  const pctCol     = pctSem==null?DS.text3:pctSem>=100?DS.emerald:pctSem>=85?DS.amber:DS.red;
+  const semaforo   = p => p==null?'—':p>=100?'🟢':p>=85?'🟡':'🔴';
+
+  // Acumulado YTD
+  const modeloYTD  = semsYtd.reduce((s,i)=>s+getModelo(i,paisF),0);
+  const proyYTD    = semsYtd.reduce((s,i)=>s+(getProy(i,paisF)||0),0);
+  const pctYTD     = modeloYTD>0&&proyYTD>0 ? Math.round(proyYTD/modeloYTD*100) : null;
+  const pctYTDCol  = pctYTD==null?DS.text3:pctYTD>=100?DS.emerald:pctYTD>=85?DS.amber:DS.red;
+
+  // ── Reuniones ─────────────────────────────────────────────────────────
+  const reuSem = paisF==='TOTAL' ? (MG.reuniones.TOTAL?.[lastSem]||0) :
+    Object.values(MG.reuniones).reduce((s,arr)=>{ if(arr!==MG.reuniones.TOTAL) return s; return s+(arr[lastSem]||0); },0);
+  const reuSemVal = paisF==='TOTAL' ? (MG.reuniones.TOTAL?.[lastSem]||0) :
+    ((MG.reuniones[paisF]||[])[lastSem]||0);
+  const reuYTD = semsYtd.reduce((s,i)=>{
+    const arr = paisF==='TOTAL'?MG.reuniones.TOTAL:(MG.reuniones[paisF]||[]);
+    return s+(arr[i]||0);
+  },0);
+
+  // ── Chart dimensions ──────────────────────────────────────────────────
+  const chartH = 120, chartW = 560;
+  const barW = Math.max(Math.floor(chartW/semsToShow)-2, 2);
+  const step = chartW/semsToShow;
+
+  const modeloArr = semIdxs.map(i=>getModelo(i,paisF));
+  const proyArr   = semIdxs.map(i=>getProy(i,paisF));
+  const pctArr    = semIdxs.map(i=>{const m=getModelo(i,paisF),p=getProy(i,paisF); return m&&p?Math.round(p/m*100):null;});
+  const maxVal    = Math.max(...modeloArr.filter(Boolean),...proyArr.filter(Boolean),1);
+
+  // ── Pipeline Adq por semana (modelo adq) ──────────────────────────────
+  const adqArr    = semIdxs.map(i=>getModAdq(i,paisF));
+  const maxAdq    = Math.max(...adqArr.filter(Boolean),1);
+
+  // ── Country table ─────────────────────────────────────────────────────
+  const countryRows = ['Argentina','Mexico','Chile','Colombia','Peru'].map(c=>{
+    const mod  = getModelo(lastSem, c);
+    const proy = getProy(lastSem, c)||0;
+    const pct  = mod>0&&proy>0?Math.round(proy/mod*100):null;
+    const modYtd = semsYtd.reduce((s,i)=>s+getModelo(i,c),0);
+    const proyYtd = semsYtd.reduce((s,i)=>s+(getProy(i,c)||0),0);
+    const pctYtd = modYtd>0&&proyYtd>0?Math.round(proyYtd/modYtd*100):null;
+    const adqPipe = pipeAdqByC[c]||0;
+    const reuC = (MG.reuniones[c]||[])[lastSem]||0;
+    return {c, mod, proy, pct, modYtd, proyYtd, pctYtd, adqPipe, reuC};
   });
 
-  // For filtered país
-  const modeloPaisArr = semIdxs.map(i => paisF === 'TOTAL' ? modeloTotalArr[i] : (MG.modeloTotal[paisF] || [])[i] || null);
-  const proyPaisArr = semIdxs.map(i => paisF === 'TOTAL' ? MG.proyCierre.TOTAL[i] : (MG.proyCierre[paisF] || [])[i] || null);
-  const maxChart = Math.max(...modeloPaisArr.filter(Boolean), ...proyPaisArr.filter(Boolean), 1);
-  const chartH = 110,
-    chartW2 = 520;
-  const barW = Math.max(Math.floor(chartW2 / semsToShow) - 2, 3);
-  const step = chartW2 / semsToShow;
+  // ── UI helpers ────────────────────────────────────────────────────────
+  const Pill = ({active,col,onClick,children}) => React.createElement('button',{
+    onClick, style:{padding:'5px 14px',fontSize:11,fontWeight:active?700:400,borderRadius:20,
+      cursor:'pointer',border:`1px solid ${active?col:DS.border}`,
+      background:active?col+'20':'transparent',color:active?col:DS.text3,transition:'all 0.15s'}
+  },children);
 
-  // Semáforo cumplimiento tabla
-  function semaforo(pct) {
-    if (pct == null) return '—';
-    if (pct >= 100) return '🟢';
-    if (pct >= 85) return '🟡';
-    return '🔴';
-  }
+  const KpiBlock = ({icon,label,value,sub,color,bgColor}) => React.createElement('div',{
+    style:{flex:1,minWidth:150,background:bgColor||DS.card,border:`1px solid ${DS.border}`,
+      borderRadius:12,padding:'16px 18px',display:'flex',flexDirection:'column',gap:4}
+  },
+    React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',letterSpacing:'0.08em',textTransform:'uppercase'}},icon,' ',label),
+    React.createElement('div',{style:{fontSize:22,fontWeight:800,color:color||DS.text1,fontFamily:'DM Mono',marginTop:4}},value),
+    sub && React.createElement('div',{style:{fontSize:10,color:DS.text3,marginTop:2}},sub)
+  );
 
-  // Last data index for proyección
-  const lastProy = MG.proyCierre.TOTAL.reduce((last, v, i) => v != null && v > 0 ? i : last, -1);
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 6,
-      flexWrap: 'wrap'
-    }
-  }, PAISES.map(p => {
-    const act = paisF === p;
-    return /*#__PURE__*/React.createElement("button", {
-      key: p,
-      onClick: () => setPaisF(p),
-      style: {
-        padding: '5px 13px',
-        fontSize: 11,
-        fontWeight: act ? 700 : 400,
-        borderRadius: 20,
-        cursor: 'pointer',
-        border: `1px solid ${act ? PAIS_COLORS[p] : DS.border}`,
-        background: act ? `${PAIS_COLORS[p]}20` : 'transparent',
-        color: act ? PAIS_COLORS[p] : DS.text3,
-        transition: 'all 0.15s'
-      }
-    }, PAIS_FLAGS[p], " ", p);
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setVistaW('ultimas8'),
-    style: {
-      padding: '5px 12px',
-      fontSize: 10,
-      borderRadius: 6,
-      cursor: 'pointer',
-      border: `1px solid ${vistaW === 'ultimas8' ? DS.accent : DS.border}`,
-      background: vistaW === 'ultimas8' ? DS.accentLight : 'transparent',
-      color: vistaW === 'ultimas8' ? DS.accent : DS.text3
-    }
-  }, "\xDAlt. 8 sem"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setVistaW('todas'),
-    style: {
-      padding: '5px 12px',
-      fontSize: 10,
-      borderRadius: 6,
-      cursor: 'pointer',
-      border: `1px solid ${vistaW === 'todas' ? DS.accent : DS.border}`,
-      background: vistaW === 'todas' ? DS.accentLight : 'transparent',
-      color: vistaW === 'todas' ? DS.accent : DS.text3
-    }
-  }, "52 sem")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(4,1fr)',
-      gap: 10
-    }
-  }, [{
-    label: 'Pipeline Adquisición',
-    val: fmt(paisF === 'TOTAL' ? pipeAdq : pipeByPais[paisF] || 0),
-    color: DS.cyan,
-    sub: 'HubSpot live · ponderado',
-    icon: '📦'
-  }, {
-    label: 'Modelo Total (sem act.)',
-    val: fmt(modeloLastSem),
-    color: '#818cf8',
-    sub: 'Budget Adq + Budget Ret',
-    icon: '🎯'
-  }, {
-    label: 'Proyección Cierre Ops',
-    val: proyLastSem ? fmt(proyLastSem) : '—',
-    color: cumpColor,
-    sub: `Sem 8 · manual operaciones`,
-    icon: '📋'
-  }, {
-    label: '% vs Modelo',
-    val: pctCump != null ? `${pctCump}%` : '—',
-    color: cumpColor,
-    sub: pctCump >= 100 ? '⬆ sobre modelo' : pctCump >= 85 ? '⚠ cerca del modelo' : '⬇ bajo modelo',
-    icon: '📊'
-  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      borderRadius: 14,
-      padding: '14px 16px',
-      background: 'rgba(255,255,255,0.02)',
-      border: `1px solid ${DS.border}`,
-      position: 'relative',
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: 2,
-      background: `linear-gradient(90deg,${k.color},transparent)`
-    }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 18,
-      marginBottom: 6
-    }
-  }, k.icon), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: DS.text4,
-      fontFamily: "'DM Mono',monospace",
-      textTransform: 'uppercase',
-      letterSpacing: '0.08em',
-      marginBottom: 4
-    }
-  }, k.label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      color: k.color,
-      letterSpacing: '-0.02em',
-      fontFamily: "'DM Mono',monospace"
-    }
-  }, k.val), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: DS.text4,
-      marginTop: 3
-    }
-  }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Proyecci\xF3n Cierre vs Modelo 2026"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 10,
-      color: DS.text4,
-      fontFamily: "'DM Mono',monospace",
-      margin: '3px 0 0'
-    }
-  }, "Barras = Proyecci\xF3n Cierre Ops (manual) \xB7 L\xEDnea = Modelo Budget Total \xB7 % encima = cumplimiento")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 12,
-      alignItems: 'center'
-    }
-  }, [['#818cf8', 'Modelo'], ['rgba(16,185,129,0.7)', 'Proyección'], [DS.amber, '% Cumplimiento']].map(([c, l]) => /*#__PURE__*/React.createElement("div", {
-    key: l,
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 5
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 10,
-      height: l === 'Proyección' ? 10 : 2,
-      borderRadius: 3,
-      background: c
-    }
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 9,
-      color: DS.text4,
-      fontFamily: "'DM Mono',monospace"
-    }
-  }, l))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto'
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: Math.max(chartW2, semsToShow * 20),
-    height: chartH + 70,
-    style: {
-      display: 'block'
-    }
-  }, [0, 0.25, 0.5, 0.75, 1].map(r => /*#__PURE__*/React.createElement("line", {
-    key: r,
-    x1: 0,
-    x2: Math.max(chartW2, semsToShow * 20),
-    y1: chartH - r * chartH,
-    y2: chartH - r * chartH,
-    stroke: "rgba(255,255,255,0.05)",
-    strokeWidth: 1
-  })), proyPaisArr.map((v, i) => {
-    if (!v) return null;
-    const h = Math.max(v / maxChart * chartH, 2);
-    const x = i * step + step * 0.2;
-    return /*#__PURE__*/React.createElement("rect", {
-      key: i,
-      x: x,
-      y: chartH - h,
-      width: step * 0.35,
-      height: h,
-      rx: 2,
-      fill: `rgba(16,185,129,0.65)`,
-      opacity: 0.9
-    });
-  }), (() => {
-    const pts = modeloPaisArr.map((v, i) => v != null ? `${i * step + step / 2},${chartH - v / maxChart * chartH}` : null).filter(Boolean);
-    if (pts.length < 2) return null;
-    return /*#__PURE__*/React.createElement("polyline", {
-      points: pts.join(' '),
-      fill: "none",
-      stroke: "#818cf8",
-      strokeWidth: 2,
-      strokeOpacity: 0.8
-    });
-  })(), proyPaisArr.map((v, i) => {
-    const m = modeloPaisArr[i];
-    if (!v || !m) return null;
-    const pct = Math.round(v / m * 100);
-    const h = v / maxChart * chartH;
-    const x = i * step + step * 0.2 + step * 0.35 / 2;
-    const color = pct >= 100 ? '#10b981' : pct >= 85 ? '#f59e0b' : '#ef4444';
-    return /*#__PURE__*/React.createElement("text", {
-      key: i,
-      x: x,
-      y: chartH - h - 4,
-      textAnchor: "middle",
-      fill: color,
-      fontSize: "7",
-      fontWeight: "700",
-      fontFamily: "monospace"
-    }, pct, "%");
-  }), semIdxs.map((si, i) => /*#__PURE__*/React.createElement("text", {
-    key: i,
-    x: i * step + step / 2,
-    y: chartH + 14,
-    textAnchor: "middle",
-    fill: DS.text4,
-    fontSize: "7",
-    fontFamily: "monospace"
-  }, "S", si + 1))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Cumplimiento por Pa\xEDs \u2014 Sem ", lastSem + 1, " (\xFAltima con datos)"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto',
-      marginTop: 10
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    style: {
-      width: '100%',
-      borderCollapse: 'collapse',
-      fontSize: 11
-    }
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
-    style: {
-      borderBottom: `1px solid ${DS.border}`
-    }
-  }, ['País', 'Modelo Budget', 'Proyección Cierre', '% Cumplimiento', 'Estado', 'Reuniones'].map(h => /*#__PURE__*/React.createElement("th", {
-    key: h,
-    style: {
-      padding: '7px 10px',
-      textAlign: 'left',
-      color: DS.text4,
-      fontSize: 9,
-      fontFamily: "'DM Mono',monospace",
-      fontWeight: 500,
-      textTransform: 'uppercase',
-      letterSpacing: '0.06em'
-    }
-  }, h)))), /*#__PURE__*/React.createElement("tbody", null, ['Argentina', 'Mexico', 'Chile', 'Colombia', 'Peru'].map(p => {
-    const modelo = (MG.modeloTotal[p] || [])[lastSem] || 0;
-    const proy = (MG.proyCierre[p] || [])[lastSem] || 0;
-    const reun = (MG.reuniones[p] || [])[lastSem] || 0;
-    const pct = modelo > 0 && proy > 0 ? Math.round(proy / modelo * 100) : null;
-    const col = pct == null ? DS.text3 : pct >= 100 ? DS.emerald : pct >= 85 ? DS.amber : DS.red;
-    const flag = {
-      Argentina: '🇦🇷',
-      Mexico: '🇲🇽',
-      Chile: '🇨🇱',
-      Colombia: '🇨🇴',
-      Peru: '🇵🇪'
-    }[p];
-    return /*#__PURE__*/React.createElement("tr", {
-      key: p,
-      style: {
-        borderBottom: `1px solid ${DS.border}30`
-      }
-    }, /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        color: DS.text1,
-        fontWeight: 600
-      }
-    }, flag, " ", p), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        color: DS.text2,
-        fontFamily: "'DM Mono',monospace"
-      }
-    }, fmt(modelo)), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        color: proy ? DS.emerald : DS.text4,
-        fontFamily: "'DM Mono',monospace",
-        fontWeight: 600
-      }
-    }, proy ? fmt(proy) : '—'), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        color: col,
-        fontFamily: "'DM Mono',monospace",
-        fontWeight: 700
-      }
-    }, pct != null ? `${pct}%` : '—'), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        fontSize: 14
-      }
-    }, semaforo(pct)), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: '8px 10px',
-        color: DS.text2,
-        fontFamily: "'DM Mono',monospace"
-      }
-    }, reun || '—'));
-  }), /*#__PURE__*/React.createElement("tr", {
-    style: {
-      borderTop: `1px solid ${DS.borderAccent}`,
-      background: 'rgba(255,255,255,0.02)'
-    }
-  }, /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      color: DS.text1,
-      fontWeight: 800
-    }
-  }, "\uD83C\uDF0E TOTAL"), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      color: '#818cf8',
-      fontFamily: "'DM Mono',monospace",
-      fontWeight: 700
-    }
-  }, fmt(modeloLastSem)), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      color: DS.emerald,
-      fontFamily: "'DM Mono',monospace",
-      fontWeight: 700
-    }
-  }, proyLastSem ? fmt(proyLastSem) : '—'), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      color: cumpColor,
-      fontFamily: "'DM Mono',monospace",
-      fontWeight: 900
-    }
-  }, pctCump != null ? `${pctCump}%` : '—'), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      fontSize: 14
-    }
-  }, semaforo(pctCump)), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '9px 10px',
-      color: DS.text2,
-      fontFamily: "'DM Mono',monospace",
-      fontWeight: 700
-    }
-  }, MG.reuniones.TOTAL[lastSem] || 0 || '—')))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Pipelines Activos \u2014 HubSpot Live"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(5,1fr)',
-      gap: 8,
-      marginTop: 10
-    }
-  }, [{
-    key: 'Argentina',
-    flag: '🇦🇷',
-    color: '#f97316'
-  }, {
-    key: 'Mexico',
-    flag: '🇲🇽',
-    color: '#a855f7'
-  }, {
-    key: 'Chile',
-    flag: '🇨🇱',
-    color: '#3b82f6'
-  }, {
-    key: 'Colombia',
-    flag: '🇨🇴',
-    color: '#22c55e'
-  }, {
-    key: 'Peru',
-    flag: '🇵🇪',
-    color: '#ef4444'
-  }].map(({
-    key,
-    flag,
-    color
-  }) => {
-    const alias = key === 'Mexico' ? 'México' : key === 'Peru' ? 'Perú' : key;
-    const v = pipeByPais[key] || 0;
-    const modelo = (MG.modeloTotal[key] || [])[lastSem] || 0;
-    const pct = modelo > 0 ? Math.round(v / modelo * 100) : null;
-    const col = pct == null ? DS.text4 : pct >= 100 ? DS.emerald : pct >= 75 ? DS.amber : DS.red;
-    return /*#__PURE__*/React.createElement("div", {
-      key: key,
-      style: {
-        borderRadius: 12,
-        padding: '12px 14px',
-        background: `${color}08`,
-        border: `1px solid ${color}25`
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 16,
-        marginBottom: 4
-      }
-    }, flag), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: DS.text4,
-        fontFamily: "'DM Mono',monospace",
-        textTransform: 'uppercase',
-        marginBottom: 2
-      }
-    }, key, " \xB7 Adq Live"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 16,
-        fontWeight: 800,
-        color,
-        fontFamily: "'DM Mono',monospace"
-      }
-    }, fmt(v)), pct != null && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: col,
-        marginTop: 2,
-        fontFamily: "'DM Mono',monospace"
-      }
-    }, pct, "% vs modelo"));
-  }))));
+  // ── RENDER ─────────────────────────────────────────────────────────────
+  return React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:18}},
+
+    // ── TOP KPI STRIP — 4 pipeline cards ─────────────────────────────
+    React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:10}},
+      React.createElement(KpiBlock,{icon:'📥',label:'Pipeline Adquisición',value:fmt(pipeAdq),
+        sub:`${activeDeals.length} deals activos · live HubSpot`,color:DS.cyan}),
+      React.createElement(KpiBlock,{icon:'🔭',label:'Leads Exploratorios',value:fmt(PIPE_EXPLO_TOTAL),
+        sub:'Pipeline 779 · clientes won operacionales',color:'#818cf8'}),
+      React.createElement(KpiBlock,{icon:'🔄',label:'CS Retención Activo',value:fmt(PIPE_RET_ACTIVE),
+        sub:`Won YTD CS: ${fmt(PIPE_RET_WON)}`,color:'#34d399'}),
+      React.createElement(KpiBlock,{icon:'🎯',label:'Cumplimiento YTD',
+        value:pctYTD!=null?`${pctYTD}%`:'—',
+        sub:`Proy ${fmt(proyYTD)} vs Modelo ${fmt(modeloYTD)}`,color:pctYTDCol})
+    ),
+
+    // ── SEMANA ACTUAL SEMÁFORO ────────────────────────────────────────
+    React.createElement('div',{style:{background:DS.card,border:`1px solid ${DS.border}`,borderRadius:12,padding:'14px 18px'}},
+      React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:12,flexWrap:'wrap'}},
+        React.createElement('span',{style:{fontSize:12,fontWeight:700,color:DS.text1}},`📅 ${WEEK_LABEL} en curso`),
+        React.createElement('span',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono'}},'Últimos datos disponibles de Operaciones'),
+        React.createElement('div',{style:{flex:1}}),
+        // Vista toggle
+        ['ytd','anual'].map(v=>React.createElement('button',{key:v,
+          onClick:()=>setVistaW(v),
+          style:{padding:'4px 10px',fontSize:10,borderRadius:6,cursor:'pointer',
+            border:`1px solid ${vistaW===v?DS.accent:DS.border}`,
+            background:vistaW===v?DS.accentLight:'transparent',
+            color:vistaW===v?DS.accent:DS.text3}
+        },v==='ytd'?`YTD (Sem 1-${lastSem+1})`:'Anual 52 sem'))
+      ),
+      // Filtros país
+      React.createElement('div',{style:{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}},
+        PAISES.map(p=>React.createElement(Pill,{key:p,active:paisF===p,col:PCOL[p],onClick:()=>setPaisF(p)},PFLAG[p],' ',p))
+      ),
+      // Métricas semana actual
+      React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:8}},
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Modelo Total Sem'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:DS.text1,marginTop:4}},fmt(modeloSem)),
+          React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},'Adq+Ret esperado')
+        ),
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Proyección Cierre'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:proySem>0?DS.text1:DS.text3,marginTop:4}},proySem>0?fmt(proySem):'Pendiente'),
+          React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},'Dato de Operaciones')
+        ),
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Cumplimiento'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:pctCol,marginTop:4}},
+            pctSem!=null?`${pctSem}%`:'—',
+            pctSem!=null&&React.createElement('span',{style:{fontSize:14,marginLeft:4}},semaforo(pctSem))
+          ),
+          React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},'Proy / Modelo')
+        ),
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Reuniones Expl.'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:DS.accent,marginTop:4}},reuSemVal||'—'),
+          React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},`YTD: ${reuYTD} reuniones`)
+        ),
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Acum. Modelo'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:DS.text1,marginTop:4}},fmt(modeloYTD)),
+          React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},'YTD total esperado')
+        ),
+        React.createElement('div',{style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+          React.createElement('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},'Acum. Proyección'),
+          React.createElement('div',{style:{fontSize:18,fontWeight:700,color:pctYTDCol,marginTop:4}},fmt(proyYTD)),
+          React.createElement('div',{style:{fontSize:9,color:pctYTDCol,marginTop:2}},pctYTD!=null?`${pctYTD}% del modelo ${semaforo(pctYTD)}`:'YTD')
+        )
+      )
+    ),
+
+    // ── TABS ──────────────────────────────────────────────────────────
+    React.createElement('div',{style:{display:'flex',gap:6}},
+      [['modelo','📊 Modelo vs Proyección'],['pipelines','📥 Pipeline Adquisición'],['reuniones','🤝 Reuniones Exploratorias']].map(([k,l])=>
+        React.createElement('button',{key:k,onClick:()=>setTabActivo(k),style:{
+          padding:'7px 16px',fontSize:11,fontWeight:tabActivo===k?700:400,borderRadius:8,cursor:'pointer',
+          border:`1px solid ${tabActivo===k?DS.accent:DS.border}`,
+          background:tabActivo===k?DS.accentLight:'transparent',color:tabActivo===k?DS.accent:DS.text3
+        }},l)
+      )
+    ),
+
+    // ── TAB: MODELO vs PROYECCIÓN ─────────────────────────────────────
+    tabActivo==='modelo' && React.createElement('div',{style:{background:DS.card,border:`1px solid ${DS.border}`,borderRadius:12,padding:'18px'}},
+      React.createElement('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},
+        `Modelo Total vs Proyección Cierre — ${paisF} — ${vistaW==='ytd'?`Sem 1 a ${lastSem+1}`:'52 semanas'}`),
+      React.createElement('div',{style:{fontSize:10,color:DS.text3,marginBottom:14}},
+        'Barras azules = Modelo (Adq+Ret) · Barras verdes = Proyección Operaciones · Línea = % cumplimiento'),
+      // Chart SVG
+      React.createElement('div',{style:{overflowX:'auto'}},
+        React.createElement('svg',{width:Math.max(chartW,semsToShow*18),height:chartH+60,style:{display:'block'}},
+          // Grid lines
+          [0.25,0.5,0.75,1.0].map(f=>React.createElement('g',{key:f},
+            React.createElement('line',{x1:0,y1:chartH-(f*chartH),x2:chartW,y2:chartH-(f*chartH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
+            React.createElement('text',{x:2,y:chartH-(f*chartH)-2,fontSize:7,fill:DS.text3,fontFamily:'DM Mono'},fmt(maxVal*f))
+          )),
+          // Bars: modelo (blue) and proyección (green)
+          semIdxs.map((si,xi)=>{
+            const mx = modeloArr[xi]||0;
+            const px = proyArr[xi]||0;
+            const mH = mx>0?Math.max((mx/maxVal)*chartH,2):0;
+            const pH = px>0?Math.max((px/maxVal)*chartH,2):0;
+            const x = xi*step;
+            const isLast = si===lastSem;
+            return React.createElement('g',{key:si},
+              // modelo bar
+              React.createElement('rect',{x:x+1,y:chartH-mH,width:barW*0.48,height:mH,
+                fill:isLast?DS.cyan:'#1e40af',opacity:0.7,rx:1}),
+              // proyección bar
+              px>0&&React.createElement('rect',{x:x+barW*0.52,y:chartH-pH,width:barW*0.48,height:pH,
+                fill:isLast?DS.emerald:'#065f46',opacity:0.85,rx:1}),
+              // label sem (every 4)
+              xi%4===0&&React.createElement('text',{x:x+barW/2,y:chartH+12,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},`S${si+1}`)
+            );
+          }),
+          // % Line overlay
+          React.createElement('polyline',{
+            points:semIdxs.map((si,xi)=>{
+              const p=pctArr[xi]; if(p==null)return null;
+              return `${xi*step+barW/2},${chartH-(p/130)*chartH}`;
+            }).filter(Boolean).join(' '),
+            fill:'none',stroke:DS.amber,strokeWidth:1.5,strokeDasharray:'4,2'
+          }),
+          // Last sem indicator
+          React.createElement('line',{x1:lastSem*step,y1:0,x2:lastSem*step,y2:chartH,stroke:DS.amber,strokeWidth:1,strokeDasharray:'2,2'})
+        )
+      ),
+      // Legend
+      React.createElement('div',{style:{display:'flex',gap:16,marginTop:8,flexWrap:'wrap'}},
+        [['#1e40af','Modelo semanal'],['#065f46','Proyección Operaciones'],[DS.amber,'% Cumplimiento']].map(([col,lbl])=>
+          React.createElement('div',{key:lbl,style:{display:'flex',alignItems:'center',gap:5}},
+            React.createElement('div',{style:{width:10,height:8,background:col,borderRadius:2}}),
+            React.createElement('span',{style:{fontSize:10,color:DS.text3}},lbl)
+          )
+        )
+      ),
+      // ── Tabla por país ────────────────────────────────────────────
+      React.createElement('div',{style:{marginTop:16,overflowX:'auto'}},
+        React.createElement('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
+          React.createElement('thead',null,
+            React.createElement('tr',null,
+              ['País','Pipeline Adq Live','Modelo Sem','Proy Cierre','% Sem',`Modelo YTD (Sem ${lastSem+1})`,`Proy YTD`,'% YTD','Reun. Sem'].map(h=>
+                React.createElement('th',{key:h,style:{padding:'6px 10px',textAlign:'left',borderBottom:`1px solid ${DS.border}`,
+                  fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase',whiteSpace:'nowrap'}},h)
+              )
+            )
+          ),
+          React.createElement('tbody',null,
+            countryRows.map(({c,mod,proy,pct,modYtd,proyYtd,pctYtd,adqPipe,reuC})=>
+              React.createElement('tr',{key:c,style:{borderBottom:`1px solid ${DS.border}20`}},
+                React.createElement('td',{style:{padding:'7px 10px',fontWeight:600,color:PCOL[c]}},PFLAG[c],' ',c),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono',color:DS.cyan}},fmt(adqPipe)),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono'}},fmt(mod)),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono',color:proy>0?DS.text1:DS.text3}},proy>0?fmt(proy):'—'),
+                React.createElement('td',{style:{padding:'7px 10px',fontWeight:700,color:pct==null?DS.text3:pct>=100?DS.emerald:pct>=85?DS.amber:DS.red}},
+                  pct!=null?`${pct}% ${semaforo(pct)}`:'—'),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono',color:DS.text2}},fmt(modYtd)),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono'}},proyYtd>0?fmt(proyYtd):'—'),
+                React.createElement('td',{style:{padding:'7px 10px',fontWeight:700,color:pctYtd==null?DS.text3:pctYtd>=100?DS.emerald:pctYtd>=85?DS.amber:DS.red}},
+                  pctYtd!=null?`${pctYtd}% ${semaforo(pctYtd)}`:'—'),
+                React.createElement('td',{style:{padding:'7px 10px',fontFamily:'DM Mono',color:DS.accent}},reuC||'—')
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    // ── TAB: PIPELINE ADQUISICIÓN ─────────────────────────────────────
+    tabActivo==='pipelines' && React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:12}},
+      // Pipeline adq chart (modelo adq)
+      React.createElement('div',{style:{background:DS.card,border:`1px solid ${DS.border}`,borderRadius:12,padding:'18px'}},
+        React.createElement('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},
+          `Pipeline Adquisición — Modelo vs Live HubSpot — ${paisF}`),
+        React.createElement('div',{style:{fontSize:10,color:DS.text3,marginBottom:14}},
+          'Barra = Modelo Adq semanal acumulado · Punto cyan = Pipeline activo actual ponderado'),
+        React.createElement('div',{style:{overflowX:'auto'}},
+          React.createElement('svg',{width:Math.max(chartW,semsToShow*18),height:chartH+40,style:{display:'block'}},
+            [0.25,0.5,0.75,1.0].map(f=>React.createElement('line',{key:f,
+              x1:0,y1:chartH-(f*chartH),x2:chartW,y2:chartH-(f*chartH),
+              stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5})),
+            semIdxs.map((si,xi)=>{
+              const av = adqArr[xi]||0;
+              const aH = av>0?Math.max((av/maxAdq)*chartH,2):0;
+              const x = xi*step;
+              return React.createElement('g',{key:si},
+                React.createElement('rect',{x:x+1,y:chartH-aH,width:barW,height:aH,fill:'#1e40af',opacity:0.7,rx:1}),
+                xi%4===0&&React.createElement('text',{x:x+barW/2,y:chartH+12,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},`S${si+1}`)
+              );
+            }),
+            // Live pipeline line (at current week)
+            paisF!=='TOTAL'
+              ? React.createElement('line',{x1:lastSem*step,y1:chartH-((pipeAdqByC[paisF]||0)/maxAdq)*chartH,x2:(lastSem+1)*step,y2:chartH-((pipeAdqByC[paisF]||0)/maxAdq)*chartH,stroke:DS.cyan,strokeWidth:2})
+              : React.createElement('line',{x1:lastSem*step,y1:chartH-(pipeAdq/maxAdq)*chartH,x2:(lastSem+1)*step,y2:chartH-(pipeAdq/maxAdq)*chartH,stroke:DS.cyan,strokeWidth:2})
+          )
+        ),
+        // Pipeline summary
+        React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:8,marginTop:14}},
+          [
+            {label:'Pipeline Live Adq',value:fmt(pipeAdq),color:DS.cyan,sub:`${activeDeals.length} deals activos`},
+            {label:'Modelo Adq Sem',value:fmt(getModAdq(lastSem,paisF)),color:DS.text1,sub:'Objetivo semana'},
+            {label:'Leads Exploratorios',value:fmt(PIPE_EXPLO_TOTAL),color:'#818cf8',sub:'Pipeline 779 HubSpot'},
+            {label:'CS Retención Activo',value:fmt(PIPE_RET_ACTIVE),color:'#34d399',sub:'Pipeline 98976889'},
+          ].map(({label,value,color,sub})=>
+            React.createElement('div',{key:label,style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:`1px solid ${DS.border}`}},
+              React.createElement('div',{style:{fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},label),
+              React.createElement('div',{style:{fontSize:16,fontWeight:700,color,marginTop:4}},value),
+              React.createElement('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},sub)
+            )
+          )
+        )
+      ),
+      // Pipeline por país breakdown
+      React.createElement('div',{style:{background:DS.card,border:`1px solid ${DS.border}`,borderRadius:12,padding:'18px'}},
+        React.createElement('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Pipeline Adquisición por País · Live HubSpot'),
+        React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:6}},
+          Object.entries(pipeAdqByC).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([c,v])=>{
+            const total = pipeAdq||1;
+            const pct = Math.round(v/total*100);
+            return React.createElement('div',{key:c,style:{display:'flex',alignItems:'center',gap:10}},
+              React.createElement('div',{style:{width:90,fontSize:11,color:PCOL[c],fontWeight:600}},PFLAG[c],' ',c),
+              React.createElement('div',{style:{flex:1,height:8,background:DS.border,borderRadius:4,overflow:'hidden'}},
+                React.createElement('div',{style:{width:`${pct}%`,height:'100%',background:PCOL[c],borderRadius:4}})
+              ),
+              React.createElement('div',{style:{width:70,textAlign:'right',fontSize:11,fontFamily:'DM Mono',color:DS.text1}},fmt(v)),
+              React.createElement('div',{style:{width:35,textAlign:'right',fontSize:10,color:DS.text3}},`${pct}%`)
+            );
+          })
+        )
+      )
+    ),
+
+    // ── TAB: REUNIONES ────────────────────────────────────────────────
+    tabActivo==='reuniones' && React.createElement('div',{style:{background:DS.card,border:`1px solid ${DS.border}`,borderRadius:12,padding:'18px'}},
+      React.createElement('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:4}},'Reuniones Exploratorias por Semana'),
+      React.createElement('div',{style:{fontSize:10,color:DS.text3,marginBottom:14}},`YTD Total: ${reuYTD} reuniones · ${WEEK_LABEL}: ${reuSemVal}`),
+      // Chart reuniones
+      React.createElement('div',{style:{overflowX:'auto',marginBottom:16}},
+        (()=>{
+          const reuArr = semsYtd.map(i=>{
+            const arr = MG.reuniones[paisF==='TOTAL'?'TOTAL':paisF]||[];
+            return arr[i]||0;
+          });
+          const maxR = Math.max(...reuArr.filter(Boolean),1);
+          const rChW = 400, rChH = 80, rBW = Math.max(Math.floor(rChW/reuArr.length)-3,4);
+          return React.createElement('svg',{width:rChW,height:rChH+30,style:{display:'block'}},
+            reuArr.map((v,xi)=>{
+              const h = v>0?Math.max((v/maxR)*rChH,4):0;
+              const x = xi*(rChW/reuArr.length);
+              return React.createElement('g',{key:xi},
+                React.createElement('rect',{x:x+1,y:rChH-h,width:rBW,height:h,fill:DS.accent,opacity:0.8,rx:2}),
+                v>0&&React.createElement('text',{x:x+rBW/2,y:rChH-h-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'DM Mono'},v),
+                React.createElement('text',{x:x+rBW/2,y:rChH+14,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},`S${xi+1}`)
+              );
+            })
+          );
+        })()
+      ),
+      // Tabla reuniones por país por semana
+      React.createElement('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
+        React.createElement('thead',null,
+          React.createElement('tr',null,
+            ['País',...semsYtd.map(i=>`S${i+1}`),'Total'].map(h=>
+              React.createElement('th',{key:h,style:{padding:'5px 6px',textAlign:'center',borderBottom:`1px solid ${DS.border}`,
+                fontSize:9,color:DS.text3,fontFamily:'DM Mono',whiteSpace:'nowrap'}},h)
+            )
+          )
+        ),
+        React.createElement('tbody',null,
+          ['Argentina','Mexico','Chile','Colombia','Peru'].map(c=>{
+            const arr = MG.reuniones[c]||[];
+            const total = semsYtd.reduce((s,i)=>s+(arr[i]||0),0);
+            return React.createElement('tr',{key:c,style:{borderBottom:`1px solid ${DS.border}20`}},
+              React.createElement('td',{style:{padding:'6px 8px',fontWeight:600,color:PCOL[c],whiteSpace:'nowrap'}},PFLAG[c],' ',c),
+              ...semsYtd.map(i=>React.createElement('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontFamily:'DM Mono',
+                color:arr[i]>0?DS.text1:DS.text3}},arr[i]>0?arr[i]:'—')),
+              React.createElement('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:700,fontFamily:'DM Mono',color:DS.accent}},total||'—')
+            );
+          }).concat([
+            React.createElement('tr',{key:'TOTAL',style:{borderTop:`2px solid ${DS.border}`,background:DS.bg}},
+              React.createElement('td',{style:{padding:'6px 8px',fontWeight:700,color:DS.text1}},'🌎 TOTAL'),
+              ...semsYtd.map(i=>React.createElement('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontFamily:'DM Mono',fontWeight:600,
+                color:(MG.reuniones.TOTAL?.[i]||0)>0?DS.accent:DS.text3}},
+                (MG.reuniones.TOTAL?.[i]||0)>0?(MG.reuniones.TOTAL[i]):'—')),
+              React.createElement('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:800,fontFamily:'DM Mono',color:DS.accent}},reuYTD)
+            )
+          ])
+        )
+      )
+    )
+  );
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// FLEET & FILL RATE — Capacidad de Colocación + Venta Perdida
-// ══════════════════════════════════════════════════════════════════════════
+
 function SecFillRate() {
   const [semSel, setSemSel] = useState(12); // index 0-12 (sem 1-13)
   const [vista, setVista] = useState('fr'); // fr | vp
