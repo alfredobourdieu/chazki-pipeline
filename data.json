@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-26T00:17:18.146Z",
-  "updated_at_art": "25/03/2026, 09:17 p. m.",
+  "updated_at": "2026-03-26T00:32:52.966Z",
+  "updated_at_art": "25/03/2026, 09:32 p. m.",
   "snapshot": {
-    "ts": 1774484238145,
+    "ts": 1774485172954,
     "w": 8957972,
     "byC": {
       "Argentina": 2631550,
@@ -13,7 +13,7 @@
     }
   },
   "prev_week": {
-    "ts": 1774483855367,
+    "ts": 1774484238145,
     "w": 8957972,
     "byC": {
       "Argentina": 2631550,
@@ -368,7 +368,7 @@
       "id": "43407945895",
       "name": "Mx - Sodexo: refrigerados y secos. Trailer Multitemperatura y Torton.",
       "amount": 360000,
-      "stage_label": "Ganado M&P",
+      "stage_label": "Ganado",
       "pipeline_id": "95256391",
       "close_date": "2026-01-14",
       "last_activity": "2026-03-25",
@@ -521,7 +521,7 @@
       "id": "33028821565",
       "name": "Col - Cargill MDE",
       "amount": 250000,
-      "stage_label": "Propuesta Aceptada/Contrato M&P",
+      "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-03-31",
       "last_activity": "2026-03-22",
@@ -810,7 +810,7 @@
       "id": "55581030708",
       "name": "Ch - Adidas Licitación B2B",
       "amount": 150000,
-      "stage_label": "Ganado M&P",
+      "stage_label": "Ganado",
       "pipeline_id": "95256391",
       "close_date": "2025-12-15",
       "last_activity": "2026-03-25",
@@ -912,7 +912,7 @@
       "id": "19756392834",
       "name": "Col - Alquería TAT MDE",
       "amount": 120000,
-      "stage_label": "Propuesta Aceptada/Contrato M&P",
+      "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-04-01",
       "last_activity": "2026-03-17",
@@ -1337,7 +1337,7 @@
       "id": "57938912001",
       "name": "Pe - Wurth Media Milla B2B",
       "amount": 100000,
-      "stage_label": "Propuesta Aceptada/Contrato M&P",
+      "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
       "close_date": null,
       "last_activity": "2026-03-25",
@@ -7117,7 +7117,7 @@
       "id": "54105500700",
       "name": "MX - Viaje Semanal 1.5T",
       "amount": 1800,
-      "stage_label": "Ganado M&P",
+      "stage_label": "Ganado",
       "pipeline_id": "95256391",
       "close_date": "2026-03-23",
       "last_activity": "2026-03-23",
@@ -7315,7 +7315,7 @@
       "created": "2025-09-17",
       "probability": 1,
       "weighted": 1500,
-      "days_in_stage": 189
+      "days_in_stage": 190
     },
     {
       "id": "44081322653",
@@ -10375,7 +10375,7 @@
       "created": "2024-10-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 270
+      "days_in_stage": 271
     },
     {
       "id": "29041625618",
