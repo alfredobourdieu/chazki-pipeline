@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-03-26T15:33:57.414Z",
-  "updated_at_art": "26/03/2026, 12:33 p. m.",
+  "updated_at": "2026-03-26T21:54:02.004Z",
+  "updated_at_art": "26/03/2026, 06:54 p. m.",
   "snapshot": {
-    "ts": 1774539237394,
-    "w": 8957972,
+    "ts": 1774562041992,
+    "w": 8898772,
     "byC": {
-      "Argentina": 2631550,
-      "México": 1565083,
+      "Argentina": 2631750,
+      "México": 1565283,
       "Chile": 1515101,
-      "Perú": 1801218,
-      "Colombia": 1444720
+      "Perú": 1801618,
+      "Colombia": 1384720
     }
   },
   "prev_week": {
-    "ts": 1774538720599,
+    "ts": 1774539237394,
     "w": 8957972,
     "byC": {
       "Argentina": 2631550,
@@ -73,7 +73,7 @@
       "created": "2025-10-16",
       "probability": 0.3,
       "weighted": 405000,
-      "days_in_stage": 56
+      "days_in_stage": 57
     },
     {
       "id": "6277679729",
@@ -90,7 +90,7 @@
       "created": "2026-01-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "31955576617",
@@ -107,7 +107,7 @@
       "created": "2025-01-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 104
+      "days_in_stage": 105
     },
     {
       "id": "43896913539",
@@ -141,7 +141,7 @@
       "created": "2024-12-03",
       "probability": 1,
       "weighted": 720000,
-      "days_in_stage": 244
+      "days_in_stage": 245
     },
     {
       "id": "52994165561",
@@ -226,7 +226,7 @@
       "created": "2025-04-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 105
+      "days_in_stage": 106
     },
     {
       "id": "38995567143",
@@ -311,7 +311,7 @@
       "created": "2026-02-12",
       "probability": 0.1,
       "weighted": 50000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "57086236970",
@@ -337,7 +337,7 @@
       "stage_label": "Preventa M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-19",
-      "last_activity": "2026-03-24",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "México",
       "is_won": false,
@@ -430,7 +430,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "56127322803",
@@ -464,7 +464,7 @@
       "created": "2026-02-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57030515784",
@@ -481,7 +481,7 @@
       "created": "2026-02-25",
       "probability": 0.2,
       "weighted": 54000,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "57093681716",
@@ -506,8 +506,8 @@
       "amount": 250000,
       "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-03-31",
-      "last_activity": "2026-03-22",
+      "close_date": "2026-04-15",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -574,8 +574,8 @@
       "amount": 250000,
       "stage_label": "Negociación M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-03-31",
-      "last_activity": "2026-03-12",
+      "close_date": "2026-05-31",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -583,7 +583,7 @@
       "created": "2025-09-22",
       "probability": 0.9,
       "weighted": 225000,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "20535414273",
@@ -651,7 +651,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "50574801784",
@@ -668,7 +668,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57855961602",
@@ -685,7 +685,7 @@
       "created": "2026-03-10",
       "probability": 0.4,
       "weighted": 86400,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "57619602857",
@@ -719,7 +719,7 @@
       "created": "2024-04-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 621
+      "days_in_stage": 622
     },
     {
       "id": "22369864533",
@@ -787,7 +787,7 @@
       "created": "2025-10-28",
       "probability": 0.5,
       "weighted": 75000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "55581030708",
@@ -872,7 +872,7 @@
       "created": "2025-05-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 258
+      "days_in_stage": 259
     },
     {
       "id": "33049127445",
@@ -897,8 +897,8 @@
       "amount": 120000,
       "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-04-01",
-      "last_activity": "2026-03-17",
+      "close_date": "2026-04-15",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -915,7 +915,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-08-01",
-      "last_activity": "2026-03-23",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "México",
       "is_won": false,
@@ -940,7 +940,7 @@
       "created": "2025-07-14",
       "probability": 1,
       "weighted": 120000,
-      "days_in_stage": 128
+      "days_in_stage": 129
     },
     {
       "id": "46110331482",
@@ -957,7 +957,7 @@
       "created": "2025-10-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "46794705210",
@@ -980,18 +980,18 @@
       "id": "51515362912",
       "name": "Col - Colanta",
       "amount": 120000,
-      "stage_label": "Propuesta Enviada M&P",
+      "stage_label": "Prospecto Frío M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-04-14",
-      "last_activity": "2026-03-16",
+      "close_date": "2026-03-26",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
-      "is_lost": false,
+      "is_lost": true,
       "created": "2025-12-11",
-      "probability": 0.5,
-      "weighted": 60000,
-      "days_in_stage": 36
+      "probability": 0,
+      "weighted": 0,
+      "days_in_stage": 0
     },
     {
       "id": "52918666053",
@@ -1042,7 +1042,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 24000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "33990436367",
@@ -1051,7 +1051,7 @@
       "stage_label": "Prospecto Frío",
       "pipeline_id": "137007495",
       "close_date": "2025-09-22",
-      "last_activity": "2026-03-18",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -1059,7 +1059,7 @@
       "created": "2025-02-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "38798900576",
@@ -1178,7 +1178,7 @@
       "created": "2025-10-23",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 118
+      "days_in_stage": 119
     },
     {
       "id": "48474156095",
@@ -1186,8 +1186,8 @@
       "amount": 100000,
       "stage_label": "Negociación M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-03-31",
-      "last_activity": "2026-03-22",
+      "close_date": "2026-05-31",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -1195,7 +1195,7 @@
       "created": "2025-11-07",
       "probability": 0.9,
       "weighted": 90000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "49700751794",
@@ -1212,7 +1212,7 @@
       "created": "2025-11-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "55688192519",
@@ -1306,7 +1306,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-06-30",
-      "last_activity": "2026-03-24",
+      "last_activity": "2026-03-26",
       "owner": "Isidora Figueroa",
       "country": "Chile",
       "is_won": false,
@@ -1314,7 +1314,7 @@
       "created": "2026-03-10",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "57938912001",
@@ -1323,7 +1323,7 @@
       "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
       "close_date": null,
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "Perú",
       "is_won": null,
@@ -1348,7 +1348,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 20000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "13980530536",
@@ -1365,7 +1365,7 @@
       "created": "2023-07-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 649
+      "days_in_stage": 650
     },
     {
       "id": "28752301884",
@@ -1399,7 +1399,7 @@
       "created": "2024-08-12",
       "probability": 1,
       "weighted": 88000,
-      "days_in_stage": 343
+      "days_in_stage": 344
     },
     {
       "id": "55827522720",
@@ -1467,7 +1467,7 @@
       "created": "2025-02-26",
       "probability": 1,
       "weighted": 75000,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "31009220102",
@@ -1484,7 +1484,7 @@
       "created": "2024-12-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 401
+      "days_in_stage": 402
     },
     {
       "id": "35429546604",
@@ -1501,7 +1501,7 @@
       "created": "2024-05-02",
       "probability": 1,
       "weighted": 70000,
-      "days_in_stage": 324
+      "days_in_stage": 325
     },
     {
       "id": "38160106316",
@@ -1535,7 +1535,7 @@
       "created": "2025-03-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "55475169032",
@@ -1544,7 +1544,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-05-04",
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -1586,7 +1586,7 @@
       "created": "2025-12-18",
       "probability": 0.5,
       "weighted": 30000,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "53282472517",
@@ -1603,7 +1603,7 @@
       "created": "2026-01-06",
       "probability": 0.2,
       "weighted": 12000,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "54273133065",
@@ -1620,7 +1620,7 @@
       "created": "2026-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "55475202879",
@@ -1637,7 +1637,7 @@
       "created": "2026-02-04",
       "probability": 0.3,
       "weighted": 18000,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "56443274106",
@@ -1722,7 +1722,7 @@
       "created": "2024-12-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "15771856489",
@@ -1739,7 +1739,7 @@
       "created": "2023-10-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "20033232956",
@@ -1773,7 +1773,7 @@
       "created": "2024-10-07",
       "probability": 1,
       "weighted": 50000,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "49695455505",
@@ -1790,7 +1790,7 @@
       "created": "2025-11-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "50879530891",
@@ -1807,7 +1807,7 @@
       "created": "2025-12-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "53886992276",
@@ -1841,7 +1841,7 @@
       "created": "2025-12-09",
       "probability": 1,
       "weighted": 45000,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "45491358788",
@@ -1875,7 +1875,7 @@
       "created": "2025-06-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "48988384616",
@@ -1909,7 +1909,7 @@
       "created": "2025-06-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "49530781273",
@@ -1926,7 +1926,7 @@
       "created": "2025-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "50570588327",
@@ -1994,7 +1994,7 @@
       "created": "2025-07-28",
       "probability": 1,
       "weighted": 36000,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "48987699068",
@@ -2045,7 +2045,7 @@
       "created": "2026-02-19",
       "probability": 0.5,
       "weighted": 17500,
-      "days_in_stage": 8
+      "days_in_stage": 9
     },
     {
       "id": "57980039308",
@@ -2062,7 +2062,7 @@
       "created": "2026-03-13",
       "probability": 0.4,
       "weighted": 14000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "42368523829",
@@ -2096,7 +2096,7 @@
       "created": "2025-07-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 203
+      "days_in_stage": 204
     },
     {
       "id": "56116141417",
@@ -2122,7 +2122,7 @@
       "stage_label": "Estabilización - Operando",
       "pipeline_id": "137007495",
       "close_date": "2025-02-10",
-      "last_activity": "2026-02-13",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "México",
       "is_won": false,
@@ -2164,7 +2164,7 @@
       "created": "2024-11-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 253
+      "days_in_stage": 254
     },
     {
       "id": "30081439765",
@@ -2198,7 +2198,7 @@
       "created": "2025-04-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "37960354426",
@@ -2215,7 +2215,7 @@
       "created": "2025-05-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 238
+      "days_in_stage": 239
     },
     {
       "id": "40713543542",
@@ -2351,7 +2351,7 @@
       "created": "2024-02-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "37813093480",
@@ -2368,7 +2368,7 @@
       "created": "2025-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "38995572020",
@@ -2470,7 +2470,7 @@
       "created": "2025-02-05",
       "probability": 1,
       "weighted": 24000,
-      "days_in_stage": 322
+      "days_in_stage": 323
     },
     {
       "id": "34920656217",
@@ -2487,7 +2487,7 @@
       "created": "2025-03-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 314
+      "days_in_stage": 315
     },
     {
       "id": "43948384547",
@@ -2555,7 +2555,7 @@
       "created": "2025-09-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 135
+      "days_in_stage": 136
     },
     {
       "id": "7996895159",
@@ -2589,7 +2589,7 @@
       "created": "2024-04-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "18843340725",
@@ -2640,7 +2640,7 @@
       "created": "2025-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "37977670707",
@@ -2657,7 +2657,7 @@
       "created": "2025-05-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 260
+      "days_in_stage": 261
     },
     {
       "id": "41659534658",
@@ -2674,7 +2674,7 @@
       "created": "2025-08-11",
       "probability": 0.3,
       "weighted": 6000,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "44585917856",
@@ -2691,7 +2691,7 @@
       "created": "2025-09-29",
       "probability": 0.3,
       "weighted": 6000,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "45968044849",
@@ -2708,7 +2708,7 @@
       "created": "2025-10-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 54
+      "days_in_stage": 55
     },
     {
       "id": "57021683886",
@@ -2742,7 +2742,7 @@
       "created": "2024-08-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "32323845461",
@@ -2759,7 +2759,7 @@
       "created": "2025-01-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "42448826200",
@@ -2776,7 +2776,7 @@
       "created": "2025-08-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 162
+      "days_in_stage": 163
     },
     {
       "id": "46291879731",
@@ -2793,7 +2793,7 @@
       "created": "2025-10-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "51244774446",
@@ -2827,7 +2827,7 @@
       "created": "2026-01-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 47
+      "days_in_stage": 48
     },
     {
       "id": "56549342488",
@@ -2887,7 +2887,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-06-30",
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Nazhiely Meza Campos",
       "country": "México",
       "is_won": false,
@@ -2895,7 +2895,7 @@
       "created": "2026-03-11",
       "probability": 0.3,
       "weighted": 4650,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "29386120081",
@@ -2912,7 +2912,7 @@
       "created": "2024-11-20",
       "probability": 1,
       "weighted": 15000,
-      "days_in_stage": 128
+      "days_in_stage": 129
     },
     {
       "id": "30087740562",
@@ -2963,7 +2963,7 @@
       "created": "2025-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "50524912698",
@@ -2989,7 +2989,7 @@
       "stage_label": "Propuesta Enviada M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-25",
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Alfredo Garcia",
       "country": "México",
       "is_won": false,
@@ -2997,7 +2997,7 @@
       "created": "2026-03-25",
       "probability": 0.5,
       "weighted": 7500,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "39334091149",
@@ -3014,7 +3014,7 @@
       "created": "2025-06-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 162
+      "days_in_stage": 163
     },
     {
       "id": "30401762740",
@@ -3048,7 +3048,7 @@
       "created": "2025-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "39978089733",
@@ -3065,7 +3065,7 @@
       "created": "2025-07-10",
       "probability": 1,
       "weighted": 12000,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "41152309302",
@@ -3082,7 +3082,7 @@
       "created": "2025-07-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 168
+      "days_in_stage": 169
     },
     {
       "id": "43289286229",
@@ -3099,7 +3099,7 @@
       "created": "2025-09-02",
       "probability": 0.3,
       "weighted": 3600,
-      "days_in_stage": 118
+      "days_in_stage": 119
     },
     {
       "id": "46700917074",
@@ -3184,7 +3184,7 @@
       "created": "2025-12-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "57668934925",
@@ -3193,7 +3193,7 @@
       "stage_label": "Propuesta Enviada M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-06",
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Alfredo Garcia",
       "country": "México",
       "is_won": false,
@@ -3201,7 +3201,7 @@
       "created": "2026-03-06",
       "probability": 0.5,
       "weighted": 6000,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "37895406505",
@@ -3235,7 +3235,7 @@
       "created": "2024-07-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 324
+      "days_in_stage": 325
     },
     {
       "id": "21628709504",
@@ -3286,7 +3286,7 @@
       "created": "2023-08-29",
       "probability": 1,
       "weighted": 10000,
-      "days_in_stage": 406
+      "days_in_stage": 407
     },
     {
       "id": "17317997163",
@@ -3320,7 +3320,7 @@
       "created": "2024-02-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 621
+      "days_in_stage": 622
     },
     {
       "id": "18848913847",
@@ -3337,7 +3337,7 @@
       "created": "2024-04-23",
       "probability": 1,
       "weighted": 10000,
-      "days_in_stage": 263
+      "days_in_stage": 264
     },
     {
       "id": "19358462074",
@@ -3405,7 +3405,7 @@
       "created": "2024-12-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 133
+      "days_in_stage": 134
     },
     {
       "id": "30366350123",
@@ -3439,7 +3439,7 @@
       "created": "2025-01-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "34355192462",
@@ -3507,7 +3507,7 @@
       "created": "2025-04-01",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "35387576324",
@@ -3558,7 +3558,7 @@
       "created": "2025-05-06",
       "probability": 0.2,
       "weighted": 2000,
-      "days_in_stage": 287
+      "days_in_stage": 288
     },
     {
       "id": "36892997717",
@@ -3660,7 +3660,7 @@
       "created": "2025-09-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "43739957135",
@@ -3711,7 +3711,7 @@
       "created": "2025-10-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 160
+      "days_in_stage": 161
     },
     {
       "id": "51015849837",
@@ -3728,7 +3728,7 @@
       "created": "2025-12-02",
       "probability": 0.5,
       "weighted": 5000,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "53813816371",
@@ -3762,7 +3762,7 @@
       "created": "2026-02-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "56831844229",
@@ -3796,7 +3796,7 @@
       "created": "2026-03-10",
       "probability": 0.4,
       "weighted": 4000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "57939091292",
@@ -3813,7 +3813,7 @@
       "created": "2026-03-11",
       "probability": 0.4,
       "weighted": 4000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "58136146944",
@@ -3847,7 +3847,7 @@
       "created": "2025-07-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "18761626652",
@@ -3915,7 +3915,7 @@
       "created": "2024-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "35573701191",
@@ -3983,7 +3983,7 @@
       "created": "2025-12-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "52994207038",
@@ -4000,7 +4000,7 @@
       "created": "2026-01-05",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 1
+      "days_in_stage": 2
     },
     {
       "id": "53259522859",
@@ -4043,7 +4043,7 @@
       "stage_label": "Negociación Avanzada M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-01",
-      "last_activity": "2026-03-25",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "Perú",
       "is_won": false,
@@ -4102,7 +4102,7 @@
       "created": "2025-03-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 324
+      "days_in_stage": 325
     },
     {
       "id": "35744944960",
@@ -4136,7 +4136,7 @@
       "created": "2025-04-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "39834245289",
@@ -4170,7 +4170,7 @@
       "created": "2025-08-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 216
+      "days_in_stage": 217
     },
     {
       "id": "53368982872",
@@ -4178,8 +4178,8 @@
       "amount": 8000,
       "stage_label": "Propuesta Enviada M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-04-07",
-      "last_activity": "2026-02-17",
+      "close_date": "2026-05-31",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -4187,7 +4187,7 @@
       "created": "2026-01-07",
       "probability": 0.5,
       "weighted": 4000,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "57030460597",
@@ -4196,7 +4196,7 @@
       "stage_label": "Propuesta Enviada M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-05-26",
-      "last_activity": "2026-03-22",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -4238,7 +4238,7 @@
       "created": "2025-07-03",
       "probability": 1,
       "weighted": 7600,
-      "days_in_stage": 252
+      "days_in_stage": 253
     },
     {
       "id": "39668835971",
@@ -4255,7 +4255,7 @@
       "created": "2025-07-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "48945977379",
@@ -4289,7 +4289,7 @@
       "created": "2024-07-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 268
+      "days_in_stage": 269
     },
     {
       "id": "43898915137",
@@ -4306,7 +4306,7 @@
       "created": "2025-09-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "36723870069",
@@ -4340,7 +4340,7 @@
       "created": "2025-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "52276042631",
@@ -4391,7 +4391,7 @@
       "created": "2024-04-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "29263006075",
@@ -4442,7 +4442,7 @@
       "created": "2025-02-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 399
+      "days_in_stage": 400
     },
     {
       "id": "34509132655",
@@ -4459,7 +4459,7 @@
       "created": "2025-03-10",
       "probability": 1,
       "weighted": 6000,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "34539455827",
@@ -4476,7 +4476,7 @@
       "created": "2025-03-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "36153724434",
@@ -4493,7 +4493,7 @@
       "created": "2025-04-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 336
+      "days_in_stage": 337
     },
     {
       "id": "37977667447",
@@ -4510,7 +4510,7 @@
       "created": "2025-05-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "38995247249",
@@ -4544,7 +4544,7 @@
       "created": "2025-09-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "48359055459",
@@ -4595,7 +4595,7 @@
       "created": "2025-06-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 121
+      "days_in_stage": 122
     },
     {
       "id": "38854563490",
@@ -4629,7 +4629,7 @@
       "created": "2024-05-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "19985671972",
@@ -4646,7 +4646,7 @@
       "created": "2024-06-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "20034447430",
@@ -4697,7 +4697,7 @@
       "created": "2024-07-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "20535412047",
@@ -4765,7 +4765,7 @@
       "created": "2024-07-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "21115071124",
@@ -4782,7 +4782,7 @@
       "created": "2024-08-01",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 403
+      "days_in_stage": 404
     },
     {
       "id": "21575576984",
@@ -4799,7 +4799,7 @@
       "created": "2024-08-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 419
+      "days_in_stage": 420
     },
     {
       "id": "22427199035",
@@ -4884,7 +4884,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 345
+      "days_in_stage": 346
     },
     {
       "id": "33448274191",
@@ -4918,7 +4918,7 @@
       "created": "2025-03-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 247
+      "days_in_stage": 248
     },
     {
       "id": "36153376696",
@@ -4935,7 +4935,7 @@
       "created": "2025-04-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 166
+      "days_in_stage": 167
     },
     {
       "id": "36723859560",
@@ -4952,7 +4952,7 @@
       "created": "2025-05-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "36742233254",
@@ -4969,7 +4969,7 @@
       "created": "2025-05-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "37269955351",
@@ -5020,7 +5020,7 @@
       "created": "2025-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "38042960822",
@@ -5037,7 +5037,7 @@
       "created": "2025-05-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "38995573770",
@@ -5088,7 +5088,7 @@
       "created": "2025-09-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 104
+      "days_in_stage": 105
     },
     {
       "id": "44865731700",
@@ -5105,7 +5105,7 @@
       "created": "2025-09-29",
       "probability": 1,
       "weighted": 5000,
-      "days_in_stage": 126
+      "days_in_stage": 127
     },
     {
       "id": "46761119621",
@@ -5139,7 +5139,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 118
+      "days_in_stage": 119
     },
     {
       "id": "46794706295",
@@ -5207,7 +5207,7 @@
       "created": "2026-01-02",
       "probability": 0.3,
       "weighted": 1500,
-      "days_in_stage": 82
+      "days_in_stage": 83
     },
     {
       "id": "57539500982",
@@ -5224,7 +5224,7 @@
       "created": "2026-03-05",
       "probability": 0.3,
       "weighted": 1500,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "57610388048",
@@ -5275,7 +5275,7 @@
       "created": "2026-03-11",
       "probability": 0.4,
       "weighted": 2000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "22546358304",
@@ -5292,7 +5292,7 @@
       "created": "2024-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "35872390415",
@@ -5309,7 +5309,7 @@
       "created": "2025-04-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "36847867509",
@@ -5343,7 +5343,7 @@
       "created": "2025-07-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 201
+      "days_in_stage": 202
     },
     {
       "id": "49134030159",
@@ -5360,7 +5360,7 @@
       "created": "2025-11-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "51893930247",
@@ -5377,7 +5377,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "54956567734",
@@ -5436,8 +5436,8 @@
       "amount": 4300,
       "stage_label": "Propuesta Enviada M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-04-14",
-      "last_activity": "2026-03-21",
+      "close_date": "2026-05-31",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -5445,7 +5445,7 @@
       "created": "2025-07-23",
       "probability": 0.5,
       "weighted": 2150,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "42911744548",
@@ -5479,7 +5479,7 @@
       "created": "2024-04-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 649
+      "days_in_stage": 650
     },
     {
       "id": "21527430301",
@@ -5530,7 +5530,7 @@
       "created": "2025-05-16",
       "probability": 1,
       "weighted": 4000,
-      "days_in_stage": 263
+      "days_in_stage": 264
     },
     {
       "id": "45968803417",
@@ -5564,7 +5564,7 @@
       "created": "2025-11-18",
       "probability": 0.2,
       "weighted": 800,
-      "days_in_stage": 118
+      "days_in_stage": 119
     },
     {
       "id": "57177906715",
@@ -5598,7 +5598,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 1161,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "32001139734",
@@ -5632,7 +5632,7 @@
       "created": "2025-11-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 126
+      "days_in_stage": 127
     },
     {
       "id": "28466760361",
@@ -5666,7 +5666,7 @@
       "created": "2025-07-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 237
+      "days_in_stage": 238
     },
     {
       "id": "45116498233",
@@ -5700,7 +5700,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "38147807583",
@@ -5717,7 +5717,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 288
+      "days_in_stage": 289
     },
     {
       "id": "38149629832",
@@ -5751,7 +5751,7 @@
       "created": "2024-04-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "19543936440",
@@ -5819,7 +5819,7 @@
       "created": "2024-09-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "22935639626",
@@ -5845,7 +5845,7 @@
       "stage_label": "Prospecto Frío",
       "pipeline_id": "137007495",
       "close_date": "2025-02-04",
-      "last_activity": "2026-03-17",
+      "last_activity": "2026-03-26",
       "owner": "Nazhiely Meza Campos",
       "country": "México",
       "is_won": false,
@@ -5853,7 +5853,7 @@
       "created": "2024-10-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "32323473442",
@@ -5870,7 +5870,7 @@
       "created": "2025-01-22",
       "probability": 1,
       "weighted": 3000,
-      "days_in_stage": 105
+      "days_in_stage": 106
     },
     {
       "id": "34088347796",
@@ -5904,7 +5904,7 @@
       "created": "2025-02-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "34652338277",
@@ -5955,7 +5955,7 @@
       "created": "2025-04-01",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 127
+      "days_in_stage": 128
     },
     {
       "id": "37011271684",
@@ -5989,7 +5989,7 @@
       "created": "2025-06-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 285
+      "days_in_stage": 286
     },
     {
       "id": "38978650467",
@@ -6006,7 +6006,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 247
+      "days_in_stage": 248
     },
     {
       "id": "38985488047",
@@ -6023,7 +6023,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 128
+      "days_in_stage": 129
     },
     {
       "id": "38985507912",
@@ -6057,7 +6057,7 @@
       "created": "2025-07-03",
       "probability": 1,
       "weighted": 3000,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "39829980302",
@@ -6074,7 +6074,7 @@
       "created": "2025-07-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "40686450182",
@@ -6108,7 +6108,7 @@
       "created": "2025-09-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "48799177746",
@@ -6125,7 +6125,7 @@
       "created": "2025-11-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "52218487663",
@@ -6142,7 +6142,7 @@
       "created": "2025-12-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "56279667860",
@@ -6159,7 +6159,7 @@
       "created": "2026-02-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "47416028811",
@@ -6244,7 +6244,7 @@
       "created": "2025-05-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "20330708151",
@@ -6295,7 +6295,7 @@
       "created": "2025-07-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "21230108675",
@@ -6312,7 +6312,7 @@
       "created": "2024-08-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 427
+      "days_in_stage": 428
     },
     {
       "id": "33439418433",
@@ -6329,7 +6329,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "41434300759",
@@ -6346,7 +6346,7 @@
       "created": "2025-08-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "48359548939",
@@ -6363,7 +6363,7 @@
       "created": "2025-11-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "40978954777",
@@ -6448,7 +6448,7 @@
       "created": "2025-03-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 314
+      "days_in_stage": 315
     },
     {
       "id": "16288130959",
@@ -6465,7 +6465,7 @@
       "created": "2023-11-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 414
+      "days_in_stage": 415
     },
     {
       "id": "19439907909",
@@ -6533,7 +6533,7 @@
       "created": "2024-09-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 383
+      "days_in_stage": 384
     },
     {
       "id": "29023245383",
@@ -6567,7 +6567,7 @@
       "created": "2024-12-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "32086839190",
@@ -6584,7 +6584,7 @@
       "created": "2025-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "32578669376",
@@ -6618,7 +6618,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "32780116825",
@@ -6635,7 +6635,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 384
+      "days_in_stage": 385
     },
     {
       "id": "32780431932",
@@ -6669,7 +6669,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "33350425604",
@@ -6686,7 +6686,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 351
+      "days_in_stage": 352
     },
     {
       "id": "33359113769",
@@ -6703,7 +6703,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33448267419",
@@ -6720,7 +6720,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 302
+      "days_in_stage": 303
     },
     {
       "id": "33448268882",
@@ -6737,7 +6737,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "34005674828",
@@ -6805,7 +6805,7 @@
       "created": "2025-03-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 324
+      "days_in_stage": 325
     },
     {
       "id": "34863014263",
@@ -6839,7 +6839,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 345
+      "days_in_stage": 346
     },
     {
       "id": "36184346469",
@@ -6907,7 +6907,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "38774300945",
@@ -6992,7 +6992,7 @@
       "created": "2025-07-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "48987946140",
@@ -7043,7 +7043,7 @@
       "created": "2026-02-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57093756931",
@@ -7111,7 +7111,7 @@
       "created": "2026-01-19",
       "probability": 1,
       "weighted": 1800,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "38978651713",
@@ -7213,7 +7213,7 @@
       "created": "2025-05-07",
       "probability": 1,
       "weighted": 1500,
-      "days_in_stage": 105
+      "days_in_stage": 106
     },
     {
       "id": "37977669201",
@@ -7230,7 +7230,7 @@
       "created": "2025-05-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 162
+      "days_in_stage": 163
     },
     {
       "id": "40250857747",
@@ -7247,7 +7247,7 @@
       "created": "2025-07-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 236
+      "days_in_stage": 237
     },
     {
       "id": "41191553171",
@@ -7281,7 +7281,7 @@
       "created": "2025-08-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "43820291957",
@@ -7315,7 +7315,7 @@
       "created": "2025-09-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "46825466207",
@@ -7332,7 +7332,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "47210027802",
@@ -7400,7 +7400,7 @@
       "created": "2026-01-07",
       "probability": 0.3,
       "weighted": 450,
-      "days_in_stage": 77
+      "days_in_stage": 78
     },
     {
       "id": "40609932063",
@@ -7451,7 +7451,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "41147269808",
@@ -7536,7 +7536,7 @@
       "created": "2026-01-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "22675418497",
@@ -7570,7 +7570,7 @@
       "created": "2024-01-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "17654212884",
@@ -7587,7 +7587,7 @@
       "created": "2024-02-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 407
+      "days_in_stage": 408
     },
     {
       "id": "17904827293",
@@ -7604,7 +7604,7 @@
       "created": "2024-03-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 413
+      "days_in_stage": 414
     },
     {
       "id": "18556853357",
@@ -7672,7 +7672,7 @@
       "created": "2024-04-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "19543455312",
@@ -7689,7 +7689,7 @@
       "created": "2024-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 587
+      "days_in_stage": 588
     },
     {
       "id": "19879713972",
@@ -7706,7 +7706,7 @@
       "created": "2024-06-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 414
+      "days_in_stage": 415
     },
     {
       "id": "20516217470",
@@ -7791,7 +7791,7 @@
       "created": "2024-09-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 408
+      "days_in_stage": 409
     },
     {
       "id": "28339209553",
@@ -7961,7 +7961,7 @@
       "created": "2024-12-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 314
+      "days_in_stage": 315
     },
     {
       "id": "31195885348",
@@ -8046,7 +8046,7 @@
       "created": "2025-01-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 364
+      "days_in_stage": 365
     },
     {
       "id": "32823410477",
@@ -8080,7 +8080,7 @@
       "created": "2025-02-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "33119882349",
@@ -8148,7 +8148,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 384
+      "days_in_stage": 385
     },
     {
       "id": "33357855806",
@@ -8216,7 +8216,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 380
+      "days_in_stage": 381
     },
     {
       "id": "34072564835",
@@ -8267,7 +8267,7 @@
       "created": "2025-03-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 301
+      "days_in_stage": 302
     },
     {
       "id": "34505335578",
@@ -8284,7 +8284,7 @@
       "created": "2025-03-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 337
+      "days_in_stage": 338
     },
     {
       "id": "34633175208",
@@ -8471,7 +8471,7 @@
       "created": "2025-04-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 275
+      "days_in_stage": 276
     },
     {
       "id": "35803147174",
@@ -8505,7 +8505,7 @@
       "created": "2025-04-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "36814821213",
@@ -8522,7 +8522,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "36814824294",
@@ -8641,7 +8641,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "38985509693",
@@ -8658,7 +8658,7 @@
       "created": "2025-06-17",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "38990132409",
@@ -8675,7 +8675,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "39102772921",
@@ -8743,7 +8743,7 @@
       "created": "2025-07-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "40294184810",
@@ -8760,7 +8760,7 @@
       "created": "2025-07-15",
       "probability": 1,
       "weighted": 1000,
-      "days_in_stage": 135
+      "days_in_stage": 136
     },
     {
       "id": "40317702207",
@@ -8769,7 +8769,7 @@
       "stage_label": "Prospecto Frío",
       "pipeline_id": "137007495",
       "close_date": "2025-10-19",
-      "last_activity": "2026-03-05",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "Chile",
       "is_won": false,
@@ -8794,7 +8794,7 @@
       "created": "2025-07-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "40713500836",
@@ -8845,7 +8845,7 @@
       "created": "2025-08-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "43347190274",
@@ -8862,7 +8862,7 @@
       "created": "2025-09-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 152
+      "days_in_stage": 153
     },
     {
       "id": "43347613487",
@@ -8879,7 +8879,7 @@
       "created": "2025-09-04",
       "probability": 1,
       "weighted": 1000,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "43347803445",
@@ -8896,7 +8896,7 @@
       "created": "2025-09-04",
       "probability": 1,
       "weighted": 1000,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "43660684958",
@@ -8913,7 +8913,7 @@
       "created": "2025-09-12",
       "probability": 1,
       "weighted": 1000,
-      "days_in_stage": 177
+      "days_in_stage": 178
     },
     {
       "id": "43713248677",
@@ -8947,7 +8947,7 @@
       "created": "2025-09-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 127
+      "days_in_stage": 128
     },
     {
       "id": "44206536061",
@@ -8998,7 +8998,7 @@
       "created": "2025-10-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 162
+      "days_in_stage": 163
     },
     {
       "id": "45664275032",
@@ -9015,7 +9015,7 @@
       "created": "2025-10-10",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "45719749138",
@@ -9023,8 +9023,8 @@
       "amount": 1000,
       "stage_label": "Preventa / Exploración",
       "pipeline_id": "137007495",
-      "close_date": "2026-04-14",
-      "last_activity": "2026-03-20",
+      "close_date": "2026-05-31",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -9083,7 +9083,7 @@
       "created": "2025-10-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "48350601632",
@@ -9100,7 +9100,7 @@
       "created": "2025-11-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 127
+      "days_in_stage": 128
     },
     {
       "id": "49530780963",
@@ -9151,7 +9151,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "51514837327",
@@ -9185,7 +9185,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 100
+      "days_in_stage": 101
     },
     {
       "id": "51926141544",
@@ -9202,7 +9202,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "52002994713",
@@ -9253,7 +9253,7 @@
       "created": "2026-01-08",
       "probability": 0.1,
       "weighted": 100,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "53550517347",
@@ -9270,7 +9270,7 @@
       "created": "2026-01-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "53886992762",
@@ -9287,7 +9287,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 69
+      "days_in_stage": 70
     },
     {
       "id": "53943758453",
@@ -9321,7 +9321,7 @@
       "created": "2026-01-15",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 68
+      "days_in_stage": 69
     },
     {
       "id": "54010469809",
@@ -9355,7 +9355,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 47
+      "days_in_stage": 48
     },
     {
       "id": "54421083047",
@@ -9389,7 +9389,7 @@
       "created": "2026-01-26",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 50
+      "days_in_stage": 51
     },
     {
       "id": "54609600514",
@@ -9406,7 +9406,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "54609723977",
@@ -9423,7 +9423,7 @@
       "created": "2026-01-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "54615857956",
@@ -9610,7 +9610,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "55671506764",
@@ -9712,7 +9712,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "56179341649",
@@ -9763,7 +9763,7 @@
       "created": "2026-02-16",
       "probability": 0.1,
       "weighted": 100,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "56889311621",
@@ -9780,7 +9780,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "56896638809",
@@ -9797,7 +9797,7 @@
       "created": "2026-02-24",
       "probability": 0.5,
       "weighted": 500,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "56896763429",
@@ -9814,7 +9814,7 @@
       "created": "2026-02-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "56935782324",
@@ -9823,7 +9823,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-05-24",
-      "last_activity": "2026-03-24",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "Perú",
       "is_won": false,
@@ -9848,7 +9848,7 @@
       "created": "2026-03-11",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57865584442",
@@ -9857,7 +9857,7 @@
       "stage_label": "Calificación",
       "pipeline_id": "137007495",
       "close_date": "2026-06-02",
-      "last_activity": "2026-03-21",
+      "last_activity": "2026-03-26",
       "owner": "Alfredo Garcia",
       "country": "México",
       "is_won": false,
@@ -9865,7 +9865,7 @@
       "created": "2026-03-10",
       "probability": 0.1,
       "weighted": 100,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "57938928530",
@@ -9874,7 +9874,7 @@
       "stage_label": "Preventa / Exploración",
       "pipeline_id": "137007495",
       "close_date": "2026-06-12",
-      "last_activity": "2026-03-24",
+      "last_activity": "2026-03-26",
       "owner": "Alessandra Araneta",
       "country": "Perú",
       "is_won": false,
@@ -9899,7 +9899,7 @@
       "created": "2026-03-12",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57938994477",
@@ -9925,15 +9925,15 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-06-12",
-      "last_activity": "2026-03-23",
-      "owner": "Julián Hernández",
+      "last_activity": "2026-03-26",
+      "owner": "Alfredo Garcia",
       "country": "México",
       "is_won": false,
       "is_lost": false,
       "created": "2026-03-12",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57941155392",
@@ -9950,7 +9950,7 @@
       "created": "2026-03-12",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "58208810513",
@@ -9967,7 +9967,75 @@
       "created": "2026-03-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 5
+      "days_in_stage": 6
+    },
+    {
+      "id": "58404247581",
+      "name": "Arg - Ringana ",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Nahuel Alves",
+      "country": "Argentina",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
+      "id": "58404249235",
+      "name": "Mx - LENS.",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Nazhiely Meza Campos",
+      "country": "México",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
+      "id": "58404371857",
+      "name": "Pe - Orvit",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Alessandra Araneta",
+      "country": "Perú",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
+      "id": "58406788536",
+      "name": "Pe - LENS. ",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Alessandra Araneta",
+      "country": "Perú",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
     },
     {
       "id": "41705545813",
@@ -9992,8 +10060,8 @@
       "amount": 900,
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
-      "close_date": "2026-05-23",
-      "last_activity": "2026-03-23",
+      "close_date": "2026-04-30",
+      "last_activity": "2026-03-26",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -10018,7 +10086,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 273
+      "days_in_stage": 274
     },
     {
       "id": "38978647841",
@@ -10035,7 +10103,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "39015437185",
@@ -10069,7 +10137,7 @@
       "created": "2025-06-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "35751363363",
@@ -10086,7 +10154,7 @@
       "created": "2025-04-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 288
+      "days_in_stage": 289
     },
     {
       "id": "38690128551",
@@ -10103,7 +10171,7 @@
       "created": "2025-06-09",
       "probability": 1,
       "weighted": 800,
-      "days_in_stage": 266
+      "days_in_stage": 267
     },
     {
       "id": "54351398950",
@@ -10120,7 +10188,7 @@
       "created": "2026-01-22",
       "probability": 0.5,
       "weighted": 400,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "18002178394",
@@ -10137,7 +10205,7 @@
       "created": "2024-03-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 403
+      "days_in_stage": 404
     },
     {
       "id": "20145790083",
@@ -10154,7 +10222,7 @@
       "created": "2024-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 621
+      "days_in_stage": 622
     },
     {
       "id": "41659526060",
@@ -10222,7 +10290,7 @@
       "created": "2025-03-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 184
+      "days_in_stage": 185
     },
     {
       "id": "36810860632",
@@ -10307,7 +10375,7 @@
       "created": "2024-06-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 621
+      "days_in_stage": 622
     },
     {
       "id": "21630067379",
@@ -10324,7 +10392,7 @@
       "created": "2024-08-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 322
+      "days_in_stage": 323
     },
     {
       "id": "22677113492",
@@ -10426,7 +10494,7 @@
       "created": "2025-05-19",
       "probability": 1,
       "weighted": 500,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "44635146672",
@@ -10443,7 +10511,7 @@
       "created": "2025-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 173
+      "days_in_stage": 174
     },
     {
       "id": "45664277323",
@@ -10477,7 +10545,7 @@
       "created": "2025-10-19",
       "probability": 1,
       "weighted": 500,
-      "days_in_stage": 154
+      "days_in_stage": 155
     },
     {
       "id": "49779229583",
@@ -10494,7 +10562,7 @@
       "created": "2025-11-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 104
+      "days_in_stage": 105
     },
     {
       "id": "53956386348",
@@ -10528,7 +10596,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 100,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "51244900762",
@@ -10562,7 +10630,7 @@
       "created": "2025-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 349
+      "days_in_stage": 350
     },
     {
       "id": "44506531250",
@@ -10579,7 +10647,7 @@
       "created": "2025-09-26",
       "probability": 1,
       "weighted": 400,
-      "days_in_stage": 177
+      "days_in_stage": 178
     },
     {
       "id": "39822368370",
@@ -10596,7 +10664,7 @@
       "created": "2025-07-07",
       "probability": 1,
       "weighted": 300,
-      "days_in_stage": 252
+      "days_in_stage": 253
     },
     {
       "id": "43157942578",
@@ -10613,7 +10681,7 @@
       "created": "2025-08-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "52050428517",
@@ -10664,7 +10732,7 @@
       "created": "2025-04-10",
       "probability": 1,
       "weighted": 150,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "56935766675",
@@ -10715,7 +10783,7 @@
       "created": "2026-01-07",
       "probability": 0.1,
       "weighted": 13,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "43948570501",
@@ -10749,7 +10817,7 @@
       "created": "2025-11-12",
       "probability": 1,
       "weighted": 120,
-      "days_in_stage": 133
+      "days_in_stage": 134
     },
     {
       "id": "48939074320",
@@ -10766,7 +10834,7 @@
       "created": "2025-11-12",
       "probability": 1,
       "weighted": 120,
-      "days_in_stage": 127
+      "days_in_stage": 128
     },
     {
       "id": "48951254397",
@@ -10783,7 +10851,7 @@
       "created": "2025-11-12",
       "probability": 1,
       "weighted": 120,
-      "days_in_stage": 133
+      "days_in_stage": 134
     },
     {
       "id": "18761358599",
@@ -10817,7 +10885,7 @@
       "created": "2024-08-16",
       "probability": 1,
       "weighted": 70,
-      "days_in_stage": 229
+      "days_in_stage": 230
     },
     {
       "id": "47568166570",
@@ -10834,7 +10902,7 @@
       "created": "2025-10-29",
       "probability": 1,
       "weighted": 40,
-      "days_in_stage": 139
+      "days_in_stage": 140
     },
     {
       "id": "21644281461",
@@ -10851,7 +10919,7 @@
       "created": "2024-08-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 330
+      "days_in_stage": 331
     },
     {
       "id": "21950325272",
@@ -10919,7 +10987,7 @@
       "created": "2025-05-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 114
+      "days_in_stage": 115
     },
     {
       "id": "37119467840",
@@ -10987,7 +11055,7 @@
       "created": "2025-09-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 189
+      "days_in_stage": 190
     },
     {
       "id": "44074223755",
