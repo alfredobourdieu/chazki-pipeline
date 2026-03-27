@@ -1,7 +1,18 @@
 {
-  "updated_at": "2026-03-26T21:54:02.004Z",
-  "updated_at_art": "26/03/2026, 06:54 p. m.",
+  "updated_at": "2026-03-27T04:07:47.076Z",
+  "updated_at_art": "27/03/2026, 01:07 a. m.",
   "snapshot": {
+    "ts": 1774584467014,
+    "w": 8899372,
+    "byC": {
+      "Argentina": 2631950,
+      "México": 1565283,
+      "Chile": 1515101,
+      "Perú": 1801818,
+      "Colombia": 1384920
+    }
+  },
+  "prev_week": {
     "ts": 1774562041992,
     "w": 8898772,
     "byC": {
@@ -10,17 +21,6 @@
       "Chile": 1515101,
       "Perú": 1801618,
       "Colombia": 1384720
-    }
-  },
-  "prev_week": {
-    "ts": 1774539237394,
-    "w": 8957972,
-    "byC": {
-      "Argentina": 2631550,
-      "México": 1565083,
-      "Chile": 1515101,
-      "Perú": 1801218,
-      "Colombia": 1444720
     }
   },
   "deals": [
@@ -56,7 +56,7 @@
       "created": "2026-02-09",
       "probability": 0.2,
       "weighted": 280000,
-      "days_in_stage": 8
+      "days_in_stage": 9
     },
     {
       "id": "46131290115",
@@ -158,7 +158,7 @@
       "created": "2025-12-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "53014752583",
@@ -243,7 +243,7 @@
       "created": "2025-06-18",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 71
+      "days_in_stage": 72
     },
     {
       "id": "40397291323",
@@ -260,7 +260,7 @@
       "created": "2025-07-17",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 42
+      "days_in_stage": 43
     },
     {
       "id": "46412683653",
@@ -328,7 +328,7 @@
       "created": "2026-02-26",
       "probability": 0.3,
       "weighted": 150000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "58134730937",
@@ -379,7 +379,7 @@
       "created": "2026-02-10",
       "probability": 0.2,
       "weighted": 72000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "20551612596",
@@ -413,7 +413,7 @@
       "created": "2025-07-22",
       "probability": 0.4,
       "weighted": 120000,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "48161754007",
@@ -498,7 +498,7 @@
       "created": "2026-03-01",
       "probability": 0.4,
       "weighted": 108000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "33028821565",
@@ -515,7 +515,7 @@
       "created": "2024-09-24",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 9
+      "days_in_stage": 10
     },
     {
       "id": "34088367248",
@@ -549,7 +549,7 @@
       "created": "2025-04-30",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 330
+      "days_in_stage": 331
     },
     {
       "id": "43419928234",
@@ -566,7 +566,7 @@
       "created": "2025-09-06",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 48
+      "days_in_stage": 49
     },
     {
       "id": "44081450331",
@@ -617,7 +617,7 @@
       "created": "2025-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "46291941177",
@@ -634,7 +634,7 @@
       "created": "2025-10-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 99
+      "days_in_stage": 100
     },
     {
       "id": "50563622674",
@@ -702,7 +702,7 @@
       "created": "2026-03-06",
       "probability": 0.4,
       "weighted": 80000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "18574426137",
@@ -736,7 +736,7 @@
       "created": "2024-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 271
+      "days_in_stage": 272
     },
     {
       "id": "42368525400",
@@ -753,7 +753,7 @@
       "created": "2025-08-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "45416463632",
@@ -821,7 +821,7 @@
       "created": "2026-02-09",
       "probability": 1,
       "weighted": 150000,
-      "days_in_stage": 9
+      "days_in_stage": 10
     },
     {
       "id": "56136066055",
@@ -855,7 +855,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 70000,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "37451811986",
@@ -889,7 +889,7 @@
       "created": "2025-02-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 258
+      "days_in_stage": 259
     },
     {
       "id": "19756392834",
@@ -906,7 +906,7 @@
       "created": "2024-05-31",
       "probability": 1,
       "weighted": 120000,
-      "days_in_stage": 9
+      "days_in_stage": 10
     },
     {
       "id": "36810863478",
@@ -974,7 +974,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 71
+      "days_in_stage": 72
     },
     {
       "id": "51515362912",
@@ -1076,7 +1076,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "38800251321",
@@ -1093,7 +1093,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "38800251514",
@@ -1127,7 +1127,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "40974460989",
@@ -1229,7 +1229,7 @@
       "created": "2026-02-09",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 42
+      "days_in_stage": 43
     },
     {
       "id": "55815007273",
@@ -1246,7 +1246,7 @@
       "created": "2026-02-09",
       "probability": 0.4,
       "weighted": 40000,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "56709458018",
@@ -1263,7 +1263,7 @@
       "created": "2026-02-21",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "57018838040",
@@ -1297,7 +1297,7 @@
       "created": "2026-03-01",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57856096824",
@@ -1331,7 +1331,7 @@
       "created": "2026-03-12",
       "probability": 1,
       "weighted": 100000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "58208815662",
@@ -1382,7 +1382,7 @@
       "created": "2024-11-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "21300751795",
@@ -1416,7 +1416,7 @@
       "created": "2026-02-09",
       "probability": 0.3,
       "weighted": 25500,
-      "days_in_stage": 34
+      "days_in_stage": 35
     },
     {
       "id": "56127393816",
@@ -1433,7 +1433,7 @@
       "created": "2026-02-11",
       "probability": 1,
       "weighted": 80000,
-      "days_in_stage": 33
+      "days_in_stage": 34
     },
     {
       "id": "56779169289",
@@ -1450,7 +1450,7 @@
       "created": "2026-02-21",
       "probability": 0.3,
       "weighted": 24000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "34005690280",
@@ -1518,7 +1518,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 71
+      "days_in_stage": 72
     },
     {
       "id": "34355418939",
@@ -1569,7 +1569,7 @@
       "created": "2024-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "52036286898",
@@ -1688,7 +1688,7 @@
       "created": "2026-03-21",
       "probability": 0.5,
       "weighted": 30000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "41883740552",
@@ -1705,7 +1705,7 @@
       "created": "2025-08-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 66
+      "days_in_stage": 67
     },
     {
       "id": "29795912520",
@@ -1756,7 +1756,7 @@
       "created": "2024-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 469
+      "days_in_stage": 470
     },
     {
       "id": "22997392745",
@@ -1892,7 +1892,7 @@
       "created": "2025-11-13",
       "probability": 1,
       "weighted": 41000,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "22430637411",
@@ -1977,7 +1977,7 @@
       "created": "2025-05-29",
       "probability": 1,
       "weighted": 36000,
-      "days_in_stage": 190
+      "days_in_stage": 191
     },
     {
       "id": "40990677347",
@@ -2011,7 +2011,7 @@
       "created": "2025-11-13",
       "probability": 0.4,
       "weighted": 14400,
-      "days_in_stage": 33
+      "days_in_stage": 34
     },
     {
       "id": "50524354613",
@@ -2079,7 +2079,7 @@
       "created": "2025-08-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "40575155540",
@@ -2113,7 +2113,7 @@
       "created": "2026-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 1
+      "days_in_stage": 2
     },
     {
       "id": "18966580239",
@@ -2147,7 +2147,7 @@
       "created": "2025-06-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "29717345180",
@@ -2266,7 +2266,7 @@
       "created": "2026-01-13",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "53943756361",
@@ -2334,7 +2334,7 @@
       "created": "2026-02-09",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 5
+      "days_in_stage": 6
     },
     {
       "id": "17675033187",
@@ -2385,7 +2385,7 @@
       "created": "2025-06-18",
       "probability": 0.9,
       "weighted": 22500,
-      "days_in_stage": 35
+      "days_in_stage": 36
     },
     {
       "id": "58332224657",
@@ -2394,7 +2394,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-06-25",
-      "last_activity": "2026-03-26",
+      "last_activity": "2026-03-27",
       "owner": "Isidora Figueroa",
       "country": "Chile",
       "is_won": false,
@@ -2402,7 +2402,7 @@
       "created": "2026-03-25",
       "probability": 0.3,
       "weighted": 7500,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "23247272807",
@@ -2419,7 +2419,7 @@
       "created": "2024-10-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "30337809937",
@@ -2538,7 +2538,7 @@
       "created": "2026-02-24",
       "probability": 1,
       "weighted": 23000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "43319733033",
@@ -2572,7 +2572,7 @@
       "created": "2022-02-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 304
+      "days_in_stage": 305
     },
     {
       "id": "18682699069",
@@ -2606,7 +2606,7 @@
       "created": "2024-03-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 657
+      "days_in_stage": 658
     },
     {
       "id": "19332298357",
@@ -2623,7 +2623,7 @@
       "created": "2024-05-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 357
+      "days_in_stage": 358
     },
     {
       "id": "35657028477",
@@ -2725,7 +2725,7 @@
       "created": "2026-02-26",
       "probability": 0.4,
       "weighted": 8000,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "21234097993",
@@ -2844,7 +2844,7 @@
       "created": "2026-02-17",
       "probability": 0.2,
       "weighted": 3300,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "19389970539",
@@ -2929,7 +2929,7 @@
       "created": "2024-12-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 295
+      "days_in_stage": 296
     },
     {
       "id": "41559860239",
@@ -2946,7 +2946,7 @@
       "created": "2025-08-07",
       "probability": 0.3,
       "weighted": 4500,
-      "days_in_stage": 57
+      "days_in_stage": 58
     },
     {
       "id": "44506528811",
@@ -3218,7 +3218,7 @@
       "created": "2025-05-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "21075538511",
@@ -3303,7 +3303,7 @@
       "created": "2024-02-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 573
+      "days_in_stage": 574
     },
     {
       "id": "17733854000",
@@ -3354,7 +3354,7 @@
       "created": "2024-05-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "28939936580",
@@ -3371,7 +3371,7 @@
       "created": "2024-11-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "29385701195",
@@ -3388,7 +3388,7 @@
       "created": "2024-05-02",
       "probability": 1,
       "weighted": 10000,
-      "days_in_stage": 372
+      "days_in_stage": 373
     },
     {
       "id": "29918358078",
@@ -3422,7 +3422,7 @@
       "created": "2024-12-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32822821942",
@@ -3456,7 +3456,7 @@
       "created": "2025-03-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "35044506227",
@@ -3473,7 +3473,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 268
+      "days_in_stage": 269
     },
     {
       "id": "35074525796",
@@ -3490,7 +3490,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "35366795613",
@@ -3524,7 +3524,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "35392085833",
@@ -3541,7 +3541,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "36810648424",
@@ -3575,7 +3575,7 @@
       "created": "2025-05-07",
       "probability": 0.4,
       "weighted": 4000,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "37360343118",
@@ -3592,7 +3592,7 @@
       "created": "2025-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 279
+      "days_in_stage": 280
     },
     {
       "id": "37635433795",
@@ -3609,7 +3609,7 @@
       "created": "2025-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "38978632303",
@@ -3643,7 +3643,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "43331352398",
@@ -3745,7 +3745,7 @@
       "created": "2026-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 48
+      "days_in_stage": 49
     },
     {
       "id": "55580843375",
@@ -3864,7 +3864,7 @@
       "created": "2024-04-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 357
+      "days_in_stage": 358
     },
     {
       "id": "38130922875",
@@ -3881,7 +3881,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "20822930099",
@@ -4017,7 +4017,7 @@
       "created": "2026-01-05",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "57200807503",
@@ -4034,7 +4034,7 @@
       "created": "2026-03-01",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57200931423",
@@ -4051,7 +4051,7 @@
       "created": "2026-03-01",
       "probability": 0.1,
       "weighted": 900,
-      "days_in_stage": 24
+      "days_in_stage": 25
     },
     {
       "id": "38399954343",
@@ -4153,7 +4153,7 @@
       "created": "2025-07-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "42656865625",
@@ -4204,7 +4204,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 4000,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "41149039721",
@@ -4272,7 +4272,7 @@
       "created": "2025-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "20535079347",
@@ -4323,7 +4323,7 @@
       "created": "2025-05-05",
       "probability": 1,
       "weighted": 6800,
-      "days_in_stage": 190
+      "days_in_stage": 191
     },
     {
       "id": "43319393821",
@@ -4357,7 +4357,7 @@
       "created": "2025-12-22",
       "probability": 1,
       "weighted": 6500,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "17931819927",
@@ -4374,7 +4374,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 646
+      "days_in_stage": 647
     },
     {
       "id": "18851014505",
@@ -4408,7 +4408,7 @@
       "created": "2024-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "31997326453",
@@ -4425,7 +4425,7 @@
       "created": "2025-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33293671936",
@@ -4527,7 +4527,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "44466580038",
@@ -4578,7 +4578,7 @@
       "created": "2026-02-26",
       "probability": 0.3,
       "weighted": 1800,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "38852021838",
@@ -4663,7 +4663,7 @@
       "created": "2024-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 573
+      "days_in_stage": 574
     },
     {
       "id": "20381090092",
@@ -4680,7 +4680,7 @@
       "created": "2024-06-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "20523985421",
@@ -4714,7 +4714,7 @@
       "created": "2024-07-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 180
+      "days_in_stage": 181
     },
     {
       "id": "20717575993",
@@ -4731,7 +4731,7 @@
       "created": "2024-07-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "20816171900",
@@ -4748,7 +4748,7 @@
       "created": "2024-07-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 573
+      "days_in_stage": 574
     },
     {
       "id": "21091007397",
@@ -4850,7 +4850,7 @@
       "created": "2024-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "30168378289",
@@ -4867,7 +4867,7 @@
       "created": "2024-12-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32533090324",
@@ -5071,7 +5071,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "43476134157",
@@ -5156,7 +5156,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 42
+      "days_in_stage": 43
     },
     {
       "id": "46825344145",
@@ -5173,7 +5173,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 79
+      "days_in_stage": 80
     },
     {
       "id": "48181077391",
@@ -5190,7 +5190,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "52994235018",
@@ -5258,7 +5258,7 @@
       "created": "2026-03-07",
       "probability": 0.3,
       "weighted": 1500,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57941134495",
@@ -5326,7 +5326,7 @@
       "created": "2025-05-07",
       "probability": 1,
       "weighted": 4500,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "41139943722",
@@ -5394,7 +5394,7 @@
       "created": "2026-01-29",
       "probability": 0.5,
       "weighted": 2250,
-      "days_in_stage": 56
+      "days_in_stage": 57
     },
     {
       "id": "55688254517",
@@ -5411,7 +5411,7 @@
       "created": "2026-02-09",
       "probability": 0.2,
       "weighted": 900,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "37490415524",
@@ -5428,7 +5428,7 @@
       "created": "2025-05-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "40683201026",
@@ -5462,7 +5462,7 @@
       "created": "2025-08-26",
       "probability": 0.3,
       "weighted": 1224,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "18536534346",
@@ -5496,7 +5496,7 @@
       "created": "2024-08-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 418
+      "days_in_stage": 419
     },
     {
       "id": "36530850974",
@@ -5581,7 +5581,7 @@
       "created": "2026-02-27",
       "probability": 0.5,
       "weighted": 2000,
-      "days_in_stage": 27
+      "days_in_stage": 28
     },
     {
       "id": "56896809544",
@@ -5615,7 +5615,7 @@
       "created": "2025-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "48476854162",
@@ -5649,7 +5649,7 @@
       "created": "2024-10-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "40286461748",
@@ -5734,7 +5734,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 268
+      "days_in_stage": 269
     },
     {
       "id": "18707055929",
@@ -5768,7 +5768,7 @@
       "created": "2024-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 618
+      "days_in_stage": 619
     },
     {
       "id": "20778579371",
@@ -5785,7 +5785,7 @@
       "created": "2024-07-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "21798623350",
@@ -5802,7 +5802,7 @@
       "created": "2024-08-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 384
+      "days_in_stage": 385
     },
     {
       "id": "22567806241",
@@ -5836,7 +5836,7 @@
       "created": "2024-10-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "23120695580",
@@ -5887,7 +5887,7 @@
       "created": "2025-02-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "34093542259",
@@ -5938,7 +5938,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 71
+      "days_in_stage": 72
     },
     {
       "id": "35367266390",
@@ -5972,7 +5972,7 @@
       "created": "2025-05-09",
       "probability": 1,
       "weighted": 3000,
-      "days_in_stage": 281
+      "days_in_stage": 282
     },
     {
       "id": "38765222720",
@@ -6091,7 +6091,7 @@
       "created": "2025-07-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 218
+      "days_in_stage": 219
     },
     {
       "id": "44539299704",
@@ -6210,7 +6210,7 @@
       "created": "2025-03-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "42824616805",
@@ -6261,7 +6261,7 @@
       "created": "2024-06-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "34527031411",
@@ -6278,7 +6278,7 @@
       "created": "2025-03-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 304
+      "days_in_stage": 305
     },
     {
       "id": "40250854772",
@@ -6380,7 +6380,7 @@
       "created": "2025-07-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 225
+      "days_in_stage": 226
     },
     {
       "id": "41514133763",
@@ -6431,7 +6431,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 2
+      "days_in_stage": 3
     },
     {
       "id": "35028649297",
@@ -6482,7 +6482,7 @@
       "created": "2024-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "21784385893",
@@ -6499,7 +6499,7 @@
       "created": "2024-08-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 418
+      "days_in_stage": 419
     },
     {
       "id": "22372806485",
@@ -6516,7 +6516,7 @@
       "created": "2024-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 384
+      "days_in_stage": 385
     },
     {
       "id": "22424151364",
@@ -6550,7 +6550,7 @@
       "created": "2024-11-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 408
+      "days_in_stage": 409
     },
     {
       "id": "30640816215",
@@ -6601,7 +6601,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32588222223",
@@ -6652,7 +6652,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 233
+      "days_in_stage": 234
     },
     {
       "id": "32780587833",
@@ -6788,7 +6788,7 @@
       "created": "2025-03-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "34603522377",
@@ -6890,7 +6890,7 @@
       "created": "2025-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "38113492844",
@@ -6958,7 +6958,7 @@
       "created": "2025-06-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "39930007301",
@@ -6975,7 +6975,7 @@
       "created": "2025-07-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "40670338336",
@@ -7026,7 +7026,7 @@
       "created": "2025-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "56215053746",
@@ -7060,7 +7060,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 1000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "32249733248",
@@ -7077,7 +7077,7 @@
       "created": "2025-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "47814374518",
@@ -7128,7 +7128,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "37021807732",
@@ -7145,7 +7145,7 @@
       "created": "2025-05-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "17931820439",
@@ -7162,7 +7162,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 646
+      "days_in_stage": 647
     },
     {
       "id": "21679011597",
@@ -7179,7 +7179,7 @@
       "created": "2024-08-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "36810825564",
@@ -7196,7 +7196,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "36810869309",
@@ -7298,7 +7298,7 @@
       "created": "2025-09-17",
       "probability": 1,
       "weighted": 1500,
-      "days_in_stage": 190
+      "days_in_stage": 191
     },
     {
       "id": "44081322653",
@@ -7349,7 +7349,7 @@
       "created": "2025-10-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "47831423046",
@@ -7502,7 +7502,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "48798993497",
@@ -7553,7 +7553,7 @@
       "created": "2024-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "17137188112",
@@ -7621,7 +7621,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 548
+      "days_in_stage": 549
     },
     {
       "id": "18556853833",
@@ -7638,7 +7638,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 357
+      "days_in_stage": 358
     },
     {
       "id": "18709496864",
@@ -7723,7 +7723,7 @@
       "created": "2024-07-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 418
+      "days_in_stage": 419
     },
     {
       "id": "20715228263",
@@ -7740,7 +7740,7 @@
       "created": "2024-07-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "21070062405",
@@ -7757,7 +7757,7 @@
       "created": "2024-07-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 304
+      "days_in_stage": 305
     },
     {
       "id": "21868391261",
@@ -7774,7 +7774,7 @@
       "created": "2024-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "22567805854",
@@ -7808,7 +7808,7 @@
       "created": "2024-10-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 433
+      "days_in_stage": 434
     },
     {
       "id": "28371058821",
@@ -7825,7 +7825,7 @@
       "created": "2024-10-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 469
+      "days_in_stage": 470
     },
     {
       "id": "28885702018",
@@ -7842,7 +7842,7 @@
       "created": "2024-11-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "28979108625",
@@ -7859,7 +7859,7 @@
       "created": "2024-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 304
+      "days_in_stage": 305
     },
     {
       "id": "29144502824",
@@ -7876,7 +7876,7 @@
       "created": "2024-11-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "29587446927",
@@ -7910,7 +7910,7 @@
       "created": "2024-11-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 408
+      "days_in_stage": 409
     },
     {
       "id": "29924279478",
@@ -7944,7 +7944,7 @@
       "created": "2024-12-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "30640973719",
@@ -7978,7 +7978,7 @@
       "created": "2024-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 365
+      "days_in_stage": 366
     },
     {
       "id": "32588159389",
@@ -7995,7 +7995,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32669971811",
@@ -8012,7 +8012,7 @@
       "created": "2025-01-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32729999490",
@@ -8029,7 +8029,7 @@
       "created": "2025-01-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "32817395795",
@@ -8097,7 +8097,7 @@
       "created": "2025-02-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33352154953",
@@ -8131,7 +8131,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33357573167",
@@ -8165,7 +8165,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33359113054",
@@ -8182,7 +8182,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33422765670",
@@ -8199,7 +8199,7 @@
       "created": "2025-02-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "33462307133",
@@ -8233,7 +8233,7 @@
       "created": "2025-02-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "34072567080",
@@ -8352,7 +8352,7 @@
       "created": "2025-03-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "34778608946",
@@ -8386,7 +8386,7 @@
       "created": "2025-03-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "35313278741",
@@ -8539,7 +8539,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "37162876009",
@@ -8624,7 +8624,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "38160138612",
@@ -8692,7 +8692,7 @@
       "created": "2025-06-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 268
+      "days_in_stage": 269
     },
     {
       "id": "39106043543",
@@ -8709,7 +8709,7 @@
       "created": "2025-06-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "40225298840",
@@ -8777,7 +8777,7 @@
       "created": "2025-07-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "40397303057",
@@ -8828,7 +8828,7 @@
       "created": "2025-07-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "41599625217",
@@ -8930,7 +8930,7 @@
       "created": "2025-09-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 118
+      "days_in_stage": 119
     },
     {
       "id": "43948446239",
@@ -8964,7 +8964,7 @@
       "created": "2025-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "44788926003",
@@ -9049,7 +9049,7 @@
       "created": "2025-10-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "46017188025",
@@ -9066,7 +9066,7 @@
       "created": "2025-10-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "46557949845",
@@ -9168,7 +9168,7 @@
       "created": "2025-12-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "51893928042",
@@ -9219,7 +9219,7 @@
       "created": "2025-12-16",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 99
+      "days_in_stage": 100
     },
     {
       "id": "52918547012",
@@ -9236,7 +9236,7 @@
       "created": "2025-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "53450985285",
@@ -9338,7 +9338,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 33
+      "days_in_stage": 34
     },
     {
       "id": "54020672336",
@@ -9372,7 +9372,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "54534938380",
@@ -9440,7 +9440,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "54616043914",
@@ -9542,7 +9542,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 42
+      "days_in_stage": 43
     },
     {
       "id": "55662834849",
@@ -9576,7 +9576,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "55663274132",
@@ -9593,7 +9593,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 45
+      "days_in_stage": 46
     },
     {
       "id": "55663274919",
@@ -9627,7 +9627,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 42
+      "days_in_stage": 43
     },
     {
       "id": "55679594343",
@@ -9695,7 +9695,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 12
+      "days_in_stage": 13
     },
     {
       "id": "55682428026",
@@ -9916,7 +9916,7 @@
       "created": "2026-03-12",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 9
+      "days_in_stage": 10
     },
     {
       "id": "57941030778",
@@ -9970,13 +9970,30 @@
       "days_in_stage": 6
     },
     {
+      "id": "58404125232",
+      "name": "Col - Clemont",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Camilo Suarez",
+      "country": "Colombia",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
       "id": "58404247581",
       "name": "Arg - Ringana ",
       "amount": 1000,
       "stage_label": "Preventa / Exploración",
       "pipeline_id": "137007495",
       "close_date": "2026-06-26",
-      "last_activity": "2026-03-26",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -10011,6 +10028,40 @@
       "pipeline_id": "137007495",
       "close_date": "2026-06-26",
       "last_activity": "2026-03-26",
+      "owner": "Alessandra Araneta",
+      "country": "Perú",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
+      "id": "58404373257",
+      "name": "Arg - Amar Mascotas",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploración",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-26",
+      "owner": "Nahuel Alves",
+      "country": "Argentina",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-26",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
+    },
+    {
+      "id": "58404373415",
+      "name": "Pe - Leche Gloria S.A.",
+      "amount": 1000,
+      "stage_label": "Preventa M&P",
+      "pipeline_id": "95256391",
+      "close_date": "2026-06-26",
+      "last_activity": "2026-03-27",
       "owner": "Alessandra Araneta",
       "country": "Perú",
       "is_won": false,
@@ -10069,7 +10120,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 270,
-      "days_in_stage": 30
+      "days_in_stage": 31
     },
     {
       "id": "38161129099",
@@ -10120,7 +10171,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "38854559002",
@@ -10239,7 +10290,7 @@
       "created": "2025-08-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 225
+      "days_in_stage": 226
     },
     {
       "id": "49448220168",
@@ -10307,7 +10358,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "38130917128",
@@ -10324,7 +10375,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "20015387139",
@@ -10341,7 +10392,7 @@
       "created": "2024-06-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 548
+      "days_in_stage": 549
     },
     {
       "id": "41703687802",
@@ -10409,7 +10460,7 @@
       "created": "2024-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "23317815090",
@@ -10426,7 +10477,7 @@
       "created": "2024-10-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 271
+      "days_in_stage": 272
     },
     {
       "id": "29041625618",
@@ -10443,7 +10494,7 @@
       "created": "2024-11-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 233
+      "days_in_stage": 234
     },
     {
       "id": "31038794259",
@@ -10460,7 +10511,7 @@
       "created": "2024-12-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 408
+      "days_in_stage": 409
     },
     {
       "id": "37238220912",
@@ -10477,7 +10528,7 @@
       "created": "2025-05-15",
       "probability": 1,
       "weighted": 500,
-      "days_in_stage": 19
+      "days_in_stage": 20
     },
     {
       "id": "37444142995",
@@ -10528,7 +10579,7 @@
       "created": "2025-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "46407699879",
@@ -10715,7 +10766,7 @@
       "created": "2025-04-15",
       "probability": 1,
       "weighted": 200,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "35657030189",
@@ -10749,7 +10800,7 @@
       "created": "2026-02-23",
       "probability": 0.2,
       "weighted": 30,
-      "days_in_stage": 30
+      "days_in_stage": 31
     },
     {
       "id": "57820032904",
@@ -10800,7 +10851,7 @@
       "created": "2025-09-19",
       "probability": 1,
       "weighted": 120,
-      "days_in_stage": 153
+      "days_in_stage": 154
     },
     {
       "id": "48887018266",
@@ -10868,7 +10919,7 @@
       "created": "2024-04-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 618
+      "days_in_stage": 619
     },
     {
       "id": "21526315302",
@@ -10936,7 +10987,7 @@
       "created": "2024-09-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 384
+      "days_in_stage": 385
     },
     {
       "id": "32257082166",
@@ -10953,7 +11004,7 @@
       "created": "2025-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 239
+      "days_in_stage": 240
     },
     {
       "id": "34088346723",
@@ -11004,7 +11055,7 @@
       "created": "2025-05-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 158
+      "days_in_stage": 159
     },
     {
       "id": "38291142791",
@@ -11021,7 +11072,7 @@
       "created": "2025-05-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "43265054812",
@@ -11038,7 +11089,7 @@
       "created": "2025-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 112
+      "days_in_stage": 113
     },
     {
       "id": "43289379918",
@@ -11072,7 +11123,7 @@
       "created": "2025-09-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     }
   ]
 }
