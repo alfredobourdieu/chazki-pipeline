@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-03-27T20:03:55.414Z",
-  "updated_at_art": "27/03/2026, 05:03 p. m.",
+  "updated_at": "2026-03-28T04:53:15.108Z",
+  "updated_at_art": "28/03/2026, 01:53 a. m.",
   "snapshot": {
+    "ts": 1774673595109,
+    "w": 8277242,
+    "byC": {
+      "Argentina": 3467800,
+      "Mexico": 1119313,
+      "Chile": 1004961,
+      "Peru": 1686848,
+      "Colombia": 998320
+    }
+  },
+  "prev_week": {
     "ts": 1774641835415,
     "w": 7638942,
     "byC": {
       "Argentina": 2567800,
       "Mexico": 1389113,
-      "Chile": 1004961,
-      "Peru": 1678748,
-      "Colombia": 998320
-    }
-  },
-  "prev_week": {
-    "ts": 1774619707923,
-    "w": 7629942,
-    "byC": {
-      "Argentina": 2567800,
-      "Mexico": 1380113,
       "Chile": 1004961,
       "Peru": 1678748,
       "Colombia": 998320
@@ -45,18 +45,18 @@
       "id": "35074434898",
       "name": "Arg - 360 Lion",
       "amount": 1800000,
-      "stage_label": "Propuesta Aceptada",
+      "stage_label": "Etapa de Integracion",
       "pipeline_id": "137007495",
-      "close_date": "2026-05-01",
-      "last_activity": "2026-03-17",
+      "close_date": "2026-03-27",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
       "is_lost": false,
       "created": "2025-03-25",
-      "probability": 0.5,
-      "weighted": 900000,
-      "days_in_stage": 18
+      "probability": 1,
+      "weighted": 1800000,
+      "days_in_stage": 0
     },
     {
       "id": "55766895722",
@@ -73,7 +73,7 @@
       "created": "2026-02-09",
       "probability": 0.2,
       "weighted": 280000,
-      "days_in_stage": 9
+      "days_in_stage": 10
     },
     {
       "id": "46131290115",
@@ -93,23 +93,6 @@
       "days_in_stage": 58
     },
     {
-      "id": "6277679729",
-      "name": "Infraccomerce / Agencia E-commerce / Integración",
-      "amount": 1000000,
-      "stage_label": "Perdida de Negocio",
-      "pipeline_id": "137007495",
-      "close_date": "2026-02-21",
-      "last_activity": "2026-02-21",
-      "owner": "Alfredo Bourdieu",
-      "country": null,
-      "is_won": false,
-      "is_lost": true,
-      "created": "2026-01-06",
-      "probability": 0,
-      "weighted": 0,
-      "days_in_stage": 34
-    },
-    {
       "id": "31955576617",
       "name": "Mx- Palacio de Hierro_Oportunidad futura",
       "amount": 1000000,
@@ -124,7 +107,7 @@
       "created": "2025-01-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 105
+      "days_in_stage": 106
     },
     {
       "id": "43896913539",
@@ -144,23 +127,6 @@
       "days_in_stage": 169
     },
     {
-      "id": "32986162608",
-      "name": "Arg - Mailamericas ",
-      "amount": 720000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-07-24",
-      "last_activity": "2025-11-25",
-      "owner": "Alfredo Bourdieu",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-12-03",
-      "probability": 1,
-      "weighted": 720000,
-      "days_in_stage": 245
-    },
-    {
       "id": "52994165561",
       "name": "Pe - Grupo Rotoplas - Media Milla + Hub Provincia",
       "amount": 600000,
@@ -175,24 +141,7 @@
       "created": "2025-12-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
-    },
-    {
-      "id": "53014752583",
-      "name": "Arg - Supermercados Dia",
-      "amount": 600000,
-      "stage_label": "Perdida de Negocio",
-      "pipeline_id": "137007495",
-      "close_date": "2026-03-16",
-      "last_activity": "2026-03-23",
-      "owner": "Alfredo Bourdieu",
-      "country": "Argentina",
-      "is_won": false,
-      "is_lost": true,
-      "created": "2026-01-06",
-      "probability": 0,
-      "weighted": 0,
-      "days_in_stage": 11
+      "days_in_stage": 47
     },
     {
       "id": "56200208670",
@@ -209,7 +158,7 @@
       "created": "2026-02-13",
       "probability": 0.1,
       "weighted": 60000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "35361839211",
@@ -260,7 +209,7 @@
       "created": "2025-06-18",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "40397291323",
@@ -277,7 +226,7 @@
       "created": "2025-07-17",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "46412683653",
@@ -294,7 +243,7 @@
       "created": "2025-10-19",
       "probability": 0.5,
       "weighted": 250000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "54403816065",
@@ -311,7 +260,7 @@
       "created": "2026-01-23",
       "probability": 0.2,
       "weighted": 100000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "56136036005",
@@ -345,7 +294,7 @@
       "created": "2026-02-26",
       "probability": 0.3,
       "weighted": 150000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "58134730937",
@@ -396,24 +345,7 @@
       "created": "2026-02-10",
       "probability": 0.2,
       "weighted": 72000,
-      "days_in_stage": 3
-    },
-    {
-      "id": "20551612596",
-      "name": "Mx - Pepsico - Monterrey",
-      "amount": 300000,
-      "stage_label": "Negociacion M&P",
-      "pipeline_id": "95256391",
-      "close_date": "2026-04-30",
-      "last_activity": "2026-03-05",
-      "owner": "Nazhiely Meza Campos",
-      "country": "Mexico",
-      "is_won": false,
-      "is_lost": false,
-      "created": "2024-07-05",
-      "probability": 0.9,
-      "weighted": 270000,
-      "days_in_stage": 41
+      "days_in_stage": 4
     },
     {
       "id": "40670339333",
@@ -430,24 +362,7 @@
       "created": "2025-07-22",
       "probability": 0.4,
       "weighted": 120000,
-      "days_in_stage": 3
-    },
-    {
-      "id": "48161754007",
-      "name": "Col - JT Express",
-      "amount": 300000,
-      "stage_label": "Perdida de Negocio",
-      "pipeline_id": "137007495",
-      "close_date": "2026-03-12",
-      "last_activity": "2026-03-12",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": false,
-      "is_lost": true,
-      "created": "2025-11-04",
-      "probability": 0,
-      "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 4
     },
     {
       "id": "56127322803",
@@ -481,7 +396,7 @@
       "created": "2026-02-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57030515784",
@@ -498,7 +413,7 @@
       "created": "2026-02-25",
       "probability": 0.2,
       "weighted": 54000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "57093681716",
@@ -515,7 +430,7 @@
       "created": "2026-03-01",
       "probability": 0.4,
       "weighted": 108000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "33028821565",
@@ -532,7 +447,7 @@
       "created": "2024-09-24",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 10
+      "days_in_stage": 11
     },
     {
       "id": "34088367248",
@@ -552,23 +467,6 @@
       "days_in_stage": 53
     },
     {
-      "id": "36548631076",
-      "name": "Ch - Walmart Catex- Nodo RM",
-      "amount": 250000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-03-12",
-      "last_activity": "2026-03-26",
-      "owner": "Alessandra Araneta",
-      "country": "Chile",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-04-30",
-      "probability": 1,
-      "weighted": 250000,
-      "days_in_stage": 331
-    },
-    {
       "id": "43419928234",
       "name": "Ch - eDarkstore UM RM",
       "amount": 250000,
@@ -583,7 +481,7 @@
       "created": "2025-09-06",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "44081450331",
@@ -634,7 +532,7 @@
       "created": "2025-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "46291941177",
@@ -651,7 +549,7 @@
       "created": "2025-10-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 100
+      "days_in_stage": 101
     },
     {
       "id": "50563622674",
@@ -668,7 +566,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "50574801784",
@@ -685,7 +583,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57855961602",
@@ -719,7 +617,7 @@
       "created": "2026-03-06",
       "probability": 0.4,
       "weighted": 80000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "18574426137",
@@ -753,7 +651,7 @@
       "created": "2024-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 272
+      "days_in_stage": 273
     },
     {
       "id": "42368525400",
@@ -770,7 +668,7 @@
       "created": "2025-08-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "45416463632",
@@ -821,7 +719,7 @@
       "created": "2026-02-05",
       "probability": 1,
       "weighted": 150000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "55819233625",
@@ -838,7 +736,7 @@
       "created": "2026-02-09",
       "probability": 1,
       "weighted": 150000,
-      "days_in_stage": 10
+      "days_in_stage": 11
     },
     {
       "id": "56136066055",
@@ -872,7 +770,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 70000,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "37451811986",
@@ -906,7 +804,7 @@
       "created": "2025-02-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 259
+      "days_in_stage": 260
     },
     {
       "id": "19756392834",
@@ -923,7 +821,7 @@
       "created": "2024-05-31",
       "probability": 1,
       "weighted": 120000,
-      "days_in_stage": 10
+      "days_in_stage": 11
     },
     {
       "id": "36810863478",
@@ -940,24 +838,7 @@
       "created": "2025-05-06",
       "probability": 0.3,
       "weighted": 36000,
-      "days_in_stage": 307
-    },
-    {
-      "id": "40250847511",
-      "name": "Col - Alimentos Polar Colombia SAS (MDE)",
-      "amount": 120000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-10-14",
-      "last_activity": "2026-02-21",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-14",
-      "probability": 1,
-      "weighted": 120000,
-      "days_in_stage": 130
+      "days_in_stage": 308
     },
     {
       "id": "46110331482",
@@ -991,7 +872,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "51515362912",
@@ -1008,7 +889,7 @@
       "created": "2025-12-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "52918666053",
@@ -1025,7 +906,7 @@
       "created": "2025-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 65
+      "days_in_stage": 66
     },
     {
       "id": "53362218070",
@@ -1059,7 +940,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 24000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "33990436367",
@@ -1076,7 +957,7 @@
       "created": "2025-02-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 185
+      "days_in_stage": 186
     },
     {
       "id": "38798900576",
@@ -1093,7 +974,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "38800251321",
@@ -1110,7 +991,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "38800251514",
@@ -1127,7 +1008,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 230
+      "days_in_stage": 231
     },
     {
       "id": "38800251553",
@@ -1144,7 +1025,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "40974460989",
@@ -1246,7 +1127,7 @@
       "created": "2026-02-09",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "55815007273",
@@ -1263,7 +1144,7 @@
       "created": "2026-02-09",
       "probability": 0.4,
       "weighted": 40000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "56709458018",
@@ -1280,7 +1161,7 @@
       "created": "2026-02-21",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57018838040",
@@ -1314,7 +1195,7 @@
       "created": "2026-03-01",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "57856096824",
@@ -1348,7 +1229,7 @@
       "created": "2026-03-12",
       "probability": 1,
       "weighted": 100000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "58208815662",
@@ -1365,7 +1246,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 20000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "13980530536",
@@ -1382,7 +1263,7 @@
       "created": "2023-07-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 650
+      "days_in_stage": 651
     },
     {
       "id": "28752301884",
@@ -1399,24 +1280,7 @@
       "created": "2024-11-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 244
-    },
-    {
-      "id": "21300751795",
-      "name": "Col - Distribución TAT Mac Pollo",
-      "amount": 88000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-04-16",
-      "last_activity": "2025-12-11",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-08-12",
-      "probability": 1,
-      "weighted": 88000,
-      "days_in_stage": 345
+      "days_in_stage": 245
     },
     {
       "id": "55827522720",
@@ -1433,7 +1297,7 @@
       "created": "2026-02-09",
       "probability": 0.3,
       "weighted": 25500,
-      "days_in_stage": 35
+      "days_in_stage": 36
     },
     {
       "id": "56127393816",
@@ -1450,7 +1314,7 @@
       "created": "2026-02-11",
       "probability": 1,
       "weighted": 80000,
-      "days_in_stage": 34
+      "days_in_stage": 35
     },
     {
       "id": "56779169289",
@@ -1467,24 +1331,7 @@
       "created": "2026-02-21",
       "probability": 0.3,
       "weighted": 24000,
-      "days_in_stage": 15
-    },
-    {
-      "id": "34005690280",
-      "name": "Col - Homecenter Licitación Despacho desde tiendas   Medellin",
-      "amount": 75000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-08-06",
-      "last_activity": "2026-03-06",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-02-26",
-      "probability": 1,
-      "weighted": 75000,
-      "days_in_stage": 231
+      "days_in_stage": 16
     },
     {
       "id": "31009220102",
@@ -1501,24 +1348,7 @@
       "created": "2024-12-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 402
-    },
-    {
-      "id": "35429546604",
-      "name": "Mx -Sony ND",
-      "amount": 70000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-04-30",
-      "last_activity": "2026-03-27",
-      "owner": "Nazhiely Meza Campos",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-05-02",
-      "probability": 1,
-      "weighted": 70000,
-      "days_in_stage": 325
+      "days_in_stage": 403
     },
     {
       "id": "38160106316",
@@ -1535,7 +1365,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "34355418939",
@@ -1586,7 +1416,7 @@
       "created": "2024-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "52036286898",
@@ -1637,7 +1467,7 @@
       "created": "2026-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "55475202879",
@@ -1654,7 +1484,7 @@
       "created": "2026-02-04",
       "probability": 0.3,
       "weighted": 18000,
-      "days_in_stage": 50
+      "days_in_stage": 51
     },
     {
       "id": "56443274106",
@@ -1705,7 +1535,7 @@
       "created": "2026-03-21",
       "probability": 0.5,
       "weighted": 30000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "41883740552",
@@ -1722,7 +1552,7 @@
       "created": "2025-08-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 67
+      "days_in_stage": 68
     },
     {
       "id": "29795912520",
@@ -1773,24 +1603,7 @@
       "created": "2024-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 470
-    },
-    {
-      "id": "22997392745",
-      "name": "Col - Distribución Urbana Homecenter Licitación Bogotá ",
-      "amount": 50000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-18",
-      "last_activity": "2026-03-06",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-10-07",
-      "probability": 1,
-      "weighted": 50000,
-      "days_in_stage": 186
+      "days_in_stage": 471
     },
     {
       "id": "49695455505",
@@ -1864,10 +1677,10 @@
       "id": "45491358788",
       "name": "Arg - Farmatodo",
       "amount": 43000,
-      "stage_label": "Estabilizacion - Operando",
+      "stage_label": "Estabilizacion - Alta/Onboarding",
       "pipeline_id": "137007495",
-      "close_date": "2026-03-12",
-      "last_activity": "2026-03-12",
+      "close_date": "2026-04-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": true,
@@ -1875,7 +1688,7 @@
       "created": "2025-10-08",
       "probability": 1,
       "weighted": 43000,
-      "days_in_stage": 15
+      "days_in_stage": 0
     },
     {
       "id": "38854567716",
@@ -1892,7 +1705,7 @@
       "created": "2025-06-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 219
+      "days_in_stage": 220
     },
     {
       "id": "48988384616",
@@ -1909,7 +1722,7 @@
       "created": "2025-11-13",
       "probability": 1,
       "weighted": 41000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "22430637411",
@@ -1960,24 +1773,7 @@
       "created": "2025-11-29",
       "probability": 0.9,
       "weighted": 36000,
-      "days_in_stage": 41
-    },
-    {
-      "id": "19370139570",
-      "name": "Col - Spring Distribución Urbana Bogotá",
-      "amount": 36600,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-05-07",
-      "last_activity": "2025-12-11",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-05-14",
-      "probability": 1,
-      "weighted": 36600,
-      "days_in_stage": 324
+      "days_in_stage": 42
     },
     {
       "id": "38218757561",
@@ -1994,24 +1790,7 @@
       "created": "2025-05-29",
       "probability": 1,
       "weighted": 36000,
-      "days_in_stage": 191
-    },
-    {
-      "id": "40990677347",
-      "name": "Mx - Pakke M&P",
-      "amount": 36000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2026-01-26",
-      "last_activity": "2026-03-19",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-28",
-      "probability": 1,
-      "weighted": 36000,
-      "days_in_stage": 60
+      "days_in_stage": 192
     },
     {
       "id": "48987699068",
@@ -2028,7 +1807,7 @@
       "created": "2025-11-13",
       "probability": 0.4,
       "weighted": 14400,
-      "days_in_stage": 34
+      "days_in_stage": 35
     },
     {
       "id": "50524354613",
@@ -2096,7 +1875,7 @@
       "created": "2025-08-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "40575155540",
@@ -2130,24 +1909,7 @@
       "created": "2026-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 2
-    },
-    {
-      "id": "18966580239",
-      "name": "Mx - Nespresso Licitación",
-      "amount": 30000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-02-10",
-      "last_activity": "2026-03-26",
-      "owner": "Alessandra Araneta",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-04-29",
-      "probability": 1,
-      "weighted": 30000,
-      "days_in_stage": 410
+      "days_in_stage": 3
     },
     {
       "id": "22430638083",
@@ -2164,7 +1926,7 @@
       "created": "2025-06-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 219
+      "days_in_stage": 220
     },
     {
       "id": "29717345180",
@@ -2235,30 +1997,13 @@
       "days_in_stage": 240
     },
     {
-      "id": "40713543542",
-      "name": "Arg - Mayrea Srl ",
-      "amount": 30000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-17",
-      "last_activity": "2026-02-04",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-23",
-      "probability": 1,
-      "weighted": 30000,
-      "days_in_stage": 189
-    },
-    {
       "id": "52712067215",
       "name": "Arg - Natural-Life",
       "amount": 30000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -2266,7 +2011,7 @@
       "created": "2025-12-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 0
     },
     {
       "id": "53696141436",
@@ -2283,7 +2028,7 @@
       "created": "2026-01-13",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "53943756361",
@@ -2334,7 +2079,7 @@
       "created": "2026-01-30",
       "probability": 0.5,
       "weighted": 15000,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "55759055692",
@@ -2351,7 +2096,7 @@
       "created": "2026-02-09",
       "probability": 0.4,
       "weighted": 12000,
-      "days_in_stage": 6
+      "days_in_stage": 7
     },
     {
       "id": "58029800024",
@@ -2419,7 +2164,7 @@
       "created": "2025-06-18",
       "probability": 0.9,
       "weighted": 22500,
-      "days_in_stage": 36
+      "days_in_stage": 37
     },
     {
       "id": "58332224657",
@@ -2436,7 +2181,7 @@
       "created": "2026-03-25",
       "probability": 0.3,
       "weighted": 7500,
-      "days_in_stage": 1
+      "days_in_stage": 2
     },
     {
       "id": "23247272807",
@@ -2453,24 +2198,7 @@
       "created": "2024-10-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 73
-    },
-    {
-      "id": "30337809937",
-      "name": "Arg - Muebles Económicos",
-      "amount": 24000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2024-12-26",
-      "last_activity": "2026-02-25",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-12-13",
-      "probability": 1,
-      "weighted": 24000,
-      "days_in_stage": 437
+      "days_in_stage": 74
     },
     {
       "id": "31038793885",
@@ -2490,30 +2218,13 @@
       "days_in_stage": 403
     },
     {
-      "id": "33118480700",
-      "name": "Arg - Extracto Importado",
-      "amount": 24000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-05-07",
-      "last_activity": "2026-02-04",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-02-05",
-      "probability": 1,
-      "weighted": 24000,
-      "days_in_stage": 323
-    },
-    {
       "id": "34920656217",
       "name": "Arg - Pelba",
       "amount": 24000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2025-06-21",
-      "last_activity": "2026-01-12",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -2521,24 +2232,7 @@
       "created": "2025-03-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 316
-    },
-    {
-      "id": "43948384547",
-      "name": "Arg- Prota",
-      "amount": 24000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-10-28",
-      "last_activity": "2026-03-26",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-19",
-      "probability": 1,
-      "weighted": 24000,
-      "days_in_stage": 150
+      "days_in_stage": 0
     },
     {
       "id": "48358932291",
@@ -2572,7 +2266,7 @@
       "created": "2026-02-24",
       "probability": 1,
       "weighted": 23000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "43319733033",
@@ -2606,7 +2300,7 @@
       "created": "2022-02-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 305
+      "days_in_stage": 306
     },
     {
       "id": "18682699069",
@@ -2640,7 +2334,7 @@
       "created": "2024-03-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 658
+      "days_in_stage": 659
     },
     {
       "id": "19332298357",
@@ -2657,7 +2351,7 @@
       "created": "2024-05-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 358
+      "days_in_stage": 359
     },
     {
       "id": "35657028477",
@@ -2725,7 +2419,7 @@
       "created": "2025-09-29",
       "probability": 0.3,
       "weighted": 6000,
-      "days_in_stage": 154
+      "days_in_stage": 155
     },
     {
       "id": "45968044849",
@@ -2759,7 +2453,7 @@
       "created": "2026-02-26",
       "probability": 0.4,
       "weighted": 8000,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "21234097993",
@@ -2861,7 +2555,7 @@
       "created": "2026-01-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 48
+      "days_in_stage": 49
     },
     {
       "id": "56549342488",
@@ -2878,7 +2572,7 @@
       "created": "2026-02-17",
       "probability": 0.2,
       "weighted": 3300,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "19389970539",
@@ -2929,24 +2623,7 @@
       "created": "2026-03-11",
       "probability": 0.3,
       "weighted": 4650,
-      "days_in_stage": 15
-    },
-    {
-      "id": "29386120081",
-      "name": "Col - Quala Entregas Mayoristas MDE",
-      "amount": 15000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-10-31",
-      "last_activity": "2026-01-20",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-11-20",
-      "probability": 1,
-      "weighted": 15000,
-      "days_in_stage": 130
+      "days_in_stage": 16
     },
     {
       "id": "30087740562",
@@ -2963,7 +2640,7 @@
       "created": "2024-12-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 296
+      "days_in_stage": 297
     },
     {
       "id": "41559860239",
@@ -2980,7 +2657,7 @@
       "created": "2025-08-07",
       "probability": 0.3,
       "weighted": 4500,
-      "days_in_stage": 58
+      "days_in_stage": 59
     },
     {
       "id": "44506528811",
@@ -3085,23 +2762,6 @@
       "days_in_stage": 312
     },
     {
-      "id": "39978089733",
-      "name": "Mx - Merq [Motos dedicadas]",
-      "amount": 12000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-22",
-      "last_activity": "2026-02-23",
-      "owner": "Nazhiely Meza Campos",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-10",
-      "probability": 1,
-      "weighted": 12000,
-      "days_in_stage": 186
-    },
-    {
       "id": "41152309302",
       "name": "Mx - Sony Group - Motos y unidades foráneas",
       "amount": 12000,
@@ -3133,7 +2793,7 @@
       "created": "2025-09-02",
       "probability": 0.3,
       "weighted": 3600,
-      "days_in_stage": 119
+      "days_in_stage": 120
     },
     {
       "id": "46700917074",
@@ -3252,7 +2912,7 @@
       "created": "2025-05-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "21075538511",
@@ -3269,24 +2929,7 @@
       "created": "2024-07-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 325
-    },
-    {
-      "id": "21628709504",
-      "name": "Arg -  Otero Hogar",
-      "amount": 10500,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-08-21",
-      "probability": 1,
-      "weighted": 10500,
-      "days_in_stage": 14
+      "days_in_stage": 326
     },
     {
       "id": "30832369848",
@@ -3306,23 +2949,6 @@
       "days_in_stage": 108
     },
     {
-      "id": "14885928487",
-      "name": "Ch - Femsalud Cruz Verde Consultoria",
-      "amount": 10000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-02-12",
-      "last_activity": "2025-08-04",
-      "owner": "Alessandra Araneta",
-      "country": "Chile",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2023-08-29",
-      "probability": 1,
-      "weighted": 10000,
-      "days_in_stage": 407
-    },
-    {
       "id": "17317997163",
       "name": "Pe - PRIMAX - Distribución Media Milla  (Listo y otros)",
       "amount": 10000,
@@ -3337,7 +2963,7 @@
       "created": "2024-02-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 574
+      "days_in_stage": 575
     },
     {
       "id": "17733854000",
@@ -3388,7 +3014,7 @@
       "created": "2024-05-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "28939936580",
@@ -3405,24 +3031,7 @@
       "created": "2024-11-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
-    },
-    {
-      "id": "29385701195",
-      "name": "Arg - Sony",
-      "amount": 10000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-03-19",
-      "last_activity": "2026-03-27",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2024-05-02",
-      "probability": 1,
-      "weighted": 10000,
-      "days_in_stage": 373
+      "days_in_stage": 118
     },
     {
       "id": "29918358078",
@@ -3456,7 +3065,7 @@
       "created": "2024-12-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32822821942",
@@ -3490,7 +3099,7 @@
       "created": "2025-03-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "35044506227",
@@ -3507,7 +3116,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "35074525796",
@@ -3524,7 +3133,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "35366795613",
@@ -3558,7 +3167,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "35392085833",
@@ -3575,7 +3184,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "36810648424",
@@ -3584,7 +3193,7 @@
       "stage_label": "Preventa / Exploracion",
       "pipeline_id": "137007495",
       "close_date": "2026-01-05",
-      "last_activity": "2026-02-18",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -3592,7 +3201,7 @@
       "created": "2025-05-06",
       "probability": 0.2,
       "weighted": 2000,
-      "days_in_stage": 288
+      "days_in_stage": 289
     },
     {
       "id": "36892997717",
@@ -3600,8 +3209,8 @@
       "amount": 10000,
       "stage_label": "Negociacion Avanzada",
       "pipeline_id": "137007495",
-      "close_date": "2026-04-01",
-      "last_activity": "2026-03-27",
+      "close_date": "2026-06-01",
+      "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Chile",
       "is_won": false,
@@ -3609,7 +3218,7 @@
       "created": "2025-05-07",
       "probability": 0.4,
       "weighted": 4000,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "37360343118",
@@ -3626,7 +3235,7 @@
       "created": "2025-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 280
+      "days_in_stage": 281
     },
     {
       "id": "37635433795",
@@ -3643,7 +3252,7 @@
       "created": "2025-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "38978632303",
@@ -3677,7 +3286,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "43331352398",
@@ -3779,7 +3388,7 @@
       "created": "2026-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "55580843375",
@@ -3898,7 +3507,7 @@
       "created": "2024-04-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 358
+      "days_in_stage": 359
     },
     {
       "id": "38130922875",
@@ -3915,7 +3524,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "20822930099",
@@ -3986,23 +3595,6 @@
       "days_in_stage": 221
     },
     {
-      "id": "43402488612",
-      "name": "Arg- BIG AUTOPARTES SRL (pastillas de freno) SD Flex",
-      "amount": 9000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2026-01-08",
-      "last_activity": "2026-01-15",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-05",
-      "probability": 1,
-      "weighted": 9000,
-      "days_in_stage": 71
-    },
-    {
       "id": "52474132849",
       "name": "Mx - Entregar Web",
       "amount": 9000,
@@ -4051,7 +3643,7 @@
       "created": "2026-01-05",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "57200807503",
@@ -4068,24 +3660,24 @@
       "created": "2026-03-01",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "57200931423",
       "name": "Pe - Palmaslogistics - Media milla",
       "amount": 9000,
-      "stage_label": "Negociacion Avanzada M&P",
+      "stage_label": "Contrato/Setup M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-01",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
       "is_lost": false,
       "created": "2026-03-01",
-      "probability": 0.1,
-      "weighted": 900,
-      "days_in_stage": 25
+      "probability": 1,
+      "weighted": 9000,
+      "days_in_stage": 0
     },
     {
       "id": "38399954343",
@@ -4187,7 +3779,7 @@
       "created": "2025-07-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 219
+      "days_in_stage": 220
     },
     {
       "id": "42656865625",
@@ -4238,16 +3830,16 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 4000,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "41149039721",
       "name": "Arg - GMP - eComm productos de mascotas",
       "amount": 7800,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -4255,24 +3847,7 @@
       "created": "2025-07-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
-    },
-    {
-      "id": "39662765920",
-      "name": "MX Privalia (AXO) - Sedan One shot",
-      "amount": 7600,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-07-07",
-      "last_activity": "2026-03-20",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-03",
-      "probability": 1,
-      "weighted": 7600,
-      "days_in_stage": 253
+      "days_in_stage": 0
     },
     {
       "id": "39668835971",
@@ -4306,7 +3881,7 @@
       "created": "2025-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "20535079347",
@@ -4323,16 +3898,16 @@
       "created": "2024-07-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "43898915137",
       "name": "Arg-Midea Carrier -",
       "amount": 7000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-02-26",
-      "last_activity": "2026-02-26",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -4340,7 +3915,7 @@
       "created": "2025-09-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 29
+      "days_in_stage": 0
     },
     {
       "id": "36723870069",
@@ -4357,24 +3932,24 @@
       "created": "2025-05-05",
       "probability": 1,
       "weighted": 6800,
-      "days_in_stage": 191
+      "days_in_stage": 192
     },
     {
       "id": "43319393821",
       "name": "Arg - Raizen Operación Spot FF + ND Amba",
       "amount": 6500,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Estabilizacion - Operando",
       "pipeline_id": "137007495",
-      "close_date": "2026-02-21",
-      "last_activity": "2026-03-25",
+      "close_date": "2025-12-01",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
-      "is_won": false,
-      "is_lost": true,
+      "is_won": true,
+      "is_lost": false,
       "created": "2025-09-02",
-      "probability": 0,
-      "weighted": 0,
-      "days_in_stage": 34
+      "probability": 1,
+      "weighted": 6500,
+      "days_in_stage": 0
     },
     {
       "id": "52276042631",
@@ -4391,7 +3966,7 @@
       "created": "2025-12-22",
       "probability": 1,
       "weighted": 6500,
-      "days_in_stage": 29
+      "days_in_stage": 30
     },
     {
       "id": "17931819927",
@@ -4408,7 +3983,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 647
+      "days_in_stage": 648
     },
     {
       "id": "18851014505",
@@ -4442,7 +4017,7 @@
       "created": "2024-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "31997326453",
@@ -4459,7 +4034,7 @@
       "created": "2025-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33293671936",
@@ -4476,24 +4051,7 @@
       "created": "2025-02-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 400
-    },
-    {
-      "id": "34509132655",
-      "name": "Mx - Corporativo Giormar",
-      "amount": 6000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-06-29",
-      "last_activity": "2025-12-11",
-      "owner": "Nazhiely Meza Campos",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-03-10",
-      "probability": 1,
-      "weighted": 6000,
-      "days_in_stage": 271
+      "days_in_stage": 401
     },
     {
       "id": "34539455827",
@@ -4527,7 +4085,7 @@
       "created": "2025-04-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 337
+      "days_in_stage": 338
     },
     {
       "id": "37977667447",
@@ -4561,7 +4119,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "44466580038",
@@ -4612,7 +4170,7 @@
       "created": "2026-02-26",
       "probability": 0.3,
       "weighted": 1800,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "38852021838",
@@ -4697,7 +4255,7 @@
       "created": "2024-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 574
+      "days_in_stage": 575
     },
     {
       "id": "20381090092",
@@ -4714,7 +4272,7 @@
       "created": "2024-06-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "20523985421",
@@ -4748,7 +4306,7 @@
       "created": "2024-07-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 181
+      "days_in_stage": 182
     },
     {
       "id": "20717575993",
@@ -4765,7 +4323,7 @@
       "created": "2024-07-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "20816171900",
@@ -4782,7 +4340,7 @@
       "created": "2024-07-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 574
+      "days_in_stage": 575
     },
     {
       "id": "21091007397",
@@ -4833,7 +4391,7 @@
       "created": "2024-08-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 420
+      "days_in_stage": 421
     },
     {
       "id": "22427199035",
@@ -4884,7 +4442,7 @@
       "created": "2024-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "30168378289",
@@ -4901,7 +4459,7 @@
       "created": "2024-12-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32533090324",
@@ -5105,7 +4663,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "43476134157",
@@ -5122,24 +4680,7 @@
       "created": "2025-09-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 105
-    },
-    {
-      "id": "44865731700",
-      "name": "Mx - T1Envios - Unidades dedicadas Peak Season 2025",
-      "amount": 5000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-19",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-29",
-      "probability": 1,
-      "weighted": 5000,
-      "days_in_stage": 128
+      "days_in_stage": 106
     },
     {
       "id": "46761119621",
@@ -5147,8 +4688,8 @@
       "amount": 5000,
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
-      "close_date": "2026-03-31",
-      "last_activity": "2026-03-23",
+      "close_date": "2026-06-30",
+      "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
@@ -5173,7 +4714,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 119
+      "days_in_stage": 120
     },
     {
       "id": "46794706295",
@@ -5190,7 +4731,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "46825344145",
@@ -5207,7 +4748,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 80
+      "days_in_stage": 81
     },
     {
       "id": "48181077391",
@@ -5224,7 +4765,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "52994235018",
@@ -5292,7 +4833,7 @@
       "created": "2026-03-07",
       "probability": 0.3,
       "weighted": 1500,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "57941134495",
@@ -5346,23 +4887,6 @@
       "days_in_stage": 312
     },
     {
-      "id": "36847867509",
-      "name": "Mx - T1 Envíos Unidades Dedicadas Hot Sale",
-      "amount": 4500,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-05-16",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-05-07",
-      "probability": 1,
-      "weighted": 4500,
-      "days_in_stage": 282
-    },
-    {
       "id": "41139943722",
       "name": "Arg-Cocobox",
       "amount": 4500,
@@ -5411,7 +4935,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "54956567734",
@@ -5428,7 +4952,7 @@
       "created": "2026-01-29",
       "probability": 0.5,
       "weighted": 2250,
-      "days_in_stage": 57
+      "days_in_stage": 58
     },
     {
       "id": "55688254517",
@@ -5445,7 +4969,7 @@
       "created": "2026-02-09",
       "probability": 0.2,
       "weighted": 900,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "37490415524",
@@ -5462,7 +4986,7 @@
       "created": "2025-05-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "40683201026",
@@ -5496,7 +5020,7 @@
       "created": "2025-08-26",
       "probability": 0.3,
       "weighted": 1224,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "18536534346",
@@ -5513,7 +5037,7 @@
       "created": "2024-04-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 650
+      "days_in_stage": 651
     },
     {
       "id": "21527430301",
@@ -5530,7 +5054,7 @@
       "created": "2024-08-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 419
+      "days_in_stage": 420
     },
     {
       "id": "36530850974",
@@ -5598,7 +5122,7 @@
       "created": "2025-11-18",
       "probability": 0.2,
       "weighted": 800,
-      "days_in_stage": 119
+      "days_in_stage": 120
     },
     {
       "id": "57177906715",
@@ -5615,7 +5139,7 @@
       "created": "2026-02-27",
       "probability": 0.5,
       "weighted": 2000,
-      "days_in_stage": 28
+      "days_in_stage": 29
     },
     {
       "id": "56896809544",
@@ -5649,7 +5173,7 @@
       "created": "2025-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 366
+      "days_in_stage": 367
     },
     {
       "id": "48476854162",
@@ -5683,7 +5207,7 @@
       "created": "2024-10-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "40286461748",
@@ -5734,7 +5258,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 185
+      "days_in_stage": 186
     },
     {
       "id": "38147807583",
@@ -5768,7 +5292,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "18707055929",
@@ -5802,7 +5326,7 @@
       "created": "2024-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 619
+      "days_in_stage": 620
     },
     {
       "id": "20778579371",
@@ -5819,7 +5343,7 @@
       "created": "2024-07-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "21798623350",
@@ -5836,7 +5360,7 @@
       "created": "2024-08-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 385
+      "days_in_stage": 386
     },
     {
       "id": "22567806241",
@@ -5870,7 +5394,7 @@
       "created": "2024-10-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "23120695580",
@@ -5921,7 +5445,7 @@
       "created": "2025-02-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "34093542259",
@@ -5972,7 +5496,7 @@
       "created": "2025-03-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 72
+      "days_in_stage": 73
     },
     {
       "id": "35367266390",
@@ -5989,24 +5513,7 @@
       "created": "2025-04-01",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 128
-    },
-    {
-      "id": "37011271684",
-      "name": "Mx - Privalia (AXO) - Media Milla",
-      "amount": 3000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-06-10",
-      "last_activity": "2026-02-09",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-05-09",
-      "probability": 1,
-      "weighted": 3000,
-      "days_in_stage": 282
+      "days_in_stage": 129
     },
     {
       "id": "38765222720",
@@ -6077,23 +5584,6 @@
       "days_in_stage": 277
     },
     {
-      "id": "39666904379",
-      "name": "Mx - Hunter Douglas - Unidad Dedicada",
-      "amount": 3000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-22",
-      "last_activity": "2026-02-26",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-03",
-      "probability": 1,
-      "weighted": 3000,
-      "days_in_stage": 186
-    },
-    {
       "id": "39829980302",
       "name": "Mx - BrightCell Logistics - Media Milla",
       "amount": 3000,
@@ -6125,7 +5615,7 @@
       "created": "2025-07-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 219
+      "days_in_stage": 220
     },
     {
       "id": "44539299704",
@@ -6193,7 +5683,7 @@
       "created": "2026-02-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "47416028811",
@@ -6244,24 +5734,7 @@
       "created": "2025-03-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 73
-    },
-    {
-      "id": "42824616805",
-      "name": "Mx - T1 Envíos Cross",
-      "amount": 2800,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-08-27",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-08-25",
-      "probability": 1,
-      "weighted": 2800,
-      "days_in_stage": 212
+      "days_in_stage": 74
     },
     {
       "id": "36742217995",
@@ -6295,7 +5768,7 @@
       "created": "2024-06-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "34527031411",
@@ -6312,7 +5785,7 @@
       "created": "2025-03-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 305
+      "days_in_stage": 306
     },
     {
       "id": "40250854772",
@@ -6329,7 +5802,7 @@
       "created": "2025-07-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 185
+      "days_in_stage": 186
     },
     {
       "id": "21230108675",
@@ -6414,7 +5887,7 @@
       "created": "2025-07-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 226
+      "days_in_stage": 227
     },
     {
       "id": "41514133763",
@@ -6465,7 +5938,7 @@
       "created": "2025-12-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 3
+      "days_in_stage": 4
     },
     {
       "id": "35028649297",
@@ -6499,7 +5972,7 @@
       "created": "2023-11-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 415
+      "days_in_stage": 416
     },
     {
       "id": "19439907909",
@@ -6516,7 +5989,7 @@
       "created": "2024-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "21784385893",
@@ -6533,7 +6006,7 @@
       "created": "2024-08-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 419
+      "days_in_stage": 420
     },
     {
       "id": "22372806485",
@@ -6550,7 +6023,7 @@
       "created": "2024-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 385
+      "days_in_stage": 386
     },
     {
       "id": "22424151364",
@@ -6584,7 +6057,7 @@
       "created": "2024-11-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 409
+      "days_in_stage": 410
     },
     {
       "id": "30640816215",
@@ -6635,7 +6108,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32588222223",
@@ -6669,7 +6142,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 385
+      "days_in_stage": 386
     },
     {
       "id": "32780431932",
@@ -6686,7 +6159,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 234
+      "days_in_stage": 235
     },
     {
       "id": "32780587833",
@@ -6754,7 +6227,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 303
+      "days_in_stage": 304
     },
     {
       "id": "33448268882",
@@ -6822,7 +6295,7 @@
       "created": "2025-03-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 366
+      "days_in_stage": 367
     },
     {
       "id": "34603522377",
@@ -6873,24 +6346,7 @@
       "created": "2025-04-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 346
-    },
-    {
-      "id": "36184346469",
-      "name": "Col - Locatel Bogotá",
-      "amount": 2000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-10-14",
-      "last_activity": "2026-02-25",
-      "owner": "Camilo Suarez",
-      "country": "Colombia",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-02-26",
-      "probability": 1,
-      "weighted": 2000,
-      "days_in_stage": 155
+      "days_in_stage": 347
     },
     {
       "id": "36563153506",
@@ -6924,7 +6380,7 @@
       "created": "2025-05-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "38113492844",
@@ -6992,7 +6448,7 @@
       "created": "2025-06-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "39930007301",
@@ -7009,7 +6465,7 @@
       "created": "2025-07-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "40670338336",
@@ -7060,7 +6516,7 @@
       "created": "2025-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "56215053746",
@@ -7077,7 +6533,7 @@
       "created": "2026-02-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57093756931",
@@ -7094,7 +6550,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 1000,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "32249733248",
@@ -7111,7 +6567,7 @@
       "created": "2025-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "47814374518",
@@ -7128,7 +6584,7 @@
       "created": "2025-10-30",
       "probability": 0.3,
       "weighted": 540,
-      "days_in_stage": 147
+      "days_in_stage": 148
     },
     {
       "id": "54105500700",
@@ -7162,7 +6618,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "37021807732",
@@ -7179,7 +6635,7 @@
       "created": "2025-05-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "17931820439",
@@ -7196,7 +6652,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 647
+      "days_in_stage": 648
     },
     {
       "id": "21679011597",
@@ -7213,7 +6669,7 @@
       "created": "2024-08-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "36810825564",
@@ -7230,7 +6686,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "36810869309",
@@ -7332,7 +6788,7 @@
       "created": "2025-09-17",
       "probability": 1,
       "weighted": 1500,
-      "days_in_stage": 191
+      "days_in_stage": 192
     },
     {
       "id": "44081322653",
@@ -7366,7 +6822,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 154
+      "days_in_stage": 155
     },
     {
       "id": "47210027802",
@@ -7383,7 +6839,7 @@
       "created": "2025-10-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "47831423046",
@@ -7451,7 +6907,7 @@
       "created": "2025-07-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 160
+      "days_in_stage": 161
     },
     {
       "id": "39531831850",
@@ -7519,7 +6975,7 @@
       "created": "2025-09-04",
       "probability": 0.2,
       "weighted": 240,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "48147783069",
@@ -7536,7 +6992,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 73
+      "days_in_stage": 74
     },
     {
       "id": "48798993497",
@@ -7587,7 +7043,7 @@
       "created": "2024-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "17137188112",
@@ -7621,7 +7077,7 @@
       "created": "2024-02-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 408
+      "days_in_stage": 409
     },
     {
       "id": "17904827293",
@@ -7655,7 +7111,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 549
+      "days_in_stage": 550
     },
     {
       "id": "18556853833",
@@ -7672,7 +7128,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 358
+      "days_in_stage": 359
     },
     {
       "id": "18709496864",
@@ -7740,7 +7196,7 @@
       "created": "2024-06-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 415
+      "days_in_stage": 416
     },
     {
       "id": "20516217470",
@@ -7757,7 +7213,7 @@
       "created": "2024-07-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 419
+      "days_in_stage": 420
     },
     {
       "id": "20715228263",
@@ -7774,7 +7230,7 @@
       "created": "2024-07-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "21070062405",
@@ -7791,7 +7247,7 @@
       "created": "2024-07-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 305
+      "days_in_stage": 306
     },
     {
       "id": "21868391261",
@@ -7808,7 +7264,7 @@
       "created": "2024-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "22567805854",
@@ -7825,7 +7281,7 @@
       "created": "2024-09-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 409
+      "days_in_stage": 410
     },
     {
       "id": "28339209553",
@@ -7842,7 +7298,7 @@
       "created": "2024-10-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 434
+      "days_in_stage": 435
     },
     {
       "id": "28371058821",
@@ -7859,7 +7315,7 @@
       "created": "2024-10-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 470
+      "days_in_stage": 471
     },
     {
       "id": "28885702018",
@@ -7876,7 +7332,7 @@
       "created": "2024-11-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "28979108625",
@@ -7893,7 +7349,7 @@
       "created": "2024-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 305
+      "days_in_stage": 306
     },
     {
       "id": "29144502824",
@@ -7910,7 +7366,7 @@
       "created": "2024-11-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "29587446927",
@@ -7944,7 +7400,7 @@
       "created": "2024-11-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 409
+      "days_in_stage": 410
     },
     {
       "id": "29924279478",
@@ -7978,7 +7434,7 @@
       "created": "2024-12-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "30640973719",
@@ -8012,7 +7468,7 @@
       "created": "2024-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 366
+      "days_in_stage": 367
     },
     {
       "id": "32588159389",
@@ -8029,7 +7485,7 @@
       "created": "2025-01-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32669971811",
@@ -8046,7 +7502,7 @@
       "created": "2025-01-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32729999490",
@@ -8063,7 +7519,7 @@
       "created": "2025-01-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "32817395795",
@@ -8131,7 +7587,7 @@
       "created": "2025-02-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33352154953",
@@ -8165,7 +7621,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33357573167",
@@ -8182,7 +7638,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 385
+      "days_in_stage": 386
     },
     {
       "id": "33357855806",
@@ -8199,7 +7655,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33359113054",
@@ -8216,7 +7672,7 @@
       "created": "2025-02-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33422765670",
@@ -8233,7 +7689,7 @@
       "created": "2025-02-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "33462307133",
@@ -8267,7 +7723,7 @@
       "created": "2025-02-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "34072567080",
@@ -8386,7 +7842,7 @@
       "created": "2025-03-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "34778608946",
@@ -8420,7 +7876,7 @@
       "created": "2025-03-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "35313278741",
@@ -8505,7 +7961,7 @@
       "created": "2025-04-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 276
+      "days_in_stage": 277
     },
     {
       "id": "35803147174",
@@ -8573,7 +8029,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "37162876009",
@@ -8624,7 +8080,7 @@
       "created": "2025-05-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 254
+      "days_in_stage": 255
     },
     {
       "id": "37625241513",
@@ -8658,7 +8114,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "38160138612",
@@ -8692,7 +8148,7 @@
       "created": "2025-06-17",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 154
+      "days_in_stage": 155
     },
     {
       "id": "38990132409",
@@ -8726,7 +8182,7 @@
       "created": "2025-06-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "39106043543",
@@ -8743,7 +8199,7 @@
       "created": "2025-06-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "40225298840",
@@ -8780,23 +8236,6 @@
       "days_in_stage": 116
     },
     {
-      "id": "40294184810",
-      "name": "Mx- Smurtfit Westrock - Media milla",
-      "amount": 1000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-10",
-      "last_activity": "2026-03-25",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-15",
-      "probability": 1,
-      "weighted": 1000,
-      "days_in_stage": 137
-    },
-    {
       "id": "40317702207",
       "name": "Ch - Sally Beauty",
       "amount": 1000,
@@ -8811,7 +8250,7 @@
       "created": "2025-07-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "40397303057",
@@ -8862,7 +8301,7 @@
       "created": "2025-07-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "41599625217",
@@ -8899,57 +8338,6 @@
       "days_in_stage": 154
     },
     {
-      "id": "43347613487",
-      "name": "Arg - Choi Kea Moung - Cataluña",
-      "amount": 1000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-22",
-      "last_activity": "2025-12-11",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-04",
-      "probability": 1,
-      "weighted": 1000,
-      "days_in_stage": 186
-    },
-    {
-      "id": "43347803445",
-      "name": "Arg - Ilumina Denim",
-      "amount": 1000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-22",
-      "last_activity": "2025-12-11",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-04",
-      "probability": 1,
-      "weighted": 1000,
-      "days_in_stage": 186
-    },
-    {
-      "id": "43660684958",
-      "name": "MX - Grupo AXO - Tráiler MX - QRO (Spot)",
-      "amount": 1000,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-29",
-      "last_activity": "2026-03-20",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-12",
-      "probability": 1,
-      "weighted": 1000,
-      "days_in_stage": 178
-    },
-    {
       "id": "43713248677",
       "name": "Pe - Inca Tops - Media Milla",
       "amount": 1000,
@@ -8964,7 +8352,7 @@
       "created": "2025-09-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 119
+      "days_in_stage": 120
     },
     {
       "id": "43948446239",
@@ -8998,7 +8386,7 @@
       "created": "2025-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "44788926003",
@@ -9083,7 +8471,7 @@
       "created": "2025-10-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "46017188025",
@@ -9100,7 +8488,7 @@
       "created": "2025-10-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 20
+      "days_in_stage": 21
     },
     {
       "id": "46557949845",
@@ -9185,7 +8573,7 @@
       "created": "2025-11-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "51514837327",
@@ -9202,7 +8590,7 @@
       "created": "2025-12-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 59
+      "days_in_stage": 60
     },
     {
       "id": "51893928042",
@@ -9253,7 +8641,7 @@
       "created": "2025-12-16",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 100
+      "days_in_stage": 101
     },
     {
       "id": "52918547012",
@@ -9270,7 +8658,7 @@
       "created": "2025-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "53450985285",
@@ -9346,8 +8734,8 @@
       "amount": 1000,
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
-      "close_date": "2026-04-15",
-      "last_activity": "2026-03-23",
+      "close_date": "2026-06-30",
+      "last_activity": "2026-03-27",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
@@ -9372,7 +8760,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 34
+      "days_in_stage": 35
     },
     {
       "id": "54020672336",
@@ -9389,7 +8777,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 48
+      "days_in_stage": 49
     },
     {
       "id": "54421083047",
@@ -9406,7 +8794,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "54534938380",
@@ -9429,10 +8817,10 @@
       "id": "54609600514",
       "name": "Arg - Ángeles Estrada y CIA. S.A",
       "amount": 1000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-02-26",
-      "last_activity": "2026-02-28",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -9440,7 +8828,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 29
+      "days_in_stage": 0
     },
     {
       "id": "54609723977",
@@ -9474,16 +8862,16 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "54616043914",
       "name": "Arg - Naif",
       "amount": 1000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -9491,16 +8879,16 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 0
     },
     {
       "id": "54616106757",
       "name": "Arg - Someco Electronics ",
       "amount": 1000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -9508,7 +8896,7 @@
       "created": "2026-01-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 0
     },
     {
       "id": "55389618956",
@@ -9525,16 +8913,16 @@
       "created": "2026-02-02",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "55475353236",
       "name": "Arg - El lucero",
       "amount": 1000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -9542,7 +8930,7 @@
       "created": "2026-02-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 0
     },
     {
       "id": "55478513814",
@@ -9559,7 +8947,7 @@
       "created": "2026-02-04",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 41
+      "days_in_stage": 42
     },
     {
       "id": "55624237223",
@@ -9576,7 +8964,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "55662834849",
@@ -9610,7 +8998,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "55663274132",
@@ -9627,7 +9015,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "55663274919",
@@ -9661,16 +9049,16 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 43
+      "days_in_stage": 44
     },
     {
       "id": "55679594343",
       "name": "Arg - DSK",
       "amount": 1000,
-      "stage_label": "Perdida de Negocio",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-13",
-      "last_activity": "2026-03-13",
+      "last_activity": "2026-03-27",
       "owner": "Nahuel Alves",
       "country": "Argentina",
       "is_won": false,
@@ -9678,7 +9066,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 0
     },
     {
       "id": "55682302878",
@@ -9695,7 +9083,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "55682306189",
@@ -9729,7 +9117,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 13
+      "days_in_stage": 14
     },
     {
       "id": "55682428026",
@@ -9780,7 +9168,7 @@
       "created": "2026-02-13",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "56358580609",
@@ -9831,7 +9219,7 @@
       "created": "2026-02-24",
       "probability": 0.5,
       "weighted": 500,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "56896763429",
@@ -9848,7 +9236,7 @@
       "created": "2026-02-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "56935782324",
@@ -9865,7 +9253,7 @@
       "created": "2026-02-24",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 15
+      "days_in_stage": 16
     },
     {
       "id": "57865554804",
@@ -9950,7 +9338,7 @@
       "created": "2026-03-12",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 10
+      "days_in_stage": 11
     },
     {
       "id": "57941030778",
@@ -9967,7 +9355,7 @@
       "created": "2026-03-12",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 14
+      "days_in_stage": 15
     },
     {
       "id": "57941155392",
@@ -10018,7 +9406,7 @@
       "created": "2026-03-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "58404247581",
@@ -10035,7 +9423,7 @@
       "created": "2026-03-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "58404249235",
@@ -10044,7 +9432,7 @@
       "stage_label": "Preventa / Exploracion",
       "pipeline_id": "137007495",
       "close_date": "2026-06-26",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-28",
       "owner": "Nazhiely Meza Campos",
       "country": "Mexico",
       "is_won": false,
@@ -10052,7 +9440,7 @@
       "created": "2026-03-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "58404371857",
@@ -10069,7 +9457,7 @@
       "created": "2026-03-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
       "id": "58404373257",
@@ -10092,10 +9480,10 @@
       "id": "58404373415",
       "name": "Pe - Leche Gloria S.A.",
       "amount": 1000,
-      "stage_label": "Preventa M&P",
-      "pipeline_id": "95256391",
+      "stage_label": "Preventa / Exploracion",
+      "pipeline_id": "137007495",
       "close_date": "2026-06-26",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
@@ -10112,7 +9500,7 @@
       "stage_label": "Preventa / Exploracion",
       "pipeline_id": "137007495",
       "close_date": "2026-06-26",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
@@ -10120,24 +9508,24 @@
       "created": "2026-03-26",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 0
+      "days_in_stage": 1
     },
     {
-      "id": "41705545813",
-      "name": "MX - T1 Envíos (Spot Furgoneta)",
-      "amount": 900,
-      "stage_label": "Estabilizacion - Operando",
+      "id": "58519365261",
+      "name": "Mx - Nubank ",
+      "amount": 1000,
+      "stage_label": "Preventa / Exploracion",
       "pipeline_id": "137007495",
-      "close_date": "2025-08-12",
-      "last_activity": "2026-02-23",
+      "close_date": "2026-06-27",
+      "last_activity": "2026-03-27",
       "owner": "Alfredo Garcia",
       "country": "Mexico",
-      "is_won": true,
+      "is_won": false,
       "is_lost": false,
-      "created": "2025-08-11",
-      "probability": 1,
-      "weighted": 900,
-      "days_in_stage": 227
+      "created": "2026-03-27",
+      "probability": 0.2,
+      "weighted": 200,
+      "days_in_stage": 0
     },
     {
       "id": "56896685961",
@@ -10154,7 +9542,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 270,
-      "days_in_stage": 31
+      "days_in_stage": 32
     },
     {
       "id": "38161129099",
@@ -10171,7 +9559,7 @@
       "created": "2025-05-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 274
+      "days_in_stage": 275
     },
     {
       "id": "38978647841",
@@ -10188,7 +9576,7 @@
       "created": "2025-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 185
+      "days_in_stage": 186
     },
     {
       "id": "39015437185",
@@ -10205,7 +9593,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "38854559002",
@@ -10240,23 +9628,6 @@
       "probability": 0,
       "weighted": 0,
       "days_in_stage": 290
-    },
-    {
-      "id": "38690128551",
-      "name": "Mx - Path Logistics - Torton",
-      "amount": 800,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-07-02",
-      "last_activity": "2025-12-11",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-06-09",
-      "probability": 1,
-      "weighted": 800,
-      "days_in_stage": 268
     },
     {
       "id": "54351398950",
@@ -10324,7 +9695,7 @@
       "created": "2025-08-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 226
+      "days_in_stage": 227
     },
     {
       "id": "49448220168",
@@ -10375,7 +9746,7 @@
       "created": "2025-03-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 185
+      "days_in_stage": 186
     },
     {
       "id": "36810860632",
@@ -10392,7 +9763,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "38130917128",
@@ -10409,7 +9780,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "20015387139",
@@ -10426,7 +9797,7 @@
       "created": "2024-06-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 549
+      "days_in_stage": 550
     },
     {
       "id": "41703687802",
@@ -10477,7 +9848,7 @@
       "created": "2024-08-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 323
+      "days_in_stage": 324
     },
     {
       "id": "22677113492",
@@ -10494,7 +9865,7 @@
       "created": "2024-09-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     },
     {
       "id": "23317815090",
@@ -10511,7 +9882,7 @@
       "created": "2024-10-16",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 272
+      "days_in_stage": 273
     },
     {
       "id": "29041625618",
@@ -10528,7 +9899,7 @@
       "created": "2024-11-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 234
+      "days_in_stage": 235
     },
     {
       "id": "31038794259",
@@ -10545,7 +9916,7 @@
       "created": "2024-12-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 409
+      "days_in_stage": 410
     },
     {
       "id": "37238220912",
@@ -10562,24 +9933,7 @@
       "created": "2025-05-15",
       "probability": 1,
       "weighted": 500,
-      "days_in_stage": 20
-    },
-    {
-      "id": "37444142995",
-      "name": "Mx -TTAIO- Unidades 1.5T (Shot)",
-      "amount": 500,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-05-19",
-      "last_activity": "2026-03-09",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-05-19",
-      "probability": 1,
-      "weighted": 500,
-      "days_in_stage": 312
+      "days_in_stage": 21
     },
     {
       "id": "44635146672",
@@ -10613,7 +9967,7 @@
       "created": "2025-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "46407699879",
@@ -10647,7 +10001,7 @@
       "created": "2025-11-24",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 105
+      "days_in_stage": 106
     },
     {
       "id": "53956386348",
@@ -10681,24 +10035,7 @@
       "created": "2026-03-20",
       "probability": 0.2,
       "weighted": 100,
-      "days_in_stage": 6
-    },
-    {
-      "id": "51244900762",
-      "name": "Arg - Yelsu",
-      "amount": 450,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-12-12",
-      "last_activity": "2026-01-08",
-      "owner": "Nahuel Alves",
-      "country": "Argentina",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-12-04",
-      "probability": 1,
-      "weighted": 450,
-      "days_in_stage": 105
+      "days_in_stage": 7
     },
     {
       "id": "35658923569",
@@ -10716,40 +10053,6 @@
       "probability": 0,
       "weighted": 0,
       "days_in_stage": 351
-    },
-    {
-      "id": "44506531250",
-      "name": "MX - Privalia/AXO - Viajes Spot KN - QRO 3.5T",
-      "amount": 400,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-29",
-      "last_activity": "2026-03-20",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-26",
-      "probability": 1,
-      "weighted": 400,
-      "days_in_stage": 178
-    },
-    {
-      "id": "39822368370",
-      "name": "Grupo AXO Privalia - Motocicletas (One shot)",
-      "amount": 300,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-07-01",
-      "last_activity": "2026-03-20",
-      "owner": "Alfredo Garcia",
-      "country": null,
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-07-07",
-      "probability": 1,
-      "weighted": 300,
-      "days_in_stage": 253
     },
     {
       "id": "43157942578",
@@ -10800,24 +10103,7 @@
       "created": "2025-04-15",
       "probability": 1,
       "weighted": 200,
-      "days_in_stage": 117
-    },
-    {
-      "id": "35657030189",
-      "name": "Mx - T.TAIO - Sedán",
-      "amount": 150,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-05-19",
-      "last_activity": "2026-03-09",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-04-10",
-      "probability": 1,
-      "weighted": 150,
-      "days_in_stage": 312
+      "days_in_stage": 118
     },
     {
       "id": "56935766675",
@@ -10834,7 +10120,7 @@
       "created": "2026-02-23",
       "probability": 0.2,
       "weighted": 30,
-      "days_in_stage": 31
+      "days_in_stage": 32
     },
     {
       "id": "57820032904",
@@ -10859,8 +10145,8 @@
       "amount": 130,
       "stage_label": "Negociacion Avanzada M&P",
       "pipeline_id": "95256391",
-      "close_date": "2026-01-10",
-      "last_activity": "2026-03-23",
+      "close_date": "2026-05-01",
+      "last_activity": "2026-03-28",
       "owner": "Alfredo Garcia",
       "country": "Mexico",
       "is_won": false,
@@ -10869,74 +10155,6 @@
       "probability": 0.1,
       "weighted": 13,
       "days_in_stage": 39
-    },
-    {
-      "id": "43948570501",
-      "name": "MX - BIOMIO - Spot Viajes Full",
-      "amount": 120,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-09-29",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-09-19",
-      "probability": 1,
-      "weighted": 120,
-      "days_in_stage": 154
-    },
-    {
-      "id": "48887018266",
-      "name": "MX BIOMIO - Spot 1.5T",
-      "amount": 120,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-08",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-11-12",
-      "probability": 1,
-      "weighted": 120,
-      "days_in_stage": 134
-    },
-    {
-      "id": "48939074320",
-      "name": "MX BIOMIO - Spot 1.5T",
-      "amount": 120,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-18",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-11-12",
-      "probability": 1,
-      "weighted": 120,
-      "days_in_stage": 128
-    },
-    {
-      "id": "48951254397",
-      "name": "MX BIOMIO - Spot 1.5T",
-      "amount": 120,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-12",
-      "last_activity": "2026-02-23",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-11-12",
-      "probability": 1,
-      "weighted": 120,
-      "days_in_stage": 134
     },
     {
       "id": "18761358599",
@@ -10953,7 +10171,7 @@
       "created": "2024-04-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 619
+      "days_in_stage": 620
     },
     {
       "id": "21526315302",
@@ -10971,23 +10189,6 @@
       "probability": 1,
       "weighted": 70,
       "days_in_stage": 231
-    },
-    {
-      "id": "47568166570",
-      "name": "MX - BrightCell - Moto Spot B2B",
-      "amount": 40,
-      "stage_label": "Estabilizacion - Operando",
-      "pipeline_id": "137007495",
-      "close_date": "2025-11-06",
-      "last_activity": "2026-03-17",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": true,
-      "is_lost": false,
-      "created": "2025-10-29",
-      "probability": 1,
-      "weighted": 40,
-      "days_in_stage": 140
     },
     {
       "id": "21644281461",
@@ -11021,7 +10222,7 @@
       "created": "2024-09-05",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 385
+      "days_in_stage": 386
     },
     {
       "id": "32257082166",
@@ -11038,7 +10239,7 @@
       "created": "2025-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 240
+      "days_in_stage": 241
     },
     {
       "id": "34088346723",
@@ -11089,7 +10290,7 @@
       "created": "2025-05-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 159
+      "days_in_stage": 160
     },
     {
       "id": "38291142791",
@@ -11106,7 +10307,7 @@
       "created": "2025-05-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "43265054812",
@@ -11123,7 +10324,7 @@
       "created": "2025-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 113
+      "days_in_stage": 114
     },
     {
       "id": "43289379918",
@@ -11157,7 +10358,7 @@
       "created": "2025-09-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 117
+      "days_in_stage": 118
     }
   ]
 }
