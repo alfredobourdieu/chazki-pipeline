@@ -1,7 +1,18 @@
 {
-  "updated_at": "2026-03-31T04:53:18.263Z",
-  "updated_at_art": "31/03/2026, 01:53 a. m.",
+  "updated_at": "2026-03-31T12:18:11.430Z",
+  "updated_at_art": "31/03/2026, 09:18 a. m.",
   "snapshot": {
+    "ts": 1774959491431,
+    "w": 7720752,
+    "byC": {
+      "Argentina": 2238300,
+      "Mexico": 1510813,
+      "Chile": 1321201,
+      "Peru": 1741118,
+      "Colombia": 909320
+    }
+  },
+  "prev_week": {
     "ts": 1774932798294,
     "w": 5538742,
     "byC": {
@@ -9,17 +20,6 @@
       "Mexico": 1140013,
       "Peru": 1070548,
       "Chile": 421061,
-      "Colombia": 909320
-    }
-  },
-  "prev_week": {
-    "ts": 1774919958287,
-    "w": 5642842,
-    "byC": {
-      "Argentina": 1997800,
-      "Mexico": 1120213,
-      "Peru": 1110548,
-      "Chile": 504961,
       "Colombia": 909320
     }
   },
@@ -1190,7 +1190,7 @@
       "last_activity": "2026-03-28",
       "owner": "Alessandra Araneta",
       "country": "Peru",
-      "is_won": null,
+      "is_won": false,
       "is_lost": false,
       "created": "2026-03-12",
       "probability": 0.8,
@@ -3337,7 +3337,7 @@
       "created": "2025-09-25",
       "probability": 1,
       "weighted": 10000,
-      "days_in_stage": 38
+      "days_in_stage": 39
     },
     {
       "id": "45915821982",
@@ -3635,7 +3635,7 @@
       "stage_label": "Estabilizacion - Alta/Onboarding",
       "pipeline_id": "137007495",
       "close_date": "2026-03-11",
-      "last_activity": "2026-03-30",
+      "last_activity": "2026-03-31",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": true,
@@ -6414,7 +6414,7 @@
       "created": "2025-06-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 285
+      "days_in_stage": 286
     },
     {
       "id": "38995057739",
@@ -7553,7 +7553,7 @@
       "created": "2025-01-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 369
+      "days_in_stage": 370
     },
     {
       "id": "33119882165",
@@ -9151,7 +9151,7 @@
       "created": "2026-02-13",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 38
+      "days_in_stage": 39
     },
     {
       "id": "56214711943",
@@ -9474,7 +9474,7 @@
       "created": "2026-03-26",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 3
+      "days_in_stage": 4
     },
     {
       "id": "58404373415",
@@ -9517,7 +9517,7 @@
       "stage_label": "Propuesta Enviada",
       "pipeline_id": "137007495",
       "close_date": "2026-04-30",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-31",
       "owner": "Camilo Suarez",
       "country": "Colombia",
       "is_won": false,
@@ -9908,7 +9908,7 @@
       "stage_label": "Estabilizacion - Alta/Onboarding",
       "pipeline_id": "137007495",
       "close_date": "2026-03-07",
-      "last_activity": "2026-03-27",
+      "last_activity": "2026-03-31",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": true,
