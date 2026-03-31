@@ -1,7 +1,18 @@
 {
-  "updated_at": "2026-03-31T01:19:18.285Z",
-  "updated_at_art": "30/03/2026, 10:19 p. m.",
+  "updated_at": "2026-03-31T04:53:18.263Z",
+  "updated_at_art": "31/03/2026, 01:53 a. m.",
   "snapshot": {
+    "ts": 1774932798294,
+    "w": 5538742,
+    "byC": {
+      "Argentina": 1997800,
+      "Mexico": 1140013,
+      "Peru": 1070548,
+      "Chile": 421061,
+      "Colombia": 909320
+    }
+  },
+  "prev_week": {
     "ts": 1774919958287,
     "w": 5642842,
     "byC": {
@@ -10,17 +21,6 @@
       "Peru": 1110548,
       "Chile": 504961,
       "Colombia": 909320
-    }
-  },
-  "prev_week": {
-    "ts": 1774905642867,
-    "w": 6110742,
-    "byC": {
-      "Argentina": 2357800,
-      "Mexico": 1110213,
-      "Peru": 1139448,
-      "Chile": 504961,
-      "Colombia": 998320
     }
   },
   "deals": [
@@ -48,8 +48,8 @@
       "stage_label": "Preventa / Exploracion",
       "pipeline_id": "137007495",
       "close_date": "2027-01-01",
-      "last_activity": "2026-03-30",
-      "owner": "Alessandra Araneta",
+      "last_activity": "2026-03-31",
+      "owner": "Alfredo Garcia",
       "country": "Mexico",
       "is_won": false,
       "is_lost": false,
@@ -141,7 +141,7 @@
       "created": "2025-12-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "36437472627",
@@ -192,7 +192,7 @@
       "created": "2025-07-17",
       "probability": 1,
       "weighted": 500000,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "46412683653",
@@ -209,7 +209,7 @@
       "created": "2025-10-19",
       "probability": 0.5,
       "weighted": 250000,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "54403816065",
@@ -226,7 +226,7 @@
       "created": "2026-01-23",
       "probability": 0.2,
       "weighted": 100000,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "56136036005",
@@ -269,7 +269,7 @@
       "stage_label": "Preventa M&P",
       "pipeline_id": "95256391",
       "close_date": "2026-06-19",
-      "last_activity": "2026-03-30",
+      "last_activity": "2026-03-31",
       "owner": "Alessandra Araneta",
       "country": "Mexico",
       "is_won": false,
@@ -447,7 +447,7 @@
       "created": "2025-09-06",
       "probability": 1,
       "weighted": 250000,
-      "days_in_stage": 52
+      "days_in_stage": 53
     },
     {
       "id": "44081450331",
@@ -498,7 +498,7 @@
       "created": "2025-09-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "46291941177",
@@ -555,18 +555,18 @@
       "id": "57855961602",
       "name": "Ch - Chilexpress / Última Milla ",
       "amount": 216000,
-      "stage_label": "Negociacion Avanzada",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
       "close_date": "2026-03-31",
-      "last_activity": "2026-03-23",
+      "last_activity": "2026-03-31",
       "owner": "Isidora Figueroa",
       "country": "Chile",
       "is_won": false,
-      "is_lost": false,
+      "is_lost": true,
       "created": "2026-03-10",
-      "probability": 0.4,
-      "weighted": 86400,
-      "days_in_stage": 7
+      "probability": 0,
+      "weighted": 0,
+      "days_in_stage": 0
     },
     {
       "id": "57619602857",
@@ -634,7 +634,7 @@
       "created": "2025-08-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "45416463632",
@@ -685,7 +685,7 @@
       "created": "2026-02-05",
       "probability": 1,
       "weighted": 150000,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "55819233625",
@@ -736,7 +736,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 70000,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "37451811986",
@@ -804,7 +804,7 @@
       "created": "2025-05-06",
       "probability": 0.3,
       "weighted": 36000,
-      "days_in_stage": 310
+      "days_in_stage": 311
     },
     {
       "id": "46110331482",
@@ -872,7 +872,7 @@
       "created": "2025-12-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 68
+      "days_in_stage": 69
     },
     {
       "id": "53362218070",
@@ -940,7 +940,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "38800251321",
@@ -957,7 +957,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "38800251514",
@@ -974,7 +974,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 233
+      "days_in_stage": 234
     },
     {
       "id": "38800251553",
@@ -991,7 +991,7 @@
       "created": "2025-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "40974460989",
@@ -1093,24 +1093,24 @@
       "created": "2026-02-09",
       "probability": 0.3,
       "weighted": 30000,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "55815007273",
       "name": "Pe - Flora y fauna",
       "amount": 100000,
-      "stage_label": "Negociacion Avanzada",
+      "stage_label": "Prospecto Frio",
       "pipeline_id": "137007495",
-      "close_date": "2026-05-09",
-      "last_activity": "2026-03-29",
+      "close_date": "2026-03-31",
+      "last_activity": "2026-03-31",
       "owner": "Alessandra Araneta",
       "country": "Peru",
       "is_won": false,
-      "is_lost": false,
+      "is_lost": true,
       "created": "2026-02-09",
-      "probability": 0.4,
-      "weighted": 40000,
-      "days_in_stage": 33
+      "probability": 0,
+      "weighted": 0,
+      "days_in_stage": 0
     },
     {
       "id": "56709458018",
@@ -1195,7 +1195,7 @@
       "created": "2026-03-12",
       "probability": 0.8,
       "weighted": 80000,
-      "days_in_stage": 18
+      "days_in_stage": 19
     },
     {
       "id": "58208815662",
@@ -1213,6 +1213,23 @@
       "probability": 0.2,
       "weighted": 20000,
       "days_in_stage": 10
+    },
+    {
+      "id": "58519365261",
+      "name": "Mx - Nubank ",
+      "amount": 100000,
+      "stage_label": "Preventa / Exploracion",
+      "pipeline_id": "137007495",
+      "close_date": "2026-06-27",
+      "last_activity": "2026-03-31",
+      "owner": "Alfredo Garcia",
+      "country": "Mexico",
+      "is_won": false,
+      "is_lost": false,
+      "created": "2026-03-27",
+      "probability": 0.2,
+      "weighted": 20000,
+      "days_in_stage": 3
     },
     {
       "id": "13980530536",
@@ -1280,7 +1297,7 @@
       "created": "2026-02-11",
       "probability": 0.9,
       "weighted": 72000,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "56779169289",
@@ -1382,7 +1399,7 @@
       "created": "2024-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "52036286898",
@@ -1518,7 +1535,7 @@
       "created": "2025-08-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 70
+      "days_in_stage": 71
     },
     {
       "id": "29795912520",
@@ -1569,7 +1586,7 @@
       "created": "2024-06-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 473
+      "days_in_stage": 474
     },
     {
       "id": "49695455505",
@@ -1705,7 +1722,7 @@
       "created": "2025-11-13",
       "probability": 1,
       "weighted": 41000,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "22430637411",
@@ -1756,7 +1773,7 @@
       "created": "2025-11-29",
       "probability": 0.9,
       "weighted": 36000,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "38218757561",
@@ -1790,7 +1807,7 @@
       "created": "2025-11-13",
       "probability": 0.4,
       "weighted": 14400,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "50524354613",
@@ -2062,7 +2079,7 @@
       "created": "2026-01-30",
       "probability": 0.5,
       "weighted": 15000,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "55759055692",
@@ -2147,24 +2164,24 @@
       "created": "2025-06-18",
       "probability": 0.9,
       "weighted": 22500,
-      "days_in_stage": 39
+      "days_in_stage": 40
     },
     {
       "id": "58332224657",
       "name": "Ch - Serhafen ",
       "amount": 25000,
-      "stage_label": "Propuesta Enviada",
+      "stage_label": "Negociacion Avanzada",
       "pipeline_id": "137007495",
       "close_date": "2026-06-25",
-      "last_activity": "2026-03-30",
+      "last_activity": "2026-03-31",
       "owner": "Isidora Figueroa",
       "country": "Chile",
       "is_won": false,
       "is_lost": false,
       "created": "2026-03-25",
-      "probability": 0.3,
-      "weighted": 7500,
-      "days_in_stage": 5
+      "probability": 0.4,
+      "weighted": 10000,
+      "days_in_stage": 0
     },
     {
       "id": "23247272807",
@@ -2283,7 +2300,7 @@
       "created": "2022-02-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 308
+      "days_in_stage": 309
     },
     {
       "id": "18682699069",
@@ -2317,7 +2334,7 @@
       "created": "2024-03-27",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 661
+      "days_in_stage": 662
     },
     {
       "id": "19332298357",
@@ -2334,7 +2351,7 @@
       "created": "2024-05-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 361
+      "days_in_stage": 362
     },
     {
       "id": "35657028477",
@@ -2436,7 +2453,7 @@
       "created": "2026-02-26",
       "probability": 0.4,
       "weighted": 8000,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "21234097993",
@@ -3235,7 +3252,7 @@
       "created": "2025-05-22",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "38978632303",
@@ -3371,7 +3388,7 @@
       "created": "2026-01-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 52
+      "days_in_stage": 53
     },
     {
       "id": "55580843375",
@@ -3490,7 +3507,7 @@
       "created": "2024-04-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 361
+      "days_in_stage": 362
     },
     {
       "id": "38130922875",
@@ -3626,7 +3643,7 @@
       "created": "2026-01-05",
       "probability": 1,
       "weighted": 9000,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "57200807503",
@@ -3813,7 +3830,7 @@
       "created": "2026-02-26",
       "probability": 0.5,
       "weighted": 4000,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "41149039721",
@@ -3864,7 +3881,7 @@
       "created": "2025-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "20535079347",
@@ -3949,7 +3966,7 @@
       "created": "2025-12-22",
       "probability": 1,
       "weighted": 6500,
-      "days_in_stage": 32
+      "days_in_stage": 33
     },
     {
       "id": "17931819927",
@@ -3966,7 +3983,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 650
+      "days_in_stage": 651
     },
     {
       "id": "18851014505",
@@ -4153,7 +4170,7 @@
       "created": "2026-02-26",
       "probability": 0.3,
       "weighted": 1800,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "38852021838",
@@ -4646,7 +4663,7 @@
       "created": "2025-06-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "43476134157",
@@ -4714,7 +4731,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "46825344145",
@@ -4731,7 +4748,7 @@
       "created": "2025-10-23",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 83
+      "days_in_stage": 84
     },
     {
       "id": "48181077391",
@@ -4748,7 +4765,7 @@
       "created": "2025-11-04",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 120
+      "days_in_stage": 121
     },
     {
       "id": "52994235018",
@@ -4935,7 +4952,7 @@
       "created": "2026-01-29",
       "probability": 0.5,
       "weighted": 2250,
-      "days_in_stage": 60
+      "days_in_stage": 61
     },
     {
       "id": "55688254517",
@@ -4952,7 +4969,7 @@
       "created": "2026-02-09",
       "probability": 0.2,
       "weighted": 900,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "37490415524",
@@ -5122,7 +5139,7 @@
       "created": "2026-02-27",
       "probability": 0.5,
       "weighted": 2000,
-      "days_in_stage": 31
+      "days_in_stage": 32
     },
     {
       "id": "56896809544",
@@ -5326,7 +5343,7 @@
       "created": "2024-07-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "21798623350",
@@ -5768,7 +5785,7 @@
       "created": "2025-03-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 308
+      "days_in_stage": 309
     },
     {
       "id": "40250854772",
@@ -6142,7 +6159,7 @@
       "created": "2025-01-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 237
+      "days_in_stage": 238
     },
     {
       "id": "32780587833",
@@ -6499,7 +6516,7 @@
       "created": "2025-11-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "56215053746",
@@ -6567,7 +6584,7 @@
       "created": "2025-10-30",
       "probability": 0.3,
       "weighted": 540,
-      "days_in_stage": 150
+      "days_in_stage": 151
     },
     {
       "id": "54105500700",
@@ -6635,7 +6652,7 @@
       "created": "2024-03-08",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 650
+      "days_in_stage": 651
     },
     {
       "id": "21679011597",
@@ -6669,7 +6686,7 @@
       "created": "2025-05-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "36810869309",
@@ -6890,7 +6907,7 @@
       "created": "2025-07-21",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 163
+      "days_in_stage": 164
     },
     {
       "id": "39531831850",
@@ -6958,7 +6975,7 @@
       "created": "2025-09-04",
       "probability": 0.2,
       "weighted": 240,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "48147783069",
@@ -7094,7 +7111,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 552
+      "days_in_stage": 553
     },
     {
       "id": "18556853833",
@@ -7111,7 +7128,7 @@
       "created": "2024-04-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 361
+      "days_in_stage": 362
     },
     {
       "id": "18709496864",
@@ -7230,7 +7247,7 @@
       "created": "2024-07-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 308
+      "days_in_stage": 309
     },
     {
       "id": "21868391261",
@@ -7298,7 +7315,7 @@
       "created": "2024-10-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 473
+      "days_in_stage": 474
     },
     {
       "id": "28885702018",
@@ -7315,7 +7332,7 @@
       "created": "2024-11-09",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "28979108625",
@@ -7332,7 +7349,7 @@
       "created": "2024-11-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 308
+      "days_in_stage": 309
     },
     {
       "id": "29144502824",
@@ -8063,7 +8080,7 @@
       "created": "2025-05-18",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 257
+      "days_in_stage": 258
     },
     {
       "id": "37625241513",
@@ -8454,7 +8471,7 @@
       "created": "2025-10-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "46017188025",
@@ -8471,7 +8488,7 @@
       "created": "2025-10-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "46557949845",
@@ -8743,7 +8760,7 @@
       "created": "2026-01-15",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 37
+      "days_in_stage": 38
     },
     {
       "id": "54020672336",
@@ -8896,7 +8913,7 @@
       "created": "2026-02-02",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "55475353236",
@@ -8930,7 +8947,7 @@
       "created": "2026-02-04",
       "probability": 0.2,
       "weighted": 200,
-      "days_in_stage": 44
+      "days_in_stage": 45
     },
     {
       "id": "55624237223",
@@ -8947,7 +8964,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "55662834849",
@@ -8981,7 +8998,7 @@
       "created": "2026-02-06",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "55663274132",
@@ -8998,7 +9015,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 49
+      "days_in_stage": 50
     },
     {
       "id": "55663274919",
@@ -9032,7 +9049,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 46
+      "days_in_stage": 47
     },
     {
       "id": "55679594343",
@@ -9066,7 +9083,7 @@
       "created": "2026-02-06",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 18
+      "days_in_stage": 19
     },
     {
       "id": "55682306189",
@@ -9151,7 +9168,7 @@
       "created": "2026-02-13",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 18
+      "days_in_stage": 19
     },
     {
       "id": "56358580609",
@@ -9236,7 +9253,7 @@
       "created": "2026-02-24",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 18
+      "days_in_stage": 19
     },
     {
       "id": "57865554804",
@@ -9494,23 +9511,6 @@
       "days_in_stage": 0
     },
     {
-      "id": "58519365261",
-      "name": "Mx - Nubank ",
-      "amount": 1000,
-      "stage_label": "Preventa / Exploracion",
-      "pipeline_id": "137007495",
-      "close_date": "2026-06-27",
-      "last_activity": "2026-03-30",
-      "owner": "Alfredo Garcia",
-      "country": "Mexico",
-      "is_won": false,
-      "is_lost": false,
-      "created": "2026-03-27",
-      "probability": 0.2,
-      "weighted": 200,
-      "days_in_stage": 3
-    },
-    {
       "id": "56896685961",
       "name": "Col - Healthy America",
       "amount": 900,
@@ -9525,7 +9525,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 270,
-      "days_in_stage": 34
+      "days_in_stage": 35
     },
     {
       "id": "38161129099",
@@ -9763,7 +9763,7 @@
       "created": "2025-05-28",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "20015387139",
@@ -9780,7 +9780,7 @@
       "created": "2024-06-11",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 552
+      "days_in_stage": 553
     },
     {
       "id": "41703687802",
@@ -9882,7 +9882,7 @@
       "created": "2024-11-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 237
+      "days_in_stage": 238
     },
     {
       "id": "31038794259",
@@ -9916,7 +9916,7 @@
       "created": "2025-05-15",
       "probability": 1,
       "weighted": 500,
-      "days_in_stage": 23
+      "days_in_stage": 24
     },
     {
       "id": "44635146672",
@@ -9950,7 +9950,7 @@
       "created": "2025-09-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "46407699879",
@@ -10222,7 +10222,7 @@
       "created": "2025-01-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 243
+      "days_in_stage": 244
     },
     {
       "id": "34088346723",
@@ -10290,7 +10290,7 @@
       "created": "2025-05-30",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "43265054812",
@@ -10307,7 +10307,7 @@
       "created": "2025-09-02",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 116
+      "days_in_stage": 117
     },
     {
       "id": "43289379918",
