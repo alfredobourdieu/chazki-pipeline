@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chazki · Pipeline Intelligence 2026</title>
-  <style>* { box-sizing: border-box; } body { margin: 0; background: #0d1117; }</style>
+  <style>* { box-sizing: border-box; } body { margin: 0; background: #0D1117; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="root"></div>
@@ -178,6 +179,10 @@ function isWonDeal(d) {
 function isActiveDeal(d) {
   return !isLostDeal(d) && !isWonDeal(d);
 }
+// isInPipeline: todos los no-lost (igual que HubSpot weighted pipeline)
+function isInPipeline(d) {
+  return !isLostDeal(d);
+}
 // En Operación = active deals with contrato/piloto/operando stage (for display purposes)
 function isContracted(d) {
   if (!isActiveDeal(d)) return false;
@@ -224,7 +229,7 @@ const prevMoStart = () => new Date(new Date().getFullYear(), PREV_MONTH_IDX, 1).
 const prevMoEnd = () => new Date(new Date().getFullYear(), PREV_MONTH_IDX + 1, 0).toISOString().split("T")[0];
 const mStart = m => new Date(new Date().getFullYear(), m, 1).toISOString().split("T")[0];
 const mEnd = m => new Date(new Date().getFullYear(), m + 1, 0).toISOString().split("T")[0];
-const wFn = arr => arr.reduce((s, d) => s + (d.amount || 0) * getProb(d), 0);
+const wFn = arr => arr.reduce((s, d) => s + (d.weighted || (d.amount || 0) * getProb(d)), 0);
 function cumulTarget(model) {
   const now = new Date(),
     m = now.getMonth(),
@@ -305,60 +310,44 @@ async function fetchDeals(setStatus) {
     probability: d.probability ?? d.prob ?? null
   }));
   return {
-    deals
+    deals,
+    mg: data.mg || null,
+    fr: data.fr || null
   };
 }
 
 // ── DESIGN SYSTEM — Midnight Intelligence (Dark Slate, Punchy) ─────────────
 const DS = {
-  // Backgrounds — dark slate, NOT pure black
-  bg: "#0d1117",
-  // GitHub dark — deep but not black
-  bgCard: "#161b22",
-  // elevated card surface
-  bgCardHover: "#1c2230",
-  bgSection: "#0f1419",
-  // slightly off bg for sections
-  bgInput: "#21262d",
-  // inputs / filters
-  // Borders
-  border: "rgba(48,54,61,0.9)",
-  borderAccent: "rgba(99,110,123,0.6)",
-  borderGlow: "rgba(59,130,246,0.35)",
-  // Text
-  text1: "#e6edf3",
-  // primary — warm white
-  text2: "#8b949e",
-  // secondary
-  text3: "#6e7681",
-  // tertiary
-  text4: "#484f58",
-  // muted
-  // Brand palette — vivid, punchy
-  accent: "#3b82f6",
-  // blue-500
-  accentLight: "rgba(59,130,246,0.12)",
-  emerald: "#10b981",
-  // emerald-500
-  emeraldLight: "rgba(16,185,129,0.12)",
-  red: "#f43f5e",
-  // rose-500
-  redLight: "rgba(244,63,94,0.12)",
-  amber: "#f59e0b",
-  // amber-500
-  amberLight: "rgba(245,158,11,0.12)",
-  cyan: "#22d3ee",
-  // cyan-400
-  cyanLight: "rgba(34,211,238,0.12)",
-  purple: "#a78bfa",
-  // violet-400
-  purpleLight: "rgba(167,139,250,0.12)",
-  indigo: "#6366f1",
-  // Shadows
-  shadow: "0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3)",
-  shadowMd: "0 4px 12px rgba(0,0,0,0.5)",
-  shadowLg: "0 8px 24px rgba(0,0,0,0.6)",
-  shadowGlow: c => `0 0 20px ${c}30`
+  bg:          "#0D1117",   // GitHub dark — probado y funciona
+  bgCard:      "#161B22",   // GitHub card — contraste visible con borders
+  bgCardHover: "#1C2230",
+  bgSection:   "#0D1117",
+  bgInput:     "#21262D",
+  card:        "#161B22",
+  border:      "rgba(48,54,61,0.95)",  // border gris medio — MUY visible
+  borderAccent:"rgba(249,115,22,0.50)",
+  borderGlow:  "rgba(249,115,22,0.70)",
+  text1: "#E6EDF3",    // blanco cálido — contraste 13:1 vs card
+  text2: "#8B949E",    // gris medio
+  text3: "#6E7681",    // terciario
+  text4: "#484F58",    // muted
+  accent:      "#F97316",   // naranja Chazki (reemplaza azul)
+  accentLight: "rgba(249,115,22,0.12)",
+  emerald:      "#3FB950",  // verde GitHub
+  emeraldLight: "rgba(63,185,80,0.12)",
+  red:      "#F85149",      // rojo GitHub
+  redLight: "rgba(248,81,73,0.12)",
+  amber:      "#D29922",
+  amberLight: "rgba(210,153,34,0.12)",
+  cyan:      "#39C5CF",
+  cyanLight: "rgba(57,197,207,0.12)",
+  purple:      "#A371F7",
+  purpleLight: "rgba(163,113,247,0.12)",
+  indigo: "#6366F1",
+  shadow:    "0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4)",
+  shadowMd:  "0 4px 12px rgba(0,0,0,0.6)",
+  shadowLg:  "0 8px 24px rgba(0,0,0,0.7)",
+  shadowGlow: c => `0 0 20px ${c}28`
 };
 function Card({
   children,
@@ -374,12 +363,13 @@ function Card({
     className: className,
     style: {
       background: DS.bgCard,
-      border: `1px solid ${glow && tc ? tc + "40" : DS.border}`,
+      border: `1px solid ${glow && tc ? tc + "35" : DS.border}`,
       borderRadius: 12,
       padding: "18px 20px",
       position: "relative",
       overflow: "hidden",
-      boxShadow: glow && tc ? `${DS.shadow}, 0 0 20px ${tc}18` : DS.shadow,
+      boxShadow: glow && tc ? `${DS.shadow}, 0 0 24px ${tc}20` : DS.shadow,
+      transition: "border-color 0.2s, box-shadow 0.2s",
       ...style
     }
   }, tc && /*#__PURE__*/React.createElement("div", {
@@ -405,7 +395,7 @@ function Label({
       letterSpacing: "0.07em",
       textTransform: "uppercase",
       color,
-      fontFamily: "'DM Sans',sans-serif",
+      fontFamily: "'Barlow',sans-serif",
       fontWeight: 600,
       margin: 0,
       marginBottom: 4
@@ -422,7 +412,7 @@ function BigNum({
       fontSize: size,
       fontWeight: 800,
       color,
-      fontFamily: "'DM Mono','JetBrains Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       lineHeight: 1.1,
       letterSpacing: "-0.02em"
     }
@@ -457,7 +447,7 @@ function PillBadge({
   return /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 10,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       padding: "2px 8px",
       borderRadius: 20,
       background: color + "18",
@@ -489,33 +479,36 @@ function SectionHeader({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 38,
-      height: 38,
-      borderRadius: 10,
-      background: accent + "18",
-      border: `1px solid ${accent}35`,
+      width: 36,
+      height: 36,
+      borderRadius: 8,
+      background: accent + "15",
+      border: `1px solid ${accent}30`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: 18,
+      fontSize: 17,
       flexShrink: 0
     }
   }, icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     style: {
-      fontSize: 15,
+      fontSize: 17,
       fontWeight: 700,
       color: DS.text1,
-      fontFamily: "'DM Sans',sans-serif",
+      fontFamily: "'Barlow Condensed',sans-serif",
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
       margin: 0,
-      lineHeight: 1.2
+      lineHeight: 1.15
     }
   }, title), subtitle && /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 12,
+      fontSize: 11,
       color: DS.text3,
-      marginTop: 2,
-      fontFamily: "'DM Sans',sans-serif",
-      fontWeight: 400
+      marginTop: 3,
+      fontFamily: "'Barlow',sans-serif",
+      fontWeight: 400,
+      letterSpacing: "0.01em"
     }
   }, subtitle))));
 }
@@ -539,7 +532,7 @@ function StatPill({
       fontSize: 13,
       fontWeight: 700,
       color,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, value), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -559,7 +552,7 @@ function Chip({
     style: {
       padding: "5px 12px",
       fontSize: 11,
-      fontFamily: "'DM Sans',sans-serif",
+      fontFamily: "'Barlow',sans-serif",
       fontWeight: 600,
       borderRadius: 20,
       cursor: "pointer",
@@ -749,13 +742,13 @@ function SecPulso({
         fontSize: 13,
         fontWeight: 700,
         color: accent || DS.accent,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt((d.amount || 0) * getProb(d))), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(d.amount))));
   }
@@ -960,7 +953,7 @@ function SecPulso({
         padding: "12px 16px",
         cursor: "pointer",
         background: expanded ? DS.accentLight : DS.bgCard,
-        borderBottom: `1px solid ${DS.border}`,
+        borderBottom: "1px solid rgba(249,115,22,0.12)",
         transition: "background 0.15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -1013,7 +1006,7 @@ function SecPulso({
         fontSize: 13,
         fontWeight: 700,
         color: DS.accent,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(myPW)), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1029,7 +1022,7 @@ function SecPulso({
         fontSize: 13,
         fontWeight: 700,
         color: DS.emerald,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, myWonYtd > 0 ? fmt(myWonYtd) : "—"), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1081,7 +1074,7 @@ function SecPulso({
         fontSize: 17,
         fontWeight: 800,
         color: c.val > 0 ? c.color : DS.text4,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         lineHeight: 1
       }
     }, c.val), c.sub && /*#__PURE__*/React.createElement("div", {
@@ -1089,7 +1082,7 @@ function SecPulso({
         fontSize: 9,
         color: c.color,
         marginTop: 1,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, c.sub), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1148,7 +1141,7 @@ function SecPulso({
         fontSize: 13,
         fontWeight: 700,
         color: DS.emerald,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(d.amount)))))), /*#__PURE__*/React.createElement(Label, {
       color: DS.text3
@@ -1260,7 +1253,7 @@ function SecPulso({
       fontSize: 20,
       fontWeight: 800,
       color: k.color,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       margin: "3px 0"
     }
   }, k.val), /*#__PURE__*/React.createElement("div", {
@@ -1306,7 +1299,7 @@ function SecPulso({
       fontSize: 13,
       fontWeight: 700,
       color: DS.emerald,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(d.amount)))))), newPeriod.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1414,7 +1407,7 @@ function SecPulso({
         fontSize: 20,
         fontWeight: 800,
         color: a.count > 0 ? a.color : DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, a.count), a.count > 0 && /*#__PURE__*/React.createElement("span", {
       style: {
@@ -1472,7 +1465,7 @@ function SecPulso({
       fontSize: 22,
       fontWeight: 800,
       color: DS.emerald,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(enOp.reduce((s, d) => s + (d.amount || 0), 0))), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1526,7 +1519,7 @@ function SecPulso({
       fontSize: 14,
       fontWeight: 700,
       color: DS.emerald,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       flexShrink: 0
     }
   }, fmt(d.amount)))))));
@@ -1855,7 +1848,7 @@ function SecProductividad({
         fontSize: 12,
         fontWeight: 700,
         color: DS.text1,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, val)));
   })))))), /*#__PURE__*/React.createElement("div", {
@@ -1899,7 +1892,7 @@ function SecModelo({
   // Pipeline TOTAL incluye activos + contrato + piloto + operando
   const active = deals.filter(isActiveDeal);
   const enOp = deals.filter(d => isContracted(d) || isPilotoDeal(d));
-  const pipeW = wFn(active); // Solo Adquisición UM + PM via isActiveDeal
+  const pipeW = wFn(deals.filter(isInPipeline)); // Todos los no-lost (igual que HubSpot) via isActiveDeal
   const pipeByC = {};
   active.forEach(d => {
     if (d.country) pipeByC[d.country] = (pipeByC[d.country] || 0) + (d.amount || 0) * getProb(d);
@@ -2117,7 +2110,7 @@ function SecModelo({
       fontSize: 12,
       fontWeight: 700,
       color: r.color,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, r.val)))))), /*#__PURE__*/React.createElement(Card, {
     color: DS.amber
@@ -2167,7 +2160,7 @@ function SecModelo({
         fontSize: 13,
         fontWeight: 800,
         color: col,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, pct, "%")), /*#__PURE__*/React.createElement(MiniBar, {
       pct: pct,
@@ -2237,7 +2230,7 @@ function SecModelo({
         fontSize: 14,
         fontWeight: 800,
         color: DS.amber,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(mod)), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2312,7 +2305,7 @@ function SecModelo({
       fontSize: 13,
       fontWeight: 700,
       color: covColor,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(pipeW)), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2359,17 +2352,17 @@ function SecModelo({
       }, /*#__PURE__*/React.createElement("span", {
         style: {
           color: DS.purple,
-          fontFamily: "'DM Mono',monospace"
+          fontFamily: "'JetBrains Mono',monospace"
         }
       }, fmt(mod)), /*#__PURE__*/React.createElement("span", {
         style: {
           color: DS.amber,
-          fontFamily: "'DM Mono',monospace"
+          fontFamily: "'JetBrains Mono',monospace"
         }
       }, fmt(fcast)), /*#__PURE__*/React.createElement("span", {
         style: {
           color: won > 0 ? wonColor : DS.text4,
-          fontFamily: "'DM Mono',monospace",
+          fontFamily: "'JetBrains Mono',monospace",
           fontWeight: won > 0 ? 700 : 400
         }
       }, won > 0 ? fmt(won) : "—"), won > 0 && /*#__PURE__*/React.createElement("span", {
@@ -2541,14 +2534,14 @@ function SecModelo({
         padding: "7px 10px",
         textAlign: "right",
         color: DS.purple,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(mod)), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "7px 10px",
         textAlign: "right",
         color: DS.amber,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(fcast)), /*#__PURE__*/React.createElement("td", {
       style: {
@@ -2556,7 +2549,7 @@ function SecModelo({
         textAlign: "right",
         color: won > 0 ? DS.emerald : DS.text3,
         fontWeight: won > 0 ? 700 : 400,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, won > 0 ? fmt(won) : "—"), /*#__PURE__*/React.createElement("td", {
       style: {
@@ -2564,14 +2557,14 @@ function SecModelo({
         textAlign: "right",
         color,
         fontWeight: 700,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, pMod != null ? `${pMod}%` : "—"), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "7px 10px",
         textAlign: "right",
         color: pFcast != null ? pFcast >= 100 ? DS.emerald : pFcast >= 70 ? DS.amber : DS.red : DS.text3,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, pFcast != null ? `${pFcast}%` : "—"));
   }), /*#__PURE__*/React.createElement("tr", {
@@ -2591,7 +2584,7 @@ function SecModelo({
       textAlign: "right",
       color: DS.purple,
       fontWeight: 700,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(totalModelYtd)), /*#__PURE__*/React.createElement("td", {
     style: {
@@ -2599,7 +2592,7 @@ function SecModelo({
       textAlign: "right",
       color: DS.amber,
       fontWeight: 700,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(forecastByM.slice(0, curM + 1).reduce((s, v) => s + v, 0))), /*#__PURE__*/React.createElement("td", {
     style: {
@@ -2607,7 +2600,7 @@ function SecModelo({
       textAlign: "right",
       color: DS.emerald,
       fontWeight: 800,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(totalWonYtd)), /*#__PURE__*/React.createElement("td", {
     style: {
@@ -2615,7 +2608,7 @@ function SecModelo({
       textAlign: "right",
       color: totalModelYtd > 0 ? totalWonYtd / totalModelYtd >= 1 ? DS.emerald : totalWonYtd / totalModelYtd >= 0.7 ? DS.amber : DS.red : DS.text3,
       fontWeight: 800,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, totalModelYtd > 0 ? `${Math.round(totalWonYtd / totalModelYtd * 100)}%` : "—"), /*#__PURE__*/React.createElement("td", {
     style: {
@@ -3628,7 +3621,7 @@ function SecEvolucion({
         fontSize: 12,
         fontWeight: 700,
         color: DS.accent,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(pipeR)), /*#__PURE__*/React.createElement(MiniBar, {
       pct: pipeR / maxPipe * 100,
@@ -3644,13 +3637,13 @@ function SecEvolucion({
         fontSize: 13,
         fontWeight: 700,
         color: r.cur.wonVal > 0 ? DS.emerald : DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.cur.wonVal > 0 ? fmt(r.cur.wonVal) : "—"), r.prev.wonVal > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(r.prev.wonVal), " ant.")), /*#__PURE__*/React.createElement("td", {
       style: {
@@ -3662,13 +3655,13 @@ function SecEvolucion({
         fontSize: 14,
         fontWeight: 800,
         color: r.cur.generated > 0 ? DS.accent : DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.cur.generated || "—"), r.prev.generated > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.prev.generated, " ant.")), /*#__PURE__*/React.createElement("td", {
       style: {
@@ -3680,13 +3673,13 @@ function SecEvolucion({
         fontSize: 14,
         fontWeight: 800,
         color: r.cur.proposals > 0 ? DS.purple : DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.cur.proposals || "—"), r.prev.proposals > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.prev.proposals, " ant.")), /*#__PURE__*/React.createElement("td", {
       style: {
@@ -4357,7 +4350,7 @@ function SecDeals({
         fontSize: 13,
         fontWeight: 800,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         width: 22,
         flexShrink: 0,
         textAlign: "right"
@@ -4425,13 +4418,13 @@ function SecDeals({
         fontSize: 14,
         fontWeight: 800,
         color: DS.accent,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(weighted)), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text4,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, fmt(d.amount), " \xB7 ", Math.round(prob * 100), "%"), d.close_date && /*#__PURE__*/React.createElement("div", {
       style: {
@@ -5069,7 +5062,7 @@ function SecRankings({
       fontSize: 20,
       fontWeight: 800,
       color: DS.amber,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       marginTop: 2
     }
   }, a.stat), a.sub && /*#__PURE__*/React.createElement("div", {
@@ -5097,7 +5090,7 @@ function SecRankings({
       fontSize: 16,
       fontWeight: 800,
       color: DS.emerald,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, fmt(wonList.reduce((s, d) => s + (d.amount || 0), 0)))), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5143,7 +5136,7 @@ function SecRankings({
       fontSize: 13,
       fontWeight: 700,
       color: DS.emerald,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       flexShrink: 0
     }
   }, fmt(d.amount)))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
@@ -5215,7 +5208,7 @@ function SecRankings({
       style: {
         fontSize: 12,
         color: DS.accent,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         fontWeight: 700
       }
     }, fmt(r.pipeW)), /*#__PURE__*/React.createElement(MiniBar, {
@@ -5231,7 +5224,7 @@ function SecRankings({
       style: {
         fontSize: 13,
         color: tv > 0 ? DS.emerald : DS.text4,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         fontWeight: 700
       }
     }, tv > 0 ? fmt(tv) : "—"), tv > 0 && /*#__PURE__*/React.createElement(MiniBar, {
@@ -5248,7 +5241,7 @@ function SecRankings({
         fontSize: 12,
         fontWeight: 700,
         color: r.convRate > 30 ? DS.emerald : r.convRate > 15 ? DS.amber : DS.text3,
-        fontFamily: "'DM Mono',monospace"
+        fontFamily: "'JetBrains Mono',monospace"
       }
     }, r.newYtd > 0 ? `${r.convRate}%` : "—"), r.newYtd > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
@@ -5261,7 +5254,7 @@ function SecRankings({
         textAlign: "right",
         fontSize: 12,
         color: DS.text2,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         fontWeight: 600
       }
     }, r.propuestas || "—"), /*#__PURE__*/React.createElement("td", {
@@ -5272,7 +5265,7 @@ function SecRankings({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 12,
-        fontFamily: "'DM Mono',monospace",
+        fontFamily: "'JetBrains Mono',monospace",
         fontWeight: 700,
         color: r.cierre > 0 ? DS.amber : DS.text4
       }
@@ -5290,14 +5283,18 @@ function Dashboard() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [tab, setTab] = useState("pulso");
   const [weekAgoSnap, setWeekAgoSnap] = useState(null);
+  const [mgData, setMgData] = useState(null);
+  const [frData, setFrData] = useState(null);
   async function load() {
     setLoading(true);
     setError(null);
     try {
       const {
-        deals: d
+        deals: d, mg: mgFromJson, fr: frFromJson
       } = await fetchDeals(setStatus);
       setDeals(d);
+      if (mgFromJson) setMgData(mgFromJson);
+      if (frFromJson) setFrData(frFromJson);
       setLastUpdated(new Date());
       const active = d.filter(isActiveDeal);
       const byC = {};
@@ -5330,7 +5327,7 @@ function Dashboard() {
   // Board KPIs — computed for header strip
   const boardKPIs = deals && !loading ? (() => {
     const active = deals.filter(isActiveDeal);
-    const pipeW = wFn(active); // Solo Adquisición UM + PM
+    const pipeW = wFn(deals.filter(isInPipeline)); // Todos los no-lost (igual que HubSpot)
     const wonYtd = deals.filter(d => isWonOrDelivering(d) && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
     const covPct = Math.round(pipeW / TOTAL_TARGET * 100);
     const covCol = covPct >= 100 ? DS.emerald : covPct >= 70 ? DS.amber : DS.red;
@@ -5351,18 +5348,25 @@ function Dashboard() {
       minHeight: "100vh",
       background: DS.bg,
       color: DS.text1,
-      fontFamily: "'DM Sans',sans-serif"
+      fontFamily: "'Barlow',sans-serif"
     }
   }, /*#__PURE__*/React.createElement("style", null, `
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=DM+Mono:wght@400;500;600&display=swap');
-        *{box-sizing:border-box;} body{margin:0;background:#0d1117;font-family:'DM Sans',sans-serif;}
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        *{box-sizing:border-box;}
+        body{
+          margin:0;
+          background:#0D1117;
+          font-family:'Barlow',sans-serif;
+          background-image: radial-gradient(ellipse 120% 50% at 50% -15%, rgba(249,115,22,0.07) 0%, transparent 60%);
+        }
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
         .tab-enter{animation:fadeIn 0.18s ease}
-        ::-webkit-scrollbar{width:5px;height:5px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:#30363d;border-radius:4px}
-        ::-webkit-scrollbar-thumb:hover{background:#484f58}
+        ::-webkit-scrollbar{width:4px;height:4px}
+        ::-webkit-scrollbar-track{background:#0D1117}
+        ::-webkit-scrollbar-thumb{background:#30363D;border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:#F97316}
+        ::selection{background:rgba(249,115,22,0.25);color:#F1F5F9}
       `), /*#__PURE__*/React.createElement("header", {
     style: {
       position: "sticky",
@@ -5405,7 +5409,9 @@ function Dashboard() {
       fontSize: 15,
       fontWeight: 700,
       color: DS.text1,
-      letterSpacing: "-0.01em",
+      fontFamily: "'Barlow Condensed',sans-serif",
+      letterSpacing: "0.07em",
+      textTransform: "uppercase",
       lineHeight: 1.1
     }
   }, "Pipeline Intelligence"), /*#__PURE__*/React.createElement("div", {
@@ -5413,7 +5419,7 @@ function Dashboard() {
       fontSize: 11,
       color: DS.text4,
       marginTop: 1,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       letterSpacing: "0.05em"
     }
   }, "CHAZKI \xB7 VP GROWTH \xB7 2026"))), /*#__PURE__*/React.createElement("div", {
@@ -5426,7 +5432,7 @@ function Dashboard() {
     style: {
       fontSize: 11,
       color: DS.text4,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       background: DS.bgCard,
       border: `1px solid ${DS.border}`,
       borderRadius: 6,
@@ -5475,7 +5481,7 @@ function Dashboard() {
     label: "Pipeline Ponderado",
     value: fmt(boardKPIs.pipeW),
     color: DS.cyan,
-    sub: `${boardKPIs.activeDeals} deals activos · UM + PM`,
+    sub: `${boardKPIs.activeDeals} deals activos`,
     tab: "funnel"
   }, {
     label: "Cobertura Modelo",
@@ -5525,7 +5531,7 @@ function Dashboard() {
       marginBottom: 3,
       letterSpacing: "0.06em",
       textTransform: "uppercase",
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, k.label), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5533,7 +5539,7 @@ function Dashboard() {
       fontWeight: 800,
       color: k.color,
       lineHeight: 1,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       letterSpacing: "-0.02em"
     }
   }, k.value), /*#__PURE__*/React.createElement("div", {
@@ -5554,7 +5560,7 @@ function Dashboard() {
     style: {
       fontSize: 11,
       color: DS.text3,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       fontWeight: 500
     }
   }, new Date().toLocaleDateString("es-AR", {
@@ -5597,15 +5603,17 @@ function Dashboard() {
         borderBottom: `2px solid ${isA ? DS.accent : "transparent"}`,
         whiteSpace: "nowrap",
         transition: "all 0.15s",
-        fontFamily: "'DM Sans',sans-serif"
+        fontFamily: "'Barlow Condensed',sans-serif",
+        letterSpacing: "0.07em",
+        textTransform: "uppercase"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 14
+        fontSize: 13
       }
     }, t.icon), /*#__PURE__*/React.createElement("span", {
       style: {
-        letterSpacing: "0.01em"
+        letterSpacing: "0.07em"
       }
     }, t.label));
   })))), /*#__PURE__*/React.createElement("main", {
@@ -5660,9 +5668,9 @@ function Dashboard() {
       borderRadius: 9,
       cursor: "pointer",
       border: "none",
-      background: "linear-gradient(135deg,#3b82f6,#6366f1)",
+      background: "linear-gradient(135deg,#F97316,#EA580C)",
       color: "white",
-      boxShadow: "0 4px 20px rgba(99,102,241,0.5)",
+      boxShadow: "0 4px 20px rgba(249,115,22,0.4)",
       letterSpacing: "0.02em"
     }
   }, "Cargar Pipeline \u2192"))), loading && /*#__PURE__*/React.createElement("div", {
@@ -5679,12 +5687,12 @@ function Dashboard() {
       width: 52,
       height: 52,
       borderRadius: 14,
-      background: "linear-gradient(135deg,#3b82f6,#6366f1)",
+      background: "linear-gradient(135deg,#F97316,#EA580C)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: 24,
-      boxShadow: "0 8px 28px rgba(99,102,241,0.45)",
+      boxShadow: "0 8px 28px rgba(249,115,22,0.35)",
       animation: "spin 1s linear infinite"
     }
   }, "\u27F3"), /*#__PURE__*/React.createElement("p", {
@@ -5713,7 +5721,7 @@ function Dashboard() {
     style: {
       color: DS.red,
       fontSize: 13,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       wordBreak: "break-all",
       margin: "0 0 10px",
       lineHeight: 1.5
@@ -5788,13 +5796,13 @@ function Dashboard() {
     subtitle: "Pipeline Adq + Leads Obj + CS Retenci\xF3n \xB7 Proyecci\xF3n Cierre vs Modelo",
     accent: "#8b5cf6"
   }), /*#__PURE__*/React.createElement(SecMetricasGrowth, {
-    deals: deals
+    deals: deals, mgData: mgData
   })), tab === "fillrate" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
     icon: "\uD83D\uDE9B",
     title: "Fleet & Fill Rate",
     subtitle: "Capacidad de colocaci\xF3n \xB7 venta perdida por falta de flota",
     accent: "#f97316"
-  }), /*#__PURE__*/React.createElement(SecFillRate, null)))), /*#__PURE__*/React.createElement("footer", {
+  }), /*#__PURE__*/React.createElement(SecFillRate, { frData: frData })))), /*#__PURE__*/React.createElement("footer", {
     style: {
       borderTop: `1px solid ${DS.border}`,
       marginTop: 8
@@ -5812,7 +5820,7 @@ function Dashboard() {
     style: {
       fontSize: 10,
       color: DS.text4,
-      fontFamily: "'DM Mono',monospace",
+      fontFamily: "'JetBrains Mono',monospace",
       letterSpacing: "0.15em",
       textTransform: "uppercase"
     }
@@ -5826,13 +5834,13 @@ function Dashboard() {
     style: {
       fontSize: 10,
       color: DS.text4,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, "OKR \xB7 ", fmt(FORECAST_TOTAL)), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 10,
       color: DS.text4,
-      fontFamily: "'DM Mono',monospace"
+      fontFamily: "'JetBrains Mono',monospace"
     }
   }, "FM 36M \xB7 ", fmt(TOTAL_TARGET))))));
 }
@@ -5964,7 +5972,7 @@ const FR = {
 };
 
 // ── SecMetricasGrowth — CEO View ────────────────────────────────────────────
-function SecMetricasGrowth({deals}) {
+function SecMetricasGrowth({deals, mgData}) {
   var useState = React.useState;
   var e = React.createElement;
 
@@ -5972,6 +5980,8 @@ function SecMetricasGrowth({deals}) {
   var _s2 = useState('modelo'); var tabActivo = _s2[0]; var setTabActivo = _s2[1];
   var _s3 = useState('ytd'); var vistaW = _s3[0]; var setVistaW = _s3[1];
 
+  // Usa datos de la Sheet (via data.json) si estan disponibles, sino hardcoded
+  var MG_LIVE = mgData || MG;
   var PAISES = ['TOTAL','Argentina','Mexico','Chile','Colombia','Peru'];
   var PFLAG = {Argentina:'🇦🇷',Mexico:'🇲🇽',Chile:'🇨🇱',Colombia:'🇨🇴',Peru:'🇵🇪',TOTAL:'🌎'};
   var PCOL  = {Argentina:'#f97316',Mexico:'#a855f7',Chile:'#3b82f6',Colombia:'#22c55e',Peru:'#ef4444',TOTAL:DS.cyan};
@@ -5990,7 +6000,7 @@ function SecMetricasGrowth({deals}) {
   var PIPE_RET_WON = 1439532;
 
   // Dynamic last week
-  var lastProy = MG.proyCierre.TOTAL.reduce(function(last,v,i){return (v!=null&&v>0)?i:last;}, -1);
+  var lastProy = MG_LIVE.proyCierre.TOTAL.reduce(function(last,v,i){return (v!=null&&v>0)?i:last;}, -1);
   var lastSem = lastProy >= 0 ? lastProy : 12;
   var WEEK_LABEL = 'Sem '+(lastSem+1);
 
@@ -5998,19 +6008,19 @@ function SecMetricasGrowth({deals}) {
   var semsShow = vistaW==='ytd' ? semsYtd : Array.from({length:52},function(_,i){return i;});
 
   function getModelo(idx,pais) {
-    if(pais==='TOTAL') return Object.values(MG.modeloTotal).reduce(function(s,arr){return s+(arr[idx]||0);},0);
-    return (MG.modeloTotal[pais]||[])[idx]||0;
+    if(pais==='TOTAL') return Object.values(MG_LIVE.modeloTotal).reduce(function(s,arr){return s+(arr[idx]||0);},0);
+    return (MG_LIVE.modeloTotal[pais]||[])[idx]||0;
   }
   function getProy(idx,pais) {
-    if(pais==='TOTAL') return MG.proyCierre.TOTAL[idx]||null;
-    return (MG.proyCierre[pais]||[])[idx]||null;
+    if(pais==='TOTAL') return MG_LIVE.proyCierre.TOTAL[idx]||null;
+    return (MG_LIVE.proyCierre[pais]||[])[idx]||null;
   }
   function getModAdq(idx,pais) {
-    if(pais==='TOTAL') return Object.values(MG.modeloAdq).reduce(function(s,arr){return s+(arr[idx]||0);},0);
-    return (MG.modeloAdq[pais]||[])[idx]||0;
+    if(pais==='TOTAL') return Object.values(MG_LIVE.modeloAdq).reduce(function(s,arr){return s+(arr[idx]||0);},0);
+    return (MG_LIVE.modeloAdq[pais]||[])[idx]||0;
   }
   function getReu(idx,pais) {
-    var arr = pais==='TOTAL' ? MG.reuniones.TOTAL : (MG.reuniones[pais]||[]);
+    var arr = pais==='TOTAL' ? MG_LIVE.reuniones.TOTAL : (MG_LIVE.reuniones[pais]||[]);
     return arr[idx]||0;
   }
 
@@ -6055,11 +6065,11 @@ function SecMetricasGrowth({deals}) {
       // Y gridlines + labels
       yTicks.map(function(t,i){return e('g',{key:i},
         e('line',{x1:PAD.l,y1:PAD.t+t.y,x2:PAD.l+cW,y2:PAD.t+t.y,stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
-        e('text',{x:PAD.l-4,y:PAD.t+t.y+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtK(t.v))
+        e('text',{x:PAD.l-4,y:PAD.t+t.y+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'JetBrains Mono'},fmtK(t.v))
       );}),
       // Right pct axis
       pctTicks.map(function(t,i){return e('g',{key:i},
-        e('text',{x:PAD.l+cW+4,y:PAD.t+t.y+3,fontSize:8,fill:DS.amber,fontFamily:'DM Mono'},t.v+'%')
+        e('text',{x:PAD.l+cW+4,y:PAD.t+t.y+3,fontSize:8,fill:DS.amber,fontFamily:'JetBrains Mono'},t.v+'%')
       );}),
       // 100% reference line
       e('line',{x1:PAD.l,y1:PAD.t+cH-(100/130*cH),x2:PAD.l+cW,y2:PAD.t+cH-(100/130*cH),stroke:DS.emerald,strokeDasharray:'4,3',strokeWidth:1}),
@@ -6072,7 +6082,7 @@ function SecMetricasGrowth({deals}) {
         return e('g',{key:xi},
           e('rect',{x:x+1,y:PAD.t+cH-mH,width:bW*0.48,height:mH,fill:isLast?DS.accent:'#1e3a8a',opacity:0.75,rx:1}),
           d.p>0&&e('rect',{x:x+bW*0.52,y:PAD.t+cH-pH,width:bW*0.48,height:pH,fill:isLast?DS.emerald:'#064e3b',opacity:0.85,rx:1}),
-          (xi%(data.length>20?4:2)===0)&&e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1))
+          (xi%(data.length>20?4:2)===0)&&e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'JetBrains Mono'},'S'+(d.si+1))
         );
       }),
       // Line
@@ -6103,18 +6113,18 @@ function SecMetricasGrowth({deals}) {
       // Gridlines
       [0.25,0.5,0.75,1].map(function(f,i){return e('g',{key:i},
         e('line',{x1:PAD.l,y1:PAD.t+cH-(f*cH),x2:PAD.l+cW,y2:PAD.t+cH-(f*cH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
-        e('text',{x:PAD.l-4,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtK(maxV*f))
+        e('text',{x:PAD.l-4,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'JetBrains Mono'},fmtK(maxV*f))
       );}),
       e('path',{d:areaPath,fill:DS.accent+'25',stroke:'none'}),
       e('polyline',{points:pts,fill:'none',stroke:DS.accent,strokeWidth:2}),
       // Live pipeline reference line
       livePipe>0&&e('g',null,
         e('line',{x1:PAD.l,y1:PAD.t+cH-(livePipe/maxV*cH),x2:PAD.l+cW,y2:PAD.t+cH-(livePipe/maxV*cH),stroke:DS.cyan,strokeWidth:1.5,strokeDasharray:'5,3'}),
-        e('text',{x:PAD.l+cW+4,y:PAD.t+cH-(livePipe/maxV*cH)+3,fontSize:8,fill:DS.cyan,fontFamily:'DM Mono'},'Live: '+fmtK(livePipe))
+        e('text',{x:PAD.l+cW+4,y:PAD.t+cH-(livePipe/maxV*cH)+3,fontSize:8,fill:DS.cyan,fontFamily:'JetBrains Mono'},'Live: '+fmtK(livePipe))
       ),
       // X labels
       data.map(function(d,i){
-        return (i%4===0)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1));
+        return (i%4===0)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'JetBrains Mono'},'S'+(d.si+1));
       })
     );
   }
@@ -6124,7 +6134,7 @@ function SecMetricasGrowth({deals}) {
     var CTRIES = ['Argentina','Mexico','Chile','Colombia','Peru'];
     var data = semsYtd.map(function(si) {
       var row = {si:si, total:0};
-      CTRIES.forEach(function(c){row[c]=(MG.reuniones[c]||[])[si]||0; row.total+=row[c];});
+      CTRIES.forEach(function(c){row[c]=(MG_LIVE.reuniones[c]||[])[si]||0; row.total+=row[c];});
       return row;
     });
     var maxV = Math.max.apply(null, data.map(function(d){return d.total;})) || 1;
@@ -6146,8 +6156,8 @@ function SecMetricasGrowth({deals}) {
           return e('rect',{key:c,x:x+1,y:PAD.t+cH-yOff,width:bW,height:h,fill:PCOL[c],opacity:0.85});
         });
         return e('g',{key:xi}, bars,
-          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'DM Mono'},d.total),
-          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+(d.si+1))
+          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'JetBrains Mono'},d.total),
+          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'JetBrains Mono'},'S'+(d.si+1))
         );
       })
     );
@@ -6181,8 +6191,8 @@ function SecMetricasGrowth({deals}) {
   }
   function KpiCard(props){
     return e('div',{style:{flex:1,minWidth:140,background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'16px 18px'}},
-      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:4}},props.icon+' '+props.label),
-      e('div',{style:{fontSize:20,fontWeight:800,color:props.color||DS.text1,fontFamily:'DM Mono'}},props.value),
+      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'JetBrains Mono',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:4}},props.icon+' '+props.label),
+      e('div',{style:{fontSize:20,fontWeight:800,color:props.color||DS.text1,fontFamily:'JetBrains Mono'}},props.value),
       props.sub&&e('div',{style:{fontSize:10,color:DS.text3,marginTop:3}},props.sub)
     );
   }
@@ -6223,7 +6233,7 @@ function SecMetricasGrowth({deals}) {
          {l:'Reuniones Expl.',v:reuYTD||'—',c:DS.accent,s:WEEK_LABEL+': '+getReu(lastSem,paisF)},
         ].map(function(k,i){
           return e('div',{key:i,style:{background:DS.bg,borderRadius:8,padding:'10px 14px',border:'1px solid '+DS.border}},
-            e('div',{style:{fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},k.l),
+            e('div',{style:{fontSize:9,color:DS.text3,fontFamily:'JetBrains Mono',textTransform:'uppercase'}},k.l),
             e('div',{style:{fontSize:15,fontWeight:700,color:k.c,marginTop:4}},k.v),
             e('div',{style:{fontSize:9,color:DS.text3,marginTop:2}},k.s)
           );
@@ -6255,20 +6265,20 @@ function SecMetricasGrowth({deals}) {
         e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
           e('thead',null,e('tr',null,
             ['País','Pipeline Live','Modelo Sem','Proy Cierre','% Sem','Modelo YTD','Proy YTD','% YTD','Reun.'].map(function(h){
-              return e('th',{key:h,style:{padding:'6px 8px',textAlign:'left',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase',whiteSpace:'nowrap'}},h);
+              return e('th',{key:h,style:{padding:'6px 8px',textAlign:'left',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'JetBrains Mono',textTransform:'uppercase',whiteSpace:'nowrap'}},h);
             })
           )),
           e('tbody',null,countryRows.map(function(r){
             return e('tr',{key:r.c,style:{borderBottom:'1px solid '+DS.border+'20'}},
               e('td',{style:{padding:'7px 8px',fontWeight:600,color:PCOL[r.c]}},PFLAG[r.c]+' '+r.c),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.cyan,fontSize:10}},fmt(r.adqP)),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},fmt(r.mod)),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10,color:r.proy>0?DS.text1:DS.text3}},r.proy>0?fmt(r.proy):'—'),
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',color:DS.cyan,fontSize:10}},fmt(r.adqP)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',fontSize:10}},fmt(r.mod)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',fontSize:10,color:r.proy>0?DS.text1:DS.text3}},r.proy>0?fmt(r.proy):'—'),
               e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pct==null?DS.text3:r.pct>=100?DS.emerald:r.pct>=85?DS.amber:DS.red}},r.pct!=null?(r.pct+'% '+sem(r.pct)):'—'),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},fmt(r.modYtd)),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',fontSize:10}},r.proyYtd>0?fmt(r.proyYtd):'—'),
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',fontSize:10}},fmt(r.modYtd)),
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',fontSize:10}},r.proyYtd>0?fmt(r.proyYtd):'—'),
               e('td',{style:{padding:'7px 8px',fontWeight:700,fontSize:11,color:r.pctYtd==null?DS.text3:r.pctYtd>=100?DS.emerald:r.pctYtd>=85?DS.amber:DS.red}},r.pctYtd!=null?(r.pctYtd+'% '+sem(r.pctYtd)):'—'),
-              e('td',{style:{padding:'7px 8px',fontFamily:'DM Mono',color:DS.accent}},r.reuC||'—')
+              e('td',{style:{padding:'7px 8px',fontFamily:'JetBrains Mono',color:DS.accent}},r.reuC||'—')
             );
           }))
         )
@@ -6292,7 +6302,7 @@ function SecMetricasGrowth({deals}) {
               e('div',{style:{flex:1,height:10,background:DS.border,borderRadius:5,overflow:'hidden'}},
                 e('div',{style:{width:Math.min(pct,100)+'%',height:'100%',background:PCOL[x[0]],borderRadius:5}})
               ),
-              e('div',{style:{width:60,textAlign:'right',fontSize:11,fontFamily:'DM Mono'}},fmt(x[1])),
+              e('div',{style:{width:60,textAlign:'right',fontSize:11,fontFamily:'JetBrains Mono'}},fmt(x[1])),
               e('div',{style:{width:35,textAlign:'right',fontSize:10,color:DS.text3}},pct+'%')
             );
           })
@@ -6317,22 +6327,22 @@ function SecMetricasGrowth({deals}) {
         e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
           e('thead',null,e('tr',null,
             ['País'].concat(semsYtd.map(function(i){return 'S'+(i+1);})).concat(['Total']).map(function(h){
-              return e('th',{key:h,style:{padding:'5px 6px',textAlign:'center',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',whiteSpace:'nowrap'}},h);
+              return e('th',{key:h,style:{padding:'5px 6px',textAlign:'center',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'JetBrains Mono',whiteSpace:'nowrap'}},h);
             })
           )),
           e('tbody',null,
             ['Argentina','Mexico','Chile','Colombia','Peru'].map(function(c){
-              var arr=MG.reuniones[c]||[];
+              var arr=MG_LIVE.reuniones[c]||[];
               var total=semsYtd.reduce(function(s,i){return s+(arr[i]||0);},0);
               return e('tr',{key:c,style:{borderBottom:'1px solid '+DS.border+'20'}},
                 e('td',{style:{padding:'6px 8px',fontWeight:600,color:PCOL[c],whiteSpace:'nowrap'}},PFLAG[c]+' '+c),
-                semsYtd.map(function(i){return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontFamily:'DM Mono',color:arr[i]>0?DS.text1:DS.text3}},arr[i]>0?arr[i]:'—');}),
-                e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:700,fontFamily:'DM Mono',color:DS.accent}},total||'—')
+                semsYtd.map(function(i){return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontFamily:'JetBrains Mono',color:arr[i]>0?DS.text1:DS.text3}},arr[i]>0?arr[i]:'—');}),
+                e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:700,fontFamily:'JetBrains Mono',color:DS.accent}},total||'—')
               );
             }).concat([e('tr',{key:'TOT',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
               e('td',{style:{padding:'6px 8px',fontWeight:700}},'🌎 TOTAL'),
-              semsYtd.map(function(i){var v=(MG.reuniones.TOTAL||[])[i]||0;return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontWeight:600,fontFamily:'DM Mono',color:v>0?DS.accent:DS.text3}},v>0?v:'—');}),
-              e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:800,fontFamily:'DM Mono',color:DS.accent}},reuYTD)
+              semsYtd.map(function(i){var v=(MG_LIVE.reuniones.TOTAL||[])[i]||0;return e('td',{key:i,style:{padding:'6px 6px',textAlign:'center',fontWeight:600,fontFamily:'JetBrains Mono',color:v>0?DS.accent:DS.text3}},v>0?v:'—');}),
+              e('td',{style:{padding:'6px 8px',textAlign:'center',fontWeight:800,fontFamily:'JetBrains Mono',color:DS.accent}},reuYTD)
             )])
           )
         )
@@ -6341,9 +6351,11 @@ function SecMetricasGrowth({deals}) {
   );
 }
 
-function SecFillRate() {
+function SecFillRate({ frData }) {
   var useState = React.useState;
   var e = React.createElement;
+  // Usa datos de la Sheet (via data.json) si estan disponibles, sino hardcoded
+  var FR_LIVE = frData || FR;
 
   var _s1 = useState(12); var semSel = _s1[0]; var setSemSel = _s1[1];
   var _s2 = useState('fr'); var vista = _s2[0]; var setVista = _s2[1];
@@ -6354,7 +6366,7 @@ function SecFillRate() {
   var COLORS = {REG:DS.cyan,AR:'#f97316',CL:'#3b82f6',CO:'#22c55e',MX:'#a855f7',PE:'#ef4444'};
 
   function getFR(ctry,idx){
-    var v=(FR.fillRate[ctry]||{}).cumW; if(!v) return null;
+    var v=(FR_LIVE.fillRate[ctry]||{}).cumW; if(!v) return null;
     return v[idx]!=null ? Math.round(v[idx]*100) : null;
   }
   function frSema(p){return p==null?'—':p>=85?'🟢':p>=65?'🟡':'🔴';}
@@ -6363,20 +6375,20 @@ function SecFillRate() {
   var frREG = getFR('REG',semSel);
   var frColor = frREG==null?DS.text3:frREG>=85?DS.emerald:frREG>=65?DS.amber:DS.red;
   var lastMonthIdx = 2;
-  var totalVpYTD = ['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR.ventaPerdida[c]||{}).usdM||[])[lastMonthIdx]||0;},0);
-  var planM=(FR.fillRate.REG.plan||[])[lastMonthIdx]||0;
-  var realM=(FR.fillRate.REG.real||[])[lastMonthIdx]||0;
+  var totalVpYTD = ['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR_LIVE.ventaPerdida[c]||{}).usdM||[])[lastMonthIdx]||0;},0);
+  var planM=(FR_LIVE.fillRate.REG.plan||[])[lastMonthIdx]||0;
+  var realM=(FR_LIVE.fillRate.REG.real||[])[lastMonthIdx]||0;
 
   // ── SVG Fill Rate smooth line chart ──────────────────────────────────
   function FRLineChart() {
     var W=620, H=170, PAD={t:15,r:20,b:28,l:35};
     var cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
-    var n=FR.weekDates.length;
+    var n=FR_LIVE.weekDates.length;
     var step=cW/(n-1);
 
     function lineFor(ctry) {
-      var pts = FR.weekDates.map(function(_,i){
-        var v=(FR.fillRate[ctry]||{}).cumW;
+      var pts = FR_LIVE.weekDates.map(function(_,i){
+        var v=(FR_LIVE.fillRate[ctry]||{}).cumW;
         if(!v||v[i]==null) return null;
         return {x:PAD.l+i*step, y:PAD.t+cH-(Math.min(v[i],1.1)*cH/1.1)};
       });
@@ -6403,7 +6415,7 @@ function SecFillRate() {
         var isDash = v===85||v===65;
         return e('g',{key:i},
           e('line',{x1:PAD.l,y1:y,x2:PAD.l+cW,y2:y,stroke:isDash?COLORS[v===85?'CO':'MX']:DS.border,strokeDasharray:isDash?'5,3':'3,3',strokeWidth:isDash?1:0.5,opacity:isDash?0.8:1}),
-          e('text',{x:PAD.l-3,y:y+3,fontSize:8,fill:isDash?(v===85?DS.emerald:DS.amber):DS.text3,textAnchor:'end',fontFamily:'DM Mono'},v+'%')
+          e('text',{x:PAD.l-3,y:y+3,fontSize:8,fill:isDash?(v===85?DS.emerald:DS.amber):DS.text3,textAnchor:'end',fontFamily:'JetBrains Mono'},v+'%')
         );
       }),
       // Selected week vertical line
@@ -6411,22 +6423,22 @@ function SecFillRate() {
       // Lines for each country
       CTRIES.map(function(c){return lineFor(c);}),
       // X labels
-      FR.weekDates.map(function(d,i){
-        return (i%2===0||i===n-1)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:i===semSel?DS.text1:DS.text3,textAnchor:'middle',fontFamily:'DM Mono',fontWeight:i===semSel?700:400},'S'+FR.weekNums[i]);
+      FR_LIVE.weekDates.map(function(d,i){
+        return (i%2===0||i===n-1)&&e('text',{key:i,x:PAD.l+i*step,y:H-6,fontSize:7,fill:i===semSel?DS.text1:DS.text3,textAnchor:'middle',fontFamily:'JetBrains Mono',fontWeight:i===semSel?700:400},'S'+FR_LIVE.weekNums[i]);
       }),
       // Reference labels
-      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(85/110*cH)+3,fontSize:8,fill:DS.emerald,fontFamily:'DM Mono'},'85%'),
-      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(65/110*cH)+3,fontSize:8,fill:DS.amber,fontFamily:'DM Mono'},'65%')
+      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(85/110*cH)+3,fontSize:8,fill:DS.emerald,fontFamily:'JetBrains Mono'},'85%'),
+      e('text',{x:PAD.l+cW+2,y:PAD.t+cH-(65/110*cH)+3,fontSize:8,fill:DS.amber,fontFamily:'JetBrains Mono'},'65%')
     );
   }
 
   // ── SVG Venta Perdida stacked bar chart ───────────────────────────────
   function VPBarChart() {
     var CTRS = ['AR','CL','CO','MX','PE'];
-    var data = FR.weekDates.map(function(_,i){
+    var data = FR_LIVE.weekDates.map(function(_,i){
       var row={si:i,total:0};
       CTRS.forEach(function(c){
-        var v=((FR.ventaPerdida[c]||{}).usdW||[])[i]||0;
+        var v=((FR_LIVE.ventaPerdida[c]||{}).usdW||[])[i]||0;
         row[c]=v; row.total+=v;
       });
       return row;
@@ -6443,7 +6455,7 @@ function SecFillRate() {
     return e('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:{overflow:'visible'}},
       [0.25,0.5,0.75,1].map(function(f,i){return e('g',{key:i},
         e('line',{x1:PAD.l,y1:PAD.t+cH-(f*cH),x2:PAD.l+cW,y2:PAD.t+cH-(f*cH),stroke:DS.border,strokeDasharray:'3,3',strokeWidth:0.5}),
-        e('text',{x:PAD.l-3,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'DM Mono'},fmtUSD(maxV*f))
+        e('text',{x:PAD.l-3,y:PAD.t+cH-(f*cH)+3,fontSize:8,fill:DS.text3,textAnchor:'end',fontFamily:'JetBrains Mono'},fmtUSD(maxV*f))
       );}),
       data.map(function(d,xi){
         var x=PAD.l+xi*step+1;
@@ -6455,8 +6467,8 @@ function SecFillRate() {
           return e('rect',{key:c,x:x,y:PAD.t+cH-yOff,width:bW,height:h,fill:COLORS[c],opacity:0.85});
         });
         return e('g',{key:xi}, bars,
-          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'DM Mono'},fmtUSD(d.total)),
-          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'DM Mono'},'S'+FR.weekNums[d.si])
+          d.total>0&&e('text',{x:x+bW/2,y:PAD.t+cH-(d.total/maxV*cH)-3,fontSize:8,fill:DS.text2,textAnchor:'middle',fontFamily:'JetBrains Mono'},fmtUSD(d.total)),
+          e('text',{x:x+bW/2,y:H-8,fontSize:7,fill:DS.text3,textAnchor:'middle',fontFamily:'JetBrains Mono'},'S'+FR_LIVE.weekNums[d.si])
         );
       })
     );
@@ -6464,8 +6476,8 @@ function SecFillRate() {
 
   function KpiCard(props){
     return e('div',{style:{flex:1,minWidth:130,background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'14px 16px'}},
-      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase',marginBottom:4}},props.icon+' '+props.label),
-      e('div',{style:{fontSize:18,fontWeight:800,color:props.color||DS.text1,fontFamily:'DM Mono'}},props.value),
+      e('div',{style:{fontSize:10,color:DS.text3,fontFamily:'JetBrains Mono',textTransform:'uppercase',marginBottom:4}},props.icon+' '+props.label),
+      e('div',{style:{fontSize:18,fontWeight:800,color:props.color||DS.text1,fontFamily:'JetBrains Mono'}},props.value),
       props.sub&&e('div',{style:{fontSize:10,color:DS.text3,marginTop:2}},props.sub)
     );
   }
@@ -6474,10 +6486,10 @@ function SecFillRate() {
 
     // ── KPI STRIP ─────────────────────────────────────────────────────────
     e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(130px,1fr))',gap:10}},
-      e(KpiCard,{icon:'🚛',label:'Fill Rate REG',value:frREG!=null?(frREG+'%'):'—',color:frColor,sub:'Sem '+FR.weekNums[semSel]+' · '+FR.weekDates[semSel]+' '+frSema(frREG)}),
+      e(KpiCard,{icon:'🚛',label:'Fill Rate REG',value:frREG!=null?(frREG+'%'):'—',color:frColor,sub:'Sem '+FR_LIVE.weekNums[semSel]+' · '+FR_LIVE.weekDates[semSel]+' '+frSema(frREG)}),
       e(KpiCard,{icon:'💸',label:'Venta Perdida YTD',value:fmtUSD(totalVpYTD),color:DS.red,sub:'USD acumulado Mar 2026'}),
       e(KpiCard,{icon:'📦',label:'Colocaciones pdt.',value:''+(Math.max(planM-realM,0)),color:DS.amber,sub:'Plan − Real · Marzo'}),
-      e(KpiCard,{icon:'📅',label:'Semana',value:'Sem '+FR.weekNums[semSel],color:DS.text2,sub:FR.weekDates[semSel]})
+      e(KpiCard,{icon:'📅',label:'Semana',value:'Sem '+FR_LIVE.weekNums[semSel],color:DS.text2,sub:FR_LIVE.weekDates[semSel]})
     ),
 
     // ── VISTA TOGGLE + SLIDER ─────────────────────────────────────────────
@@ -6492,9 +6504,9 @@ function SecFillRate() {
       }),
       e('div',{style:{flex:1}}),
       e('div',{style:{display:'flex',alignItems:'center',gap:8}},
-        e('span',{style:{fontSize:10,color:DS.text3,fontFamily:'DM Mono'}},'Semana:'),
+        e('span',{style:{fontSize:10,color:DS.text3,fontFamily:'JetBrains Mono'}},'Semana:'),
         e('input',{type:'range',min:0,max:12,value:semSel,onChange:function(ev){setSemSel(parseInt(ev.target.value));},style:{width:100}}),
-        e('span',{style:{fontSize:10,color:DS.text2,fontFamily:'DM Mono',minWidth:55}},'S'+FR.weekNums[semSel]+' ('+FR.weekDates[semSel]+')')
+        e('span',{style:{fontSize:10,color:DS.text2,fontFamily:'JetBrains Mono',minWidth:55}},'S'+FR_LIVE.weekNums[semSel]+' ('+FR_LIVE.weekDates[semSel]+')')
       )
     ),
 
@@ -6512,17 +6524,17 @@ function SecFillRate() {
         e('div',{style:{overflowX:'auto'}},e(FRLineChart,null))
       ),
       e('div',{style:{background:DS.card,border:'1px solid '+DS.border,borderRadius:12,padding:'18px'}},
-        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Detalle por País · Sem '+FR.weekNums[semSel]+' · '+FR.weekDates[semSel]),
+        e('div',{style:{fontSize:12,fontWeight:700,color:DS.text2,marginBottom:12}},'Detalle por País · Sem '+FR_LIVE.weekNums[semSel]+' · '+FR_LIVE.weekDates[semSel]),
         e('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:8}},
           CTRIES.map(function(c){
             var pct=getFR(c,semSel);
             var col=pct==null?DS.text3:pct>=85?DS.emerald:pct>=65?DS.amber:DS.red;
             var mIdx=semSel<=4?0:semSel<=8?1:2;
-            var plan=(FR.fillRate[c]||{}).plan||[];
-            var real=(FR.fillRate[c]||{}).real||[];
+            var plan=(FR_LIVE.fillRate[c]||{}).plan||[];
+            var real=(FR_LIVE.fillRate[c]||{}).real||[];
             return e('div',{key:c,style:{background:DS.bg,borderRadius:10,padding:'12px 14px',border:'2px solid '+(col===DS.text3?DS.border:col+'50')}},
               e('div',{style:{fontSize:11,fontWeight:600,color:COLORS[c]}},''+FLAGS[c]+' '+NAMES[c]),
-              e('div',{style:{fontSize:22,fontWeight:800,color:col,fontFamily:'DM Mono',margin:'6px 0'}},pct!=null?(pct+'%'):'N/D'),
+              e('div',{style:{fontSize:22,fontWeight:800,color:col,fontFamily:'JetBrains Mono',margin:'6px 0'}},pct!=null?(pct+'%'):'N/D'),
               e('div',{style:{height:6,background:DS.border,borderRadius:3,overflow:'hidden',marginBottom:4}},
                 pct!=null&&e('div',{style:{width:Math.min(pct,100)+'%',height:'100%',background:col,borderRadius:3}})
               ),
@@ -6552,26 +6564,26 @@ function SecFillRate() {
           e('table',{style:{width:'100%',borderCollapse:'collapse',fontSize:11}},
             e('thead',null,e('tr',null,
               ['País','Enero','Febrero','Marzo','Total YTD'].map(function(h){
-                return e('th',{key:h,style:{padding:'6px 10px',textAlign:h==='País'?'left':'right',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'DM Mono',textTransform:'uppercase'}},h);
+                return e('th',{key:h,style:{padding:'6px 10px',textAlign:h==='País'?'left':'right',borderBottom:'1px solid '+DS.border,fontSize:9,color:DS.text3,fontFamily:'JetBrains Mono',textTransform:'uppercase'}},h);
               })
             )),
             e('tbody',null,
               ['AR','CL','CO','MX','PE'].map(function(c){
-                var d=FR.ventaPerdida[c]||{};
+                var d=FR_LIVE.ventaPerdida[c]||{};
                 var usd=d.usdM||[];
                 var ytd=(usd[0]||0)+(usd[1]||0)+(usd[2]||0);
                 return e('tr',{key:c,style:{borderBottom:'1px solid '+DS.border+'20'}},
                   e('td',{style:{padding:'8px 10px',fontWeight:600,color:COLORS[c]}},FLAGS[c]+' '+NAMES[c]),
-                  [0,1,2].map(function(m){return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontFamily:'DM Mono',color:usd[m]?DS.red:DS.text3}},usd[m]?fmtUSD(usd[m]):'—');}),
-                  e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'DM Mono',color:ytd?DS.red:DS.text3}},ytd?fmtUSD(ytd):'—')
+                  [0,1,2].map(function(m){return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontFamily:'JetBrains Mono',color:usd[m]?DS.red:DS.text3}},usd[m]?fmtUSD(usd[m]):'—');}),
+                  e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'JetBrains Mono',color:ytd?DS.red:DS.text3}},ytd?fmtUSD(ytd):'—')
                 );
               }).concat([e('tr',{key:'tot',style:{borderTop:'2px solid '+DS.border,background:DS.bg}},
                 e('td',{style:{padding:'8px 10px',fontWeight:700}},'🌎 TOTAL'),
                 [0,1,2].map(function(m){
-                  var t=['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR.ventaPerdida[c]||{}).usdM||[])[m]||0;},0);
-                  return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'DM Mono',color:DS.red}},t?fmtUSD(t):'—');
+                  var t=['AR','CL','CO','MX','PE'].reduce(function(s,c){return s+((FR_LIVE.ventaPerdida[c]||{}).usdM||[])[m]||0;},0);
+                  return e('td',{key:m,style:{padding:'8px 10px',textAlign:'right',fontWeight:700,fontFamily:'JetBrains Mono',color:DS.red}},t?fmtUSD(t):'—');
                 }),
-                e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:900,fontFamily:'DM Mono',color:DS.red}},fmtUSD(totalVpYTD))
+                e('td',{style:{padding:'8px 10px',textAlign:'right',fontWeight:900,fontFamily:'JetBrains Mono',color:DS.red}},fmtUSD(totalVpYTD))
               )])
             )
           )
