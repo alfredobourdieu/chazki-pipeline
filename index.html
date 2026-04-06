@@ -6,7 +6,7 @@
   <title>Chazki · Pipeline Intelligence 2026</title>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; background: #f0f2f5; }
+    body { margin: 0; background: #0a0a12; }
     @keyframes bounce {
       0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
       40% { transform: scale(1); opacity: 1; }
@@ -83,8 +83,8 @@ const FORECAST = {
 };
 const FORECAST_TOTAL = Object.values(FORECAST).reduce((s, c) => s + c.annual, 0); // $3,547,357
 const ZOMBIE_DAYS = 30;
-const PREV_MONTH_LABEL = "Marzo";
-const PREV_MONTH_IDX = 2;
+const PREV_MONTH_LABEL = "Febrero";
+const PREV_MONTH_IDX = 1;
 const YEAR_START = "2026-01-01";
 
 // ── PROBABILITY — exact match to HubSpot screenshot ──────────────────────
@@ -295,76 +295,48 @@ async function fetchDeals(setStatus) {
   };
 }
 
-// ── DESIGN SYSTEM — Board Pack Executive ───────────────────────────────────
+// ── DESIGN SYSTEM — EY/Deloitte CMO aesthetic ─────────────────────────────
 const DS = {
-  // ── Sidebar ──
-  sidebar: "#14231a",
-  sidebarBorder: "rgba(255,255,255,0.07)",
-  sidebarText: "#7a9a82",
-  sidebarActive: "#ffffff",
-  sidebarActiveBg: "rgba(0,0,0,0.05)",
-  sidebarAccent: "#34a853",
-  // ── Content area (light theme) ──
-  bg: "#f0f2f5",
-  bgCard: "#ffffff",
-  bgCardHover: "#fafafa",
-  border: "#e2e8f0",
-  borderAccent: "#cbd5e1",
-  text1: "#0f172a",
-  text2: "#475569",
-  text3: "#94a3b8",
-  // ── Accent colors ──
-  accent: "#34a853",
-  accentGlow: "rgba(52,168,83,0.15)",
-  emerald: "#10b981",
-  red: "#ef4444",
-  amber: "#f59e0b",
-  cyan: "#0ea5e9",
-  // ── Country colors ──
-  AR: "#f97316",
-  CL: "#8b5cf6",
-  CO: "#ef4444",
-  MX: "#10b981",
-  PE: "#3b82f6"
+  bg: "#0a0a12",
+  bgCard: "rgba(255,255,255,0.055)",
+  bgCardHover: "rgba(255,255,255,0.08)",
+  border: "rgba(255,255,255,0.11)",
+  borderAccent: "rgba(255,255,255,0.2)",
+  text1: "#f0f4f8",
+  text2: "#b8c4d0",
+  text3: "#64748b",
+  accent: "#5a67d8",
+  accentGlow: "rgba(90,103,216,0.2)",
+  emerald: "#00d4aa",
+  red: "#ff4757",
+  amber: "#ffa502",
+  cyan: "#00d2ff"
 };
 function Card({
   children,
   accent = false,
   glow = false,
   highlight = false,
-  countryColor = null,
   className = ""
 }) {
   return /*#__PURE__*/React.createElement("div", {
-    className: `${className}`,
+    className: `rounded-2xl p-5 ${className}`,
     style: {
-      background: DS.bgCard,
-      border: `1px solid ${DS.border}`,
-      borderRadius: 12,
-      padding: 20,
-      boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+      background: highlight ? "linear-gradient(135deg,rgba(0,212,170,0.09),rgba(0,210,255,0.05))" : glow ? `linear-gradient(135deg,${DS.accentGlow},${DS.bgCard})` : DS.bgCard,
+      border: `1px solid ${highlight ? "rgba(0,212,170,0.3)" : accent ? DS.borderAccent : DS.border}`,
+      backdropFilter: "blur(12px)",
+      padding: "20px",
       position: "relative",
       overflow: "hidden"
     }
-  }, countryColor && /*#__PURE__*/React.createElement("div", {
+  }, highlight && /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: 0,
       left: 0,
       right: 0,
-      height: 3,
-      background: countryColor,
-      borderRadius: "12px 12px 0 0"
-    }
-  }), highlight && /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      height: 3,
-      background: DS.accent,
-      borderRadius: "12px 12px 0 0"
+      height: 2,
+      background: "linear-gradient(90deg,#00d4aa,#00d2ff)"
     }
   }), children);
 }
@@ -375,13 +347,13 @@ function Label({
   return /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
-      letterSpacing: "0.1em",
+      letterSpacing: "0.12em",
       textTransform: "uppercase",
       color,
-      fontFamily: "'Barlow Condensed','Arial Narrow',sans-serif",
-      fontWeight: 600,
+      fontFamily: "monospace",
+      fontWeight: 700,
       margin: 0,
-      marginBottom: 4
+      marginBottom: 3
     }
   }, children);
 }
@@ -393,9 +365,9 @@ function BigNum({
   return /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: size,
-      fontWeight: 700,
+      fontWeight: 900,
       color,
-      fontFamily: "'JetBrains Mono','DM Mono',monospace",
+      fontFamily: "monospace",
       lineHeight: 1.1,
       letterSpacing: "-0.02em"
     }
@@ -404,12 +376,12 @@ function BigNum({
 function MiniBar({
   pct,
   color,
-  height = 5
+  height = 4
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       height,
-      background: "rgba(0,0,0,0.07)",
+      background: "rgba(255,255,255,0.06)",
       borderRadius: height,
       overflow: "hidden"
     }
@@ -425,18 +397,17 @@ function MiniBar({
 }
 function PillBadge({
   label,
-  color = "#94a3b8"
+  color = "#64748b"
 }) {
   return /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 9,
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontWeight: 600,
+      fontFamily: "monospace",
       padding: "2px 8px",
       borderRadius: 20,
-      background: color + "18",
+      background: color + "22",
       color,
-      border: `1px solid ${color}40`,
+      border: `1px solid ${color}44`,
       letterSpacing: "0.05em",
       whiteSpace: "nowrap"
     }
@@ -446,12 +417,12 @@ function SectionHeader({
   icon,
   title,
   subtitle,
-  accent = DS.accent
+  accent = DS.cyan
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       borderBottom: `1px solid ${DS.border}`,
-      paddingBottom: 16,
+      paddingBottom: 18,
       marginBottom: 24
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -462,65 +433,65 @@ function SectionHeader({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 32,
-      height: 32,
-      borderRadius: 8,
-      background: accent + "18",
-      border: `1px solid ${accent}30`,
+      width: 36,
+      height: 36,
+      borderRadius: 10,
+      background: `${accent}18`,
+      border: `1px solid ${accent}40`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: 16,
+      fontSize: 18,
       flexShrink: 0
     }
   }, icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     style: {
-      fontSize: 15,
-      fontWeight: 700,
-      letterSpacing: "0.04em",
+      fontSize: 13,
+      fontWeight: 800,
+      letterSpacing: "0.08em",
       textTransform: "uppercase",
-      color: DS.text1,
-      fontFamily: "'Barlow Condensed','Arial Narrow',sans-serif",
+      color: accent,
+      fontFamily: "monospace",
       margin: 0,
       lineHeight: 1.2
     }
   }, title), subtitle && /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 11,
+      fontSize: 10,
       color: DS.text3,
-      marginTop: 2,
-      fontFamily: "'Barlow',sans-serif"
+      marginTop: 3,
+      fontFamily: "monospace"
     }
   }, subtitle))));
 }
 const TABS = [{
   id: "pulso",
-  label: "Pulso Ejecutivo",
-  subtitle: "Situación actual · alertas · KPIs"
+  icon: "📡",
+  label: "Pulso"
+}, {
+  id: "productividad",
+  icon: "🔥",
+  label: "Productividad"
 }, {
   id: "modelo",
-  label: "Modelo & Proyección",
-  subtitle: "¿Vamos a llegar? · Escenarios"
-}, {
-  id: "riesgo",
-  label: "Riesgos & Calidad",
-  subtitle: "Concentración · zombies · alertas"
+  icon: "🎯",
+  label: "Modelo"
 }, {
   id: "evolucion",
-  label: "Evolución",
-  subtitle: "WoW + MoM · tendencias"
+  icon: "📈",
+  label: "Evolución"
 }, {
   id: "funnel",
-  label: "Funnel",
-  subtitle: "Embudo · conversión · velocidad"
-}, {
-  id: "equipo",
-  label: "Equipo & Rankings",
-  subtitle: "Performance · quota gap · productividad"
+  icon: "📊",
+  label: "Funnel"
 }, {
   id: "deals",
-  label: "Deals",
-  subtitle: "Gestión deal-by-deal"
+  icon: "💼",
+  label: "Deals"
+}, {
+  id: "rankings",
+  icon: "🏆",
+  label: "Rankings"
 }];
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -529,6 +500,7 @@ const TABS = [{
 function SecPulso({
   deals
 }) {
+  const [pulsoExec, setPulsoExec] = useState("");
   const wkS = wk(),
     moS = mo(),
     pS = prevMoStart(),
@@ -618,56 +590,49 @@ function SecPulso({
       flexDirection: "column",
       gap: 24
     }
-  }, (() => {
-    const bgtQ1 = Object.values(FM).reduce((s, c) => s + c.months[0] + c.months[1] + c.months[2], 0);
-    const wonYtdAll = deals.filter(d => isWonDeal(d) && d.close_date && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
-    const wonMar = deals.filter(d => isWonDeal(d) && wonDate(d) && wonDate(d) >= "2026-03-01" && wonDate(d) <= "2026-03-31").reduce((s, d) => s + (d.amount || 0), 0);
-    const wonQ1Pace = Math.round(wonMar / (TOTAL_TARGET / 12) * 100);
-    const pipeCoverage = Math.round(pipeW / TOTAL_TARGET * 100);
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "repeat(4,1fr)",
-        gap: 12
-      }
-    }, [{
-      label: "Pipeline Ponderado",
-      val: fmt(pipeW),
-      sub: `${active.length} deals · ${pipeCoverage}% del Budget`,
-      color: DS.accent
-    }, {
-      label: "Won YTD incl. Piloto",
-      val: fmt(wonYtdAll),
-      sub: "contratos firmados 2026",
-      color: DS.emerald
-    }, {
-      label: "Won Marzo",
-      val: fmt(wonMar),
-      sub: `${wonQ1Pace}% del pace mensual Budget`,
-      color: wonQ1Pace < 80 ? DS.red : DS.amber
-    }, {
-      label: "Budget Anual 2026",
-      val: fmt(TOTAL_TARGET),
-      sub: "CS Growth · Resumen 36M",
-      color: "#6366f1"
-    }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
-      key: i,
-      accent: true
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: k.color
-    }, k.label), /*#__PURE__*/React.createElement(BigNum, {
-      value: k.val,
-      color: k.color,
-      size: 24
-    }), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 10,
-        color: DS.text3,
-        marginTop: 4,
-        fontFamily: "monospace"
-      }
-    }, k.sub))));
-  })(), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(4,1fr)",
+      gap: 12
+    }
+  }, [{
+    label: "Pipeline Ponderado",
+    val: fmt(pipeW),
+    sub: `${active.length} deals activos`,
+    color: DS.cyan
+  }, {
+    label: "Won esta semana",
+    val: fmt(wonWk.reduce((s, d) => s + (d.amount || 0), 0)),
+    sub: `${wonWk.length} deals cerrados`,
+    color: DS.emerald
+  }, {
+    label: "Movimientos semana",
+    val: movedWk.length,
+    sub: "deals con actividad",
+    color: "#a78bfa"
+  }, {
+    label: "Nuevos esta semana",
+    val: newWk.length,
+    sub: "deals ingresados",
+    color: "#60a5fa"
+  }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
+    key: i,
+    accent: true
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: k.color
+  }, k.label), /*#__PURE__*/React.createElement(BigNum, {
+    value: k.val,
+    color: k.color,
+    size: 24
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      marginTop: 4,
+      fontFamily: "monospace"
+    }
+  }, k.sub)))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -688,7 +653,7 @@ function SecPulso({
     style: {
       borderRadius: 16,
       padding: 16,
-      background: a.count ? `${a.color}12` : "rgba(0,0,0,0.02)",
+      background: a.count ? `${a.color}12` : "rgba(255,255,255,0.02)",
       border: `1px solid ${a.count ? a.color + "30" : DS.border}`,
       display: "flex",
       gap: 16,
@@ -712,210 +677,51 @@ function SecPulso({
       lineHeight: 1.5,
       fontFamily: "monospace"
     }
-  }, a.items.join(" · "), a.count > 2 && ` · +${a.count - 2} más`))))), (() => {
-    const COUNTRY_BUDGETS = {
-      Argentina: 1086824,
-      Chile: 754707,
-      Colombia: 683041,
-      México: 592382,
-      Perú: 490666
-    };
-    const pipeByCountry = {};
-    const wonByCountry = {};
-    active.forEach(d => {
-      if (d.country) pipeByCountry[d.country] = (pipeByCountry[d.country] || 0) + (d.amount || 0) * getProb(d);
-    });
-    deals.filter(d => isWonDeal(d) && d.close_date && d.close_date >= YEAR_START).forEach(d => {
-      if (d.country) wonByCountry[d.country] = (wonByCountry[d.country] || 0) + (d.amount || 0);
-    });
-    const entries = Object.entries(COUNTRY_BUDGETS).sort((a, b) => (pipeByCountry[b[0]] || 0) + (wonByCountry[b[0]] || 0) - ((pipeByCountry[a[0]] || 0) + (wonByCountry[a[0]] || 0)));
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 10
-      }
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: DS.text2
-    }, "PROYECCI\xD3N EOY POR PA\xCDS  \xB7  \uD83D\uDFE2 Won YTD  +  \uD83D\uDD37 Pipeline activo  vs Budget"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: DS.text3
-      }
-    }, "Proyectado = Won YTD + Pipeline ponderado activo")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "repeat(5,1fr)",
-        gap: 10
-      }
-    }, entries.map(([country, budget]) => {
-      const pipe = pipeByCountry[country] || 0;
-      const won = wonByCountry[country] || 0;
-      const proy = won + pipe;
-      const proyPct = Math.round(proy / budget * 100);
-      const wonPct = Math.round(won / budget * 100);
-      const pc = proyPct >= 100 ? DS.emerald : proyPct >= 70 ? DS.amber : DS.red;
-      const flagMap = {
-        Argentina: "🇦🇷",
-        Chile: "🇨🇱",
-        Colombia: "🇨🇴",
-        México: "🇲🇽",
-        Perú: "🇵🇪"
-      };
-      const colorMap = {
-        Argentina: "#f97316",
-        Chile: "#8b5cf6",
-        Colombia: "#ef4444",
-        México: "#10b981",
-        Perú: "#3b82f6"
-      };
-      const cc = colorMap[country] || DS.accent;
-      return /*#__PURE__*/React.createElement(Card, {
-        key: country,
-        countryColor: cc,
-        style: {
-          padding: 14
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          paddingTop: 4
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 22,
-          marginBottom: 4
-        }
-      }, flagMap[country] || "🌎"), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 10,
-          fontWeight: 700,
-          color: DS.text1,
-          fontFamily: "'Barlow Condensed',sans-serif",
-          textTransform: "uppercase",
-          marginBottom: 8
-        }
-      }, country), /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginBottom: 6
-        }
-      }, /*#__PURE__*/React.createElement(Label, null, "Pipeline activo"), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 15,
-          fontWeight: 700,
-          color: cc,
-          fontFamily: "'JetBrains Mono',monospace"
-        }
-      }, fmt(pipe))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginBottom: 8
-        }
-      }, /*#__PURE__*/React.createElement(Label, null, "Won YTD"), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 13,
-          fontWeight: 600,
-          color: DS.emerald,
-          fontFamily: "'JetBrains Mono',monospace"
-        }
-      }, fmt(won))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          borderTop: `1px solid ${DS.border}`,
-          paddingTop: 8
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 4
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 9,
-          color: DS.text3
-        }
-      }, "Proy. EOY"), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 9,
-          color: pc,
-          fontWeight: 700
-        }
-      }, proyPct, "%")), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 13,
-          fontWeight: 700,
-          color: pc,
-          fontFamily: "'JetBrains Mono',monospace",
-          marginBottom: 6
-        }
-      }, fmt(proy)), /*#__PURE__*/React.createElement("div", {
-        style: {
-          height: 8,
-          background: "rgba(0,0,0,0.07)",
-          borderRadius: 4,
-          overflow: "hidden",
-          position: "relative"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          position: "absolute",
-          left: 0,
-          top: 0,
-          height: "100%",
-          background: DS.emerald,
-          width: `${Math.min(wonPct, 100)}%`
-        }
-      }), /*#__PURE__*/React.createElement("div", {
-        style: {
-          position: "absolute",
-          left: `${Math.min(wonPct, 100)}%`,
-          top: 0,
-          height: "100%",
-          background: cc + "88",
-          width: `${Math.min(proyPct - wonPct, 100 - Math.min(wonPct, 100))}%`
-        }
-      })), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 8,
-          color: DS.text3,
-          marginTop: 3
-        }
-      }, "Budget ", fmt(budget)))));
-    })), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 16,
-        marginTop: 8
-      }
-    }, [[DS.emerald, "Won YTD"], [DS.accent + "88", "Pipeline ponderado"]].map(([c, l]) => /*#__PURE__*/React.createElement("div", {
-      key: l,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 5
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 14,
-        height: 6,
-        borderRadius: 3,
-        background: c
-      }
-    }), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: DS.text3
-      }
-    }, l)))));
-  })(), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+  }, a.items.join(" · "), a.count > 2 && ` · +${a.count - 2} más`))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 12,
+      flexWrap: "wrap",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
   }, "AVANCE SEMANAL POR EJECUTIVO"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      flexDirection: "column",
-      gap: 10,
-      marginTop: 12
+      gap: 6,
+      flexWrap: "wrap"
     }
-  }, owners.map(o => {
+  }, ["Todos", ...owners.filter(o => {
+    const a = active.filter(d => d.owner === o);
+    return wFn(a) > 0;
+  })].map(o => /*#__PURE__*/React.createElement("button", {
+    key: o,
+    onClick: () => setPulsoExec(o === "Todos" ? "" : o),
+    style: {
+      padding: "4px 10px",
+      fontSize: 10,
+      borderRadius: 16,
+      cursor: "pointer",
+      background: pulsoExec === (o === "Todos" ? "" : o) ? "rgba(52,168,83,0.15)" : "rgba(255,255,255,0.04)",
+      border: `1px solid ${pulsoExec === (o === "Todos" ? "" : o) ? DS.accent + "60" : DS.border}`,
+      color: pulsoExec === (o === "Todos" ? "" : o) ? DS.accent : DS.text3,
+      fontWeight: pulsoExec === (o === "Todos" ? "" : o) ? 700 : 400
+    }
+  }, o === "Todos" ? "Todos" : o.split(" ")[0])))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, owners.filter(o => {
+    const a = active.filter(d => d.owner === o);
+    if (wFn(a) === 0) return false; // ← ocultar owners con $0 pipeline
+    if (pulsoExec && pulsoExec !== o) return false; // ← filtro activo
+    return true;
+  }).map(o => {
     const myA = active.filter(d => d.owner === o);
     const myMov = movedWk.filter(d => d.owner === o);
     const myNew = newWk.filter(d => d.owner === o);
@@ -941,7 +747,7 @@ function SecPulso({
         alignItems: "center",
         justifyContent: "space-between",
         padding: "12px 16px",
-        background: "rgba(0,0,0,0.03)"
+        background: "rgba(255,255,255,0.03)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1117,7 +923,7 @@ function SecPulso({
           fontWeight: 900
         }
       }, fmt(d.amount)));
-    }))), myA.length > 0 && /*#__PURE__*/React.createElement("div", {
+    }))), myA.length > 0 && (pulsoExec || myA.length <= 5) && /*#__PURE__*/React.createElement("div", {
       style: {
         padding: "10px 16px",
         borderTop: `1px solid ${DS.border}`,
@@ -1132,7 +938,19 @@ function SecPulso({
     }, [...myA].sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a)).map((d, i) => /*#__PURE__*/React.createElement(DealLine, {
       key: i,
       d: d
-    })))));
+    })))), myA.length > 5 && !pulsoExec && /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "8px 16px",
+        borderTop: `1px solid ${DS.border}`,
+        background: "rgba(0,0,0,0.02)",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: DS.text3
+      }
+    }, myA.length, " deals activos \u2014 seleccion\xE1 el ejecutivo en el filtro para ver el detalle")));
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
   }, "PULSO MENSUAL \u2014 ", PREV_MONTH_LABEL, " (mes cerrado)"), /*#__PURE__*/React.createElement("div", {
@@ -1190,7 +1008,7 @@ function SecPulso({
       style: {
         borderRadius: 12,
         padding: 12,
-        background: "rgba(0,0,0,0.02)",
+        background: "rgba(255,255,255,0.02)",
         border: `1px solid ${DS.border}`
       }
     }, /*#__PURE__*/React.createElement(Label, {
@@ -1490,7 +1308,7 @@ function SecPulso({
         gap: 4,
         padding: "3px 10px",
         borderRadius: 20,
-        background: val > 0 ? color + "18" : "rgba(0,0,0,0.03)",
+        background: val > 0 ? color + "18" : "rgba(255,255,255,0.03)",
         border: "1px solid " + (val > 0 ? color + "35" : "rgba(255,255,255,0.07)")
       }
     }, /*#__PURE__*/React.createElement("span", {
@@ -1511,7 +1329,7 @@ function SecPulso({
     }, /*#__PURE__*/React.createElement(DealBlock, {
       items: myWonFeb,
       icon: "\uD83C\uDFC6",
-      label: "Won Marzo",
+      label: "Won Febrero",
       color: "#818cf8"
     }), /*#__PURE__*/React.createElement(DealBlock, {
       items: myNew,
@@ -1543,7 +1361,7 @@ function SecProductividad({
   const [view, setView] = useState("semana");
   const active = deals.filter(isActiveDeal);
   const wkS = wk();
-  // "este mes" = PREV_MONTH (Marzo = último mes cerrado)
+  // "este mes" = PREV_MONTH (Febrero = último mes cerrado)
   const pmS = prevMoStart(),
     pmE = prevMoEnd();
 
@@ -1568,7 +1386,7 @@ function SecProductividad({
       movWk: my.filter(d => d.last_activity && d.last_activity >= wkS).length,
       wonWk: deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date >= wkS && d.close_date >= YEAR_START).length,
       wonWkVal: deals.filter(d => isWonDeal(d) && d.owner === o && d.close_date >= wkS && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0),
-      // Prev month (Marzo)
+      // Prev month (Febrero)
       newPm: deals.filter(d => !isLostDeal(d) && d.owner === o && d.created && d.created >= pmS && d.created <= pmE).length,
       movPm: my.filter(d => d.last_activity && d.last_activity >= pmS && d.last_activity <= pmE).length,
       wonPm: deals.filter(d => isWonDeal(d) && d.owner === o && wonDate(d) >= pmS && wonDate(d) <= pmE).length,
@@ -1692,7 +1510,7 @@ function SecProductividad({
   }];
   const cols = view === "semana" ? WCOLS : PMCOLS;
   function cellBg(pct, good) {
-    if (pct == null || pct === undefined) return "rgba(0,0,0,0.02)";
+    if (pct == null || pct === undefined) return "rgba(255,255,255,0.02)";
     if (good) {
       if (pct > 0.66) return `rgba(16,185,129,${0.12 + pct * 0.3})`;
       if (pct > 0.33) return `rgba(245,158,11,${0.12 + pct * 0.25})`;
@@ -1718,9 +1536,9 @@ function SecProductividad({
       fontFamily: "monospace",
       borderRadius: 8,
       cursor: "pointer",
-      background: view === v ? "rgba(249,115,22,0.25)" : "rgba(0,0,0,0.05)",
+      background: view === v ? "rgba(249,115,22,0.25)" : "rgba(255,255,255,0.04)",
       color: view === v ? "#fb923c" : DS.text3,
-      border: `1px solid ${view === v ? "rgba(249,115,22,0.4)" : "rgba(0,0,0,0.07)"}`
+      border: `1px solid ${view === v ? "rgba(249,115,22,0.4)" : "rgba(255,255,255,0.06)"}`
     }
   }, l))), /*#__PURE__*/React.createElement("p", {
     style: {
@@ -1796,7 +1614,7 @@ function SecProductividad({
   }).join(" "), " ", r.total, " deals")), cols.map(c => {
     const val = c.r(r);
     const pct = typeof c.p === "function" ? c.p(r) : null;
-    const bg = val !== "—" && pct != null && pct > 0 ? cellBg(pct, c.good) : "rgba(0,0,0,0.02)";
+    const bg = val !== "—" && pct != null && pct > 0 ? cellBg(pct, c.good) : "rgba(255,255,255,0.02)";
     return /*#__PURE__*/React.createElement("td", {
       key: c.k,
       style: {
@@ -1882,8 +1700,7 @@ function SecModelo({
     forecastByM[i] += v;
   }));
 
-  // Won real by month (HubSpot close_date, excl. future dates)
-  // Jan: $685K | Feb: $161K | Mar: $212K
+  // Won real by month — only past/current months, using wonDate() fallback
   const wonByM = Array(12).fill(0);
   const todayM = new Date().getMonth();
   deals.filter(d => isWonDeal(d)).forEach(d => {
@@ -1898,8 +1715,8 @@ function SecModelo({
   // Modelo uses FORECAST_TOTAL annual, Forecast uses TOTAL_TARGET annual
   const modelAnnual = FORECAST_TOTAL; // $3,547,357
   const forecastAnnual = TOTAL_TARGET; // $3,607,620
-  const covPct = Math.min(Math.round(pipeW / forecastAnnual * 100), 999); // Budget = FM $3.60M
-  const covColor = covPct >= 80 ? DS.emerald : covPct >= 50 ? DS.amber : DS.red; // Budget coverage color
+  const covPct = Math.min(Math.round(pipeW / modelAnnual * 100), 999);
+  const covColor = covPct >= 80 ? DS.emerald : covPct >= 50 ? DS.amber : DS.red;
   const pipeVsModel = pipeW - modelAnnual;
   const pipeVsForecast = pipeW - forecastAnnual;
   const modelVsForecast = modelAnnual - forecastAnnual;
@@ -1910,74 +1727,65 @@ function SecModelo({
       flexDirection: "column",
       gap: 16
     }
-  }, (() => {
-    const wonYtd2 = deals.filter(d => isWonDeal(d) && d.close_date && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
-    const gap = TOTAL_TARGET - wonYtd2 - pipeW;
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "repeat(4,1fr)",
-        gap: 12
-      }
-    }, [{
-      label: "Pipeline Ponderado",
-      val: fmt(pipeW),
-      color: DS.accent,
-      sub: `${active.length} deals activos · ${Math.round(pipeW / TOTAL_TARGET * 100)}% del Budget`
-    }, {
-      label: "Budget CS Growth 2026",
-      val: fmt(TOTAL_TARGET),
-      color: "#6366f1",
-      sub: "Resumen 36M — target anual"
-    }, {
-      label: "Modelo Financiero 2026",
-      val: fmt(FORECAST_TOTAL),
-      color: "#f97316",
-      sub: `Gap vs Budget: ${fmt(Math.abs(TOTAL_TARGET - FORECAST_TOTAL))}`
-    }, {
-      label: "Won YTD (cierre real)",
-      val: fmt(wonYtd2),
-      color: DS.emerald,
-      sub: `vs Modelo Q1 (${fmt(totalModelYtd)}): ${Math.round(wonYtd2 / Math.max(totalModelYtd, 1) * 100)}%`
-    }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
-      key: i,
-      accent: true
-    }, /*#__PURE__*/React.createElement(Label, {
-      color: k.color
-    }, k.label), /*#__PURE__*/React.createElement(BigNum, {
-      value: k.val,
-      color: k.color,
-      size: 20
-    }), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 10,
-        color: DS.text3,
-        marginTop: 4,
-        fontFamily: "monospace"
-      }
-    }, k.sub))));
-  })(), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(3,1fr)",
       gap: 12
     }
   }, [{
-    label: "Pipeline vs Budget",
+    label: "Pipeline Ponderado",
+    val: fmt(pipeW),
+    color: DS.cyan,
+    sub: `${active.length} deals activos`
+  }, {
+    label: "Modelo",
+    val: fmt(FORECAST_TOTAL),
+    color: "#6366f1",
+    sub: "target anual Growth 26"
+  }, {
+    label: "Forecast",
+    val: fmt(TOTAL_TARGET),
+    color: "#a78bfa",
+    sub: "proyección Resumen 36M"
+  }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
+    key: i,
+    accent: true
+  }, /*#__PURE__*/React.createElement(Label, {
+    color: k.color
+  }, k.label), /*#__PURE__*/React.createElement(BigNum, {
+    value: k.val,
+    color: k.color,
+    size: 20
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      marginTop: 4,
+      fontFamily: "monospace"
+    }
+  }, k.sub)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3,1fr)",
+      gap: 12
+    }
+  }, [{
+    label: "Pipeline cubre Modelo",
     val: `${covPct}%`,
     sub: `${pipeVsModel >= 0 ? "▲ excede" : "▼ falta"} ${fmt(Math.abs(pipeVsModel))}`,
     color: covColor,
     bg: `${covColor}12`,
     border: `${covColor}30`
   }, {
-    label: "Pipeline vs Budget",
+    label: "Pipeline vs Forecast",
     val: fmt(pipeW),
-    sub: `${pipeVsForecast >= 0 ? "▲ +" : "▼ "}${fmt(Math.abs(pipeVsForecast))} vs Budget`,
+    sub: `${pipeVsForecast >= 0 ? "▲ +" : "▼ "}${fmt(Math.abs(pipeVsForecast))} vs OKR`,
     color: pipeVsForecast >= 0 ? DS.emerald : DS.red,
     bg: "transparent",
     border: DS.border
   }, {
-    label: "Won YTD vs Ritmo Budget",
+    label: "Won YTD vs Ritmo Modelo",
     val: `${wonVsModel >= 0 ? "▲" : "▼"} ${fmt(Math.abs(wonVsModel))}`,
     sub: `Real cerrado: ${fmt(totalWonYtd)}`,
     color: wonVsModel >= 0 ? DS.emerald : DS.red,
@@ -1988,7 +1796,7 @@ function SecModelo({
     style: {
       borderRadius: 16,
       padding: 14,
-      background: k.bg || "rgba(0,0,0,0.02)",
+      background: k.bg || "rgba(255,255,255,0.02)",
       border: `1px solid ${k.border || DS.border}`
     }
   }, /*#__PURE__*/React.createElement(Label, {
@@ -2006,7 +1814,7 @@ function SecModelo({
     }
   }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
-  }, "Cobertura pipeline ponderado vs Budget Anual 2026 (CS Growth)"), /*#__PURE__*/React.createElement("div", {
+  }, "Cobertura pipeline ponderado vs target anual Growth 26"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       justifyContent: "center",
@@ -2032,7 +1840,7 @@ function SecModelo({
   }))), /*#__PURE__*/React.createElement("path", {
     d: "M 15 110 A 95 95 0 0 1 205 110",
     fill: "none",
-    stroke: "rgba(0,0,0,0.07)",
+    stroke: "rgba(255,255,255,0.06)",
     strokeWidth: "16",
     strokeLinecap: "round"
   }), /*#__PURE__*/React.createElement("path", {
@@ -2054,12 +1862,12 @@ function SecModelo({
     x: "110",
     y: "112",
     textAnchor: "middle",
-    fill: DS.text2,
+    fill: DS.text3,
     fontSize: "9",
     fontFamily: "monospace"
-  }, "PIPELINE ", fmt(pipeW), " / BUDGET ", fmt(TOTAL_TARGET))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
+  }, "PIPELINE ", fmt(pipeW), " / TARGET ", fmt(TOTAL_TARGET))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
-  }, "Comparativa mensual \u2014 Modelo Financiero vs Budget CS Growth vs Won Real"), /*#__PURE__*/React.createElement("p", {
+  }, "Comparativa mensual 2026 \u2014 Modelo vs Forecast vs Won Real"), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
       color: DS.text3,
@@ -2067,7 +1875,7 @@ function SecModelo({
       marginTop: 4,
       marginBottom: 20
     }
-  }, "Modelo Financiero (azul) vs Budget CS Growth (naranja) \xB7 Won Real HubSpot (verde) \xB7 ambos modelos backend-loaded"), (() => {
+  }, "Mes a mes YTD \xB7 barras proporcionales al m\xE1ximo mensual"), (() => {
     const maxVal = Math.max(...modelByM, ...forecastByM, ...wonByM, 1);
     return /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2120,7 +1928,7 @@ function SecModelo({
         style: {
           flex: 1,
           height: 10,
-          background: "rgba(0,0,0,0.06)",
+          background: "rgba(255,255,255,0.05)",
           borderRadius: 5,
           overflow: "hidden"
         }
@@ -2148,7 +1956,7 @@ function SecModelo({
         style: {
           flex: 1,
           height: 10,
-          background: "rgba(0,0,0,0.06)",
+          background: "rgba(255,255,255,0.05)",
           borderRadius: 5,
           overflow: "hidden"
         }
@@ -2176,7 +1984,7 @@ function SecModelo({
         style: {
           flex: 1,
           height: 10,
-          background: "rgba(0,0,0,0.06)",
+          background: "rgba(255,255,255,0.05)",
           borderRadius: 5,
           overflow: "hidden"
         }
@@ -2229,7 +2037,7 @@ function SecModelo({
     style: {
       borderBottom: `1px solid ${DS.border}`
     }
-  }, ["Mes", "Modelo Financiero", "Budget CS Growth", "Gap FM vs Mdl", "Won Real", "Won vs Modelo"].map(h => /*#__PURE__*/React.createElement("th", {
+  }, ["Mes", "Modelo", "Forecast", "Won Real", "% vs Modelo", "% vs Forecast"].map(h => /*#__PURE__*/React.createElement("th", {
     key: h,
     style: {
       textAlign: h === "Mes" ? "left" : "right",
@@ -2251,7 +2059,7 @@ function SecModelo({
     return /*#__PURE__*/React.createElement("tr", {
       key: m,
       style: {
-        borderBottom: `1px solid ${DS.border}`
+        borderBottom: `1px solid rgba(255,255,255,0.04)`
       }
     }, /*#__PURE__*/React.createElement("td", {
       style: {
@@ -2263,26 +2071,19 @@ function SecModelo({
       style: {
         padding: "8px 10px",
         textAlign: "right",
-        color: "#6366f1"
+        color: "#818cf8"
       }
     }, fmt(mod)), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "8px 10px",
         textAlign: "right",
-        color: "#f97316"
+        color: "rgba(251,146,60,0.9)"
       }
     }, fmt(fcast)), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "8px 10px",
         textAlign: "right",
-        color: fcast - mod >= 0 ? DS.emerald : DS.red,
-        fontWeight: 700
-      }
-    }, fcast > 0 ? `${fcast - mod >= 0 ? "▲ +" : "▼ "}${fmt(Math.abs(fcast - mod))}` : "—"), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: "8px 10px",
-        textAlign: "right",
-        color: won > 0 ? DS.emerald : DS.text3,
+        color: won > 0 ? "#00d4aa" : DS.text3,
         fontWeight: won > 0 ? 700 : 400
       }
     }, won > 0 ? fmt(won) : "—"), /*#__PURE__*/React.createElement("td", {
@@ -2292,11 +2093,17 @@ function SecModelo({
         color: color,
         fontWeight: 700
       }
-    }, pMod != null ? `${pMod}%` : "—"));
+    }, pMod != null ? `${pMod}%` : "—"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: "8px 10px",
+        textAlign: "right",
+        color: pFcast != null ? pFcast >= 100 ? "#00d4aa" : pFcast >= 70 ? "#ffa502" : "#ff4757" : DS.text3
+      }
+    }, pFcast != null ? `${pFcast}%` : "—"));
   }), /*#__PURE__*/React.createElement("tr", {
     style: {
       borderTop: `1px solid ${DS.borderAccent}`,
-      background: "rgba(0,0,0,0.02)"
+      background: "rgba(255,255,255,0.02)"
     }
   }, /*#__PURE__*/React.createElement("td", {
     style: {
@@ -2348,7 +2155,7 @@ function SecModelo({
       borderTop: `1px solid ${DS.border}`,
       flexWrap: "wrap"
     }
-  }, [["rgba(99,102,241,0.75)", "Modelo Financiero (top-down)"], ["rgba(251,146,60,0.75)", "Budget CS Growth (bottom-up)"], ["#00d4aacc", "Won Real HubSpot"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
+  }, [["rgba(99,102,241,0.75)", "Modelo"], ["rgba(251,146,60,0.75)", "Forecast"], ["#00d4aacc", "Won Real"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
     key: l,
     style: {
       display: "flex",
@@ -2370,64 +2177,48 @@ function SecModelo({
     }
   }, l))))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
-  }, "Tendencias Acumuladas 2026 \u2014 Modelo Financiero vs Budget CS Growth"), /*#__PURE__*/React.createElement("p", {
+  }, "Tendencias acumuladas 2026 \u2014 Adquisici\xF3n Growth 26"), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 10,
       color: DS.text3,
       fontFamily: "monospace",
       marginTop: 4,
-      marginBottom: 4
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "#6366f1",
-      fontWeight: 600
-    }
-  }, "Modelo Financiero"), " (top-down $3.54M) vs ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "#f97316",
-      fontWeight: 600
-    }
-  }, "Budget CS Growth"), " (bottom-up $3.60M) \xB7 Won Real en escala \xD70.3"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 9,
-      color: DS.text3,
-      fontFamily: "monospace",
       marginBottom: 12
     }
-  }, "Curva s\xF3lida = YTD real \xB7 punteada = proyecci\xF3n completa hasta Dic"), (() => {
+  }, "Acumulado mes a mes \u2014 curva s\xF3lida YTD, punteada = proyecci\xF3n anual completa."), (() => {
     const W = 620,
       H = 230,
       PAD = {
         t: 20,
-        r: 100,
+        r: 90,
         b: 30,
-        l: 58
+        l: 54
       };
     const plotW = W - PAD.l - PAD.r,
       plotH = H - PAD.t - PAD.b;
     const n = curM + 1;
-    const cumMdl = [],
-      cumFM = [],
-      cumWon = [];
-    let sm = 0,
-      sf = 0,
-      sw = 0;
+    // Full 12-month cumulative for projections
+    const fullModel = [],
+      fullFcast = [];
+    let fm = 0,
+      ff = 0;
     for (let i = 0; i < 12; i++) {
-      sm += modelByM[i];
-      sf += forecastByM[i];
-      sw += wonByM[i];
-      cumMdl.push(sm);
-      cumFM.push(sf);
-      cumWon.push(sw);
+      fm += modelByM[i];
+      ff += forecastByM[i];
+      fullModel.push(fm);
+      fullFcast.push(ff);
     }
-    const planMax = Math.max(cumMdl[11], cumFM[11], 1);
-    const wonScaleFactor = planMax / Math.max(cumWon[n - 1] * 3.5, 1);
+
+    // Scale to annual end values so dashed projection fits within chart
+    const maxVal = Math.max(fullModel[11], fullFcast[11], 1);
     const px = i => PAD.l + i / 11 * plotW;
-    const py = v => PAD.t + plotH - Math.min(v, planMax) / planMax * plotH;
-    const pyW = v => PAD.t + plotH - Math.min(v * wonScaleFactor, planMax) / planMax * plotH;
+    const py = v => {
+      const raw = PAD.t + plotH - v / maxVal * plotH;
+      return Math.max(PAD.t, Math.min(PAD.t + plotH, raw)); // clamp within chart area
+    };
     function sp(pts) {
       if (!pts || pts.length < 1) return '';
+      if (pts.length === 1) return `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
       let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
       for (let i = 1; i < pts.length; i++) {
         const p = pts[i - 1],
@@ -2437,13 +2228,12 @@ function SecModelo({
       }
       return d;
     }
-    const ptsMdl = cumMdl.map((_, i) => [px(i), py(cumMdl[i])]);
-    const ptsFM = cumFM.map((_, i) => [px(i), py(cumFM[i])]);
-    const ptsWon = cumWon.map((_, i) => [px(i), pyW(cumWon[i])]);
+    const ptsMod = fullModel.map((_, i) => [px(i), py(fullModel[i])]);
+    const ptsFc = fullFcast.map((_, i) => [px(i), py(fullFcast[i])]);
     const MLBLS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => ({
-      v: planMax * t,
-      y: py(planMax * t)
+      v: maxVal * t,
+      y: py(maxVal * t)
     }));
     return /*#__PURE__*/React.createElement("svg", {
       viewBox: `0 0 ${W} ${H}`,
@@ -2458,14 +2248,14 @@ function SecModelo({
       y1: t.y,
       x2: W - PAD.r,
       y2: t.y,
-      stroke: "rgba(0,0,0,0.07)",
+      stroke: "rgba(255,255,255,0.05)",
       strokeWidth: "1"
     }), /*#__PURE__*/React.createElement("text", {
       x: PAD.l - 5,
       y: t.y + 4,
       textAnchor: "end",
       fontSize: "9",
-      fill: "#64748b",
+      fill: "#475569",
       fontFamily: "monospace"
     }, fmt(t.v)))), MLBLS.map((l, i) => /*#__PURE__*/React.createElement("text", {
       key: i,
@@ -2473,159 +2263,91 @@ function SecModelo({
       y: H - 4,
       textAnchor: "middle",
       fontSize: "9",
-      fill: i < n ? "#64748b" : "#94a3b8",
+      fill: i < n ? "#64748b" : "#1e293b",
       fontFamily: "monospace"
     }, l)), /*#__PURE__*/React.createElement("line", {
       x1: px(n - 1),
       y1: PAD.t,
       x2: px(n - 1),
       y2: PAD.t + plotH,
-      stroke: "rgba(0,0,0,0.12)",
+      stroke: "rgba(255,255,255,0.1)",
       strokeWidth: "1",
       strokeDasharray: "4 3"
-    }), /*#__PURE__*/React.createElement("text", {
-      x: px(n - 1) + 4,
-      y: PAD.t + 10,
-      fontSize: "8",
-      fill: "#94a3b8"
-    }, "hoy"), /*#__PURE__*/React.createElement("path", {
-      d: sp(ptsMdl),
+    }), /*#__PURE__*/React.createElement("path", {
+      d: sp(ptsMod),
       fill: "none",
-      stroke: "#6366f133",
+      stroke: "rgba(99,102,241,0.3)",
       strokeWidth: "1.5",
       strokeDasharray: "5 4"
     }), /*#__PURE__*/React.createElement("path", {
-      d: sp(ptsFM),
+      d: sp(ptsFc),
       fill: "none",
-      stroke: "#f9731633",
+      stroke: "rgba(251,146,60,0.3)",
       strokeWidth: "1.5",
       strokeDasharray: "5 4"
     }), /*#__PURE__*/React.createElement("path", {
-      d: `${sp(ptsMdl.slice(0, n))} L ${px(n - 1)} ${PAD.t + plotH} L ${PAD.l} ${PAD.t + plotH} Z`,
+      d: `${sp(ptsMod.slice(0, n))} L ${px(n - 1)} ${PAD.t + plotH} L ${PAD.l} ${PAD.t + plotH} Z`,
       fill: "rgba(99,102,241,0.07)",
       stroke: "none"
     }), /*#__PURE__*/React.createElement("path", {
-      d: `${sp(ptsFM.slice(0, n))} L ${px(n - 1)} ${PAD.t + plotH} L ${PAD.l} ${PAD.t + plotH} Z`,
-      fill: "rgba(249,115,22,0.05)",
-      stroke: "none"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: sp(ptsMdl.slice(0, n)),
+      d: sp(ptsMod.slice(0, n)),
       fill: "none",
-      stroke: "#6366f1",
+      stroke: "rgba(99,102,241,0.95)",
       strokeWidth: "2.5",
       strokeLinecap: "round"
     }), /*#__PURE__*/React.createElement("path", {
-      d: sp(ptsFM.slice(0, n)),
+      d: sp(ptsFc.slice(0, n)),
       fill: "none",
-      stroke: "#f97316",
-      strokeWidth: "2.5",
-      strokeLinecap: "round"
-    }), cumWon[n - 1] > 0 && /*#__PURE__*/React.createElement("path", {
-      d: sp(ptsWon.slice(0, n)),
-      fill: "none",
-      stroke: "#10b981",
-      strokeWidth: "1.5",
+      stroke: "rgba(251,146,60,0.9)",
+      strokeWidth: "2",
       strokeLinecap: "round",
-      strokeDasharray: "5 3"
-    }), /*#__PURE__*/React.createElement("circle", {
-      cx: ptsMdl[n - 1][0],
-      cy: ptsMdl[n - 1][1],
-      r: "5",
-      fill: "#6366f1",
-      stroke: "white",
-      strokeWidth: "2"
-    }), /*#__PURE__*/React.createElement("text", {
-      x: ptsMdl[n - 1][0] + 8,
-      y: ptsMdl[n - 1][1] - 3,
-      fontSize: "10",
-      fill: "#6366f1",
-      fontFamily: "monospace",
-      fontWeight: "700"
-    }, fmt(cumMdl[n - 1])), /*#__PURE__*/React.createElement("text", {
-      x: ptsMdl[n - 1][0] + 8,
-      y: ptsMdl[n - 1][1] + 9,
-      fontSize: "8",
-      fill: "#64748b",
-      fontFamily: "monospace"
-    }, "Modelo Fin."), /*#__PURE__*/React.createElement("circle", {
-      cx: ptsFM[n - 1][0],
-      cy: ptsFM[n - 1][1],
-      r: "5",
-      fill: "#f97316",
-      stroke: "white",
-      strokeWidth: "2"
-    }), /*#__PURE__*/React.createElement("text", {
-      x: ptsFM[n - 1][0] + 8,
-      y: ptsFM[n - 1][1] - 3,
-      fontSize: "10",
-      fill: "#f97316",
-      fontFamily: "monospace",
-      fontWeight: "700"
-    }, fmt(cumFM[n - 1])), /*#__PURE__*/React.createElement("text", {
-      x: ptsFM[n - 1][0] + 8,
-      y: ptsFM[n - 1][1] + 9,
-      fontSize: "8",
-      fill: "#64748b",
-      fontFamily: "monospace"
-    }, "CS Growth"), cumWon[n - 1] > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("circle", {
-      cx: ptsWon[n - 1][0],
-      cy: ptsWon[n - 1][1],
+      strokeDasharray: "6 3"
+    }), [[ptsMod[n - 1], "#6366f1", fmt(fullModel[n - 1]), "Modelo"], [ptsFc[n - 1], "#a78bfa", fmt(fullFcast[n - 1]), "Forecast"]].map(([pt, col, val, lbl], li) => /*#__PURE__*/React.createElement("g", {
+      key: li
+    }, /*#__PURE__*/React.createElement("circle", {
+      cx: pt[0],
+      cy: pt[1],
       r: "4",
-      fill: "#10b981",
-      stroke: "white",
-      strokeWidth: "1.5"
+      fill: col,
+      stroke: "#0a0a0f",
+      strokeWidth: "2"
     }), /*#__PURE__*/React.createElement("text", {
-      x: ptsWon[n - 1][0] - 8,
-      y: ptsWon[n - 1][1] - 7,
-      fontSize: "9",
-      fill: "#10b981",
+      x: pt[0] + 10,
+      y: pt[1] - 3,
+      fontSize: "10",
+      fill: col,
       fontFamily: "monospace",
-      fontWeight: "700",
-      textAnchor: "end"
-    }, fmt(cumWon[n - 1])), /*#__PURE__*/React.createElement("text", {
-      x: ptsWon[n - 1][0] - 8,
-      y: ptsWon[n - 1][1] + 5,
+      fontWeight: "700"
+    }, val), /*#__PURE__*/React.createElement("text", {
+      x: pt[0] + 10,
+      y: pt[1] + 9,
       fontSize: "8",
-      fill: "#64748b",
-      fontFamily: "monospace",
-      textAnchor: "end"
-    }, "Won Real")), /*#__PURE__*/React.createElement("circle", {
-      cx: ptsMdl[11][0],
-      cy: ptsMdl[11][1],
-      r: "3",
-      fill: "#6366f133",
-      stroke: "#6366f1",
-      strokeWidth: "1.5"
-    }), /*#__PURE__*/React.createElement("text", {
-      x: ptsMdl[11][0] + 5,
-      y: ptsMdl[11][1] + 4,
-      fontSize: "8",
-      fill: "#6366f166",
+      fill: "#475569",
       fontFamily: "monospace"
-    }, fmt(FORECAST_TOTAL)), /*#__PURE__*/React.createElement("circle", {
-      cx: ptsFM[11][0],
-      cy: ptsFM[11][1],
+    }, lbl))), /*#__PURE__*/React.createElement("circle", {
+      cx: ptsMod[11][0],
+      cy: ptsMod[11][1],
       r: "3",
-      fill: "#f9731633",
-      stroke: "#f97316",
+      fill: "rgba(99,102,241,0.4)",
+      stroke: "rgba(99,102,241,0.6)",
       strokeWidth: "1.5"
-    }), /*#__PURE__*/React.createElement("text", {
-      x: ptsFM[11][0] + 5,
-      y: ptsFM[11][1] + 12,
-      fontSize: "8",
-      fill: "#f9731666",
-      fontFamily: "monospace"
-    }, fmt(TOTAL_TARGET)));
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: ptsFc[11][0],
+      cy: ptsFc[11][1],
+      r: "3",
+      fill: "rgba(167,139,250,0.4)",
+      stroke: "rgba(167,139,250,0.6)",
+      strokeWidth: "1.5"
+    }));
   })(), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 16,
       marginTop: 10,
       paddingTop: 10,
-      borderTop: `1px solid ${DS.border}`,
-      flexWrap: "wrap"
+      borderTop: `1px solid ${DS.border}`
     }
-  }, [["#6366f1", "Modelo Financiero (top-down $3.54M)"], ["#f97316", "Budget CS Growth (bottom-up $3.60M)"], ["#10b981", "Won Real HubSpot (esc. secundaria)"], ["#6366f133", "── Proyección anual"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
+  }, [["rgba(99,102,241,0.95)", "Modelo YTD"], ["rgba(251,146,60,0.9)", "Forecast YTD"], ["rgba(99,102,241,0.3)", "── Proyección anual Modelo"], ["rgba(251,146,60,0.3)", "── Proyección anual Forecast"]].map(([bg, l]) => /*#__PURE__*/React.createElement("div", {
     key: l,
     style: {
       display: "flex",
@@ -2710,7 +2432,7 @@ function SecModelo({
         padding: 10,
         borderRadius: 12,
         border: `1px solid ${DS.border}`,
-        background: "rgba(0,0,0,0.02)"
+        background: "rgba(255,255,255,0.02)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2756,7 +2478,7 @@ function SecModelo({
       y1: py2(maxV2 * t),
       x2: W2 - P2.r,
       y2: py2(maxV2 * t),
-      stroke: "rgba(0,0,0,0.05)",
+      stroke: "rgba(255,255,255,0.04)",
       strokeWidth: "1"
     }), /*#__PURE__*/React.createElement("text", {
       x: P2.l - 3,
@@ -2812,7 +2534,7 @@ function SecModelo({
       cy: ptsCM[curM][1],
       r: "3",
       fill: "rgba(99,102,241,0.9)",
-      stroke: "white",
+      stroke: "#0a0a0f",
       strokeWidth: "1.5"
     })), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2864,10 +2586,10 @@ function SecEvolucion({
   // Pipeline comparison (WoW uses snapshots, MoM uses date ranges on current data)
   const totalBefore_wow = (_weekAgoSnap$w = weekAgoSnap === null || weekAgoSnap === void 0 ? void 0 : weekAgoSnap.w) !== null && _weekAgoSnap$w !== void 0 ? _weekAgoSnap$w : null;
 
-  // For WoW: use snapshot if available, else show current with note
-  // For MoM: compare deal counts/values created this month vs prev month
-  const totalBefore = period === "wow" ? totalBefore_wow : null;
-  const hasWowData = totalBefore_wow != null;
+  // For MoM pipeline: deals active at start of current month (approx from data)
+  // We compare current pipeline vs previous month pipeline (using byC data if available)
+  const totalBefore = period === "wow" ? totalBefore_wow : null; // MoM pipeline needs snapshot
+
   const totalDelta = totalBefore != null ? totalNow - totalBefore : null;
   const totalPct = totalBefore != null && totalBefore > 0 ? (totalNow - totalBefore) / totalBefore * 100 : null;
 
@@ -2879,7 +2601,7 @@ function SecEvolucion({
   const moS = mo();
   const pS = prevMoStart(),
     pE = prevMoEnd();
-  const [curS, curE, prevS, prevE, periodLabel, periodLabelPrev] = period === "wow" ? [wkS, today, lastWkS, lastWkE, "Esta semana", "Semana pasada"] : period === "mtd" ? [moS, today, pS, pE, "MTD (Abril)", "Marzo completo"] : [moS, today, pS, pE, "Este mes (Abril)", PREV_MONTH_LABEL];
+  const [curS, curE, prevS, prevE, periodLabel, periodLabelPrev] = period === "wow" ? [wkS, today, lastWkS, lastWkE, "Esta semana", "Semana pasada"] : period === "mtd" ? [moS, today, pS, pE, "MTD (Marzo)", "Febrero completo"] : [moS, today, pS, pE, "Este mes (Marzo)", PREV_MONTH_LABEL];
 
   // ── Exec stats calculator ─────────────────────────────────────
   function execStats(owner, start, end) {
@@ -2966,26 +2688,43 @@ function SecEvolucion({
       fontFamily: "monospace",
       borderRadius: 8,
       cursor: "pointer",
-      background: period === v ? "rgba(0,210,255,0.2)" : "rgba(0,0,0,0.05)",
+      background: period === v ? "rgba(0,210,255,0.2)" : "rgba(255,255,255,0.04)",
       color: period === v ? DS.cyan : DS.text3,
       border: `1px solid ${period === v ? "rgba(0,210,255,0.4)" : DS.border}`,
       fontWeight: period === v ? 700 : 400
     }
-  }, l))), period === "wow" && !hasWowData && /*#__PURE__*/React.createElement("div", {
+  }, l))), totalBefore == null && /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      background: "rgba(245,158,11,0.06)",
-      border: "1px solid rgba(245,158,11,0.2)",
-      marginBottom: 12
+      padding: "10px 16px",
+      borderRadius: 10,
+      background: "rgba(245,158,11,0.08)",
+      border: "1px solid rgba(245,158,11,0.25)",
+      display: "flex",
+      alignItems: "center",
+      gap: 12
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
+      fontSize: 18
+    }
+  }, "\u23F3"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
       fontSize: 11,
       color: DS.amber,
+      fontWeight: 700
+    }
+  }, "Sin datos hist\xF3ricos todav\xEDa"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      marginTop: 2
+    }
+  }, "WoW y MoM requieren que el ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: DS.accent,
       fontWeight: 600
     }
-  }, "\u2139\uFE0F Sin snapshot hist\xF3rico \u2014 hac\xE9 clic en \"Actualizar\" por 2 semanas seguidas para habilitar comparaci\xF3n WoW real.")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
+  }, "updater.gs"), " corra 1\u20132 semanas. Se muestra el estado actual."))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
     color: DS.text2
   }, "PIPELINE PONDERADO \u2014 ", period === "wow" ? "WoW (vs hace 7 días)" : "MoM (vs " + PREV_MONTH_LABEL + ")"), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3000,12 +2739,12 @@ function SecEvolucion({
     color: DS.cyan
   }, {
     label: period === "wow" ? "Hace 7 días" : PREV_MONTH_LABEL,
-    val: totalBefore != null ? fmt(totalBefore) : "—",
+    val: totalBefore != null ? fmt(totalBefore) : "Sin snapshot",
     color: DS.text2
   }, {
     label: "Δ " + periodLabel,
-    val: totalDelta != null ? `${totalDelta >= 0 ? "▲" : "▼"} ${fmt(Math.abs(totalDelta))}` : "—",
-    sub: totalPct != null ? `${totalPct >= 0 ? "+" : ""}${totalPct.toFixed(1)}%` : period === "mom" ? "acumulando MoM" : "acumulando historial",
+    val: totalDelta != null ? `${totalDelta >= 0 ? "▲" : "▼"} ${fmt(Math.abs(totalDelta))}` : "— Sin datos",
+    sub: totalPct != null ? `${totalPct >= 0 ? "+" : ""}${totalPct.toFixed(1)}%` : period === "mom" ? "acumulando MoM" : "activá updater.gs",
     color: totalDelta == null ? DS.text3 : totalDelta >= 0 ? DS.emerald : DS.red
   }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
     key: i,
@@ -3261,7 +3000,7 @@ function SecEvolucion({
           textAlign: "center",
           padding: 14,
           borderRadius: 12,
-          background: "rgba(0,0,0,0.02)",
+          background: "rgba(255,255,255,0.02)",
           border: `1px solid ${DS.border}`
         }
       }, /*#__PURE__*/React.createElement("div", {
@@ -3343,7 +3082,7 @@ function SecEvolucion({
         alignItems: "center",
         justifyContent: "space-between",
         padding: "12px 18px",
-        background: "rgba(0,0,0,0.03)"
+        background: "rgba(255,255,255,0.03)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3496,47 +3235,51 @@ function SecFunnel({
     const countryMatch = !cF || norm(d.country) === norm(cF);
     return ownerMatch && countryMatch;
   });
-
-  // Sprint 2: BUCKETS mapped to real HubSpot stage labels from data.json
-  // Real stages: Preventa/Exploración(17) · Preventa M&P(11) · Propuesta Enviada(48) ·
-  //   Propuesta Enviada M&P(14) · Negociación Avanzada(16) · Negociación M&P(5) ·
-  //   Negociación Avanzada M&P(4) · Propuesta Aceptada(8) · Calificación(4) ·
-  //   Contrato/Setup M&P(3) · Etapa de Contrato(3) · Inicio Piloto(2)
   const BUCKETS = [{
-    key: "preventa",
-    label: "Preventa / Exploración",
-    keys: ["preventa", "explorac", "calific", "prosp"],
+    key: "prospeccion",
+    label: "Prospección",
+    keys: ["prosp", "prospect"],
+    color: "#475569"
+  }, {
+    key: "calific",
+    label: "Calificación",
+    keys: ["calific", "qualify"],
     color: "#64748b"
+  }, {
+    key: "demo",
+    label: "Demo / Reunión",
+    keys: ["demo", "reuni", "meeting"],
+    color: "#0891b2"
   }, {
     key: "propuesta",
     label: "Propuesta Enviada",
-    keys: ["propuesta enviada"],
+    keys: ["propuesta enviada", "propuesta"],
     color: "#3b82f6"
-  }, {
-    key: "negavanz",
-    label: "Negociación Avanzada",
-    keys: ["negociación avanzada", "negociacion avanzada", "avanzad"],
-    color: "#f59e0b"
   }, {
     key: "negoc",
     label: "Negociación",
-    keys: ["negociación m&p", "negociacion m", "negoc"],
+    keys: ["negoc"],
     color: "#f97316"
+  }, {
+    key: "negavanz",
+    label: "Neg. Avanzada",
+    keys: ["avanzad"],
+    color: "#f59e0b"
   }, {
     key: "propaceptada",
     label: "Propuesta Aceptada",
     keys: ["aceptada"],
     color: "#8b5cf6"
   }, {
-    key: "contrato",
-    label: "Contrato / Setup",
-    keys: ["contrato", "setup", "etapa de contrato"],
-    color: "#6d28d9"
+    key: "setup",
+    label: "Setup / Firma",
+    keys: ["setup", "firma"],
+    color: "#a855f7"
   }, {
-    key: "piloto",
-    label: "Inicio Piloto",
-    keys: ["piloto", "inicio piloto"],
-    color: "#34a853"
+    key: "contrato",
+    label: "Etapa de Contrato",
+    keys: ["contrato", "clos"],
+    color: "#6d28d9"
   }];
   const bData = BUCKETS.map(b => {
     const bd = filtered.filter(d => b.keys.some(k => (d.stage_label || "").toLowerCase().includes(k)));
@@ -3568,21 +3311,6 @@ function SecFunnel({
     byCountry[c].count++;
     byCountry[c].w += (d.amount || 0) * getProb(d);
   });
-  // Stage velocity — avg days since last_activity per bucket
-  const today2 = new Date().toISOString().split("T")[0];
-  const bucketVelocity = {};
-  bData.forEach(b => {
-    const bd = filtered.filter(d => b.keys.some(k => (d.stage_label || "").toLowerCase().includes(k)));
-    if (!bd.length) {
-      bucketVelocity[b.key] = null;
-      return;
-    }
-    const avg = bd.reduce((s, d) => {
-      const la = d.last_activity || d.created || today2;
-      return s + Math.max(0, Math.round((new Date(today2) - new Date(la)) / 86400000));
-    }, 0) / bd.length;
-    bucketVelocity[b.key] = Math.round(avg);
-  });
   const maxO = Math.max(...Object.values(byOwner).map(v => v.w), 1);
   const maxCtry = Math.max(...Object.values(byCountry).map(v => v.w), 1);
   return /*#__PURE__*/React.createElement("div", {
@@ -3598,7 +3326,7 @@ function SecFunnel({
       gap: 10,
       padding: 14,
       borderRadius: 12,
-      background: "rgba(0,0,0,0.02)",
+      background: "rgba(255,255,255,0.02)",
       border: `1px solid ${DS.border}`
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -3625,7 +3353,7 @@ function SecFunnel({
       fontFamily: "monospace",
       borderRadius: 20,
       cursor: "pointer",
-      background: oF === o ? "rgba(99,102,241,0.3)" : "rgba(0,0,0,0.05)",
+      background: oF === o ? "rgba(99,102,241,0.3)" : "rgba(255,255,255,0.04)",
       color: oF === o ? "#a5b4fc" : DS.text3,
       border: `1px solid ${oF === o ? "rgba(99,102,241,0.5)" : DS.border}`,
       whiteSpace: "nowrap"
@@ -3656,7 +3384,7 @@ function SecFunnel({
         fontFamily: "monospace",
         borderRadius: 20,
         cursor: "pointer",
-        background: cF === c ? "rgba(16,185,129,0.25)" : "rgba(0,0,0,0.05)",
+        background: cF === c ? "rgba(16,185,129,0.25)" : "rgba(255,255,255,0.04)",
         color: cF === c ? DS.emerald : DS.text3,
         border: `1px solid ${cF === c ? "rgba(16,185,129,0.4)" : DS.border}`,
         whiteSpace: "nowrap"
@@ -3733,27 +3461,17 @@ function SecFunnel({
         fontFamily: "monospace",
         padding: "2px 6px",
         borderRadius: 12,
-        background: "rgba(0,0,0,0.07)",
+        background: "rgba(255,255,255,0.06)",
         color: DS.text3
       }
     }, "\u2193", convPct.toFixed(0), "%")), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
-        gap: 12,
+        gap: 16,
         fontFamily: "monospace",
-        fontSize: 11,
-        alignItems: "center"
+        fontSize: 11
       }
-    }, bucketVelocity[b.key] != null && /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        padding: "1px 6px",
-        borderRadius: 10,
-        background: bucketVelocity[b.key] > ZOMBIE_DAYS ? `${DS.red}15` : bucketVelocity[b.key] > 14 ? `${DS.amber}15` : `${DS.emerald}12`,
-        color: bucketVelocity[b.key] > ZOMBIE_DAYS ? DS.red : bucketVelocity[b.key] > 14 ? DS.amber : DS.emerald,
-        fontWeight: 700
-      }
-    }, "\u23F1 ", bucketVelocity[b.key], "d avg"), /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       style: {
         color: DS.text3
       }
@@ -3765,7 +3483,7 @@ function SecFunnel({
     }, fmt(b.weighted)))), /*#__PURE__*/React.createElement("div", {
       style: {
         height: 28,
-        background: "rgba(0,0,0,0.05)",
+        background: "rgba(255,255,255,0.04)",
         borderRadius: 8,
         overflow: "hidden",
         position: "relative"
@@ -4108,82 +3826,12 @@ function SecDeals({
     id: "alerts",
     label: `🚨 Alertas (${overdue.length + zombies.length})`
   }];
-
-  // Sprint 3: Deal score (0-100) — composite risk/opportunity indicator
-  function dealScore(d) {
-    const today2 = new Date().toISOString().split("T")[0];
-    let score = 50;
-    const prob = getProb(d);
-    score += Math.round((prob - 0.5) * 40); // prob contribution (-20 to +20)
-    if (d.close_date && d.close_date < today2) score -= 25; // overdue penalty
-    if (d.last_activity) {
-      const daysOld = Math.round((new Date(today2) - new Date(d.last_activity)) / 86400000);
-      if (daysOld > 30) score -= 20;else if (daysOld > 14) score -= 10;else score += 5;
-    } else {
-      score -= 15;
-    }
-    const amt = d.amount || 0;
-    if (amt > 500000) score += 10;else if (amt > 100000) score += 5;
-    return Math.max(0, Math.min(100, score));
-  }
-  function ScoreBadge({
-    score
-  }) {
-    const c = score >= 70 ? DS.emerald : score >= 45 ? DS.amber : DS.red;
-    const label = score >= 70 ? "🟢" : score >= 45 ? "🟡" : "🔴";
-    return /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        padding: "2px 7px",
-        borderRadius: 10,
-        background: `${c}15`,
-        color: c,
-        border: `1px solid ${c}30`,
-        fontFamily: "monospace",
-        fontWeight: 700
-      }
-    }, label, " ", score);
-  }
-
-  // Deal score: composite risk/quality indicator (Sprint 3)
-  function dealScore(d) {
-    const today2 = new Date().toISOString().split("T")[0];
-    const prob = getProb(d);
-    const isOverdue = d.close_date && d.close_date < today2;
-    const daysSinceAct = d.last_activity ? Math.round((Date.now() - new Date(d.last_activity)) / 86400000) : 999;
-    const isZombie = daysSinceAct > ZOMBIE_DAYS;
-    let s = Math.round(prob * 60);
-    if (!isOverdue && d.close_date) s += 15;
-    if (!isZombie) s += Math.max(0, 15 - Math.floor(daysSinceAct / 3));
-    if ((d.amount || 0) > 500000) s += 10;
-    return Math.min(s, 100);
-  }
-  function ScoreBadge({
-    d
-  }) {
-    const s = dealScore(d);
-    const col = s >= 70 ? DS.emerald : s >= 45 ? DS.amber : DS.red;
-    return /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 8,
-        padding: "1px 5px",
-        borderRadius: 10,
-        background: `${col}15`,
-        color: col,
-        border: `1px solid ${col}30`,
-        fontWeight: 700,
-        fontFamily: "monospace",
-        flexShrink: 0
-      }
-    }, "Score:", s);
-  }
   function DealItem({
     d,
     badge,
     bColor = DS.text3
   }) {
     var _FM$d$country7;
-    const score = dealScore(d);
     return /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
@@ -4215,9 +3863,7 @@ function SecDeals({
         marginTop: 4,
         flexWrap: "wrap"
       }
-    }, /*#__PURE__*/React.createElement(ScoreBadge, {
-      d: d
-    }), /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 10,
         color: DS.text3,
@@ -4231,8 +3877,8 @@ function SecDeals({
       label: d.stage_label,
       color: "#64748b"
     }), /*#__PURE__*/React.createElement(PillBadge, {
-      label: d.pipeline_id === "137007495" ? "Últ.Milla" : "Med.&1ra",
-      color: d.pipeline_id === "137007495" ? "#3b82f6" : "#f97316"
+      label: d.pipeline_id === "137007495" ? "Últ.Milla" : d.pipeline_id === "95256391" ? "Med.&1ra" : d.pipeline_id === "98976889" ? "Outbound" : "Legacy",
+      color: d.pipeline_id === "137007495" ? "#3b82f6" : d.pipeline_id === "95256391" ? "#f97316" : "#8b5cf6"
     }), d.close_date && /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 10,
@@ -4288,7 +3934,7 @@ function SecDeals({
       fontFamily: "monospace",
       borderRadius: 8,
       cursor: "pointer",
-      background: sub === s.id ? "rgba(99,102,241,0.25)" : "rgba(0,0,0,0.05)",
+      background: sub === s.id ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)",
       color: sub === s.id ? "#a5b4fc" : DS.text3,
       border: `1px solid ${sub === s.id ? "rgba(99,102,241,0.4)" : DS.border}`,
       fontWeight: sub === s.id ? 700 : 400
@@ -4300,7 +3946,7 @@ function SecDeals({
       gap: 8,
       padding: 12,
       borderRadius: 12,
-      background: "rgba(0,0,0,0.02)",
+      background: "rgba(255,255,255,0.02)",
       border: `1px solid ${DS.border}`
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -4670,7 +4316,7 @@ function SecRankings({
     m.pipeDeals++;
     const sl = (d.stage_label || "").toLowerCase();
     if (sl.includes("propuesta")) m.propuestas++;
-    if (["preventa", "calificac", "explorac", "prosp", "demo"].some(k => sl.includes(k))) m.preventa++;
+    if (["prosp", "calific", "demo", "reuni"].some(k => sl.includes(k))) m.preventa++;
     if (sl.includes("negoc")) m.negoc++;
     if (["contrato", "setup", "firma", "cierre"].some(k => sl.includes(k))) m.cierre++;
     if (d.last_activity >= wkS) m.movWk++;
@@ -4698,10 +4344,6 @@ function SecRankings({
     m.wonMtdDeals++;
     if (d.country) m.countries.add(d.country);
   });
-
-  // Sprint 2: Budget Q1 per owner — use FM monthly totals month 0+1+2 weighted by owner count
-  // Global Q1 budget = sum of all FM months 0+1+2
-  const globalBudgetQ1 = Object.values(FM).reduce((s, c) => s + c.months[0] + c.months[1] + c.months[2], 0);
   const tableVal = r => period === "ytd" ? r.wonYtdVal : period === "mtd" ? r.wonMtdVal : r.wonPrevVal;
   const tableDeals = r => period === "ytd" ? r.wonYtdDeals : period === "mtd" ? r.wonMtdDeals : r.wonPrevDeals;
   const rows = Object.values(map).sort((a, b) => tableVal(b) - tableVal(a));
@@ -4721,7 +4363,7 @@ function SecRankings({
   const isYtd = period === "ytd";
   const wonKey = isYtd ? "wonYtdVal" : isMtd ? "wonMtdVal" : "wonPrevVal";
   const dealsKey = isYtd ? "wonYtdDeals" : isMtd ? "wonMtdDeals" : "wonPrevDeals";
-  const periodLabel = isYtd ? "YTD 2026" : isMtd ? "MTD Abril" : PREV_MONTH_LABEL;
+  const periodLabel = isYtd ? "YTD 2026" : isMtd ? "MTD Marzo" : PREV_MONTH_LABEL;
   const safeFrom = (arr, fn) => {
     const a = arr.filter(Boolean);
     return a.length ? a.reduce(fn) : rows[0];
@@ -4736,7 +4378,7 @@ function SecRankings({
   const topPipeYtd = safeFrom(rows, (a, b) => b.pipeW > a.pipeW ? b : a);
   const topWonYtd = safeFrom(rows, (a, b) => b.wonYtdVal > a.wonYtdVal ? b : a);
   const topPrevYtd = safeFrom(rows, (a, b) => b.preventa > a.preventa ? b : a);
-  // -- Marzo / MTD awards
+  // -- Febrero / MTD awards
   const curWonKey = isMtd ? "wonMtdVal" : "wonPrevVal";
   const curWonDealsKey = isMtd ? "wonMtdDeals" : "wonPrevDeals";
   const curWinners = rows.filter(r => r[curWonKey] > 0);
@@ -4832,7 +4474,7 @@ function SecRankings({
       display: "flex",
       gap: 8
     }
-  }, [["ytd", "📆 2026 YTD"], ["mtd", "📅 MTD Abril"], ["febrero", "📅 " + PREV_MONTH_LABEL]].map(([p, l]) => /*#__PURE__*/React.createElement("button", {
+  }, [["ytd", "📆 2026 YTD"], ["mtd", "📅 MTD (Marzo)"], ["febrero", "📅 " + PREV_MONTH_LABEL]].map(([p, l]) => /*#__PURE__*/React.createElement("button", {
     key: p,
     onClick: () => setPeriod(p),
     style: {
@@ -4841,7 +4483,7 @@ function SecRankings({
       fontFamily: "monospace",
       borderRadius: 8,
       cursor: "pointer",
-      background: period === p ? "rgba(244,63,94,0.2)" : "rgba(0,0,0,0.05)",
+      background: period === p ? "rgba(244,63,94,0.2)" : "rgba(255,255,255,0.04)",
       color: period === p ? "#fb7185" : DS.text3,
       border: `1px solid ${period === p ? "rgba(244,63,94,0.35)" : DS.border}`
     }
@@ -4968,7 +4610,7 @@ function SecRankings({
     style: {
       borderBottom: `1px solid ${DS.border}`
     }
-  }, ["#", "Ejecutivo", "Pipeline Pond.", period === "ytd" ? "Won YTD" : "Won " + PREV_MONTH_LABEL, "Gap Q1 vs Budget", "Propuestas", "Preventa", "Cierre", "Movidos sem."].map(h => /*#__PURE__*/React.createElement("th", {
+  }, ["#", "Ejecutivo", "Pipeline Pond.", period === "ytd" ? "Won YTD" : "Won " + PREV_MONTH_LABEL, "Propuestas", "Preventa", "Cierre", "Movidos sem."].map(h => /*#__PURE__*/React.createElement("th", {
     key: h,
     style: {
       fontSize: 9,
@@ -4986,8 +4628,7 @@ function SecRankings({
     return /*#__PURE__*/React.createElement("tr", {
       key: i,
       style: {
-        borderBottom: `1px solid ${DS.border}`,
-        background: r.wonYtdVal === 0 && r.pipeW > 200000 ? "rgba(245,158,11,0.03)" : "transparent"
+        borderBottom: `1px solid ${DS.border}`
       }
     }, /*#__PURE__*/React.createElement("td", {
       style: {
@@ -5003,22 +4644,13 @@ function SecRankings({
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 6
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
         fontSize: 12,
         fontWeight: 700,
         color: DS.text1,
         fontFamily: "monospace",
         whiteSpace: "nowrap"
       }
-    }, r.owner), r.wonYtdVal === 0 && r.pipeW > 200000 && /*#__PURE__*/React.createElement(PillBadge, {
-      label: "\u26A0\uFE0F $0 won",
-      color: DS.amber
-    })), /*#__PURE__*/React.createElement("div", {
+    }, r.owner), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: DS.text3,
@@ -5051,7 +4683,7 @@ function SecRankings({
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
-        color: tv > 0 ? DS.emerald : DS.text3,
+        color: DS.emerald,
         fontFamily: "monospace",
         fontWeight: 700
       }
@@ -5060,32 +4692,6 @@ function SecRankings({
       color: DS.emerald,
       height: 3
     })), /*#__PURE__*/React.createElement("td", {
-      style: {
-        padding: "12px 10px",
-        textAlign: "right"
-      }
-    }, (() => {
-      // Budget Q1 per owner = global Q1 budget / active owners count (rough proxy)
-      const activeOwners = Math.max(rows.filter(x => x.pipeW > 0 || x.wonYtdVal > 0).length, 1);
-      const ownerBudgetQ1 = globalBudgetQ1 / activeOwners;
-      const gap = r.wonYtdVal - ownerBudgetQ1;
-      const pct = Math.round(r.wonYtdVal / Math.max(ownerBudgetQ1, 1) * 100);
-      const isZeroWon = r.wonYtdVal === 0 && r.pipeW > 200000;
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 11,
-          fontFamily: "monospace",
-          fontWeight: 700,
-          color: isZeroWon ? DS.amber : gap >= 0 ? DS.emerald : DS.red
-        }
-      }, isZeroWon ? "⚠️ —" : gap >= 0 ? "▲ +" + fmt(gap) : "▼ " + fmt(Math.abs(gap))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          fontFamily: "monospace"
-        }
-      }, pct, "% del Q1"));
-    })()), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "12px 10px",
         textAlign: "right",
@@ -5126,657 +4732,9 @@ function SecRankings({
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// RIESGOS & CALIDAD — CEO Critical View
-// ══════════════════════════════════════════════════════════════════════════
-function SecRiesgo({
-  deals
-}) {
-  const today = new Date().toISOString().split("T")[0];
-  const zombieCut = new Date(Date.now() - ZOMBIE_DAYS * 86400000).toISOString().split("T")[0];
-  const active = deals.filter(isActiveDeal);
-
-  // 1. Concentration risk — top 5 deals as % of total pipe
-  const pipeW = wFn(active);
-  const top5 = [...active].sort((a, b) => (b.amount || 0) * getProb(b) - (a.amount || 0) * getProb(a)).slice(0, 5);
-  const top5W = top5.reduce((s, d) => s + (d.amount || 0) * getProb(d), 0);
-  const concPct = pipeW > 0 ? Math.round(top5W / pipeW * 100) : 0;
-
-  // 2. Overdue (fecha vencida)
-  const overdue = active.filter(d => d.close_date && d.close_date < today).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-
-  // 3. Zombies (sin actividad >30d)
-  const zombies = active.filter(d => !d.last_activity || d.last_activity < zombieCut).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-
-  // 4. Big deals at low prob
-  const bigLowProb = active.filter(d => (d.amount || 0) > 100000 && getProb(d) <= 0.2).sort((a, b) => (b.amount || 0) - (a.amount || 0));
-
-  // 5. No close date
-  const noDate = active.filter(d => !d.close_date);
-
-  // Risk score (0-100)
-  const riskScore = Math.min(100, (overdue.length > 10 ? 30 : overdue.length * 3) + (zombies.length > 15 ? 25 : zombies.length * 1.5) + (concPct > 60 ? 20 : concPct / 3) + bigLowProb.length * 4 + noDate.length * 0.5);
-  const riskColor = riskScore > 60 ? DS.red : riskScore > 35 ? DS.amber : DS.emerald;
-  const riskLabel = riskScore > 60 ? "ALTO" : riskScore > 35 ? "MEDIO" : "BAJO";
-  function RiskCard({
-    title,
-    count,
-    amount,
-    color,
-    items,
-    detail
-  }) {
-    const [open, setOpen] = useState(false);
-    return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        marginBottom: 12
-      }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Label, {
-      color: color
-    }, title), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "baseline",
-        gap: 8,
-        marginTop: 4
-      }
-    }, /*#__PURE__*/React.createElement(BigNum, {
-      value: count,
-      color: color,
-      size: 36
-    }), amount > 0 && /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 14,
-        color: DS.text2,
-        fontFamily: "'JetBrains Mono',monospace"
-      }
-    }, fmt(amount), " en riesgo"))), count > 0 && /*#__PURE__*/React.createElement("button", {
-      onClick: () => setOpen(!open),
-      style: {
-        fontSize: 9,
-        color: DS.text3,
-        background: "none",
-        border: `1px solid ${DS.border}`,
-        cursor: "pointer",
-        padding: "3px 10px",
-        borderRadius: 6
-      }
-    }, open ? "Ocultar" : "Ver todos")), detail, open && items && items.map((d, i) => {
-      var _FM$d$country0;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "5px 0",
-          borderTop: `1px solid ${DS.border}`,
-          fontSize: 11
-        }
-      }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-        style: {
-          marginRight: 6
-        }
-      }, ((_FM$d$country0 = FM[d.country]) === null || _FM$d$country0 === void 0 ? void 0 : _FM$d$country0.flag) || "🌍"), /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: DS.text1,
-          fontFamily: "monospace"
-        }
-      }, d.name), d.close_date && /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          marginLeft: 8
-        }
-      }, fmtD(d.close_date))), /*#__PURE__*/React.createElement("span", {
-        style: {
-          color,
-          fontFamily: "monospace",
-          fontWeight: 700
-        }
-      }, fmt((d.amount || 0) * getProb(d))));
-    }));
-  }
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 24
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr 1fr 1fr",
-      gap: 12
-    }
-  }, [{
-    label: "Score de Riesgo",
-    val: riskLabel,
-    sub: `${Math.round(riskScore)}/100`,
-    color: riskColor
-  }, {
-    label: "Concentración Top 5",
-    val: `${concPct}%`,
-    sub: `${fmt(top5W)} de ${fmt(pipeW)}`,
-    color: concPct > 60 ? DS.red : concPct > 40 ? DS.amber : DS.emerald
-  }, {
-    label: "Deals sin fecha",
-    val: noDate.length,
-    sub: "sin close date",
-    color: noDate.length > 20 ? DS.red : DS.amber
-  }, {
-    label: "Pipeline total",
-    val: fmt(pipeW),
-    sub: `${active.length} deals activos`,
-    color: DS.accent
-  }].map((k, i) => /*#__PURE__*/React.createElement(Card, {
-    key: i
-  }, /*#__PURE__*/React.createElement(Label, {
-    color: k.color
-  }, k.label), /*#__PURE__*/React.createElement(BigNum, {
-    value: k.val,
-    color: k.color,
-    size: 28
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 10,
-      color: DS.text3,
-      marginTop: 4
-    }
-  }, k.sub)))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: concPct > 60 ? DS.red : DS.text2
-  }, "Concentraci\xF3n de Pipeline \u2014 Top 5 Deals (", concPct, "% del total)"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      marginBottom: 16
-    }
-  }, concPct > 60 ? "⚠️ Riesgo ALTO: más del 60% del pipeline ponderado en 5 deals. Si 2 caen, el año se complica." : "El pipeline tiene concentración moderada. Monitoreá estos deals de cerca."), top5.map((d, i) => {
-    var _FM$d$country1;
-    const w = (d.amount || 0) * getProb(d);
-    const pct = pipeW > 0 ? w / pipeW * 100 : 0;
-    const isOverdue = d.close_date && d.close_date < today;
-    const isZombie = !d.last_activity || d.last_activity < zombieCut;
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 14
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 4
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 8
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        fontWeight: 700,
-        color: DS.text3,
-        fontFamily: "monospace",
-        minWidth: 20
-      }
-    }, i + 1), /*#__PURE__*/React.createElement("span", null, ((_FM$d$country1 = FM[d.country]) === null || _FM$d$country1 === void 0 ? void 0 : _FM$d$country1.flag) || "🌍"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        color: DS.text1,
-        fontFamily: "monospace"
-      }
-    }, d.name), isOverdue && /*#__PURE__*/React.createElement(PillBadge, {
-      label: "VENCIDO",
-      color: DS.red
-    }), isZombie && /*#__PURE__*/React.createElement(PillBadge, {
-      label: "ZOMBIE",
-      color: DS.amber
-    })), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: "right"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        fontWeight: 700,
-        color: DS.accent,
-        fontFamily: "monospace"
-      }
-    }, fmt(w)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        color: DS.text3,
-        marginLeft: 6
-      }
-    }, "(", Math.round(getProb(d) * 100), "%)"))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement(MiniBar, {
-      pct: pct,
-      color: DS.accent,
-      height: 6
-    })), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: DS.text3,
-        minWidth: 35
-      }
-    }, pct.toFixed(1), "%"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: DS.text3
-      }
-    }, d.owner || "Sin asignar")));
-  })), (() => {
-    const stageAging = {};
-    const today2 = new Date().toISOString().split("T")[0];
-    active.forEach(d => {
-      const sl = d.stage_label || "Sin etapa";
-      if (!stageAging[sl]) stageAging[sl] = {
-        totalDays: 0,
-        count: 0,
-        totalW: 0
-      };
-      if (d.last_activity) {
-        const days = Math.round((new Date(today2) - new Date(d.last_activity)) / 86400000);
-        stageAging[sl].totalDays += days;
-        stageAging[sl].count++;
-        stageAging[sl].totalW += (d.amount || 0) * getProb(d);
-      }
-    });
-    const stageRows = Object.entries(stageAging).map(([stage, {
-      totalDays,
-      count,
-      totalW
-    }]) => ({
-      stage,
-      avgDays: count > 0 ? Math.round(totalDays / count) : 0,
-      count,
-      totalW
-    })).sort((a, b) => b.avgDays - a.avgDays);
-    const maxDays = Math.max(...stageRows.map(r => r.avgDays), 1);
-    return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-      color: DS.text2
-    }, "Deal Aging por Etapa \u2014 D\xEDas promedio sin actividad"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 10,
-        color: DS.text3,
-        margin: "2px 0 12px"
-      }
-    }, "Deals activos \xB7 \xFAltima actividad registrada. +", ZOMBIE_DAYS, "d = zombie risk"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        gap: 8
-      }
-    }, stageRows.slice(0, 8).map((r, i) => {
-      const pct = r.avgDays / maxDays * 100;
-      const color = r.avgDays > ZOMBIE_DAYS ? DS.red : r.avgDays > 14 ? DS.amber : DS.emerald;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 3
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 8
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 11,
-          color: DS.text1,
-          fontFamily: "monospace"
-        }
-      }, r.stage), r.avgDays > ZOMBIE_DAYS && /*#__PURE__*/React.createElement(PillBadge, {
-        label: "\u26A0\uFE0F zombie risk",
-        color: DS.red
-      })), /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          gap: 12,
-          fontFamily: "monospace",
-          fontSize: 11
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: color,
-          fontWeight: 700
-        }
-      }, r.avgDays, "d avg"), /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: DS.text3
-        }
-      }, r.count, " deals"), /*#__PURE__*/React.createElement("span", {
-        style: {
-          color: DS.cyan
-        }
-      }, fmt(r.totalW)))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          height: 6,
-          background: "rgba(0,0,0,0.06)",
-          borderRadius: 3,
-          overflow: "hidden"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          height: "100%",
-          width: `${pct}%`,
-          background: color,
-          borderRadius: 3
-        }
-      })));
-    })));
-  })(), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement(RiskCard, {
-    title: "Fechas Vencidas",
-    count: overdue.length,
-    amount: overdue.reduce((s, d) => s + (d.amount || 0) * getProb(d), 0),
-    color: DS.red,
-    items: overdue.slice(0, 8),
-    detail: /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 11,
-        color: DS.text3,
-        marginBottom: 8
-      }
-    }, "Deals cuyo close date ya pas\xF3. Actualizar o perder credibilidad del pipeline.")
-  }), /*#__PURE__*/React.createElement(RiskCard, {
-    title: `Zombies +${ZOMBIE_DAYS}d`,
-    count: zombies.length,
-    amount: zombies.reduce((s, d) => s + (d.amount || 0) * getProb(d), 0),
-    color: DS.amber,
-    items: zombies.slice(0, 8),
-    detail: /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 11,
-        color: DS.text3,
-        marginBottom: 8
-      }
-    }, "Sin actividad por m\xE1s de ", ZOMBIE_DAYS, " d\xEDas. Necesitan acci\xF3n inmediata.")
-  })), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.text2
-  }, "Antig\xFCedad por Etapa \u2014 Promedio de d\xEDas sin actividad"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      marginBottom: 14
-    }
-  }, "Las etapas con m\xE1s d\xEDas sin actividad indican cuellos de botella. ", ">", " 21 d\xEDas = riesgo de abandono."), (() => {
-    const stageGroups = {};
-    active.forEach(d => {
-      const sl = d.stage_label || "Sin etapa";
-      if (!stageGroups[sl]) stageGroups[sl] = {
-        deals: 0,
-        totalDays: 0,
-        pipeW: 0,
-        maxDays: 0
-      };
-      const lastAct = d.last_activity || d.created || today;
-      const days = Math.max(0, Math.round((new Date(today) - new Date(lastAct)) / 86400000));
-      stageGroups[sl].deals++;
-      stageGroups[sl].totalDays += days;
-      stageGroups[sl].pipeW += (d.amount || 0) * getProb(d);
-      stageGroups[sl].maxDays = Math.max(stageGroups[sl].maxDays, days);
-    });
-    const stages = Object.entries(stageGroups).map(([s, v]) => ({
-      stage: s,
-      ...v,
-      avgDays: Math.round(v.totalDays / v.deals)
-    })).filter(s => s.deals > 0).sort((a, b) => b.avgDays - a.avgDays);
-    const maxAvg = Math.max(...stages.map(s => s.avgDays), 1);
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        gap: 8
-      }
-    }, stages.map((s, i) => {
-      const pct = s.avgDays / maxAvg * 100;
-      const c = s.avgDays > 30 ? DS.red : s.avgDays > 21 ? DS.amber : s.avgDays > 14 ? DS.text2 : DS.emerald;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 4
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 8
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 11,
-          color: DS.text1,
-          fontFamily: "monospace",
-          minWidth: 220
-        }
-      }, s.stage), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          fontFamily: "monospace"
-        }
-      }, s.deals, " deals \xB7 ", fmt(s.pipeW))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 8
-        }
-      }, s.avgDays > 21 && /*#__PURE__*/React.createElement(PillBadge, {
-        label: s.avgDays > 30 ? "CRÍTICO" : "ATENCIÓN",
-        color: c
-      }), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 13,
-          fontWeight: 700,
-          color: c,
-          fontFamily: "monospace",
-          minWidth: 50,
-          textAlign: "right"
-        }
-      }, s.avgDays, "d"))), /*#__PURE__*/React.createElement("div", {
-        style: {
-          height: 7,
-          background: "rgba(0,0,0,0.06)",
-          borderRadius: 4,
-          overflow: "hidden"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          height: "100%",
-          width: `${pct}%`,
-          background: c,
-          borderRadius: 4
-        }
-      })));
-    }));
-  })()), bigLowProb.length > 0 && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Label, {
-    color: DS.red
-  }, "Deals Grandes con Probabilidad Baja (", ">", " $100K y \u2264 20%)"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      marginBottom: 12
-    }
-  }, "Estos deals inflan el pipeline pero dif\xEDcilmente cierren. Revisar validez o remover."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(3,1fr)",
-      gap: 10
-    }
-  }, bigLowProb.slice(0, 6).map((d, i) => {
-    var _FM$d$country10;
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        borderRadius: 8,
-        padding: "10px 12px",
-        background: `${DS.red}08`,
-        border: `1px solid ${DS.red}20`
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: DS.text3,
-        marginBottom: 4
-      }
-    }, (_FM$d$country10 = FM[d.country]) === null || _FM$d$country10 === void 0 ? void 0 : _FM$d$country10.flag, " ", d.owner || "—"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        color: DS.text1,
-        fontFamily: "monospace",
-        marginBottom: 4
-      }
-    }, d.name.slice(0, 35)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: DS.red,
-        fontFamily: "monospace"
-      }
-    }, fmt(d.amount)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        color: DS.red
-      }
-    }, "@", Math.round(getProb(d) * 100), "%")), d.close_date && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: DS.text3,
-        marginTop: 2
-      }
-    }, fmtD(d.close_date)));
-  }))), /*#__PURE__*/React.createElement(Card, {
-    highlight: true
-  }, /*#__PURE__*/React.createElement(Label, {
-    color: DS.accent
-  }, "Modelo de Escenarios \u2014 \xBFCu\xE1nto podemos cerrar?"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      marginBottom: 16
-    }
-  }, "Basado en el pipeline actual y probabilidades de HubSpot"), (() => {
-    const wonYtd = deals.filter(d => isWonDeal(d) && d.close_date >= YEAR_START).reduce((s, d) => s + (d.amount || 0), 0);
-    const scenarios = [{
-      label: "Pesimista",
-      desc: "Solo deals ≥70% cierran",
-      pct: 0.5,
-      color: DS.red
-    }, {
-      label: "Base",
-      desc: "Pipeline ponderado actual",
-      pct: 1.0,
-      color: DS.amber
-    }, {
-      label: "Optimista",
-      desc: "Pipeline ponderado ×1.5",
-      pct: 1.5,
-      color: DS.emerald
-    }];
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "grid",
-        gridTemplateColumns: "repeat(3,1fr)",
-        gap: 12
-      }
-    }, scenarios.map((sc, i) => {
-      const projected = wonYtd + pipeW * sc.pct;
-      const gap = FORECAST_TOTAL - projected;
-      const pctOfTarget = projected / FORECAST_TOTAL * 100;
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: {
-          borderRadius: 10,
-          padding: 16,
-          border: `2px solid ${sc.color}30`,
-          background: `${sc.color}06`
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 12,
-          fontWeight: 700,
-          color: sc.color,
-          fontFamily: "'Barlow Condensed',sans-serif",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-          marginBottom: 4
-        }
-      }, sc.label), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          color: DS.text3,
-          marginBottom: 10
-        }
-      }, sc.desc), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 24,
-          fontWeight: 700,
-          color: sc.color,
-          fontFamily: "'JetBrains Mono',monospace"
-        }
-      }, fmt(projected)), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 10,
-          color: DS.text3,
-          marginTop: 4
-        }
-      }, "= ", pctOfTarget.toFixed(0), "% del OKR"), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 10,
-          color: gap > 0 ? DS.red : DS.emerald,
-          marginTop: 2
-        }
-      }, gap > 0 ? `❌ Falta ${fmt(gap)}` : `✅ Supera por ${fmt(-gap)}`), /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginTop: 10
-        }
-      }, /*#__PURE__*/React.createElement(MiniBar, {
-        pct: Math.min(pctOfTarget, 130),
-        color: sc.color,
-        height: 5
-      })));
-    }));
-  })()));
-}
-
-// ══════════════════════════════════════════════════════════════════════════
 // MAIN
 // ══════════════════════════════════════════════════════════════════════════
 function Dashboard() {
-  var _TABS$find, _TABS$find2;
   const [deals, setDeals] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -5842,237 +4800,264 @@ function Dashboard() {
   })() : null;
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
       minHeight: "100vh",
       background: DS.bg,
-      fontFamily: "'Barlow','Inter',sans-serif"
+      color: DS.text1,
+      fontFamily: "'DM Mono','Courier New',monospace"
     }
-  }, /*#__PURE__*/React.createElement("aside", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 220,
-      flexShrink: 0,
-      background: DS.sidebar,
-      display: "flex",
-      flexDirection: "column",
-      borderRight: `1px solid ${DS.sidebarBorder}`,
+      borderBottom: `1px solid ${DS.border}`,
+      backdropFilter: "blur(20px)",
       position: "sticky",
       top: 0,
-      height: "100vh",
-      overflow: "hidden"
+      zIndex: 50,
+      background: "rgba(5,5,8,0.95)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "28px 24px 20px",
-      borderBottom: `1px solid ${DS.sidebarBorder}`
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: "14px 28px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 16
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 20,
-      fontWeight: 800,
-      color: "#ffffff",
-      letterSpacing: "-0.01em",
-      fontFamily: "'Barlow Condensed','Arial Narrow',sans-serif",
-      textTransform: "uppercase"
+      display: "flex",
+      alignItems: "center",
+      gap: 16
     }
-  }, "CHAZKI"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 8,
+      height: 8,
+      borderRadius: "50%",
+      background: DS.emerald,
+      boxShadow: `0 0 12px ${DS.emerald}`
+    }
+  }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 9,
-      color: DS.sidebarText,
-      letterSpacing: "0.18em",
+      letterSpacing: "0.35em",
       textTransform: "uppercase",
-      marginTop: 2,
-      fontWeight: 600
+      color: DS.text3,
+      fontFamily: "monospace",
+      fontWeight: 700
     }
-  }, "PIPELINE INTEL 2026")), /*#__PURE__*/React.createElement("nav", {
+  }, "Chazki \xB7 VP Growth \xB7 2026")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 1,
+      height: 16,
+      background: DS.border
+    }
+  }), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: 20,
+      fontWeight: 900,
+      color: DS.text1,
+      letterSpacing: "-0.02em",
+      margin: 0,
+      lineHeight: 1
+    }
+  }, "Pipeline Intelligence")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12
+    }
+  }, lastUpdated && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      color: DS.text3,
+      fontFamily: "monospace"
+    }
+  }, "\u21BB ", lastUpdated.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit"
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: load,
+    disabled: loading,
+    style: {
+      padding: "7px 18px",
+      fontSize: 9,
+      fontWeight: 700,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      borderRadius: 8,
+      cursor: loading ? "not-allowed" : "pointer",
+      border: "none",
+      background: loading ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg,#00d4aa,#00d2ff)",
+      color: loading ? DS.text3 : "#050508",
+      boxShadow: loading ? "none" : "0 0 24px rgba(0,212,170,0.35)"
+    }
+  }, loading ? status || "···" : "↻ Actualizar"))), boardKPIs && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: `1px solid ${DS.border}`,
+      background: "rgba(0,0,0,0.3)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: "0 28px",
+      display: "flex",
+      alignItems: "stretch"
+    }
+  }, [{
+    label: "Pipeline Ponderado",
+    value: fmt(boardKPIs.pipeW),
+    color: DS.cyan,
+    sub: `${boardKPIs.activeDeals} deals activos`
+  }, {
+    label: "Cobertura del Modelo",
+    value: `${boardKPIs.covPct}%`,
+    color: boardKPIs.covCol,
+    sub: `vs target ${fmt(TOTAL_TARGET)}`
+  }, {
+    label: "Won YTD 2026",
+    value: fmt(boardKPIs.wonYtd),
+    color: boardKPIs.wonCol,
+    sub: "cerrado este año"
+  }, {
+    label: "Alertas críticas",
+    value: boardKPIs.alerts,
+    color: boardKPIs.alerts > 0 ? DS.red : DS.emerald,
+    sub: "fechas vencidas"
+  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
     style: {
       flex: 1,
-      overflowY: "auto",
-      padding: "16px 0"
+      padding: "10px 20px",
+      borderRight: `1px solid ${DS.border}`,
+      position: "relative",
+      cursor: "pointer"
+    },
+    onClick: () => {
+      if (i === 0) setTab("funnel");else if (i === 1) setTab("modelo");else if (i === 2) setTab("rankings");else setTab("deals");
     }
-  }, TABS.map((t, i) => {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 2,
+      background: `linear-gradient(90deg,${k.color}80,transparent)`,
+      opacity: 0.7
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      color: DS.text3,
+      fontFamily: "monospace",
+      fontWeight: 700,
+      marginBottom: 3
+    }
+  }, k.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 900,
+      color: k.color,
+      fontFamily: "monospace",
+      lineHeight: 1,
+      letterSpacing: "-0.02em"
+    }
+  }, k.value), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text3,
+      fontFamily: "monospace",
+      marginTop: 2
+    }
+  }, k.sub))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 20px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: DS.text3,
+      fontFamily: "monospace",
+      textTransform: "uppercase",
+      letterSpacing: "0.1em"
+    }
+  }, new Date().toLocaleDateString("es-AR", {
+    weekday: "short",
+    day: "numeric",
+    month: "short"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: DS.text3,
+      fontFamily: "monospace"
+    }
+  }, "\uD83C\uDDE6\uD83C\uDDF7\uD83C\uDDE8\uD83C\uDDF1\uD83C\uDDE8\uD83C\uDDF4\uD83C\uDDF2\uD83C\uDDFD\uD83C\uDDF5\uD83C\uDDEA")))), deals && !loading && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "rgba(0,0,0,0.2)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: "0 28px",
+      display: "flex",
+      gap: 2,
+      overflowX: "auto"
+    }
+  }, TABS.map(t => {
     const active = tab === t.id;
     return /*#__PURE__*/React.createElement("button", {
       key: t.id,
       onClick: () => setTab(t.id),
       style: {
         display: "flex",
-        alignItems: "flex-start",
-        gap: 14,
-        width: "100%",
-        padding: "12px 24px",
+        alignItems: "center",
+        gap: 6,
+        padding: "10px 16px",
+        fontSize: 10,
+        fontFamily: "monospace",
+        fontWeight: active ? 700 : 400,
+        borderRadius: 0,
         cursor: "pointer",
-        background: active ? DS.sidebarActiveBg : "transparent",
+        background: "transparent",
+        color: active ? DS.text1 : DS.text3,
         border: "none",
-        textAlign: "left",
-        borderLeft: `3px solid ${active ? DS.sidebarAccent : "transparent"}`,
-        transition: "all 0.15s"
+        borderBottom: `2px solid ${active ? DS.cyan : "transparent"}`,
+        whiteSpace: "nowrap",
+        transition: "all 0.15s",
+        letterSpacing: "0.05em"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 11,
-        fontWeight: 700,
-        color: active ? DS.sidebarAccent : DS.sidebarText,
-        fontFamily: "'JetBrains Mono',monospace",
-        marginTop: 1,
-        minWidth: 18
+        fontSize: 14
       }
-    }, String(i + 1).padStart(2, "0")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    }, t.icon), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 12,
-        fontWeight: active ? 700 : 500,
-        color: active ? DS.sidebarActive : DS.sidebarText,
-        fontFamily: "'Barlow Condensed','Arial Narrow',sans-serif",
         textTransform: "uppercase",
-        letterSpacing: "0.06em",
-        lineHeight: 1.3
+        letterSpacing: "0.08em",
+        fontSize: 9
       }
-    }, t.label), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: active ? "rgba(255,255,255,0.35)" : DS.sidebarText,
-        marginTop: 1,
-        opacity: 0.7
-      }
-    }, t.subtitle)));
-  })), /*#__PURE__*/React.createElement("div", {
+    }, t.label));
+  })))), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "16px 24px",
-      borderTop: `1px solid ${DS.sidebarBorder}`
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: DS.sidebarText,
-      marginBottom: 8
-    }
-  }, "\uD83C\uDDE6\uD83C\uDDF7 \uD83C\uDDE8\uD83C\uDDF1 \uD83C\uDDE8\uD83C\uDDF4 \uD83C\uDDF2\uD83C\uDDFD \uD83C\uDDF5\uD83C\uDDEA"), /*#__PURE__*/React.createElement("button", {
-    onClick: load,
-    disabled: loading,
-    style: {
-      width: "100%",
-      padding: "8px",
-      fontSize: 9,
-      fontWeight: 700,
-      letterSpacing: "0.12em",
-      textTransform: "uppercase",
-      borderRadius: 7,
-      cursor: loading ? "not-allowed" : "pointer",
-      border: "none",
-      background: loading ? "rgba(0,0,0,0.07)" : DS.sidebarAccent,
-      color: loading ? DS.sidebarText : "#fff"
-    }
-  }, loading ? status || "···" : "↻ Actualizar"), lastUpdated && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 8,
-      color: DS.sidebarText,
-      marginTop: 6,
-      textAlign: "center"
-    }
-  }, "\u21BB ", lastUpdated.toLocaleTimeString("es-AR", {
-    hour: "2-digit",
-    minute: "2-digit"
-  })))), /*#__PURE__*/React.createElement("main", {
-    style: {
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      minWidth: 0,
-      overflow: "auto"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#ffffff",
-      borderBottom: `1px solid ${DS.border}`,
-      padding: "20px 32px",
-      flexShrink: 0
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "space-between",
-      gap: 24
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 28,
-      fontWeight: 800,
-      color: DS.accent,
-      fontFamily: "'JetBrains Mono',monospace",
-      lineHeight: 1
-    }
-  }, String(TABS.findIndex(t => t.id === tab) + 1).padStart(2, "0")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
-    style: {
-      fontSize: 20,
-      fontWeight: 700,
-      color: DS.text1,
-      margin: 0,
-      fontFamily: "'Barlow Condensed','Arial Narrow',sans-serif",
-      textTransform: "uppercase",
-      letterSpacing: "0.04em"
-    }
-  }, (_TABS$find = TABS.find(t => t.id === tab)) === null || _TABS$find === void 0 ? void 0 : _TABS$find.label), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: DS.text3,
-      margin: "2px 0 0",
-      fontFamily: "'Barlow',sans-serif"
-    }
-  }, tab === "pulso" ? "Consolidado Chazki · Adquisición 2026 · " + dateStr : (_TABS$find2 = TABS.find(t => t.id === tab)) === null || _TABS$find2 === void 0 ? void 0 : _TABS$find2.subtitle)))), boardKPIs && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 28,
-      alignItems: "flex-start",
-      flexShrink: 0
-    }
-  }, [{
-    label: "Pipeline Pond.",
-    value: fmt(boardKPIs.pipeW),
-    color: DS.accent
-  }, {
-    label: "Won YTD 2026",
-    value: fmt(boardKPIs.wonYtd),
-    color: boardKPIs.wonCol
-  }, {
-    label: "Cobertura Budget",
-    value: `${boardKPIs.covPct}%`,
-    color: boardKPIs.covCol
-  }, {
-    label: "Deals activos",
-    value: boardKPIs.activeDeals,
-    color: DS.text2
-  }].map((k, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      textAlign: "right"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 20,
-      fontWeight: 700,
-      color: k.color,
-      fontFamily: "'JetBrains Mono',monospace",
-      lineHeight: 1
-    }
-  }, k.value), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: DS.text3,
-      textTransform: "uppercase",
-      letterSpacing: "0.1em",
-      fontFamily: "'Barlow Condensed',sans-serif",
-      marginTop: 3
-    }
-  }, k.label)))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      padding: "28px 32px"
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: "28px"
     }
   }, !deals && !loading && !error && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -6096,34 +5081,34 @@ function Dashboard() {
   }, "\uD83D\uDCCA"), /*#__PURE__*/React.createElement("h2", {
     style: {
       fontSize: 22,
-      fontWeight: 700,
+      fontWeight: 900,
       color: DS.text1,
       margin: "0 0 8px",
-      fontFamily: "'Barlow Condensed',sans-serif",
-      textTransform: "uppercase",
-      letterSpacing: "0.04em"
+      fontFamily: "monospace",
+      letterSpacing: "-0.02em"
     }
   }, "Chazki Pipeline Intelligence"), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 13,
+      fontSize: 12,
       color: DS.text3,
       marginBottom: 28,
+      fontFamily: "monospace",
       lineHeight: 1.6
     }
-  }, "Cargando pipeline desde HubSpot..."), /*#__PURE__*/React.createElement("button", {
+  }, "Conect\xE1 con HubSpot para cargar el pipeline en tiempo real"), /*#__PURE__*/React.createElement("button", {
     onClick: load,
     style: {
-      padding: "12px 32px",
+      padding: "14px 32px",
       fontSize: 11,
       fontWeight: 700,
-      letterSpacing: "0.12em",
+      letterSpacing: "0.15em",
       textTransform: "uppercase",
-      borderRadius: 8,
+      borderRadius: 10,
       cursor: "pointer",
       border: "none",
-      background: DS.accent,
-      color: "#fff",
-      boxShadow: `0 4px 20px ${DS.accentGlow}`
+      background: "linear-gradient(135deg,#00d4aa,#00d2ff)",
+      color: "#050508",
+      boxShadow: "0 0 40px rgba(0,212,170,0.4)"
     }
   }, "Conectar HubSpot \u2192"))), loading && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -6139,16 +5124,18 @@ function Dashboard() {
       width: 48,
       height: 48,
       borderRadius: 12,
-      background: DS.accent,
+      background: "linear-gradient(135deg,#00d4aa,#00d2ff)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: 24
+      fontSize: 24,
+      boxShadow: "0 0 40px rgba(0,212,170,0.4)"
     }
   }, "\u26A1"), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 13,
-      color: DS.text2
+      fontSize: 12,
+      color: DS.text2,
+      fontFamily: "monospace"
     }
   }, status || "Conectando con HubSpot..."), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -6158,19 +5145,19 @@ function Dashboard() {
   }, [0, 1, 2, 3].map(i => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      width: 7,
-      height: 7,
+      width: 6,
+      height: 6,
       borderRadius: "50%",
-      background: DS.accent,
+      background: DS.cyan,
       opacity: 0.3 + i * 0.2,
       animation: `bounce 0.8s ${i * 0.12}s infinite`
     }
   })))), error && /*#__PURE__*/React.createElement("div", {
     style: {
-      borderRadius: 10,
-      padding: 18,
-      background: "#fef2f2",
-      border: "1px solid #fecaca",
+      borderRadius: 14,
+      padding: 20,
+      background: "rgba(255,71,87,0.07)",
+      border: "1px solid rgba(255,71,87,0.2)",
       marginBottom: 16
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -6186,47 +5173,56 @@ function Dashboard() {
   }, "\u26A0\uFE0F"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     style: {
       color: DS.red,
-      fontSize: 13,
+      fontSize: 12,
+      fontFamily: "monospace",
       wordBreak: "break-all",
       margin: "0 0 8px"
     }
   }, error), /*#__PURE__*/React.createElement("button", {
     onClick: load,
     style: {
-      fontSize: 11,
-      color: DS.text2,
+      fontSize: 10,
+      color: DS.text3,
       background: "none",
-      border: `1px solid ${DS.border}`,
+      border: "1px solid " + DS.border,
       cursor: "pointer",
+      fontFamily: "monospace",
       padding: "4px 12px",
       borderRadius: 6
     }
-  }, "Reintentar")))), deals && !loading && /*#__PURE__*/React.createElement("div", null, tab === "pulso" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
+  }, "Reintentar")))), deals && !loading && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: 16,
+      padding: 28,
+      background: "rgba(255,255,255,0.012)",
+      border: `1px solid ${DS.border}`
+    }
+  }, tab === "pulso" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
     icon: "\uD83D\uDCE1",
-    title: "Pulso Ejecutivo",
-    subtitle: "Situaci\xF3n actual \xB7 KPIs cr\xEDticos \xB7 alertas \xB7 cierre Marzo",
-    accent: DS.accent
+    title: "Pulso Semanal & Mensual",
+    subtitle: "Actividad por ejecutivo \xB7 semana en curso \xB7 cierre Febrero",
+    accent: DS.emerald
   }), /*#__PURE__*/React.createElement(SecPulso, {
+    deals: deals
+  })), tab === "productividad" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
+    icon: "\uD83D\uDD25",
+    title: "Productividad del Equipo",
+    subtitle: "Heatmap semana / Febrero cerrado \xB7 velocidad por etapa",
+    accent: DS.amber
+  }), /*#__PURE__*/React.createElement(SecProductividad, {
     deals: deals
   })), tab === "modelo" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
     icon: "\uD83C\uDFAF",
-    title: "Modelo & Proyecci\xF3n 2026",
-    subtitle: "Pipeline ponderado \xB7 cobertura del OKR \xB7 tendencias acumuladas",
-    accent: DS.accent
+    title: "Modelo vs Forecast 2026",
+    subtitle: "Pipeline ponderado \xB7 cobertura del target \xB7 tendencias acumuladas",
+    accent: DS.cyan
   }), /*#__PURE__*/React.createElement(SecModelo, {
-    deals: deals
-  })), tab === "riesgo" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
-    icon: "\u26A0\uFE0F",
-    title: "Riesgos & Calidad del Pipeline",
-    subtitle: "Concentraci\xF3n \xB7 zombies \xB7 fechas vencidas \xB7 escenarios",
-    accent: DS.red
-  }), /*#__PURE__*/React.createElement(SecRiesgo, {
     deals: deals
   })), tab === "evolucion" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
     icon: "\uD83D\uDCC8",
     title: "Evoluci\xF3n Week over Week",
     subtitle: "Variaci\xF3n semanal de pipeline ponderado por pa\xEDs",
-    accent: DS.cyan
+    accent: "#a78bfa"
   }), /*#__PURE__*/React.createElement(SecEvolucion, {
     deals: deals,
     weekAgoSnap: weekAgoSnap
@@ -6234,15 +5230,8 @@ function Dashboard() {
     icon: "\uD83D\uDCCA",
     title: "Funnel de Adquisici\xF3n",
     subtitle: "Embudo ponderado \xB7 tasas de conversi\xF3n \xB7 filtros",
-    accent: DS.cyan
+    accent: "#60a5fa"
   }), /*#__PURE__*/React.createElement(SecFunnel, {
-    deals: deals
-  })), tab === "equipo" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
-    icon: "\uD83C\uDFC6",
-    title: "Equipo & Rankings",
-    subtitle: "Performance \xB7 quota gap \xB7 productividad \xB7 YTD y Marzo",
-    accent: "#f97316"
-  }), /*#__PURE__*/React.createElement(SecRankings, {
     deals: deals
   })), tab === "deals" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
     icon: "\uD83D\uDCBC",
@@ -6251,41 +5240,57 @@ function Dashboard() {
     accent: DS.amber
   }), /*#__PURE__*/React.createElement(SecDeals, {
     deals: deals
+  })), tab === "rankings" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SectionHeader, {
+    icon: "\uD83C\uDFC6",
+    title: "Rankings & Performance 2026",
+    subtitle: "Clasificaci\xF3n por won \xB7 pipeline \xB7 actividad \xB7 YTD y Febrero",
+    accent: "#fb7185"
+  }), /*#__PURE__*/React.createElement(SecRankings, {
+    deals: deals
   })))), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "12px 32px",
-      borderTop: `1px solid ${DS.border}`,
-      background: "#ffffff",
+      maxWidth: 1200,
+      margin: "0 auto",
+      padding: "16px 28px",
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      borderTop: `1px solid ${DS.border}`,
+      marginTop: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
-      color: DS.text3,
+      fontSize: 8,
+      color: "#1e293b",
       textTransform: "uppercase",
-      letterSpacing: "0.15em",
-      fontFamily: "'Barlow Condensed',sans-serif",
-      fontWeight: 600
+      letterSpacing: "0.2em",
+      fontFamily: "monospace",
+      fontWeight: 700
     }
   }, "Chazki \xB7 VP Growth \xB7 Adquisici\xF3n 2026"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 20
+      gap: 16
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
-      color: DS.text3
+      fontSize: 8,
+      color: "#1e293b",
+      fontFamily: "monospace"
     }
-  }, "Budget Growth 26 \xB7 ", fmt(FORECAST_TOTAL)), /*#__PURE__*/React.createElement("span", {
+  }, "Modelo Growth 26 \xB7 ", fmt(FORECAST_TOTAL)), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
-      color: DS.text3
+      fontSize: 8,
+      color: "#1e293b",
+      fontFamily: "monospace"
     }
-  }, "Budget 36M \xB7 ", fmt(TOTAL_TARGET))))));
+  }, "Forecast 36M \xB7 ", fmt(TOTAL_TARGET)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      opacity: 0.15
+    }
+  }, "\uD83C\uDDE6\uD83C\uDDF7\uD83C\uDDE8\uD83C\uDDF1\uD83C\uDDE8\uD83C\uDDF4\uD83C\uDDF2\uD83C\uDDFD\uD83C\uDDF5\uD83C\uDDEA"))));
 }
 
   const _rootEl = document.getElementById('root');
