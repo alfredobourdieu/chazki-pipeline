@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-04-06T18:22:15.370Z",
-  "updated_at_art": "06/04/2026, 03:21 p. m.",
+  "updated_at": "2026-04-06T18:35:52.574Z",
+  "updated_at_art": "06/04/2026, 03:34 p. m.",
   "source": "updater_v9",
   "snapshot": {
-    "ts": 1775499735370,
+    "ts": 1775500552574,
     "w": 7986802.1,
     "byC": {
       "Argentina": 2171568,
@@ -13,17 +13,7 @@
       "Colombia": 929020
     }
   },
-  "prev_week": {
-    "ts": 1775451451001,
-    "w": 6583842,
-    "byC": {
-      "Argentina": 2040900,
-      "México": 1160013,
-      "Chile": 926061,
-      "Perú": 1650548,
-      "Colombia": 774320
-    }
-  },
+  "prev_week": null,
   "deals": [
     {
       "id": "7657653652",
@@ -9635,7 +9625,7 @@
       "created": "2025-05-19",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 269
+      "days_in_stage": 270
     },
     {
       "id": "33049127445",
@@ -23063,7 +23053,7 @@
       "created": "2026-03-25",
       "probability": 0.5,
       "weighted": 7500,
-      "days_in_stage": 11
+      "days_in_stage": 12
     },
     {
       "id": "5851630265",
@@ -23207,7 +23197,7 @@
       "created": "2023-11-29",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 697
+      "days_in_stage": 698
     },
     {
       "id": "39334091149",
@@ -23639,7 +23629,7 @@
       "created": "2025-07-31",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 179
+      "days_in_stage": 180
     },
     {
       "id": "43289286229",
@@ -28589,7 +28579,7 @@
       "created": "2023-03-14",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 1038
+      "days_in_stage": 1039
     },
     {
       "id": "14210951521",
@@ -31667,7 +31657,7 @@
       "created": "2021-08-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 697
+      "days_in_stage": 698
     },
     {
       "id": "5892044045",
@@ -37769,7 +37759,7 @@
       "created": "2024-06-17",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 619
+      "days_in_stage": 620
     },
     {
       "id": "20901051824",
@@ -39569,7 +39559,7 @@
       "created": "2022-05-03",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 1116
+      "days_in_stage": 1117
     },
     {
       "id": "8869069227",
@@ -49307,7 +49297,7 @@
       "created": "2022-10-12",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 954
+      "days_in_stage": 955
     },
     {
       "id": "10684560526",
@@ -57479,7 +57469,7 @@
       "created": "2024-03-07",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 424
+      "days_in_stage": 425
     },
     {
       "id": "17931903283",
@@ -58775,7 +58765,7 @@
       "created": "2025-02-13",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 391
+      "days_in_stage": 392
     },
     {
       "id": "34072564835",
@@ -60557,7 +60547,7 @@
       "created": "2026-02-23",
       "probability": 0.3,
       "weighted": 300,
-      "days_in_stage": 40
+      "days_in_stage": 41
     },
     {
       "id": "56896638809",
@@ -60773,7 +60763,7 @@
       "created": "2026-03-20",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 16
+      "days_in_stage": 17
     },
     {
       "id": "58208939093",
@@ -63113,7 +63103,7 @@
       "created": "2023-03-10",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 1103
+      "days_in_stage": 1104
     },
     {
       "id": "12840823816",
@@ -106331,7 +106321,7 @@
       "created": "2021-08-25",
       "probability": 0,
       "weighted": 0,
-      "days_in_stage": 1119
+      "days_in_stage": 1120
     },
     {
       "id": "6031861820",
