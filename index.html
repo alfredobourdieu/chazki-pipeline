@@ -6287,4 +6287,10 @@ function Dashboard() {
     }
   }, "Budget 36M \xB7 ", fmt(TOTAL_TARGET))))));
 }
->
+
+  const _rootEl = document.getElementById('root');
+  const _appRoot = ReactDOM.createRoot(_rootEl);
+  _appRoot.render(React.createElement(Dashboard));
+  </script>
+</body>
+</html>
