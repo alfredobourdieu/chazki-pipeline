@@ -254,45 +254,9 @@ async function getWeekAgo() {
 // ── API fetch ──────────────────────────────────────────────────────────────
 async function fetchDeals(setStatus) {
   setStatus("Cargando datos del pipeline...");
-  const cacheBust = Math.floor(Date.now() / 60000);
-  let res;
-  try {
-    res = await fetch('./data.json?v=' + cacheBust);
-  } catch (e) {
-    throw new Error("No se pudo conectar. Verificá tu conexión.");
-  }
-  if (!res.ok) throw new Error("No se encontró data.json (HTTP " + res.status + "). El updater.gs aún no corrió.");
-  setStatus("Procesando...");
-  const data = await res.json();
-  const raw = Array.isArray(data) ? data : data.deals || [];
-  if (!raw.length) throw new Error("data.json está vacío — el updater.gs aún no corrió.");
-
-  // If data.json has embedded prev_week snapshot, inject into localStorage
-  if (data.prev_week && data.prev_week.byC) {
-    try {
-      const snaps = JSON.parse(localStorage.getItem('chazki_v8_snaps') || '[]');
-      const weekAgo = Date.now() - 7 * 86400000;
-      const alreadyHas = snaps.some(s => Math.abs(s.ts - weekAgo) < 3 * 86400000);
-      if (!alreadyHas) {
-        snaps.push({
-          ts: weekAgo,
-          byC: data.prev_week.byC,
-          w: data.prev_week.w
-        });
-        localStorage.setItem('chazki_v8_snaps', JSON.stringify(snaps.slice(-60)));
-      }
-    } catch (e) {}
-  }
-  const deals = raw.map(d => {
-    var _ref, _d$probability;
-    return {
-      ...d,
-      probability: (_ref = (_d$probability = d.probability) !== null && _d$probability !== void 0 ? _d$probability : d.prob) !== null && _ref !== void 0 ? _ref : null
-    };
-  });
-  return {
-    deals
-  };
+  // Data served via Apps Script LIVE_DATA injection
+  // Fallback: dashboard uses hardcoded RAW data
+  return { deals: [] };
 }
 
 // ── DESIGN SYSTEM — EY/Deloitte CMO aesthetic ─────────────────────────────
