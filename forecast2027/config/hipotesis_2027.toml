@@ -1,0 +1,210 @@
+# HIPÓTESIS DEL FORECAST 2027 — versión en código de la pestaña 'Hipótesis 2027'
+# (bloques A–N, decisiones del 9 al 17-oct-2026). Cada cambio acá es un commit:
+# queda quién, cuándo y por qué. El motor NO toma supuestos de ningún otro lado.
+#
+# Convenciones: países AR CL CO MX PE · meses 1..12 · clave de cuenta "PAIS|Cliente"
+# (si el cliente se repite con otra vertical: "PAIS|Cliente|Vertical").
+
+version = "2026-10-17"
+snapshot = "2026-10-18"
+objetivo_total_2027 = 45507484   # resultado del manual auditado el 17-oct (control de reproducción)
+
+[base]
+# 'Base 2026 real' = real cerrado (Braulio) hasta el mes cerrado + proyección oct–dic del 36M.
+meses_cerrados = 9
+# Mes base del enero 2027 por país (bloque K, 14-oct: AR pasó de octubre a septiembre).
+mes_base = { AR = 9, CL = 11, CO = 10, MX = 12, PE = 11 }
+# Ponderar por probabilidad de cierre (hoy el manual NO lo hace: hallazgo #6 de la auditoría).
+ponderar_probabilidad = false
+
+[estacionalidad]
+# Fuente única: config/curvas_2027.json (derivado con scripts/derivar_curvas.py).
+# Curva propia sólo si es significativa (p<0,10) o por decisión (Adidas FM).
+curvas = "curvas_2027.json"
+cuentas_curva_propia = ["MX|Liverpool", "CO|Bimbo", "CL|Adidas FM", "MX|Unilever", "CO|Casa Luker", "AR|Nestlé"]
+# Cuentas con curva país forzada aunque tengan historia (bloque C).
+cuentas_curva_pais_forzada = ["PE|iMile SM +Trujillo", "CO|Alimentos La Polar"]
+
+[crecimiento]
+# Rampa del crecimiento asignado: 'lineal' (mes m = 1 + g·(m−1)/11) o 'compuesta'.
+rampa = "lineal"
+
+# % asignado = Dic-27 vs Ene-27 (Inputs manual 2027, sección 3, vigente 17-oct).
+[crecimiento.asignado]
+"AR|MELI FM" = 0.05
+"AR|MELI LM" = 0.15
+"MX|MELI LM MX" = 0.05
+"MX|Fuller" = 0.0
+"MX|Liverpool" = 0.05
+"MX|Coppel LM" = 0.05
+"CO|Bimbo" = 0.0
+"CL|Fazil CL" = 0.05
+"MX|Coppel LM Big Item" = 0.05
+"CL|Falabella LM" = 0.0
+"CL|Adidas FM" = 0.05
+"MX|Unilever" = 0.05
+"PE|iMile SM +Trujillo" = 0.10
+"CL|Falabella MM" = 0.0
+"AR|Nespresso" = 0.10
+"CO|Sodimac Bogota CD" = 2.00
+"CO|Casa Luker" = 0.0
+"MX|Ubique (Fragua)" = 0.0
+"CO|Madecentro - Bogota" = 0.10
+"CO|Sodimac Tienda Medellin" = 0.20
+"PE|Fazil PE" = 0.0
+"CL|Walmart CL" = 0.20
+"CO|Mac Pollo" = 0.20
+"AR|Nespresso Boutique" = 0.0
+"MX|Walmart" = 0.0
+"AR|Nestlé" = 0.10
+"CO|Alimentos La Polar" = 0.20
+"CO|Cargill" = 2.00
+
+# ---------------------------------------------------------------------------
+# Overrides por cuenta (Inputs sección 5 + bloque M). Campos posibles:
+#   enero_fijo  = valor de enero sin estacionalidad (tipo '1')
+#   nivel       = nivel mensual → enero = nivel × índice de enero (tipo '0');
+#                 "promedio2026" usa el promedio mensual de la base 2026
+#   tipo_enero  = "12" (dic-26 desestacionalizado) | "9" (sep-26) | "ENE" (default: mes base del país)
+#   feb_x       = multiplicador puntual de febrero que se arrastra (ajuste de precio)
+#   perfil2026  = true → 2027 = perfil mensual 2026 × (1 + g)  (Walmart CL)
+#   nota        = por qué
+# ---------------------------------------------------------------------------
+[overrides."AR|MELI FM"]
+feb_x = 1.15
+nota = "Ajuste de precio de contrato en feb-27 (decisión 14-oct). Inputs sec. 1 aún dice 'enero fijo $400K' pero el manual usa sep-26 × factor (hallazgo del motor)."
+
+[overrides."AR|MELI LM"]
+feb_x = 1.15
+nota = "Ajuste de precio de contrato en feb-27 (decisión 14-oct)."
+
+[overrides."AR|360"]
+nivel = 100000
+nota = "360 Lion: nivel $100K/mes × estacionalidad (14-oct). Mega deal; excluido del Growth 2027."
+
+[overrides."AR|BFE"]
+tipo_enero = "12"
+nota = "Cuenta en rampa: enero = dic-26 de la base (desestacionalizado)."
+
+[overrides."MX|MELI LM MX"]
+nivel = 650000
+nota = "Nivel $650K/mes (sep-26 real $456K; Q4-26 36M $794K). Mayor apuesta individual del 2027."
+
+[overrides."MX|Liverpool"]
+enero_fijo = 150000
+nota = "Enero fijo (14-oct: 'dejemos así')."
+
+[overrides."MX|Fuller"]
+enero_fijo = 120000
+nota = "Enero fijo."
+
+[overrides."MX|Coppel LM"]
+enero_fijo = 120000
+nota = "Enero fijo."
+
+[overrides."MX|Estafeta"]
+tipo_enero = "12"
+nota = "Cuenta en rampa (prob. 50%): enero = dic-26 de la base."
+
+[overrides."MX|Zulka"]
+enero_fijo = 5000
+nota = "Cuenta en rampa Q4-26."
+
+[overrides."MX|Smurfit"]
+nivel = "promedio2026"
+nota = "Base baja en el mes base: nivel = promedio 2026 (Auditoría cuentas)."
+
+[overrides."CL|Sony CL"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Salcobrand"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Adidas B2B Retail"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Adidas FM"]
+tipo_enero = "9"
+nota = "Curva propia (decisión 14-oct), base = sep-26 real desestacionalizada."
+
+[overrides."CL|IKEA"]
+enero_fijo = 15000
+nota = "Alta sep-26; enero fijo."
+
+[overrides."CL|Walmart CL"]
+perfil2026 = true
+nota = "Perfil mensual 2026 × (1+crec.): meses casi en cero, la curva encadenada inflaba octubre."
+
+[overrides."CO|Sodimac Bogota CD"]
+enero_fijo = 60000
+nota = "Nivel de arranque + 200% (confirmar: $1,5M en juego junto con Cargill)."
+
+[overrides."CO|Cargill"]
+enero_fijo = 20000
+nota = "Rampa Q4-26 + 200%."
+
+[overrides."CO|Casa Luker"]
+enero_fijo = 29170
+nota = "Manual F147: dic-26 ($35.345) × 0,825 'ratio ene/dic propio'. El ratio no sale de la curva propia vigente (daría 0,84): viene de la curva anterior a la desestacionalización. Pendiente: recalcular o pasar a tipo_enero='12'."
+
+[overrides."CO|Bavaria (Ab-Inbev)"]
+tipo_enero = "12"
+nota = "Cuenta en rampa: enero = dic-26 de la base."
+
+[overrides."PE|Negocio Burgos"]
+enero_fijo = 15000
+nota = "Rampa Q4-26."
+
+[overrides."PE|Softgroup (Cencosud)"]
+enero_fijo = 20000
+nota = "Rampa Q4-26."
+
+[overrides."PE|BFE"]
+enero_fijo = 0
+nota = "BFE PE $0 (churn)."
+
+[piso]
+# Bloque B (piso 2026): 2027 = perfil mensual 2026 × (1 + g) para cuentas cuya caída
+# venía de una base de enero baja, no del cliente. Las demás caídas se aceptan
+# (decrecimiento orgánico o churn): el motor las deja salir de la base.
+cuentas = [
+  "MX|Walmart", "PE|Central Brand", "AR|Prota", "PE|Lacteus", "AR|Photo Store", "AR|Algabo",
+  "AR|Modatex", "PE|Sony PE", "PE|La Zapatera", "AR|Mutual Unilever", "AR|Cislatam", "AR|Diffupar",
+  "AR|Enviopack", "PE|Andes Alimentos", "MX|Unilever", "CO|Grupo Aje",
+]
+caidas_aceptadas = [
+  "AR|Open Farma", "CL|Envíame", "AR|Zippin", "PE|Vicen Vives", "AR|Filoshark (Hasliberg)", "PE|Dermohelp",
+  "PE|Padres de Familia", "PE|Outplay", "AR|Newell",
+  "AR|Coolskin", "PE|Repuestos del Sol", "AR|Dostluk", "CO|Locatel", "AR|Big", "CL|Reebok", "CO|Alqueria",
+  "AR|Raizen", "MX|AMPM", "PE|BFE", "CL|Falabella LM", "CL|Fazil CL",
+]
+
+[growth2027]
+# Ventas nuevas 2027 (sección 4b, método homologado, 14-oct).
+metodo = "homologado"            # "homologado" | "promedio_historico"
+umbral_tanque = 50000            # venta en el año de alta (USD)
+tope_tanque = 250000
+mantener_total_regional = false  # false: el factor suma o resta
+factor_mercado = { AR = 1.15, CL = 0.90, CO = 1.10, MX = 1.20, PE = 0.80 }
+forma_mensual = "escalonada"     # "escalonada" (mes m = m/78) | "historica"
+# Mega deals excluidos del cálculo de altas: [país, cuenta, año de alta].
+exclusiones = [["MX", "Fuller", 2025], ["AR", "360", 2026]]
+
+[fx]
+# Sección 7. Criterio (11-oct): no se traslada el 100% del IPC a tarifa; se descuenta
+# un % por país sobre la venta a dic-27 con rampa mes/12 desde enero. Sólo erosión.
+escenario = "base"
+ajuste_dic27 = { AR = -0.05, CL = -0.01, CO = -0.02, MX = -0.02, PE = -0.01 }
+# Escenario alto (dólar global fuerte) para sensibilidad.
+ajuste_dic27_alto = { AR = -0.131, CL = -0.043, CO = -0.066, MX = -0.077, PE = -0.035 }
+
+[reglas]
+# Mínimos de crecimiento 2027 vs 2026 por país (Auditoría 2027, sección 1).
+minimo_crecimiento = { AR = 0.20, CO = 0.50, MX = 0.20, PE = 0.50, total = 0.15 }
+# Cuenta "en rampa" si el real ene–sep es ≤ 35% de su total 2026.
+rampa_umbral_real = 0.35
+# Alerta de concentración.
+top10_share_max = 0.60
