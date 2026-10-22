@@ -1,7 +1,8 @@
-"""Tests de regresión: el motor reproduce el 'Forecast 2027 Manual' auditado el 17-oct-2026.
+"""Tests de regresión: el motor reproduce el 'Forecast 2027 Manual' del snapshot vigente.
 
-Si un cambio de hipótesis o de código mueve estos números, el test lo dice. Para cambiar
-el resultado a propósito, actualizá las tolerancias y explicá por qué en el commit.
+El snapshot y el total de control salen de config/hipotesis_2027.toml (`snapshot`,
+`objetivo_total_2027`). Cada actualización diaria que cambia hipótesis actualiza esos dos
+campos y los números de abajo en el mismo commit, con el Δ en USD en el mensaje.
 """
 import unittest
 
@@ -12,11 +13,12 @@ from forecast2027.config import cargar_hipotesis
 class ReproduceManual(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.r = correr("2026-10-18")
+        cls.snap = cargar_hipotesis().raw["snapshot"]
+        cls.r = correr(cls.snap)
 
     def test_total_cs_cuadra_con_manual(self):
         c = self.r["comparacion"]
-        self.assertAlmostEqual(c["total_manual"], 43_543_548, delta=10)
+        self.assertAlmostEqual(c["total_manual"], 42_235_351, delta=10)
         self.assertLess(abs(c["delta_total"]) / c["total_manual"], 0.0002)   # ±0,02%
         self.assertLess(c["wape_mensual"], 0.001)                              # 0,1% mensual
         self.assertEqual(c["cuentas_fuera_de_tolerancia"], [])
@@ -27,20 +29,20 @@ class ReproduceManual(unittest.TestCase):
 
     def test_growth_homologado(self):
         g = self.r["growth"]
-        self.assertEqual(g.detalle["n_chicas"], 134)
+        self.assertEqual(g.detalle["n_chicas"], 137)
         self.assertEqual(g.detalle["n_tanques"], 22)
-        self.assertAlmostEqual(g.detalle["ticket_chica"], 8_944, delta=5)
-        self.assertAlmostEqual(g.detalle["ticket_tanque"], 117_789, delta=5)
-        self.assertAlmostEqual(sum(g.homologado_sin_factor.values()), 1_894_945, delta=50)
-        self.assertAlmostEqual(g.total, 1_963_940, delta=50)
+        self.assertAlmostEqual(g.detalle["ticket_chica"], 8_492, delta=5)
+        self.assertAlmostEqual(g.detalle["ticket_tanque"], 111_955, delta=5)
+        self.assertAlmostEqual(sum(g.homologado_sin_factor.values()), 1_813_183, delta=50)
+        self.assertAlmostEqual(g.total, 1_876_205, delta=50)
 
     def test_fx_base(self):
-        self.assertAlmostEqual(sum(self.r["fx"].values()), -737_339, delta=1500)
+        self.assertAlmostEqual(sum(self.r["fx"].values()), -743_363, delta=1500)
 
     def test_factores_mes_base(self):
-        # Factores mes base → enero publicados en el manual (col. AA): AR 107%, CL 96%, CO 76%, MX 82%, PE 101%.
+        # Factores mes base → enero publicados en el manual (col. AA): AR 108%, CL 90%, CO 82%, MX 81%, PE 101%.
         h = self.r["h"]
-        esperado = {"AR": 1.07, "CL": 0.96, "CO": 0.76, "MX": 0.82, "PE": 1.01}
+        esperado = {"AR": 1.08, "CL": 0.90, "CO": 0.82, "MX": 0.81, "PE": 1.01}
         for p, f in esperado.items():
             cv = h.curvas_pais[p]
             m = h.mes_base[p]
@@ -62,12 +64,13 @@ class Escenarios(unittest.TestCase):
         from forecast2027.ingest import cargar_snapshot, construir_cuentas
         from forecast2027.model import proyectar_todas
         h = cargar_hipotesis()
-        base = sum(r.total for r in proyectar_todas(construir_cuentas(cargar_snapshot("2026-10-18")), h))
+        snap = h.raw["snapshot"]
+        base = sum(r.total for r in proyectar_todas(construir_cuentas(cargar_snapshot(snap)), h))
         h2 = copy.deepcopy(h)
         h2.raw["base"]["ponderar_probabilidad"] = True
-        pond = sum(r.total for r in proyectar_todas(construir_cuentas(cargar_snapshot("2026-10-18")), h2))
-        # Estafeta 50% ($694K) + Salutare 25% + Unimaq 25% ≈ −$0,38M (Auditoría 2027, tarea 7: −$0,35M)
-        self.assertAlmostEqual(base - pond, 382_000, delta=15_000)
+        pond = sum(r.total for r in proyectar_todas(construir_cuentas(cargar_snapshot(snap)), h2))
+        # Estafeta 50% ($199K, presupuesto Roberto) + Salutare 25% ($31K) + Unimaq 25% ($16K) ≈ −$0,13M
+        self.assertAlmostEqual(base - pond, 134_600, delta=2_000)
 
 
 if __name__ == "__main__":

@@ -78,6 +78,18 @@ def proyectar(c: Cuenta, h: Hipotesis) -> Resultado:
     r = rampa(g, h.raw["crecimiento"].get("rampa", "lineal"))
     piso = c.key in h.raw["piso"]["cuentas"]
 
+    if ov.get("churn"):
+        return Resultado(cuenta=c, m27=[0.0] * 12, enero_tipo="churn", curva=curva_tipo, g=g, piso=False,
+                         notas=["churn decidido: 2027 = 0"])
+    if "mensual" in ov:
+        # Valores cargados a mano en la grilla del manual (p. ej. presupuesto del country manager).
+        # Se toman tal cual: el motor no les aplica base, curva ni crecimiento.
+        m27 = [float(x) for x in ov["mensual"]]
+        notas = [f"12 meses cargados a mano ({ov.get('fuente', 'manual')})"]
+        if h.raw["base"].get("ponderar_probabilidad") and c.prob < 1:
+            m27 = [v * c.prob for v in m27]
+            notas.append(f"ponderado por probabilidad {c.prob:.0%}")
+        return Resultado(cuenta=c, m27=m27, enero_tipo="mensual (a mano)", curva="a mano", g=g, piso=False, notas=notas)
     if piso or ov.get("perfil2026"):
         m27 = [x * (1 + g) for x in c.m26]
         tipo = "perfil 2026 × (1+g)"

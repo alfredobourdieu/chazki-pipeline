@@ -159,6 +159,17 @@ def auditar(snap: Snapshot, cuentas: list[Cuenta], resultados: list[Resultado], 
         H.append(Hallazgo("baja", "documentacion", "Inputs sección 1 dice 'MELI FM enero fijo $400K'; el manual usa sep-26 × factor",
                           f"Enero motor/manual {_fmt(r.m27[0])}; con $400K fijo el año sería {_fmt(r.total * 400000 / r.m27[0])}", 0.0))
 
+    # 13b. Cuánto del forecast está cargado a mano (no lo calcula el método)
+    mano = [r for r in resultados if r.enero_tipo.startswith("mensual")]
+    if mano:
+        tot_mano = sum(r.total for r in mano)
+        tot_cs = sum(r.total for r in resultados)
+        H.append(Hallazgo("media" if tot_mano / tot_cs > 0.25 else "baja", "cargado_a_mano",
+                          f"{len(mano)} cuentas con los 12 meses cargados a mano = {_fmt(tot_mano)} ({tot_mano / tot_cs:.0%} del CS 2027)",
+                          "No pasan por base, curva ni crecimiento: el backtest no las cubre y cada cambio hay que copiarlo al TOML. " +
+                          "; ".join(f"{r.cuenta.key} {_fmt(r.total)}" for r in sorted(mano, key=lambda r: -r.total)[:8]),
+                          tot_mano, [r.cuenta.key for r in mano]))
+
     # 14. Growth 2027 vs lo que facturan las altas 2026
     g26 = sum(snap.base26_por_pais[p]["g26"] for p in PAISES)
     H.append(Hallazgo("media" if growth.total < g26 else "ok", "growth_2027",

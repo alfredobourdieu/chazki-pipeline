@@ -48,7 +48,7 @@ def armar_json(snap: Snapshot, resultados: list[Resultado], growth: GrowthResult
 
 
 def armar_markdown(snap: Snapshot, resultados: list[Resultado], growth: GrowthResultado, fx: dict, h: Hipotesis,
-                   comparacion: dict, hallazgos: list[Hallazgo], metricas: list[Metrica]) -> str:
+                   comparacion: dict, hallazgos: list[Hallazgo], metricas: list[Metrica], cambios: dict | None = None) -> str:
     tot = totales_por_pais(resultados)
     L: list[str] = []
     L.append(f"# Forecast 2027 · corrida del motor\n")
@@ -64,6 +64,23 @@ def armar_markdown(snap: Snapshot, resultados: list[Resultado], growth: GrowthRe
         L.append(f"| {NOMBRE_PAIS[p]} | {_f(t26)} | {_f(cs)} | {_f(g)} | {_f(t)} | {_pct(t / t26 - 1)} | {_f(fx[p])} | {_f(t + fx[p])} | {_pct((t + fx[p]) / t26 - 1)} |")
         T["26"] += t26; T["cs"] += cs; T["g"] += g; T["tot"] += t; T["fx"] += fx[p]
     L.append(f"| **Total** | {_f(T['26'])} | {_f(T['cs'])} | {_f(T['g'])} | **{_f(T['tot'])}** | {_pct(T['tot'] / T['26'] - 1)} | {_f(T['fx'])} | {_f(T['tot'] + T['fx'])} | {_pct((T['tot'] + T['fx']) / T['26'] - 1)} |\n")
+
+    if cambios:
+        L.append(f"## 1b. Qué cambió en el manual desde el snapshot {cambios['desde']}\n")
+        L.append(f"Total manual {_f(cambios['total_anterior'])} → {_f(cambios['total_actual'])} (Δ {_f(cambios['delta_total'])}).\n")
+        L.append("| País | Antes | Ahora | Δ | Base 2026 antes | Base 2026 ahora |")
+        L.append("|---|---:|---:|---:|---:|---:|")
+        for p in PAISES:
+            v = cambios["por_pais"][p]
+            L.append(f"| {NOMBRE_PAIS[p]} | {_f(v['anterior'])} | {_f(v['actual'])} | {_f(v['delta'])} | {_f(cambios['base26_anterior'][p])} | {_f(cambios['base26_actual'][p])} |")
+        L.append("")
+        if cambios["movimientos"]:
+            L.append("Cuentas que se movieron ≥ $10K:\n")
+            L.append("| Cuenta | Antes | Ahora | Δ |")
+            L.append("|---|---:|---:|---:|")
+            for m in cambios["movimientos"][:20]:
+                L.append(f"| {m.key} | {_f(m.manual)} | {_f(m.motor)} | {_f(m.delta)} |")
+            L.append("")
 
     L.append("## 2. Reproducción del manual\n")
     c = comparacion

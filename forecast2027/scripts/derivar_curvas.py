@@ -22,23 +22,21 @@ SNAP = ROOT / "data" / "snapshots"
 # Cuenta de referencia por país (la más grande con curva país, para minimizar el redondeo
 # al dólar de la planilla): (cuenta, crecimiento asignado, multiplicador de febrero).
 REF_PAIS = {
-    "AR": ("MELI FM", 0.05, 1.15),
-    "MX": ("MELI LM MX", 0.05, 1.0),
-    "CO": ("Sodimac Bogota CD", 2.0, 1.0),
+    "AR": ("MELI LM", 0.15, 1.15),
+    "MX": ("Sony MX", 0.0, 1.0),
+    "CO": ("Sodimac Tienda Medellin", 0.20, 1.0),
     "PE": ("iMile SM +Trujillo", 0.10, 1.0),
     "CL": ("Fazil CL", 0.05, 1.0),
 }
 # Cuentas con curva propia significativa (p<0,10) o por decisión del 14-oct.
 REF_CUENTA = {
-    "MX|Liverpool": (0.05, 1.0),
+    "AR|MELI FM": (0.05, 1.15),
     "CO|Bimbo": (0.0, 1.0),
     "CL|Adidas FM": (0.05, 1.0),
     "CO|Casa Luker": (0.0, 1.0),
     "AR|Nestlé": (0.10, 1.0),
+    "MX|Unilever": (0.05, 1.0),
 }
-# Unilever MX tiene curva propia pero el manual le aplica el piso (perfil 2026),
-# así que no se puede derivar de la fila: se toma el encadenado publicado.
-UNILEVER_MX = [0.99, 1.02, 1.16, 1.14, 0.96, 0.92, 1.07, 0.93, 0.96, 0.94, 0.70, 1.36]
 
 
 def chain_from_row(m: list[float], g: float, feb_x: float = 1.0) -> list[float]:
@@ -67,7 +65,6 @@ def main(snapshot: str | None = None) -> None:
     for key, (g, feb_x) in REF_CUENTA.items():
         p, name = key.split("|")
         cuenta[key] = [round(v, 7) for v in chain_from_row(rows[(p, name)]["m"], g, feb_x)]
-    cuenta["MX|Unilever"] = UNILEVER_MX[1:]
 
     out = {
         "fuente": f"derivado del snapshot {snap} (Forecast 2027 Manual); método de 'Estacionalidad 2027' (14-oct-2026)",

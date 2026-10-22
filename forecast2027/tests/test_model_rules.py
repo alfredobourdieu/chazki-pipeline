@@ -60,15 +60,24 @@ class Reglas(unittest.TestCase):
 
     def test_override_enero_fijo_y_crecimiento(self):
         self.h.curvas_pais["MX"] = Curva([1.0] * 11)
-        c = cuenta(p="MX", nombre="Fuller", m26=[50000.0] * 12)
-        r = proyectar(c, self.h)
+        self.h.raw["overrides"]["MX|Sintetica"] = {"enero_fijo": 120000}
+        self.h.raw["crecimiento"]["asignado"]["MX|Sintetica"] = 0.10
+        r = proyectar(cuenta(p="MX", nombre="Sintetica", m26=[50000.0] * 12), self.h)
         self.assertEqual(r.m27[0], 120000.0)  # enero fijo, sin estacionalidad
-        self.assertEqual(r.g, 0.0)
+        self.assertAlmostEqual(r.m27[11], 132000.0)  # dic = ene × (1 + g)
+
+    def test_override_mensual_y_churn(self):
+        vals = [float(i) for i in range(1, 13)]
+        self.h.raw["overrides"]["MX|Sintetica"] = {"mensual": vals}
+        r = proyectar(cuenta(p="MX", nombre="Sintetica"), self.h)
+        self.assertEqual(r.m27, vals)
+        self.h.raw["overrides"]["MX|Sintetica"] = {"churn": True}
+        self.assertEqual(proyectar(cuenta(p="MX", nombre="Sintetica"), self.h).total, 0.0)
 
     def test_feb_x_se_arrastra(self):
         self.h.curvas_pais["AR"] = Curva([1.0] * 11)
-        self.h.raw["crecimiento"]["asignado"]["AR|MELI FM"] = 0.0
-        c = cuenta(nombre="MELI FM", m26=[1000.0] * 12)
+        self.h.raw["overrides"]["AR|Sintetica"] = {"feb_x": 1.15}
+        c = cuenta(nombre="Sintetica", m26=[1000.0] * 12)
         r = proyectar(c, self.h)
         self.assertAlmostEqual(r.m27[1] / r.m27[0], 1.15)
         self.assertAlmostEqual(r.m27[11] / r.m27[0], 1.15)

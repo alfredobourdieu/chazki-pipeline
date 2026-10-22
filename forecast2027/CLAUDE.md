@@ -58,6 +58,11 @@ Escenario alternativo: copiá el TOML, cambiá hipótesis, `--hipotesis mi_escen
 Regla de oro: **el motor decide los números, los agentes deciden qué mirar y qué preguntar.**
 Un agente no cambia una hipótesis por su cuenta; propone, con el impacto en USD, y espera.
 
+## Actualización diaria
+
+Ver `RUTINA_DIARIA.md`. Sincronizar el TOML con una decisión que **ya está en la planilla** es parte
+de la rutina (citando fecha y fila); proponer una decisión nueva no lo es.
+
 ## Calibración
 
 `backtest` corre el método con datos a dic-2025 contra el real ene–sep 2026. Es la vara:

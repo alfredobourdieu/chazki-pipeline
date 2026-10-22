@@ -66,6 +66,11 @@ def ultimo_snapshot() -> str:
     return sorted(p.name for p in SNAPSHOT_DIR.iterdir() if p.is_dir())[-1]
 
 
+def snapshot_anterior(fecha: str) -> str | None:
+    previos = sorted(p.name for p in SNAPSHOT_DIR.iterdir() if p.is_dir() and p.name < fecha)
+    return previos[-1] if previos else None
+
+
 def cargar_snapshot(fecha: str | None = None) -> Snapshot:
     fecha = fecha or ultimo_snapshot()
     d = SNAPSHOT_DIR / fecha

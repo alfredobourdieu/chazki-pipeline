@@ -22,6 +22,34 @@ class Diferencia:
         return self.delta / self.manual if self.manual else (0.0 if not self.motor else float("inf"))
 
 
+def cambios_entre(anterior: dict, actual: dict, umbral: float = 10_000) -> dict:
+    """Qué cambió en el manual entre dos snapshots (JSON del dashboard): totales por país y cuentas que se movieron."""
+    def por_cuenta(d: dict) -> dict[str, float]:
+        out: dict[str, float] = {}
+        for x in d["clients"]:
+            k = f"{x['p']}|{x['c'].strip()}|{(x.get('v') or '').strip()}" if x["ar"] == "CS" else f"{x['p']}|Growth 2027"
+            out[k] = out.get(k, 0.0) + sum(x["m"])
+        return out
+
+    a, b = por_cuenta(anterior), por_cuenta(actual)
+    pais = {}
+    for p in PAISES:
+        ta = sum(v for k, v in a.items() if k.startswith(p + "|"))
+        tb = sum(v for k, v in b.items() if k.startswith(p + "|"))
+        pais[p] = {"anterior": ta, "actual": tb, "delta": tb - ta}
+    movs = [Diferencia(k, b.get(k, 0.0), a.get(k, 0.0)) for k in set(a) | set(b)]
+    movs = [m for m in movs if abs(m.delta) >= umbral]
+    movs.sort(key=lambda m: -abs(m.delta))
+    return {
+        "total_anterior": sum(a.values()), "total_actual": sum(b.values()), "delta_total": sum(b.values()) - sum(a.values()),
+        "por_pais": pais,
+        "nuevas": sorted(k for k in b if k not in a), "salen": sorted(k for k in a if k not in b),
+        "movimientos": movs,
+        "base26_anterior": {p: anterior["base26"][p]["tot"] for p in PAISES},
+        "base26_actual": {p: actual["base26"][p]["tot"] for p in PAISES},
+    }
+
+
 def comparar(resultados: list[Resultado]) -> dict:
     difs: list[Diferencia] = []
     por_pais = {p: {"motor": 0.0, "manual": 0.0, "abs": 0.0} for p in PAISES}

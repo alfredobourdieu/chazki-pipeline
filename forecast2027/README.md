@@ -7,16 +7,16 @@ resultado al dólar y, además, lo audita, lo compara y mide qué tan bien predi
 **Corre en paralelo.** No escribe en la planilla ni en el Apps Script; la planilla sigue siendo
 la referencia oficial hasta que se decida lo contrario.
 
-## Estado (snapshot 2026-10-18, hipótesis 17-oct)
+## Estado (snapshot 2026-10-22, hipótesis al 21-oct)
 
 | | Manual | Motor | Δ |
 |---|---:|---:|---:|
-| CS 2027 | $43.543.548 | $43.541.622 | −0,004 % |
-| Growth 2027 | $1.963.940 | $1.963.940 | 0 |
-| **Total operativo** | **$45.507.484** | **$45.505.562** | −$1.922 |
-| Efecto FX (base) | −$737.339 | −$737.298 | −$41 |
+| CS 2027 | $42.235.351 | $42.234.065 | −0,003 % |
+| Growth 2027 | $1.876.205 | $1.876.210 | 0 |
+| **Total operativo** | **$44.111.555** | **$44.110.275** | −$1.280 |
+| Efecto FX (base) | −$743.363 | −$743.329 | −$34 |
 
-WAPE mensual por cuenta: 0,005 %. Las diferencias que quedan son redondeo al dólar de la planilla.
+WAPE mensual por cuenta: 0,005 %. La actualización diaria está descrita en `RUTINA_DIARIA.md`.
 
 ## Estructura
 
