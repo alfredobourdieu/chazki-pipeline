@@ -1,0 +1,298 @@
+# HIPÓTESIS DEL FORECAST 2027 — versión en código de la pestaña 'Hipótesis 2027'
+# (bloques A–N, decisiones del 9 al 17-oct-2026). Cada cambio acá es un commit:
+# queda quién, cuándo y por qué. El motor NO toma supuestos de ningún otro lado.
+#
+# Convenciones: países AR CL CO MX PE · meses 1..12 · clave de cuenta "PAIS|Cliente"
+# (si el cliente se repite con otra vertical: "PAIS|Cliente|Vertical").
+
+version = "2026-10-21"
+snapshot = "2026-10-22"
+objetivo_total_2027 = 44111555   # resultado del manual al 22-oct (control de reproducción)
+
+[base]
+# 'Base 2026 real' = real cerrado (Braulio) hasta el mes cerrado + proyección oct–dic del 36M.
+meses_cerrados = 9
+# Mes base del enero 2027 por país (bloque K, 14-oct: AR pasó de octubre a septiembre).
+mes_base = { AR = 9, CL = 11, CO = 10, MX = 12, PE = 11 }
+# Ponderar por probabilidad de cierre (hoy el manual NO lo hace: hallazgo #6 de la auditoría).
+ponderar_probabilidad = false
+
+[estacionalidad]
+# Fuente única: config/curvas_2027.json (derivado con scripts/derivar_curvas.py).
+# Curva propia sólo si es significativa (p<0,10) o por decisión (Adidas FM).
+curvas = "curvas_2027.json"
+cuentas_curva_propia = ["AR|MELI FM", "CO|Bimbo", "CL|Adidas FM", "MX|Unilever", "CO|Casa Luker", "AR|Nestlé"]
+# Liverpool, Fuller y Coppel LM tienen curva propia (19-oct) pero hoy usan el presupuesto de Roberto (overrides mensual).
+# Cuentas con curva país forzada aunque tengan historia (bloque C).
+cuentas_curva_pais_forzada = ["PE|iMile SM +Trujillo", "CO|Alimentos La Polar"]
+
+[crecimiento]
+# Rampa del crecimiento asignado: 'lineal' (mes m = 1 + g·(m−1)/11) o 'compuesta'.
+rampa = "lineal"
+
+# % asignado = Dic-27 vs Ene-27 (Inputs manual 2027, sección 3, vigente 17-oct).
+[crecimiento.asignado]
+"AR|MELI FM" = 0.05
+"AR|MELI LM" = 0.15
+"MX|MELI LM MX" = 0.05
+"MX|Fuller" = 0.0
+"MX|Liverpool" = 0.05
+"MX|Coppel LM" = 0.05
+"CO|Bimbo" = 0.0
+"CL|Fazil CL" = 0.05
+"MX|Coppel LM Big Item" = 0.05
+"CL|Falabella LM" = 0.0
+"CL|Adidas FM" = 0.05
+"MX|Unilever" = 0.05
+"PE|iMile SM +Trujillo" = 0.10
+"CL|Falabella MM" = 0.0
+"AR|Nespresso" = 0.10
+"CO|Sodimac Bogota CD" = 1.50
+"CO|Casa Luker" = 0.0
+"MX|Ubique (Fragua)" = 0.0
+"CO|Madecentro - Bogota" = 0.10
+"CO|Sodimac Tienda Medellin" = 0.20
+"PE|Fazil PE" = 0.0
+"CL|Walmart CL" = 0.20
+"CO|Mac Pollo" = 0.20
+"AR|Nespresso Boutique" = 0.0
+"MX|Walmart" = 0.0
+"AR|Nestlé" = 0.10
+"CO|Alimentos La Polar" = 0.20
+"CO|Cargill" = 2.00
+
+# ---------------------------------------------------------------------------
+# Overrides por cuenta (Inputs sección 5 + bloque M). Campos posibles:
+#   enero_fijo  = valor de enero sin estacionalidad (tipo '1')
+#   nivel       = nivel mensual → enero = nivel × índice de enero (tipo '0');
+#                 "promedio2026" usa el promedio mensual de la base 2026
+#   tipo_enero  = "12" (dic-26 desestacionalizado) | "9" (sep-26) | "ENE" (default: mes base del país)
+#   feb_x       = multiplicador puntual de febrero que se arrastra (ajuste de precio)
+#   perfil2026  = true → 2027 = perfil mensual 2026 × (1 + g)  (Walmart CL)
+#   nota        = por qué
+# ---------------------------------------------------------------------------
+[overrides."AR|MELI FM"]
+feb_x = 1.15
+nota = "Ajuste de precio de contrato en feb-27 (decisión 14-oct). Inputs sec. 1 aún dice 'enero fijo $400K' pero el manual usa sep-26 × factor (hallazgo del motor)."
+
+[overrides."AR|MELI LM"]
+feb_x = 1.15
+nota = "Ajuste de precio de contrato en feb-27 (decisión 14-oct)."
+
+[overrides."MX|Zulka"]
+enero_fijo = 5000
+nota = "Cuenta en rampa Q4-26."
+
+[overrides."MX|Smurfit"]
+nivel = "promedio2026"
+nota = "Base baja en el mes base: nivel = promedio 2026 (Auditoría cuentas)."
+
+[overrides."CL|Sony CL"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Salcobrand"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Adidas B2B Retail"]
+nivel = "promedio2026"
+nota = "Base baja (artefacto): nivel = promedio 2026."
+
+[overrides."CL|Adidas FM"]
+tipo_enero = "9"
+nota = "Curva propia (decisión 14-oct), base = sep-26 real desestacionalizada."
+
+[overrides."CL|Walmart CL"]
+perfil2026 = true
+nota = "Perfil mensual 2026 × (1+crec.): meses casi en cero, la curva encadenada inflaba octubre."
+
+[overrides."CO|Sodimac Bogota CD"]
+enero_fijo = 60000
+nota = "Nivel de arranque + 200% (confirmar: $1,5M en juego junto con Cargill)."
+
+[overrides."CO|Cargill"]
+enero_fijo = 20000
+nota = "Rampa Q4-26 + 200%."
+
+[overrides."CO|Casa Luker"]
+enero_fijo = 28686
+nota = "Manual F147: dic-26 ($35.345) × 0,825 'ratio ene/dic propio'. El ratio no sale de la curva propia vigente (daría 0,84): viene de la curva anterior a la desestacionalización. Pendiente: recalcular o pasar a tipo_enero='12'."
+
+[overrides."CO|Bavaria (Ab-Inbev)"]
+tipo_enero = "12"
+nota = "Cuenta en rampa: enero = dic-26 de la base."
+
+[overrides."PE|Negocio Burgos"]
+enero_fijo = 15000
+nota = "Rampa Q4-26."
+
+[overrides."PE|Softgroup (Cencosud)"]
+enero_fijo = 15000
+nota = "Rampa Q4-26 (bajó de $20K a $15K en el manual, 19–21 oct)."
+
+[overrides."PE|BFE"]
+enero_fijo = 0
+nota = "BFE PE $0 (churn)."
+
+
+[overrides."CL|Falabella MM"]
+churn = true
+nota = "Rescisión del contrato completo de Falabella el 14-oct (plan Chile); el manual lo deja en 0 desde el 19-oct."
+
+[overrides."CL|IKEA"]
+churn = true
+nota = "IKEA/home delivery de Falabella rescindido el 14-oct; manual en 0."
+
+[overrides."CL|Superzoo"]
+enero_fijo = 2000
+nota = "Enero fijo $2.000 (manual 19-oct)."
+
+[overrides."CO|Grupo Aje"]
+enero_fijo = 5000
+nota = "Input manual desde enero (Alfredo 19-oct); sale del piso 2026."
+
+
+[overrides."MX|MELI LM MX"]
+mensual = [513678, 475854, 579912, 617764, 758663, 675337, 575300, 603124, 475807, 599212, 897881, 897881]
+fuente = "presupuesto Roberto Ortega a 16,99 (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Estafeta"]
+mensual = [15862, 11330, 11330, 15862, 22660, 22660, 15862, 11330, 11330, 15862, 22660, 22660]
+fuente = "presupuesto Roberto (20-oct); prob. 50% no pondera"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Coppel LM"]
+mensual = [154887, 93256, 91052, 98910, 154299, 162566, 114313, 178814, 122165, 92702, 178580, 179223]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Liverpool"]
+mensual = [223138, 133378, 18412, 41398, 111738, 185632, 63292, 117366, 35170, 103590, 234630, 234630]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Belcorp"]
+mensual = [11772, 12949, 14244, 15668, 18802, 20682, 21716, 22802, 23942, 23543, 25427, 26368]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Coppel LM Big Item"]
+mensual = [73401, 57047, 74774, 57650, 64914, 49085, 27079, 22645, 0, 23543, 81260, 81260]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Sodexo"]
+mensual = [9633, 13486, 12169, 11710, 20476, 16986, 20078, 15904, 21057, 15303, 15303, 15303]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Fuller"]
+mensual = [114930, 65841, 120807, 80357, 104143, 87717, 102822, 84209, 70701, 153031, 182460, 188346]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|AMPM"]
+mensual = [5886, 6474, 7122, 7834, 9401, 10341, 10858, 11401, 11971, 12569, 13198, 13858]
+fuente = "presupuesto Roberto (20-oct); antes 'aceptar caída'"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Walmart"]
+mensual = [0, 0, 0, 0, 40577, 54236, 0, 0, 0, 0, 95056, 90642]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Ubique (Fragua)"]
+mensual = [26690, 24016, 25576, 23776, 25008, 26478, 26530, 28308, 27081, 28234, 28579, 28579]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Cubbo"]
+mensual = [32372, 33667, 35350, 35350, 35350, 38885, 38885, 38885, 38885, 38885, 38885, 38885]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Ttaio"]
+mensual = [5707, 4186, 5183, 3495, 1836, 2129, 3647, 3877, 2948, 8534, 10594, 11772]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."MX|Nespresso MX"]
+mensual = [6988, 8934, 8633, 8787, 14724, 9343, 8270, 9048, 12214, 9307, 10238, 10772]
+fuente = "presupuesto Roberto (20-oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."AR|360"]
+mensual = [100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 105000, 110250]
+fuente = "nivel $100K/mes plano, nov y dic +5% (manual 19–21 oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."AR|BFE"]
+mensual = [50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 52500, 55125]
+fuente = "nivel $50K/mes plano, nov y dic +5% (manual 19–21 oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+
+[overrides."AR|MELI CELL"]
+mensual = [27269, 27043, 29799, 26264, 31869, 47000, 45750, 46829, 67000, 67000, 80668, 78893]
+fuente = "escalones cargados a mano: jun $47K, sep $67K (manual 19–21 oct)"
+nota = "Valores mensuales cargados a mano en el manual; el motor no les aplica base, curva ni crecimiento."
+
+[piso]
+# Bloque B (piso 2026): 2027 = perfil mensual 2026 × (1 + g) para cuentas cuya caída
+# venía de una base de enero baja, no del cliente. Las demás caídas se aceptan
+# (decrecimiento orgánico o churn): el motor las deja salir de la base.
+cuentas = [
+  "MX|Walmart", "PE|Central Brand", "AR|Prota", "PE|Lacteus", "AR|Photo Store", "AR|Algabo",
+  "AR|Modatex", "PE|Sony PE", "PE|La Zapatera", "AR|Mutual Unilever", "AR|Cislatam", "AR|Diffupar",
+  "AR|Enviopack", "PE|Andes Alimentos",
+]
+caidas_aceptadas = [
+  "AR|Open Farma", "CL|Envíame", "AR|Zippin", "PE|Vicen Vives", "AR|Filoshark (Hasliberg)", "PE|Dermohelp",
+  "PE|Padres de Familia", "PE|Outplay", "AR|Newell",
+  "AR|Coolskin", "PE|Repuestos del Sol", "AR|Dostluk", "CO|Locatel", "AR|Big", "CL|Reebok", "CO|Alqueria",
+  "AR|Raizen", "PE|BFE", "CL|Falabella LM", "CL|Fazil CL", "CL|Falabella MM", "CL|IKEA",
+]
+
+[growth2027]
+# Ventas nuevas 2027 (sección 4b, método homologado, 14-oct).
+metodo = "homologado"            # "homologado" | "promedio_historico"
+umbral_tanque = 50000            # venta en el año de alta (USD)
+tope_tanque = 250000
+mantener_total_regional = false  # false: el factor suma o resta
+factor_mercado = { AR = 1.15, CL = 0.90, CO = 1.10, MX = 1.20, PE = 0.80 }
+forma_mensual = "escalonada"     # "escalonada" (mes m = m/78) | "historica"
+# Mega deals excluidos del cálculo de altas: [país, cuenta, año de alta].
+exclusiones = [["MX", "Fuller", 2025], ["AR", "360", 2026]]
+
+[fx]
+# Sección 7. Criterio (11-oct): no se traslada el 100% del IPC a tarifa; se descuenta
+# un % por país sobre la venta a dic-27 con rampa mes/12 desde enero. Sólo erosión.
+escenario = "base"
+ajuste_dic27 = { AR = -0.05, CL = -0.01, CO = -0.02, MX = -0.02, PE = -0.01 }
+# Escenario alto (dólar global fuerte) para sensibilidad.
+ajuste_dic27_alto = { AR = -0.131, CL = -0.043, CO = -0.066, MX = -0.077, PE = -0.035 }
+
+[reglas]
+# Mínimos de crecimiento 2027 vs 2026 por país (Auditoría 2027, sección 1).
+minimo_crecimiento = { AR = 0.20, CO = 0.50, MX = 0.20, PE = 0.50, total = 0.15 }
+# Cuenta "en rampa" si el real ene–sep es ≤ 35% de su total 2026.
+rampa_umbral_real = 0.35
+# Alerta de concentración.
+top10_share_max = 0.60

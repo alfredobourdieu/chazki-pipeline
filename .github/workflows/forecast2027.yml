@@ -1,0 +1,34 @@
+name: forecast2027
+
+on:
+  push:
+    paths: ["forecast2027/**", ".github/workflows/forecast2027.yml"]
+  pull_request:
+    paths: ["forecast2027/**", ".github/workflows/forecast2027.yml"]
+  schedule:
+    - cron: "17 11 * * 1-5"   # días hábiles 08:17 Buenos Aires: corrida sobre el último snapshot
+  workflow_dispatch:
+
+jobs:
+  motor:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: forecast2027
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tests (el motor reproduce el manual)
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -v
+      - name: Corrida completa
+        run: PYTHONPATH=src python3 -m forecast2027 run > /dev/null
+      - name: Resumen en el job
+        run: |
+          echo '## Forecast 2027 · corrida' >> "$GITHUB_STEP_SUMMARY"
+          sed -n '1,/^## 3\./p' out/reporte_forecast_2027.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-2027-out
+          path: forecast2027/out/
